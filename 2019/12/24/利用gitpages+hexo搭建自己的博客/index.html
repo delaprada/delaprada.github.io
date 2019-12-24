@@ -21,7 +21,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://yoursite.com/2019/12/24/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/background.png">
 <meta property="article:published_time" content="2019-12-24T11:01:20.626Z">
-<meta property="article:modified_time" content="2019-12-24T11:47:13.132Z">
+<meta property="article:modified_time" content="2019-12-24T11:52:40.381Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/2019/12/24/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/background.png">
@@ -31,6 +31,8 @@
         <link rel="alternate" href="/" title="Delaprada Blog" type="application/atom+xml" />
     
 
+    
+        <link rel="icon" href="/images/favicon.ico" />
     
 
     
@@ -209,14 +211,20 @@
 
 <p>打开 localhost:4000就可以看到页面啦：</p>
 <p><img src="/2019/12/24/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/4.png" alt>（页面会不太一样，我的配了一下主题）</p>
-<h2 id="第三步-了解hexo文件夹中的-config-yml"><a href="#第三步-了解hexo文件夹中的-config-yml" class="headerlink" title="第三步 了解hexo文件夹中的_config.yml"></a>第三步 了解hexo文件夹中的_config.yml</h2><p>hexo文件夹中比较重要的文件是：_config.yml：<br><img src="/2019/12/24/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/5.png" style="zoom: 67%;"></p>
-<p>它是一个全局配置文件，包括和github上传链接都在这里配置，例如title之类的：<br><img src="/2019/12/24/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/6.png" alt></p>
-<h2 id="第四步-本地上传到github"><a href="#第四步-本地上传到github" class="headerlink" title="第四步 本地上传到github"></a>第四步 本地上传到github</h2><p><strong>step1</strong>：执行命令，安装deploy.git插件：</p>
+<h2 id="第三步-了解hexo文件夹中的-config-yml"><a href="#第三步-了解hexo文件夹中的-config-yml" class="headerlink" title="第三步 了解hexo文件夹中的_config.yml"></a>第三步 了解hexo文件夹中的_config.yml</h2><p>hexo文件夹中比较重要的文件是：_config.yml：</p>
+<img src="/2019/12/24/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/5.png" style="zoom: 67%;">
+
+
+
+<p>它是一个全局配置文件，包括和github上传链接都在这里配置，例如title之类的：</p>
+<p><img src="/2019/12/24/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/6.png" alt></p>
+<h2 id="第四步-本地上传到github"><a href="#第四步-本地上传到github" class="headerlink" title="第四步 本地上传到github"></a>第四步 本地上传到github</h2><p><strong>step1</strong>：执行命令，安装deploy.git插件</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
 
 
 
-<p><strong>step2</strong>：在主题配置文件_config.yml中修改仓库地址，在_config.yml最下面一行（注意每个冒号后面都有一个空格）：<br><img src="/2019/12/24/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/7.png" alt></p>
+<p><strong>step2</strong>：在主题配置文件_config.yml中修改仓库地址，在_config.yml最下面一行（注意每个冒号后面都有一个空格）</p>
+<p><img src="/2019/12/24/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/7.png" alt></p>
 <p><strong>step3</strong>：配置提交github认证方式<br>执行指令：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure>
 <p>直接提交到github仓库中，如果没有认证github和本地的关系，会提示输入用户名和密码</p>
@@ -224,8 +232,10 @@
 <h2 id="第五步-添加域名"><a href="#第五步-添加域名" class="headerlink" title="第五步 添加域名"></a>第五步 添加域名</h2><p>在阿里云中购买了一个.com的域名（加优惠一年23块，虽然比其他贵一些但是觉得.com好听一些(#^ . ^#)）</p>
 <p><strong>step1</strong>：cmd ping一下github.io获得真实ip地址</p>
 <p><img src="/2019/12/24/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/8.png" alt></p>
-<p><strong>step2：</strong>然后再域名操作栏点击解析，添加记录<br><img src="/2019/12/24/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/9.png" alt>注意要两个都要添加（之前一开始只添加了www不知道为啥就显示不出来）</p>
-<p><strong>step3</strong>：去hexo文件夹的source目录下新建名为CNAME的文件，添加文件内容为你刚才购买的域名，不要添加www<br><img src="/2019/12/24/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/10.png" alt></p>
+<p><strong>step2：</strong>然后再域名操作栏点击解析，添加记录</p>
+<p><img src="/2019/12/24/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/9.png" alt>注意要两个都要添加（之前一开始只添加了www不知道为啥就显示不出来）</p>
+<p><strong>step3</strong>：去hexo文件夹的source目录下新建名为CNAME的文件，添加文件内容为你刚才购买的域名，不要添加www</p>
+<p><img src="/2019/12/24/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/10.png" alt></p>
 <p><strong>step4：</strong>然后部署</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> hexo clean</span><br><span class="line"><span class="number">2.</span> hexo generate</span><br><span class="line"><span class="number">3.</span> hexo deploy</span><br></pre></td></tr></table></figure>
 <p>（每次做出更改建议都部署一遍）</p>
@@ -241,7 +251,7 @@
 
 
 
-    <a data-url="http://yoursite.com/2019/12/24/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/" data-id="ck4jt1t3z0000p8t3887n2v7r" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://yoursite.com/2019/12/24/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/" data-id="ck4jthl450000b8t3c912eeb9" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
