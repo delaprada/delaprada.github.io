@@ -923,11 +923,6 @@ code {
 .toc-article .toc .toc-item {
   list-style: none;
 }
-.header_image {
-  width: 100%;
-  height: 153px;
-  object-fit: cover;
-}
 .article-single {
   padding: 30px 30px 20px;
 }
