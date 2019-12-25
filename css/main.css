@@ -1819,7 +1819,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ffab62;
+  background: #daff33;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3029,12 +3029,9 @@ code,
 pre {
   border: 1px solid #d6d6d6;
 }
-@media screen and (min-width: 1200px) {
+@media screen {
   body {
-    background-image: url("../../images/background.jpg");
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: 50% 50%;
+    background-color: #f0f8ff;
   }
   #footer a {
     color: #eee;
