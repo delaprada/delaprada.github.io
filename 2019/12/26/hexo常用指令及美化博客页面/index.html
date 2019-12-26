@@ -88,7 +88,7 @@
 <meta property="og:image" content="http://delaprada.com/2019/12/26/hexo%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E5%8F%8A%E7%BE%8E%E5%8C%96%E5%8D%9A%E5%AE%A2%E9%A1%B5%E9%9D%A2/1.png">
 <meta property="og:image" content="http://delaprada.com/2019/12/26/hexo%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E5%8F%8A%E7%BE%8E%E5%8C%96%E5%8D%9A%E5%AE%A2%E9%A1%B5%E9%9D%A2/2.png">
 <meta property="article:published_time" content="2019-12-26T09:54:44.000Z">
-<meta property="article:modified_time" content="2019-12-26T10:30:09.022Z">
+<meta property="article:modified_time" content="2019-12-26T10:41:22.990Z">
 <meta property="article:author" content="Alice">
 <meta property="article:tag" content="hexo">
 <meta name="twitter:card" content="summary">
@@ -377,7 +377,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  724 字
+                  914 字
                 </span>
               
 
@@ -393,7 +393,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  3 分钟
+                  4 分钟
                 </span>
               
             </div>
@@ -475,6 +475,25 @@
 
 <h3 id="修改网页背景颜色和侧栏上方brand的颜色"><a href="#修改网页背景颜色和侧栏上方brand的颜色" class="headerlink" title="修改网页背景颜色和侧栏上方brand的颜色"></a>修改网页背景颜色和侧栏上方brand的颜色</h3><p>打开<code>themes/next/layout/source/css/_custom/custom.styl</code>，加入以下代码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;修改网页背景颜色</span><br><span class="line">body &#123;</span><br><span class="line">    background-color: #F0F8FF</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#footer a &#123;</span><br><span class="line">    color:#eee;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 修改网站头部颜色</span><br><span class="line">.headband &#123;</span><br><span class="line">    height: 3px;</span><br><span class="line">    background: #ADD8E6;</span><br><span class="line">&#125;</span><br><span class="line">.site-meta &#123;</span><br><span class="line">    padding: 20px 0;</span><br><span class="line">    color: #fff;</span><br><span class="line">    background: #ADD8E6;</span><br><span class="line">&#125;</span><br><span class="line">.site-title &#123;</span><br><span class="line">    color: #fff;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="侧边栏社交设置和友情链接"><a href="#侧边栏社交设置和友情链接" class="headerlink" title="侧边栏社交设置和友情链接"></a>侧边栏社交设置和友情链接</h3><p>修改主题配置页面：<code>themes/next/_config.yml</code>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">site_state: <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"># Social Links</span><br><span class="line"># Usage: `Key: permalink || icon`</span><br><span class="line"># Key is the link label showing to <span class="built_in">end</span> users.</span><br><span class="line"># Value before `||` delimeter is the target permalink.</span><br><span class="line"># Value after `||` delimeter is the name of FontAwesome icon. If icon (with or without delimeter) is not specified, globe icon will be loaded.</span><br><span class="line">social:</span><br><span class="line">  CSDN: https:<span class="comment">//blog.csdn.net/weixin_41973410 || copyright</span></span><br><span class="line">  GitHub: https:<span class="comment">//github.com/delaprada || github</span></span><br><span class="line"></span><br><span class="line">social_icons:  #这里是上面社交链接的对应图标</span><br><span class="line">  enable: <span class="literal">true</span></span><br><span class="line">  CSDN: copyright</span><br><span class="line">  Github: github</span><br><span class="line">  icons_only: <span class="literal">false</span></span><br><span class="line">  transition: <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"># Follow me on GitHub banner in right-top corner.</span><br><span class="line"># Usage: `permalink || title`</span><br><span class="line"># Value before `||` delimeter is the target permalink.</span><br><span class="line"># Value after `||` delimeter is the title <span class="keyword">and</span> aria-label name.</span><br><span class="line">#github_banner: https:<span class="comment">//github.com/Fitz1318 || Follow me on GitHub</span></span><br><span class="line"></span><br><span class="line"># Blog rolls  #这里时设置一些相关链接 我这里设置了一些推荐阅读的网站</span><br><span class="line">#links_icon: link</span><br><span class="line">links_title: 实用网站</span><br><span class="line">#links_layout: block</span><br><span class="line">links_layout: <span class="keyword">inline</span></span><br><span class="line">links:</span><br><span class="line">  W3Cschool: http:<span class="comment">//www.w3school.com.cn/</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       
     </div>
     
@@ -669,6 +688,20 @@
 
           
           
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://io-oi.me/tech/hexo-next-optimization/#%E5%BF%85%E8%AF%BB-%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2" title="Hexo深度优化" target="_blank">Hexo深度优化</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
 
           
 
@@ -685,7 +718,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo常用命令"><span class="nav-number">1.</span> <span class="nav-text">hexo常用命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo各种美化"><span class="nav-number">2.</span> <span class="nav-text">hexo各种美化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#侧栏增加标签和分类页面"><span class="nav-number">2.1.</span> <span class="nav-text">侧栏增加标签和分类页面</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建标签页面"><span class="nav-number">2.1.1.</span> <span class="nav-text">创建标签页面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建分类页面"><span class="nav-number">2.1.2.</span> <span class="nav-text">创建分类页面</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置站点图标"><span class="nav-number">2.2.</span> <span class="nav-text">设置站点图标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置头像"><span class="nav-number">2.3.</span> <span class="nav-text">设置头像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#首页文章不显示全文只显示摘要"><span class="nav-number">2.4.</span> <span class="nav-text">首页文章不显示全文只显示摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改文章底部的带-的标签"><span class="nav-number">2.5.</span> <span class="nav-text">修改文章底部的带#的标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在每篇文章末尾统一添加“本文结束”标记"><span class="nav-number">2.6.</span> <span class="nav-text">在每篇文章末尾统一添加“本文结束”标记</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改网页背景颜色和侧栏上方brand的颜色"><span class="nav-number">2.7.</span> <span class="nav-text">修改网页背景颜色和侧栏上方brand的颜色</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo常用命令"><span class="nav-number">1.</span> <span class="nav-text">hexo常用命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo各种美化"><span class="nav-number">2.</span> <span class="nav-text">hexo各种美化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#侧栏增加标签和分类页面"><span class="nav-number">2.1.</span> <span class="nav-text">侧栏增加标签和分类页面</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建标签页面"><span class="nav-number">2.1.1.</span> <span class="nav-text">创建标签页面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建分类页面"><span class="nav-number">2.1.2.</span> <span class="nav-text">创建分类页面</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置站点图标"><span class="nav-number">2.2.</span> <span class="nav-text">设置站点图标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置头像"><span class="nav-number">2.3.</span> <span class="nav-text">设置头像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#首页文章不显示全文只显示摘要"><span class="nav-number">2.4.</span> <span class="nav-text">首页文章不显示全文只显示摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改文章底部的带-的标签"><span class="nav-number">2.5.</span> <span class="nav-text">修改文章底部的带#的标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在每篇文章末尾统一添加“本文结束”标记"><span class="nav-number">2.6.</span> <span class="nav-text">在每篇文章末尾统一添加“本文结束”标记</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改网页背景颜色和侧栏上方brand的颜色"><span class="nav-number">2.7.</span> <span class="nav-text">修改网页背景颜色和侧栏上方brand的颜色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#侧边栏社交设置和友情链接"><span class="nav-number">2.8.</span> <span class="nav-text">侧边栏社交设置和友情链接</span></a></li></ol></li></ol></div>
             
 
           </div>
