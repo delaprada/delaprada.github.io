@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>hexo categories和tags页面不显示解决办法</title>
+    <url>/2019/12/25/hexo-categories%E5%92%8Ctags%E9%A1%B5%E9%9D%A2%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
+    <content><![CDATA[<p>﻿官网也有给出具体步骤，但是有坑<a href="http://theme-next.iissnan.com/theme-settings.html" target="_blank" rel="noopener">Hexo官网教程</a></p>
+<h4 id="第一步-在终端窗口下，定位到-Hexo-站点目录下。使用-hexo-new-page指令新建一个页面，命名为-categories-："><a href="#第一步-在终端窗口下，定位到-Hexo-站点目录下。使用-hexo-new-page指令新建一个页面，命名为-categories-：" class="headerlink" title="第一步 在终端窗口下，定位到 Hexo 站点目录下。使用 hexo new page指令新建一个页面，命名为 categories ："></a>第一步 在终端窗口下，定位到 Hexo 站点目录下。使用 hexo new page指令新建一个页面，命名为 categories ：</h4><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">cd hexo <span class="comment">//根目录</span></span><br><span class="line">hexo <span class="keyword">new</span> page categories <span class="comment">//tags和这个操作一致</span></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h4 id="第二步-找到新建的页面，添加type"><a href="#第二步-找到新建的页面，添加type" class="headerlink" title="第二步 找到新建的页面，添加type"></a>第二步 找到新建的页面，添加type</h4><p>新建的页面一般在source/categories/index.md中，添加以下内容：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">title: categories</span><br><span class="line">date: <span class="number">2019</span><span class="number">-12</span><span class="number">-25</span> <span class="number">09</span>:<span class="number">15</span>:<span class="number">45</span></span><br><span class="line">type: <span class="string">"categories"</span></span><br><span class="line">layout: <span class="string">"categories"</span></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h4 id="第三步-给你的页面添加分类"><a href="#第三步-给你的页面添加分类" class="headerlink" title="第三步 给你的页面添加分类"></a>第三步 给你的页面添加分类</h4><p>找到你的页面，在页面上方添加如下内容</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">title: 利用gitpages+hexo搭建自己的博客</span><br><span class="line">date: <span class="number">2019</span><span class="number">-12</span><span class="number">-25</span> <span class="number">09</span>:<span class="number">12</span>:<span class="number">55</span></span><br><span class="line">categories:</span><br><span class="line">- Hexo</span><br><span class="line">tags:</span><br><span class="line">- 前端</span><br></pre></td></tr></table></figure>
+
+<p>但此时部署到github上后，打开网页点击分类和标签页面还是出现404！</p>
+<br>
+
+<h4 id="第四步-解决方案"><a href="#第四步-解决方案" class="headerlink" title="第四步 解决方案"></a>第四步 解决方案</h4><p>实属官方坑人系列！！<br>主题配置文件_config.yml中的menu：<br>把 / 后面的空格全部去掉（刚开始的时候默认后面是加了空格导致点击页面出现404）<br><img src="/2019/12/25/hexo-categories%E5%92%8Ctags%E9%A1%B5%E9%9D%A2%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/1.png" alt></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>前端</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>利用gitpages+hexo搭建自己的博客</title>
+    <url>/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>从开始开始着手搭建到完成大概花了一个下午的时间，采坑不少，在此记录一下</p>
+<h2 id="第一步-准备工作"><a href="#第一步-准备工作" class="headerlink" title="第一步 准备工作"></a>第一步 准备工作</h2><p>node.js下载好，github有已注册的账号<br>在github中新建一个repository，命名为：你的github名称.github.io（下面是我的仓库名称）：<br><img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/1.png" alt></p>
+<p>（有些博客直接让我们fork它们的项目，个人感觉这么做不太好，很多东西自己动手做一遍更好）</p>
+<h2 id="第二步-安装Hexo"><a href="#第二步-安装Hexo" class="headerlink" title="第二步 安装Hexo"></a>第二步 安装Hexo</h2><p>Hexo就是一个博客框架，官网上也有安装教程<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">Hexo官网</a></p>
+<p><strong>step1</strong>：windows系统鼠标右键git bash，输入两个安装指令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli -g   &#x2F;&#x2F;用于安装hexo</span><br><span class="line">npm install hexo-deployer-git --save   &#x2F;&#x2F;用于安装hexo部署到git page的deployer</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>step2</strong>：创建hexo文件夹<br>hexo安装完成之后，在电脑中新建一个hexo文件夹：<br><img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/2.png" alt>右键点击git bash，输入两个命令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo init</span><br><span class="line">npm install   &#x2F;&#x2F;安装所有package.json里的包</span><br></pre></td></tr></table></figure>
+<p>执行完成后，hexo文件夹中会多出一些文件：<br><img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/3.png" style="zoom: 67%;"></p>
+<p>如果想看本地效果的话，执行以下指令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo generate  &#x2F;&#x2F;自动将md文件生成静态html，css文件</span><br><span class="line">hexo server  &#x2F;&#x2F;启动本地hexo服务器（localhost:4000）</span><br></pre></td></tr></table></figure>
+
+
+<p>打开 localhost:4000就可以看到页面啦：</p>
+<p><img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/4.png" alt>（页面会不太一样，我的配了一下主题）</p>
+<h2 id="第三步-了解hexo文件夹中的-config-yml"><a href="#第三步-了解hexo文件夹中的-config-yml" class="headerlink" title="第三步 了解hexo文件夹中的_config.yml"></a>第三步 了解hexo文件夹中的_config.yml</h2><p>hexo文件夹中比较重要的文件是：_config.yml：</p>
+<img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/5.png" style="zoom: 67%;">
+
+
+
+<p>它是一个全局配置文件，包括和github上传链接都在这里配置，例如title之类的：</p>
+<p><img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/6.png" alt></p>
+<h2 id="第四步-本地上传到github"><a href="#第四步-本地上传到github" class="headerlink" title="第四步 本地上传到github"></a>第四步 本地上传到github</h2><p><strong>step1</strong>：执行命令，安装deploy.git插件</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>step2</strong>：在主题配置文件_config.yml中修改仓库地址，在_config.yml最下面一行（注意每个冒号后面都有一个空格）</p>
+<p><img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/7.png" alt></p>
+<p><strong>step3</strong>：配置提交github认证方式<br>执行指令：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+<p>直接提交到github仓库中，如果没有认证github和本地的关系，会提示输入用户名和密码</p>
+<p>此时打开github的项目会发现原本是空的项目现在有了刚刚上传的文件</p>
+<h2 id="第五步-添加域名"><a href="#第五步-添加域名" class="headerlink" title="第五步 添加域名"></a>第五步 添加域名</h2><p>在阿里云中购买了一个.com的域名（加优惠一年23块，虽然比其他贵一些但是觉得.com好听一些(#^ . ^#)）</p>
+<p><strong>step1</strong>：cmd ping一下github.io获得真实ip地址</p>
+<p><img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/8.png" alt></p>
+<p><strong>step2：</strong>然后再域名操作栏点击解析，添加记录</p>
+<p><img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/9.png" alt>注意要两个都要添加（之前一开始只添加了www不知道为啥就显示不出来）</p>
+<p><strong>step3</strong>：去hexo文件夹的source目录下新建名为CNAME的文件，添加文件内容为你刚才购买的域名，不要添加www</p>
+<p><img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/10.png" alt></p>
+<p><strong>step4：</strong>然后部署</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="number">1.</span> hexo clean</span><br><span class="line"><span class="number">2.</span> hexo generate</span><br><span class="line"><span class="number">3.</span> hexo deploy</span><br></pre></td></tr></table></figure>
+<p>（每次做出更改建议都部署一遍）</p>
+<p><strong>step5：</strong>点击设置，拉到下面，在custom domain中输入你的域名。如果上面的信息不是显示Your site is published at <a href="https://xxx.com/，而是dns的之类的错误，可能是域名还没有实名认证" target="_blank" rel="noopener">https://xxx.com/，而是dns的之类的错误，可能是域名还没有实名认证</a></p>
+<p><img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/12.png" alt></p>
+<p><img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/11.png" alt></p>
+<p>输入域名，成功：</p>
+<p><img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/13.png" alt></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>前端</tag>
+      </tags>
+  </entry>
+</search>
