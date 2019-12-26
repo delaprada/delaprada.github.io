@@ -319,17 +319,6 @@
 
           
             
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/12/25/hexo-categories%E5%92%8Ctags%E9%A1%B5%E9%9D%A2%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2019/12/25/hexo-categories和tags页面不显示解决办法/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -444,15 +433,8 @@
           
 
   
-    <div class="comments" id="comments">
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
-        </noscript>
-      </div>
+    <div id="gitalk-container">
     </div>
-
   
 
 
@@ -755,26 +737,6 @@
 
   
 
-    
-      <script id="dsq-count-scr" src="https://delaprada.disqus.com/count.js" async></script>
-    
-
-    
-      <script type="text/javascript">
-        var disqus_config = function () {
-          this.page.url = 'http://delaprada.com/2019/12/25/hexo-categories%E5%92%8Ctags%E9%A1%B5%E9%9D%A2%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/';
-          this.page.identifier = '2019/12/25/hexo-categories和tags页面不显示解决办法/';
-          this.page.title = 'hexo categories和tags页面不显示解决办法';
-        };
-        var d = document, s = d.createElement('script');
-        s.src = 'https://delaprada.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', '' + +new Date());
-        (d.head || d.body).appendChild(s);
-      </script>
-    
-
-  
-
 
 
 
@@ -790,6 +752,7 @@
 
 
 
+  
 
 
 
@@ -797,6 +760,26 @@
 
 
 
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+   <script type="text/javascript">
+		var gitalk = new Gitalk({
+		  clientID: '9b4dade3bf26b8fd0713',
+		  clientSecret: '43302d4a47ac2c290d0d019c1929032f1f3f8ada',
+		  repo: 'delaprada.github.io',
+		  owner: 'delaprada',
+		  admin: ['delaprada'], 
+		  id: location.pathname,
+		  distractionFreeMode: 'true'
+		})
+		gitalk.render('gitalk-container')           
+       </script>
 
 
   

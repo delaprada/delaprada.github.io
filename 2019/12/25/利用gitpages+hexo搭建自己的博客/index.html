@@ -332,17 +332,6 @@
 
           
             
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2019/12/25/利用gitpages+hexo搭建自己的博客/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -493,15 +482,8 @@
           
 
   
-    <div class="comments" id="comments">
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
-        </noscript>
-      </div>
+    <div id="gitalk-container">
     </div>
-
   
 
 
@@ -804,26 +786,6 @@
 
   
 
-    
-      <script id="dsq-count-scr" src="https://delaprada.disqus.com/count.js" async></script>
-    
-
-    
-      <script type="text/javascript">
-        var disqus_config = function () {
-          this.page.url = 'http://delaprada.com/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/';
-          this.page.identifier = '2019/12/25/利用gitpages+hexo搭建自己的博客/';
-          this.page.title = '利用gitpages+hexo搭建自己的博客';
-        };
-        var d = document, s = d.createElement('script');
-        s.src = 'https://delaprada.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', '' + +new Date());
-        (d.head || d.body).appendChild(s);
-      </script>
-    
-
-  
-
 
 
 
@@ -839,6 +801,7 @@
 
 
 
+  
 
 
 
@@ -846,6 +809,26 @@
 
 
 
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+   <script type="text/javascript">
+		var gitalk = new Gitalk({
+		  clientID: '9b4dade3bf26b8fd0713',
+		  clientSecret: '43302d4a47ac2c290d0d019c1929032f1f3f8ada',
+		  repo: 'delaprada.github.io',
+		  owner: 'delaprada',
+		  admin: ['delaprada'], 
+		  id: location.pathname,
+		  distractionFreeMode: 'true'
+		})
+		gitalk.render('gitalk-container')           
+       </script>
 
 
   
