@@ -11,6 +11,7 @@
 <li><code>hexo deploy</code>或<code>hexo d</code>：deploy部署网站，部署网站前需预先生成静态文件</li>
 </ul>
 <p>一般更改完后执行三条指令：<code>hexo clean</code>，<code>hexo generate</code>，<code>hexo deploy</code>即可（按顺序）</p>
+<p>参考<a href="https://yfzhou.coding.me/2018/08/27/Hexo-Next%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%BB%E9%A2%98%E4%BC%98%E5%8C%96%EF%BC%89/" target="_blank" rel="noopener">https://yfzhou.coding.me/2018/08/27/Hexo-Next%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%BB%E9%A2%98%E4%BC%98%E5%8C%96%EF%BC%89/</a></p>
 <h2 id="hexo各种美化"><a href="#hexo各种美化" class="headerlink" title="hexo各种美化"></a>hexo各种美化</h2><h3 id="侧栏增加标签和分类页面"><a href="#侧栏增加标签和分类页面" class="headerlink" title="侧栏增加标签和分类页面"></a>侧栏增加标签和分类页面</h3><h4 id="创建标签页面"><a href="#创建标签页面" class="headerlink" title="创建标签页面"></a>创建标签页面</h4><ul>
 <li><p>创建标签页面</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new page tags</span><br></pre></td></tr></table></figure>
@@ -43,7 +44,7 @@
 <p><img src="/2019/12/26/hexo%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E5%8F%8A%E7%BE%8E%E5%8C%96%E5%8D%9A%E5%AE%A2%E9%A1%B5%E9%9D%A2/1.png" alt></p>
 </li>
 </ol>
-<p>部署之后就可以看到效果了，查看效果：</p>
+<p>部署之后就可以看到效果了，查看效果：<a href="http://delaprada.com">http://delaprada.com</a></p>
 <h3 id="设置头像"><a href="#设置头像" class="headerlink" title="设置头像"></a>设置头像</h3><ol>
 <li>在images文件夹中放入你的头像图片</li>
 <li>在主题配置页面中修改avatar为你的图片地址：</li>
