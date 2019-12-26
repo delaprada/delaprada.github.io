@@ -1819,7 +1819,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #67c67c;
+  background: #d0ffc8;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3029,22 +3029,20 @@ code,
 pre {
   border: 1px solid #d6d6d6;
 }
-@media screen {
-  body {
-    background-color: #f0f8ff;
-  }
-  #footer a {
-    color: #eee;
-  }
+body {
+  background-color: #f0f8ff;
+}
+#footer a {
+  color: #eee;
 }
 .headband {
   height: 3px;
-  background: #49b1f5;
+  background: #ffc1c1;
 }
 .site-meta {
   padding: 20px 0;
   color: #fff;
-  background: #49b1f5;
+  background: #ffc1c1;
 }
 .site-subtitle {
   margin-top: 10px;
