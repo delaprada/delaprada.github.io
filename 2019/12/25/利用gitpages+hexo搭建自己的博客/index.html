@@ -815,20 +815,21 @@
 
 
   <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-  
   <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-   <script type="text/javascript">
-		var gitalk = new Gitalk({
-		  clientID: '9b4dade3bf26b8fd0713',
-		  clientSecret: '43302d4a47ac2c290d0d019c1929032f1f3f8ada',
-		  repo: 'delaprada.github.io',
-		  owner: 'delaprada',
-		  admin: ['delaprada'], 
-		  id: location.pathname,
-		  distractionFreeMode: 'true'
-		})
-		gitalk.render('gitalk-container')           
-       </script>
+  <script src="/js/src/md5.min.js"></script>
+  <script type="text/javascript">
+    var gitalk = new Gitalk({
+      clientID: '9b4dade3bf26b8fd0713',
+      clientSecret: '43302d4a47ac2c290d0d019c1929032f1f3f8ada',
+      repo: 'delaprada.github.io',
+      owner: 'delaprada',
+      admin: ['delaprada'],
+      id: location.pathname,
+      id: md5(location.pathname),
+      distractionFreeMode: 'true'
+    })
+    gitalk.render('gitalk-container')
+  </script>
 
 
   
