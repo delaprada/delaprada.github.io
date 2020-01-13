@@ -438,7 +438,10 @@
 </ul>
 <p>一般更改完后执行三条指令：<code>hexo clean</code>，<code>hexo generate</code>，<code>hexo deploy</code>即可（按顺序）</p>
 <p>参考<a href="https://yfzhou.coding.me/2018/08/27/Hexo-Next%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%BB%E9%A2%98%E4%BC%98%E5%8C%96%EF%BC%89/" target="_blank" rel="noopener">https://yfzhou.coding.me/2018/08/27/Hexo-Next%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%BB%E9%A2%98%E4%BC%98%E5%8C%96%EF%BC%89/</a></p>
-<h2 id="hexo各种美化"><a href="#hexo各种美化" class="headerlink" title="hexo各种美化"></a>hexo各种美化</h2><h3 id="侧栏增加标签和分类页面"><a href="#侧栏增加标签和分类页面" class="headerlink" title="侧栏增加标签和分类页面"></a>侧栏增加标签和分类页面</h3><h4 id="创建标签页面"><a href="#创建标签页面" class="headerlink" title="创建标签页面"></a>创建标签页面</h4><ul>
+<h2 id="hexo各种美化"><a href="#hexo各种美化" class="headerlink" title="hexo各种美化"></a>hexo各种美化</h2><h3 id="新建page"><a href="#新建page" class="headerlink" title="新建page"></a>新建page</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo new &quot;文章名称&quot;</span><br></pre></td></tr></table></figure>
+
+<p>会在source文件夹下_post中新建文件夹和.md文件</p>
+<h3 id="侧栏增加标签和分类页面"><a href="#侧栏增加标签和分类页面" class="headerlink" title="侧栏增加标签和分类页面"></a>侧栏增加标签和分类页面</h3><h4 id="创建标签页面"><a href="#创建标签页面" class="headerlink" title="创建标签页面"></a>创建标签页面</h4><ul>
 <li><p>创建标签页面</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new page tags</span><br></pre></td></tr></table></figure>
 </li>
