@@ -1,6 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>JavaScript模块化编程</title>
+    <url>/2020/01/14/JavaScript%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BC%96%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="模块化编程"><a href="#模块化编程" class="headerlink" title="模块化编程"></a>模块化编程</h1><p>目录：</p>
+<ul>
+<li>AMD</li>
+<li>CMD</li>
+<li><code>commom.js</code></li>
+<li>ES6 Module</li>
+</ul>
+<h2 id="AMD"><a href="#AMD" class="headerlink" title="AMD"></a>AMD</h2><p>AMD是<strong>依赖前置，提前执行</strong>。AMD一开始是<code>CommonJS</code>规范中的一个草案，即异步模块加载机制。后来由该草案的作者以<code>RequireJS</code>实现了AMD规范，所以一般说AMD也是指<code>RequireJS</code>。</p>
+<h4 id="AMD的基本语法"><a href="#AMD的基本语法" class="headerlink" title="AMD的基本语法"></a><code>AMD</code>的基本语法</h4><p>通过<code>define</code>来定义一个模块，使用<code>require</code>可以导入定义的模块。</p>
+<p>用<code>define</code>定义无依赖的模块：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//a.js</span></span><br><span class="line"><span class="comment">//define可以传入三个参数，分别是字符串-模块名、数组-依赖模块、函数-回调函数</span></span><br><span class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>用<code>define</code>定义有依赖的模块：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">define([<span class="string">"alpha"</span>], <span class="function"><span class="keyword">function</span>(<span class="params"> alpha </span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        verb : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> alpha.verb() + <span class="number">1</span> ;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<p>用<code>require</code>进行模块加载：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">require</span>([<span class="string">'math'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">math</span>) </span>&#123;</span><br><span class="line">　math.add(<span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="AMD的特点"><a href="#AMD的特点" class="headerlink" title="AMD的特点"></a><code>AMD的特点</code></h4><p>对于依赖的模块，AMD推崇<strong>依赖前置，提前执行。</strong>也就是定义模块和加载模块都要在一开始就把依赖写好。例如<code>define</code>函数当中的<code>[&quot;alpha&quot;]</code>，就是定义模块当中的依赖；<code>require</code>函数当中的<code>[&quot;math&quot;]</code>是加载模块当中的依赖。</p>
+<h2 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h2><p>CMD是<strong>依赖就近，延迟执行</strong>。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//AMD</span></span><br><span class="line">define([<span class="string">'./a'</span>,<span class="string">'./b'</span>], <span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">//依赖一开始就写好</span></span><br><span class="line">    a.test();</span><br><span class="line">    b.test();</span><br><span class="line">&#125;);</span><br><span class="line"> </span><br><span class="line"><span class="comment">//CMD</span></span><br><span class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params">requie, exports, module</span>) </span>&#123;</span><br><span class="line">     </span><br><span class="line">    <span class="comment">//依赖可以就近书写</span></span><br><span class="line">    <span class="keyword">var</span> a = <span class="built_in">require</span>(<span class="string">'./a'</span>);</span><br><span class="line">    a.test();</span><br><span class="line">     </span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">//软依赖</span></span><br><span class="line">    <span class="keyword">if</span> (status) &#123;</span><br><span class="line">     </span><br><span class="line">        <span class="keyword">var</span> b = requie(<span class="string">'./b'</span>);</span><br><span class="line">        b.test();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><code>CMD</code>是在用到了某个模块的时候再去<code>require</code>，类似按需加载。</p>
+<h4 id="CMD的特点"><a href="#CMD的特点" class="headerlink" title="CMD的特点"></a><code>CMD的特点</code></h4><p>对于依赖的模块，CMD推崇<strong>依赖就近，延迟执行</strong>。也就是说，只有到<code>require</code>时依赖模块才执行。</p>
+<p>摘自：<a href="https://segmentfault.com/a/1190000004873947" target="_blank" rel="noopener">https://segmentfault.com/a/1190000004873947</a></p>
+<h2 id="CommonJS"><a href="#CommonJS" class="headerlink" title="CommonJS"></a><code>CommonJS</code></h2><h4 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h4><ul>
+<li>通过<code>module.exports</code>或者<code>exports</code>来输出模块</li>
+<li>通过<code>require</code>来导入模块</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//a.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"hello world"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//b.js</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="built_in">require</span>(<span class="string">'./a'</span>);</span><br><span class="line"></span><br><span class="line">a();<span class="comment">//"hello world"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//或者</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//a2.js</span></span><br><span class="line">exports.num = <span class="number">1</span>;</span><br><span class="line">exports.obj = &#123;<span class="attr">xx</span>: <span class="number">2</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//b2.js</span></span><br><span class="line"><span class="keyword">var</span> a2 = <span class="built_in">require</span>(<span class="string">'./a2'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(a2);<span class="comment">//&#123; num: 1, obj: &#123; xx: 2 &#125; &#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="CommonJS的特点"><a href="#CommonJS的特点" class="headerlink" title="CommonJS的特点"></a><code>CommonJS</code>的特点</h4><ul>
+<li>所有代码都运行在模块作用域，不会污染全局作用域</li>
+<li>模块都是同步加载的，即只有加载完成，才能执行后面的操作</li>
+<li>模块在首次执行后就会缓存，再次加载只返回缓存结果。如果想要再次执行，可清楚缓存</li>
+<li><code>require</code>返回的值是被输出的值的拷贝，模块内部的变化不会影响这个值</li>
+</ul>
+<h2 id="ES6-Module"><a href="#ES6-Module" class="headerlink" title="ES6 Module"></a>ES6 Module</h2><h4 id="基本用法："><a href="#基本用法：" class="headerlink" title="基本用法："></a>基本用法：</h4><ul>
+<li><code>export</code>或<code>export default</code>来输出模块</li>
+<li><code>import</code>来导入模块</li>
+</ul>
+<p>（<code>export default</code>就是能够为导入的模块自定义名称，这样就不用知道模块在原本的<code>js</code>文件当中的名字，按名字导入了）</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//a.js</span></span><br><span class="line"><span class="keyword">var</span> name = <span class="string">'lin'</span>;</span><br><span class="line"><span class="keyword">var</span> age = <span class="number">13</span>;</span><br><span class="line"><span class="keyword">var</span> job = <span class="string">'ninja'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123; name, age, job&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//b.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; name, age, job&#125; <span class="keyword">from</span> <span class="string">'./a.js'</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(name, age, job);<span class="comment">// lin 13 ninja</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//a2.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'default '</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//b2.js</span></span><br><span class="line"><span class="keyword">import</span> customName <span class="keyword">from</span> <span class="string">'./a2.js'</span>;</span><br><span class="line">customName(); <span class="comment">// 'default'</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="ES6-Module的特点（对比CommonJS）"><a href="#ES6-Module的特点（对比CommonJS）" class="headerlink" title="ES6 Module的特点（对比CommonJS）"></a>ES6 Module的特点（对比<code>CommonJS</code>）</h4><ul>
+<li><code>CommonJS</code>模块是运行时加载，ES6 Module是编译时输出接口；</li>
+<li><code>CommonJS</code>加载的是整个模块，将所有的接口全部加载进来，ES6 Module可以单独加载其中的某个接口（对应名字单独加载，加载这个模块想=需要的）；</li>
+<li><code>CommonJS</code>输出是值的拷贝，ES6 Module输出的是值的引用，被输出模块的内部的改变会影响引用的改变；</li>
+<li><code>CommonJS</code> <code>this</code>指向当前模块，ES6 Module <code>this</code>指向<code>undefined</code>;</li>
+</ul>
+<p>参考：<a href="https://juejin.im/post/5db95e3a6fb9a020704bcd8d" target="_blank" rel="noopener">https://juejin.im/post/5db95e3a6fb9a020704bcd8d</a></p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Generator函数 async函数</title>
     <url>/2020/01/14/Generator%E5%87%BD%E6%95%B0-async%E5%87%BD%E6%95%B0/</url>
     <content><![CDATA[<h1 id="Generator"><a href="#Generator" class="headerlink" title="Generator"></a>Generator</h1><h2 id="重要概念："><a href="#重要概念：" class="headerlink" title="重要概念："></a>重要概念：</h2><ul>
