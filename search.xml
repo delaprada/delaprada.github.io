@@ -1,6 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>函数柯里化</title>
+    <url>/2020/01/14/%E5%87%BD%E6%95%B0%E6%9F%AF%E9%87%8C%E5%8C%96/</url>
+    <content><![CDATA[<h1 id="函数柯里化"><a href="#函数柯里化" class="headerlink" title="函数柯里化"></a>函数柯里化</h1><p>柯里化的概念：只传递给函数一部分参数来调用它，让它返回一个函数去处理剩下的函数。</p>
+<p>看一个栗子：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">y</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> increment = add(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">var</span> addTen = add(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">increment(<span class="number">2</span>);</span><br><span class="line"><span class="comment">// 3</span></span><br><span class="line"></span><br><span class="line">addTen(<span class="number">2</span>);</span><br><span class="line"><span class="comment">// 12</span></span><br></pre></td></tr></table></figure>
+
+<p>我们定义了一个<code>add</code>函数，它接受一个参数并返回一个新的函数。调用了<code>add</code>之后，返回的函数就通过闭包的方式记住了<code>add</code>的第一个参数。</p>
+<p>因为一次性地调用它有点繁琐，所以使用一个特殊的<code>curry</code>帮助函数使得这类函数的定义和调用更加容易。</p>
+<p><strong>一些柯里函数实例：</strong></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> curry = <span class="built_in">require</span>(<span class="string">'lodash'</span>).curry;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> match = curry(<span class="function"><span class="keyword">function</span>(<span class="params">what, str</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> str.match(what);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">match(<span class="regexp">/\s+/g</span>, <span class="string">"hello world"</span>);</span><br><span class="line"><span class="comment">// [ ' ' ]</span></span><br><span class="line"></span><br><span class="line">match(<span class="regexp">/\s+/g</span>)(<span class="string">"hello world"</span>);</span><br><span class="line"><span class="comment">// [ ' ' ]</span></span><br></pre></td></tr></table></figure>
+
+<p>以上两种方法都可以执行。第二种方法是比较常见的柯里化方法。先传递一部分参数（题目中为正则表达式）来调用函数，然后返回一个函数（题目中为<code>str.match()</code>来处理剩下的函数）。（题目中是匹配空格）</p>
+<p>以上的形式可以更加具体化：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> hasSpaces = match(<span class="regexp">/\s+/g</span>);</span><br><span class="line"><span class="comment">// function(x) &#123; return x.match(/\s+/g) &#125;</span></span><br><span class="line"></span><br><span class="line">hasSpaces(<span class="string">"hello world"</span>);</span><br><span class="line"><span class="comment">// [ ' ' ]</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>这里表明的是一种“预加载”函数的能力，通过传递一到两个参数调用函数，就能得到一个记住了这些参数的新函数。</strong></p>
+<p><strong>再举一个非常常见的例子：</strong></p>
+<p>如果我们想要验证一串数字是否是正确的手机号，按照普通的思路来做，大家可能是这样封装，如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkPhone</span>(<span class="params">phoneNumber</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="regexp">/^1[34578]\d&#123;9&#125;$/</span>.test(phoneNumber);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而如果想要验证是否是邮箱呢？这么封装：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkEmail</span>(<span class="params">email</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="regexp">/^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/</span>.test(email);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们还可能会遇到验证身份证号，验证密码等各种验证信息，因此在实践中，为了统一逻辑，我们就会封装一个更为通用的函数，将用于验证的正则与将要被验证的字符串作为参数传入：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check</span>(<span class="params">targetString, reg</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> reg.test(targetString);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是这样封装之后，在使用时又会稍微麻烦一点，因为会总是输入一串正则，这样就导致了使用时的效率低下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">check(<span class="regexp">/^1[34578]\d&#123;9&#125;$/</span>, <span class="string">'14900000088'</span>);</span><br><span class="line">check(<span class="regexp">/^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/</span>, <span class="string">'test@163.com'</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这个时候，我们就可以借助柯里化，在check的基础上再做一层封装，以简化使用：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> _check = createCurry(check);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> checkPhone = _check(<span class="regexp">/^1[34578]\d&#123;9&#125;$/</span>);</span><br><span class="line"><span class="keyword">var</span> checkEmail = _check(<span class="regexp">/^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/</span>);</span><br></pre></td></tr></table></figure>
+
+<p>最后在使用的时候就会变得更加直观与简洁了：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">checkPhone(<span class="string">'183888888'</span>);</span><br><span class="line">checkEmail(<span class="string">'xxxxx@test.com'</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>再看一个前端面试中常考的题目：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">如何实现add(2)(3)(4) &#x3D; 9</span><br></pre></td></tr></table></figure>
+
+<p>函数柯里化解决这个问题：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> myAdd = <span class="function">(<span class="params">a, b, c</span>) =&gt;</span> a+b+c;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">curry</span>(<span class="params">fn, args</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> len = fn.length;</span><br><span class="line">    <span class="keyword">let</span> _this = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">let</span> _args = args || [];</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> args = <span class="built_in">Array</span>.prototype.slice.apply(<span class="built_in">arguments</span>);</span><br><span class="line">        args = <span class="built_in">Array</span>.prototype.concat.call(_args, args);</span><br><span class="line">        <span class="comment">// 当接收到的参数小于fn所需参数个数时，继续接收参数</span></span><br><span class="line">        <span class="keyword">if</span>(args.length &lt; len)&#123;</span><br><span class="line">            <span class="keyword">return</span> curry.call(_this, fn, args);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> fn.apply(<span class="keyword">this</span>, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> add = curry(myAdd);</span><br><span class="line"><span class="built_in">console</span>.log(add(<span class="number">2</span>)(<span class="number">3</span>)(<span class="number">4</span>));  <span class="comment">// 9</span></span><br><span class="line"><span class="built_in">console</span>.loh(add(<span class="number">2</span>,<span class="number">3</span>)(<span class="number">4</span>));   <span class="comment">// 9</span></span><br><span class="line"><span class="built_in">console</span>.log(add(<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>));    <span class="comment">// 9</span></span><br></pre></td></tr></table></figure>
+
+<p>但是这个例子不具有普遍性。如果传入的参数不是3个的话不能这么用。</p>
+<p>所以有了下面的进化之后的代码：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 第一次执行时，定义一个数组专门用来存储所有的参数</span></span><br><span class="line">    <span class="keyword">var</span> _args = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 在内部声明一个函数，利用闭包的特性保存_args并收集所有的参数值</span></span><br><span class="line">    <span class="keyword">var</span> _adder = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        _args.push(...arguments);</span><br><span class="line">        <span class="keyword">return</span> _adder;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 利用toString隐式转换的特性，当最后执行时隐式转换，并计算最终的值返回</span></span><br><span class="line">    _adder.toString = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> _args.reduce(<span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> a + b;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _adder;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add(<span class="number">1</span>)(<span class="number">2</span>)(<span class="number">3</span>)                <span class="comment">// 6</span></span><br><span class="line">add(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)(<span class="number">4</span>)             <span class="comment">// 10</span></span><br><span class="line">add(<span class="number">1</span>)(<span class="number">2</span>)(<span class="number">3</span>)(<span class="number">4</span>)(<span class="number">5</span>)          <span class="comment">// 15</span></span><br><span class="line">add(<span class="number">2</span>, <span class="number">6</span>)(<span class="number">1</span>)                <span class="comment">// 9</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>为什么要进行隐式转化？</strong></p>
+<p>因为当我们将函数参与其他的计算时，函数会默认调用toString方法，直接将函数体转换为字符串参与计算。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="number">20</span> &#125;</span><br><span class="line"><span class="built_in">console</span>.log(fn + <span class="number">10</span>);     <span class="comment">// 输出结果 function fn() &#123; return 20 &#125;10</span></span><br></pre></td></tr></table></figure>
+
+<p>我们可以重写函数的toString方法，让函数参与计算，输出我们想要的结果：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="number">20</span>; &#125;</span><br><span class="line">fn.toString = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="number">30</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(fn + <span class="number">10</span>); <span class="comment">// 40</span></span><br></pre></td></tr></table></figure>
+
+<p>除此之外，当我们重写函数的valueOf方法也能够改变函数的隐式转换结果：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="number">20</span>; &#125;</span><br><span class="line">fn.valueOf = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="number">60</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(fn + <span class="number">10</span>); <span class="comment">// 70</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>参考博客：</p>
+<p><a href="https://www.jianshu.com/p/5e1899fe7d6b" target="_blank" rel="noopener">https://www.jianshu.com/p/5e1899fe7d6b</a></p>
+<p><a href="https://www.cnblogs.com/hmchen/p/11564394.html" target="_blank" rel="noopener">https://www.cnblogs.com/hmchen/p/11564394.html</a></p>
+<p><a href="https://llh911001.gitbooks.io/mostly-adequate-guide-chinese/content/ch4.html#%E4%B8%8D%E4%BB%85%E4%BB%85%E6%98%AF%E5%8F%8C%E5%85%B3%E8%AF%AD%E5%92%96%E5%96%B1" target="_blank" rel="noopener">https://llh911001.gitbooks.io/mostly-adequate-guide-chinese/content/ch4.html#%E4%B8%8D%E4%BB%85%E4%BB%85%E6%98%AF%E5%8F%8C%E5%85%B3%E8%AF%AD%E5%92%96%E5%96%B1</a></p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>前端</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JavaScript this全面解析</title>
     <url>/2020/01/13/JavaScript-this%E5%85%A8%E9%9D%A2%E8%A7%A3%E6%9E%90/</url>
     <content><![CDATA[<h4 id="先说结论"><a href="#先说结论" class="headerlink" title="先说结论"></a>先说结论</h4><p>我们可以顺序应用下面四条规则来判断this的绑定对象：</p>
