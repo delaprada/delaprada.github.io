@@ -12,7 +12,7 @@
 <p>实现原理：</p>
 <ol>
 <li><p>设置父元素<code>container</code>为<code>overflow:hidden</code>，撑起父元素，子元素<code>main</code>、<code>left</code>、<code>right</code>均设为<code>float:left</code>，浮动起来。效果如下：</p>
-<p><img src="/images/loading.png" data-original="1.png" alt="1"></p>
+
 </li>
 <li><p>为了让<code>main</code>模块自适应，将其设为100%</p>
 <p><img src="/images/loading.png" data-original="CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/3.png" alt></p>
