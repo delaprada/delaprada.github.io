@@ -1,6 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>https SSL/TLS握手过程</title>
+    <url>/2020/01/16/https-SSL-TLS%E6%8F%A1%E6%89%8B%E8%BF%87%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="SSL-TLS-握手过程详解"><a href="#SSL-TLS-握手过程详解" class="headerlink" title="SSL/TLS 握手过程详解"></a>SSL/TLS 握手过程详解</h1><p>http协议是明文传输，不确认通信方，不保证传输数据完整的协议。它带来了三大风险：</p>
+<blockquote>
+<p>（1） <strong>窃听风险</strong>（eavesdropping）：第三方可以获知通信内容。</p>
+<p>（2） <strong>篡改风险</strong>（tampering）：第三方可以修改通信内容。</p>
+<p>（3） <strong>冒充风险</strong>（pretending）：第三方可以冒充他人身份参与通信。</p>
+</blockquote>
+<p>http协议是明文传输，在安全性方面比较差。https协议使用了SSL/TLS协议来进行加密。SSL/TLS握手是为了安全地协商出一份<strong>对称加密</strong>的秘钥。2</p>
+<img src="/images/loading.png" data-original="/2020/01/16/https-SSL-TLS%E6%8F%A1%E6%89%8B%E8%BF%87%E7%A8%8B/1.jpg" class>
+
+
+
+<h2 id="SSL-TLS握手过程"><a href="#SSL-TLS握手过程" class="headerlink" title="SSL/TLS握手过程"></a>SSL/TLS握手过程</h2><img src="/images/loading.png" data-original="/2020/01/16/https-SSL-TLS%E6%8F%A1%E6%89%8B%E8%BF%87%E7%A8%8B/2.jpg" class>
+
+
+
+<ol>
+<li>Client Hello</li>
+</ol>
+<p>握手第一步是客户端向服务端发送Client Hello消息。这个消息里包含了一个客户端生成的随机数<strong>Random1</strong>，客户端支持的加密套件（Support Ciphers）和SSL Version等信息。</p>
+<ol start="2">
+<li>Server Hello</li>
+</ol>
+<p>第二步是服务端想客户端发送Server Hello消息。此时会生成一份随机数Random2，同时这个消息会从Client Hello传来的Support Ciphers里确定一份加密套件，这个套件决定了后续加密和生成摘要时具体使用哪些算法。</p>
+<p>注意：至此客户端和服务端都拥有了两个随机数（Random1+Random2），这两个随机数会在后续生成对称秘钥时用到。</p>
+<ol start="3">
+<li>Certificate</li>
+</ol>
+<p>这一步是服务端将自己的证书下发给客户端，让客户端验证自己的身份，客户端验证通过后取出证书中的公钥。</p>
+<ol start="4">
+<li>Server Hello Done</li>
+</ol>
+<p>Server Hello Done通知客户端Server Hello过程结束。</p>
+<ol start="5">
+<li>Certificate Verify</li>
+</ol>
+<p>客户端收到服务端传来的证书后，先从CA验证该证书的合法性，验证通过后取出证书中的服务端公钥，再生成随机数Random3，再用服务端公钥非对称加密Random3生成PreMaster Key。</p>
+<blockquote>
+<p>https的服务端必须拥有一个CA认证合法授权的证书，没有这个证书，客户端在访问该服务器时会提醒用户这个网站是不受信任的</p>
+</blockquote>
+<ol start="6">
+<li>Client Key Exchange</li>
+</ol>
+<p>上一步中客户端根据服务器传来的公钥生成了PreMaster Key，Client Key Exchange就是将这个PreMaster Key传给服务端，服务端再用自己的私钥解出这个PreMaster Key得到客户端生成的Random3。</p>
+<p>至此，客户端和服务端都拥有Random1+Random2+Random3，那么两边再根据同样的算法就可以生成一份秘钥，握手结束后的应用层数据都是<strong>使用这个秘钥进行对称加密</strong>。</p>
+<p>为什么要使用三个随机数？</p>
+<p>这是因为SSL/TLS握手过程的数据都是明文传输的，并且多个随机数种子来生成秘钥不容易被暴力破解。</p>
+<blockquote>
+<p>最重要理解前六步</p>
+</blockquote>
+<ol start="7">
+<li>Change Cipher Spec（Client）</li>
+</ol>
+<p>这一步客户端通知服务端后面再发送的消息都会使用前面协商出来的秘钥加密了，这是一条事件消息。</p>
+<ol start="8">
+<li>Encrypted Handshake Message(Client)</li>
+</ol>
+<p>这一步对应的是Client Finish消息，客户端将前面的握手消息生成摘要再用协商好的秘钥加密，这是客户端发送的第一条加密消息。服务端接收后会用私钥解密，能解出来则说明前面的协商出来的秘钥是一致的。</p>
+<ol start="9">
+<li>Change Cipher Spec(Server)</li>
+</ol>
+<p>这一步是服务端通知客户端后面再发送的消息都会使用加密，也是一条事件消息。</p>
+<ol start="10">
+<li>Encrypted Handshake Message(Server)</li>
+</ol>
+<p>这一步对应的是Server Finish消息，服务端也会将握手过程的消息生成摘要再用秘钥加密，这是服务端发出的第一条加密消息。客户端接收后会用秘钥解密，能解出来说明协商的秘钥是一致的。</p>
+<p>Application Data</p>
+<p><strong>到这里，双方已安全协商出同一份秘钥，所有的应用层数据都会用这个秘钥加密后再通过TCP进行可靠传输</strong>。</p>
+<p>参考：<a href="http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html</a></p>
+<p>​            <a href="https://juejin.im/post/584b76d3a22b9d0058d5036f" target="_blank" rel="noopener">https://juejin.im/post/584b76d3a22b9d0058d5036f</a></p>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>计算机网络</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CSS 圣杯布局和双飞翼布局</title>
     <url>/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/</url>
     <content><![CDATA[<h1 id="CSS-圣杯布局和双飞翼布局"><a href="#CSS-圣杯布局和双飞翼布局" class="headerlink" title="CSS 圣杯布局和双飞翼布局"></a>CSS 圣杯布局和双飞翼布局</h1><p>两个常见的前端布局。圣杯布局和双飞翼布局作为经典的三栏式布局是面试中的常客。两种布局达到效果上基本相同，都是<strong>两边两栏宽度固定，中间栏宽度自适应</strong>。在HTML结构上<strong>中间栏在最前面</strong>保证了最先渲染中间提升性能（因为这两种布局都比较老，我认为在现代浏览器中这点儿性能优化效果并不是很大），并且兼容性良好。两种布局的实现方法前半部分相同，后半部分的实现各有利弊，下面会简单介绍两者的区别。</p>
