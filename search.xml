@@ -9,7 +9,7 @@
 <p>（2） <strong>篡改风险</strong>（tampering）：第三方可以修改通信内容。</p>
 <p>（3） <strong>冒充风险</strong>（pretending）：第三方可以冒充他人身份参与通信。</p>
 </blockquote>
-<p>http协议是明文传输，在安全性方面比较差。https协议使用了SSL/TLS协议来进行加密。SSL/TLS握手是为了安全地协商出一份<strong>对称加密</strong>的秘钥。2</p>
+<p>http协议是明文传输，在安全性方面比较差。https协议使用了SSL/TLS协议来进行加密。SSL/TLS握手是为了安全地协商出一份<strong>对称加密</strong>的秘钥。</p>
 <img src="/images/loading.png" data-original="/2020/01/16/https-SSL-TLS%E6%8F%A1%E6%89%8B%E8%BF%87%E7%A8%8B/1.jpg" class>
 
 
