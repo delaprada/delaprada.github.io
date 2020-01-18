@@ -26,7 +26,8 @@
 
 
 <h3 id="parseInt-071-和parseInt-quot-071-quot-的区别"><a href="#parseInt-071-和parseInt-quot-071-quot-的区别" class="headerlink" title="parseInt(071)和parseInt(&quot;071&quot;)的区别"></a><code>parseInt(071)和parseInt(&quot;071&quot;)的区别</code></h3><p><code>parseInt(&quot;071&quot;)</code>就是简单将字符串转换为数字：</p>
-<p><img src="/images/loading.png" data-original="C:%5CUsers%5Calice%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200118113056252.png" alt="image-20200118113056252"></p>
+<img src="/images/loading.png" data-original="/2020/01/18/%E5%88%86%E6%9E%90parseInt/1.png" class>
+
 <ul>
 <li><p>如果 string 以 “0x” 开头，<code>parseInt()</code> 会把 string 的其余部分解析为十六进制的整数。</p>
 </li>
@@ -35,9 +36,13 @@
 <li><p>以0开头也是转换为十进制。也有说转换为十六进制或者八进制，但是在chrome中实践是十进制。</p>
 </li>
 </ul>
-<p><img src="/images/loading.png" data-original="C:%5CUsers%5Calice%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200118112943164.png" alt="image-20200118112943164"></p>
+<img src="/images/loading.png" data-original="/2020/01/18/%E5%88%86%E6%9E%90parseInt/2.png" class>
+
+
+
 <p><code>parseInt(071)</code>就是将071用八进制进行转换：</p>
-<p><img src="/images/loading.png" data-original="C:%5CUsers%5Calice%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200118113112142.png" alt="image-20200118113112142"></p>
+<img src="/images/loading.png" data-original="/2020/01/18/%E5%88%86%E6%9E%90parseInt/3.png" class>
+
 <br>
 
 
