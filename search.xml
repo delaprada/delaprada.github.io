@@ -81,7 +81,7 @@
 
 
 <h4 id="async-1"><a href="#async-1" class="headerlink" title="async"></a><code>async</code></h4><p><code>async</code>脚本会在加载完毕后执行。<br><code>async</code>脚本的加载不计入<code>DOMContentLoaded</code>事件统计，也就是说下图两种情况都是有可能发生的。</p>
-<img src="/images/loading.png" data-original="/2020/01/31/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B/6.png" class>
+<img src="/images/loading.png" data-original="/2020/01/31/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B/7.png" class>
 
 <br>
 
