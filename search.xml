@@ -761,9 +761,22 @@
       </tags>
   </entry>
   <entry>
-    <title>JavaScript this全面解析</title>
+    <title>JavaScript this解析</title>
     <url>/2020/01/13/JavaScript-this%E5%85%A8%E9%9D%A2%E8%A7%A3%E6%9E%90/</url>
-    <content><![CDATA[<h4 id="先说结论"><a href="#先说结论" class="headerlink" title="先说结论"></a>先说结论</h4><p>我们可以顺序应用下面四条规则来判断this的绑定对象：</p>
+    <content><![CDATA[<h4 id="为什么要使用this"><a href="#为什么要使用this" class="headerlink" title="为什么要使用this"></a>为什么要使用this</h4><p><code>this</code>提供了一种更优雅的方式来隐式“传递”一个对象引用。</p>
+<p>看下面的例子：</p>
+<p>没有使用this的情况下：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> me=&#123;</span><br><span class="line">    name:<span class="string">"Kyle"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> you=&#123;</span><br><span class="line">    name:<span class="string">"Reader"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">identify</span>(<span class="params">context</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> context.name.toUpperCase();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">speak</span>(<span class="params">context</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> greeting=<span class="string">"Hello, I'm "</span>+identify(context);</span><br><span class="line">    <span class="built_in">console</span>.log(greeting);</span><br><span class="line">&#125;</span><br><span class="line">identify(you); <span class="comment">//READER</span></span><br><span class="line">speak(me); <span class="comment">//hello, I'm KYLE</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>使用了this的情况：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">identify</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.name.toUpperCase();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">speak</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> greeting=<span class="string">"Hello, I'm "</span>+identify.call(<span class="keyword">this</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(greeting);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>表达上更加的简洁</p>
+<br>
+
+<h4 id="this绑定对象的规则"><a href="#this绑定对象的规则" class="headerlink" title="this绑定对象的规则"></a>this绑定对象的规则</h4><p>我们可以顺序应用下面四条规则来判断this的绑定对象：</p>
 <ol>
 <li>如果是由<code>new</code>调用，绑定到新创建的对象。</li>
 <li>如果是由<code>call</code>或者<code>apply</code>、<code>bind</code>调用，绑定到指定的对象上。</li>
