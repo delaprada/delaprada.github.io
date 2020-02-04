@@ -10,9 +10,11 @@
 </ul>
 <img src="/images/loading.png" data-original="/2020/02/04/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/1.png" class>
 
+<br>
 
+<h2 id="强缓存和协商缓存"><a href="#强缓存和协商缓存" class="headerlink" title="强缓存和协商缓存"></a>强缓存和协商缓存</h2><h4 id="浏览器缓存分为：强缓存和协商缓存"><a href="#浏览器缓存分为：强缓存和协商缓存" class="headerlink" title="浏览器缓存分为：强缓存和协商缓存"></a>浏览器缓存分为：强缓存和协商缓存</h4><br>
 
-<h2 id="强缓存和协商缓存"><a href="#强缓存和协商缓存" class="headerlink" title="强缓存和协商缓存"></a>强缓存和协商缓存</h2><h4 id="浏览器缓存分为：强缓存和协商缓存"><a href="#浏览器缓存分为：强缓存和协商缓存" class="headerlink" title="浏览器缓存分为：强缓存和协商缓存"></a>浏览器缓存分为：强缓存和协商缓存</h4><ul>
+<ul>
 <li><p><strong>强缓存</strong>：不会向服务器发送请求，直接从缓存中读取资源。可以通过设置两种http header实现：Expires和Cache-Control。</p>
 <ul>
 <li><p>Expires是http/1的产物。它用来指定资源到期的时间，Expires是web服务器响应消息头字段，在响应http请求时<strong>告诉浏览器在过期时间之前浏览器可以直接从浏览器缓存取数据，而无需再次请求</strong>。</p>
@@ -40,9 +42,10 @@
 <li><code>public</code>：所有内容都可以被缓存（包括客户端和代理服务器，如CDN）</li>
 <li><code>private</code>：所有的内容只有客户端才可以缓存，代理服务器不能缓存。默认值。</li>
 </ol>
+<p>自从http/1.1开始，Expires逐渐被<code>Cache-control</code>取代。<code>Cache-control</code>是一个相对时间，即使客户端时间发生改变，相对时间也不会随之改变，这样可以保持服务器和客户端的时间一致性。而且<code>Cache-control</code>的可配置性比较强大。</p>
 </li>
 </ul>
-<pre><code>自从http/1.1开始，Expires逐渐被`Cache-control`取代。`Cache-control`是一个相对时间，即使客户端时间发生改变，相对时间也不会随之改变，这样可以保持服务器和客户端的时间一致性。而且`Cache-control`的可配置性比较强大。</code></pre><p>  强缓存判断是否缓存的依据来自于是否超出某个时间或者时间段，而不关心服务器端文件是否已经更新，这可能导致加载文件不是服务器端最新的内容。<strong>那我们如何获知服务器端内容是否已经发生了更新呢？</strong>此时我们需要用到协商缓存策略。</p>
+<p>  强缓存判断是否缓存的依据来自于是否超出某个时间或者时间段，而不关心服务器端文件是否已经更新，这可能导致加载文件不是服务器端最新的内容。<strong>那我们如何获知服务器端内容是否已经发生了更新呢？</strong>此时我们需要用到协商缓存策略。</p>
 <br>
 
 
