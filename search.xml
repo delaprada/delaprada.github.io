@@ -874,9 +874,9 @@
 
 
 <p>使用了this的情况：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">identify</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.name.toUpperCase();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">speak</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> greeting=<span class="string">"Hello, I'm "</span>+identify.call(<span class="keyword">this</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(greeting);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">identify</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.name.toUpperCase();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">speak</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> greeting=<span class="string">"Hello, I'm "</span>+identify.call(<span class="keyword">this</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(greeting);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">identify.call(me); <span class="comment">//KYLE</span></span><br><span class="line">identify.call(you); <span class="comment">//READER</span></span><br><span class="line">speak.call(me); <span class="comment">//Hello, I'm KYLE</span></span><br><span class="line">speak.call(you); <span class="comment">//Hello, I'm READER</span></span><br></pre></td></tr></table></figure>
 
-<p>表达上更加的简洁</p>
+<p>表达上更加的简洁。如果不使用this的话，就需要给identify()和speak()显式传入一个上下文对象。</p>
 <br>
 
 <h4 id="this绑定对象的规则"><a href="#this绑定对象的规则" class="headerlink" title="this绑定对象的规则"></a>this绑定对象的规则</h4><p>我们可以顺序应用下面四条规则来判断this的绑定对象：</p>
@@ -918,7 +918,12 @@
 <p><code>foo()</code>内部创建的箭头函数会捕获调用时<code>foo()</code>的this。由于<code>foo()</code>的<code>this</code>绑定到<code>obj1</code>，所以bar（引用箭头函数）的<code>this</code>也会绑定到<code>obj1</code>，箭头函数的绑定无法被修改。</p>
 <p>再看一个例子：</p>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'id:'</span>, <span class="keyword">this</span>.id);</span><br><span class="line">  &#125;, <span class="number">100</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> id = <span class="number">21</span>;</span><br><span class="line"></span><br><span class="line">foo.call(&#123; <span class="attr">id</span>: <span class="number">42</span> &#125;);</span><br><span class="line"><span class="comment">// id: 42</span></span><br></pre></td></tr></table></figure>
-<p><code>foo</code>调用时传入的是什么对象，this就指向谁。如果是普通函数，执行时this应该指向全局对象window，这时应该输出21（严格模式则输出undefined）。<br><br></p>
+<p><code>foo</code>调用时传入的是什么对象，this就指向谁。<strong>如果是普通函数，执行时this应该指向全局对象window，这时应该输出21</strong>（严格模式则输出undefined）。</p>
+<p>如果foo函数内部是普通函数的话：</p>
+<p><img src="/images/loading.png" data-original="C:%5CUsers%5Calice%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200205154039804.png" alt="image-20200205154039804"></p>
+<p>由此可以看出，foo函数的<code>this</code>是指向<code>call</code>传入的对象<code>{id:42}</code>，但是foo函数内部的<code>setTimeout</code>函数中的<code>this</code>是指向全局的。</p>
+<br>
+
 <p>参考书籍：《你不知道的JavaScript》 </p>
 ]]></content>
       <categories>
