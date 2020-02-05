@@ -330,7 +330,7 @@
 
 
 
-<p>关于事件监听，有3个事件阶段：<strong>捕获阶段</strong>，目标阶段，<strong>冒泡阶段</strong>。</p>
+<p>关于事件监听，有3个事件阶段（事件流包括三个状态）：<strong>捕获阶段</strong>，目标阶段，<strong>冒泡阶段</strong>。<strong>这三个阶段也叫作事件流。</strong></p>
 <h4 id="事件捕获"><a href="#事件捕获" class="headerlink" title="事件捕获"></a>事件捕获</h4><p>当一个事件触发后，从window对象触发，不断经过下级节点，直到目标节点。在事件到达目标节点之前的过程就是捕获阶段。<strong>所有经过的节点，都会触发对应事件</strong>。</p>
 <h4 id="事件冒泡"><a href="#事件冒泡" class="headerlink" title="事件冒泡"></a>事件冒泡</h4><p>当事件到达目标节点后，会沿着捕获阶段路线原路返回。同样，<strong>所有经过的节点，都会触发对应的事件</strong>。</p>
 <img src="/images/loading.png" data-original="/2020/01/18/%E4%BA%8B%E4%BB%B6%E7%BB%91%E5%AE%9A-%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC-%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98/1.png" class>
