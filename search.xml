@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Vue之计算属性的应用</title>
+    <url>/2020/02/17/Vue%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7%E7%9A%84%E5%BA%94%E7%94%A8/</url>
+    <content><![CDATA[<p>昨天面试的时候被问到了Vue计算属性相关的代码题，又是一脸懵逼呀…赶紧来总结一下。</p>
+<p>面试官先出了第一道题，点击div时输出是什么？</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span> @<span class="attr">click</span>=<span class="string">"b += 1"</span>&gt;</span>&#123;&#123;c&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="actionscript">      el: <span class="string">"#app"</span>,</span></span><br><span class="line">      data() &#123;</span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> &#123; a: <span class="number">1</span>, b: <span class="number">2</span> &#125;;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      computed: &#123;</span><br><span class="line">        c() &#123;</span><br><span class="line"><span class="javascript">          <span class="built_in">console</span>.log(<span class="keyword">this</span>.b);</span></span><br><span class="line"><span class="actionscript">          <span class="keyword">return</span> <span class="keyword">this</span>.a;</span></span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>输出是3。</p>
+<p>首先，computed中的属性都是以函数的形式声明的，看看官网的例子：</p>
+<img src="/images/loading.png" data-original="/2020/02/17/Vue%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7%E7%9A%84%E5%BA%94%E7%94%A8/1.png" class>
+
+<p>结果是：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Original message: &quot;Hello&quot;</span><br><span class="line"></span><br><span class="line">Computed reversed message: &quot;olleH&quot;</span><br></pre></td></tr></table></figure>
+
+<p>computed属性它所依赖的数据是data当中的，是要使用this来去获取的。所以计算属性c中的<code>this.b</code>和<code>this.a</code>其实是data当中的属性值。执行点击事件之后，b是会发生变化的，所以在计算属性c中输出<code>this.b</code>是会发生变化的，所以在控制台会输出3。因为计算属性c<code>return</code>的是<code>this.a</code>，所以<code></code>的值是不变的，是1。</p>
+<p>接着面试官又出了第二道题，此时又输出什么？（其实面试官人真的好好，他的表述是此时会输出么？他这么问的话我就会倾向于回答不会输出）</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span> @<span class="attr">click</span>=<span class="string">"b += 1"</span>&gt;</span>&#123;&#123;c&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="actionscript">      el: <span class="string">"#app"</span>,</span></span><br><span class="line">      data() &#123;</span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> &#123; a: <span class="number">1</span>, b: <span class="number">2</span> &#125;;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      computed: &#123;</span><br><span class="line">        c() &#123;</span><br><span class="line"><span class="actionscript">          <span class="keyword">if</span>(<span class="literal">false</span>)&#123;</span></span><br><span class="line"><span class="javascript">              <span class="built_in">console</span>.log(<span class="keyword">this</span>.b);</span></span><br><span class="line"><span class="actionscript">              <span class="keyword">return</span> <span class="keyword">this</span>.a;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>答案是不输出。此时c连渲染都不会发生。</p>
+<p>最后面试官又问了第三道题，此时会输出什么？</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span> @<span class="attr">click</span>=<span class="string">"b += 1"</span>&gt;</span>absdflj<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="actionscript">      el: <span class="string">"#app"</span>,</span></span><br><span class="line">      data() &#123;</span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> &#123; a: <span class="number">1</span>, b: <span class="number">2</span> &#125;;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      computed: &#123;</span><br><span class="line">        c() &#123;</span><br><span class="line"><span class="javascript">          <span class="built_in">console</span>.log(<span class="keyword">this</span>.b);</span></span><br><span class="line"><span class="actionscript">          <span class="keyword">return</span> <span class="keyword">this</span>.a;</span></span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>此时这个计算属性并没有写在页面上，所以是不会监听c的值，此时控制台没有输出，页面显示的是：<code>absdflj</code>。</p>
+]]></content>
+      <categories>
+        <category>Vue</category>
+      </categories>
+      <tags>
+        <tag>Vue</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JavaScript之变量提升</title>
     <url>/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/</url>
     <content><![CDATA[<p>今天面试的时候被问到了变量提升的问题，一脸懵逼，掌握得不够熟练，写篇博客来总结一下。</p>
@@ -8,13 +39,15 @@
 <li>第一步为解释：先扫描所有的JS代码，把所有声明提升到顶端。</li>
 <li>第二步为执行：执行就是操作一类的。</li>
 </ul>
+<br>
+
 <h3 id="变量提升"><a href="#变量提升" class="headerlink" title="变量提升"></a>变量提升</h3><p>例一：</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(a);  <span class="comment">//undefined</span></span><br><span class="line"><span class="keyword">var</span> a=<span class="number">10</span>;</span><br></pre></td></tr></table></figure>
 
 <p>因为有变量提升，上面的代码相当于：</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a;</span><br><span class="line"><span class="built_in">console</span>.log(a);</span><br><span class="line">a=<span class="number">10</span>;</span><br></pre></td></tr></table></figure>
 
-
+<br>
 
 <h3 id="函数提升"><a href="#函数提升" class="headerlink" title="函数提升"></a>函数提升</h3><h4 id="函数声明的两种方式"><a href="#函数声明的两种方式" class="headerlink" title="函数声明的两种方式"></a>函数声明的两种方式</h4><ul>
 <li><p>函数声明式</p>
@@ -31,6 +64,8 @@
 </li>
 </ul>
 <p><strong>注意：函数字面量式的提升和变量提升一样，都是只提升声明，不提升赋值，比如上面代码中函数字面量式，只会把<code>var bar</code>提升上去，但是函数声明式是会将整个函数体都提升上去。</strong></p>
+<br>
+
 <p>例二：</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line">foo();  <span class="comment">//aaa</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"aaa"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -40,6 +75,8 @@
 
 
 <p><strong>注意：变量提升只提升变量名，而函数提升是会提升整个函数体。函数提升在变量提升之前。</strong></p>
+<br>
+
 <p>例三：</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line">foo(); <span class="comment">//foo is not a function</span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"aaa"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -51,6 +88,8 @@
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> foo;</span><br><span class="line">foo();</span><br><span class="line">foo=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"aaa"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>JS解析在遇到foo()时会默认当做函数来解析，所以会输出foo is not a function。</p>
+<br>
+
 <p>例四：</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(foo);</span><br><span class="line"><span class="keyword">var</span> foo=<span class="number">10</span>;</span><br><span class="line"><span class="built_in">console</span>.log(foo);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="number">10</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(foo);</span><br></pre></td></tr></table></figure>
 
@@ -63,6 +102,8 @@
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="number">10</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> foo;</span><br><span class="line"><span class="built_in">console</span>.log(foo);  <span class="comment">//foo()&#123;console.log(10);&#125;</span></span><br><span class="line">foo=<span class="number">10</span>;</span><br><span class="line"><span class="built_in">console</span>.log(foo);  <span class="comment">//10</span></span><br><span class="line"><span class="built_in">console</span>.log(foo);  <span class="comment">//10</span></span><br></pre></td></tr></table></figure>
 
 <p>第一个console.log(foo)之所以输出函数体，是因为<code>var foo</code>只是声明（提升了的声明），并没有赋值，所以它会调用上面的函数体。</p>
+<br>
+
 <h2 id="面试题"><a href="#面试题" class="headerlink" title="面试题"></a>面试题</h2><p>先看一道经典面试题：</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(v1);</span><br><span class="line"><span class="keyword">var</span> v1 = <span class="number">100</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(v1);</span><br><span class="line">	<span class="keyword">var</span> v1 = <span class="number">200</span>;</span><br><span class="line">	<span class="built_in">console</span>.log(v1);</span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br><span class="line"><span class="built_in">console</span>.log(v1);</span><br></pre></td></tr></table></figure>
 
@@ -75,7 +116,7 @@
 <p><strong>注意，如果内部没有声明v1的时候，函数才会到全局作用域去查找变量的赋值。但是如果函数作用域内部定义了的话，就不会到全局作用域去找。参照作用域链的定义。</strong></p>
 <img src="/images/loading.png" data-original="/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/3.png" class>
 
-
+<br>
 
 <p>看一道字节面试时候的题目：</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">'byte'</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (a === <span class="literal">undefined</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> a = <span class="string">'dance'</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        a = <span class="string">'bytedance'</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(foo());</span><br><span class="line"><span class="built_in">console</span>.log(a);</span><br></pre></td></tr></table></figure>
