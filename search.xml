@@ -273,8 +273,10 @@
 <ol>
 <li><code>max-age</code>：即最大有效时间</li>
 <li><code>must-revalidate</code>：如果超过了<code>max-age</code>的时间，浏览器必须向服务器发送请求，验证资源是否还有效</li>
-<li><code>no-cache</code>：虽然字面意思是“不要缓存”，但实际上还是要求客户端缓存内容的，只是是否使用这个内容由后续的协商来决定</li>
-<li><code>no-store</code>：真正意义上的“不要缓存”。所有内容都不走缓存，包括强制和协商</li>
+<li><code>no-cache</code>：<strong>不是不缓存的意思！</strong>表示可以在本地缓存，可以在代理服务器缓存，但是这个缓存要服务器验证才可以使用。<ol start="4">
+<li><code>no-store</code>：彻底禁用缓存，本地和代理服务器都不缓存，每次都从服务器获取</li>
+</ol>
+</li>
 <li><code>public</code>：所有内容都可以被缓存（包括客户端和代理服务器，如CDN）</li>
 <li><code>private</code>：所有的内容只有客户端才可以缓存，代理服务器不能缓存。默认值。</li>
 </ol>
