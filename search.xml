@@ -1,6 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>JavaScript之变量提升</title>
+    <url>/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/</url>
+    <content><![CDATA[<p>今天面试的时候被问到了变量提升的问题，一脸懵逼，掌握得不够熟练，写篇博客来总结一下。</p>
+<h2 id="JS代码解析规则"><a href="#JS代码解析规则" class="headerlink" title="JS代码解析规则"></a>JS代码解析规则</h2><ul>
+<li>第一步为解释：先扫描所有的JS代码，把所有声明提升到顶端。</li>
+<li>第二步为执行：执行就是操作一类的。</li>
+</ul>
+<h3 id="变量提升"><a href="#变量提升" class="headerlink" title="变量提升"></a>变量提升</h3><p>例一：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(a);  <span class="comment">//undefined</span></span><br><span class="line"><span class="keyword">var</span> a=<span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+<p>因为有变量提升，上面的代码相当于：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a;</span><br><span class="line"><span class="built_in">console</span>.log(a);</span><br><span class="line">a=<span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="函数提升"><a href="#函数提升" class="headerlink" title="函数提升"></a>函数提升</h3><h4 id="函数声明的两种方式"><a href="#函数声明的两种方式" class="headerlink" title="函数声明的两种方式"></a>函数声明的两种方式</h4><ul>
+<li><p>函数声明式</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>)</span>&#123; &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>函数字面量式</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> bar=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p><strong>注意：函数字面量式的提升和变量提升一样，都是只提升声明，不提升赋值，比如上面代码中函数字面量式，只会把<code>var bar</code>提升上去，但是函数声明式是会将整个函数体都提升上去。</strong></p>
+<p>例二：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">foo();  <span class="comment">//aaa</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"aaa"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因为存在函数声明提升，函数声明提升会直接把整个函数提升到执行环境的最顶端。相当于：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"aaa"</span>);</span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>注意：变量提升只提升变量名，而函数提升是会提升整个函数体。函数提升在变量提升之前。</strong></p>
+<p>例三：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">foo(); <span class="comment">//foo is not a function</span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"aaa"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<img src="/images/loading.png" data-original="/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/1.png" class>
+
+
+
+<p>因为进行了变量提升（函数字面量式），上面的代码相当于：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> foo;</span><br><span class="line">foo();</span><br><span class="line">foo=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"aaa"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>JS解析在遇到foo()时会默认当做函数来解析，所以会输出foo is not a function。</p>
+<p>例四：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(foo);</span><br><span class="line"><span class="keyword">var</span> foo=<span class="number">10</span>;</span><br><span class="line"><span class="built_in">console</span>.log(foo);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="number">10</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(foo);</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<img src="/images/loading.png" data-original="/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/2.png" class>
+
+
+
+<p>上面的代码相当于：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="number">10</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> foo;</span><br><span class="line"><span class="built_in">console</span>.log(foo);  <span class="comment">//foo()&#123;console.log(10);&#125;</span></span><br><span class="line">foo=<span class="number">10</span>;</span><br><span class="line"><span class="built_in">console</span>.log(foo);  <span class="comment">//10</span></span><br><span class="line"><span class="built_in">console</span>.log(foo);  <span class="comment">//10</span></span><br></pre></td></tr></table></figure>
+
+<p>第一个console.log(foo)之所以输出函数体，是因为<code>var foo</code>只是声明（提升了的声明），并没有赋值，所以它会调用上面的函数体。</p>
+<h2 id="面试题"><a href="#面试题" class="headerlink" title="面试题"></a>面试题</h2><p>先看一道经典面试题：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(v1);</span><br><span class="line"><span class="keyword">var</span> v1 = <span class="number">100</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(v1);</span><br><span class="line">	<span class="keyword">var</span> v1 = <span class="number">200</span>;</span><br><span class="line">	<span class="built_in">console</span>.log(v1);</span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br><span class="line"><span class="built_in">console</span>.log(v1);</span><br></pre></td></tr></table></figure>
+
+<p>输出是：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;undefined</span><br><span class="line">&#x2F;&#x2F;undefined</span><br><span class="line">&#x2F;&#x2F;200</span><br><span class="line">&#x2F;&#x2F;100</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码相当于：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> v1;</span><br><span class="line"><span class="built_in">console</span>.log(v1); <span class="comment">//undefined</span></span><br><span class="line">v1=<span class="number">100</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> v1;</span><br><span class="line">	<span class="built_in">console</span>.log(v1);  <span class="comment">//undefined</span></span><br><span class="line">	v1=<span class="number">200</span>;</span><br><span class="line">	<span class="built_in">console</span>.log(v1);  <span class="comment">//200</span></span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br><span class="line"><span class="built_in">console</span>.log(v1);  <span class="comment">//100</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>注意，如果内部没有声明v1的时候，函数才会到全局作用域去查找变量的赋值。但是如果函数作用域内部定义了的话，就不会到全局作用域去找。参照作用域链的定义。</strong></p>
+<img src="/images/loading.png" data-original="/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/3.png" class>
+
+
+
+<p>看一道字节面试时候的题目：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">'byte'</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (a === <span class="literal">undefined</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> a = <span class="string">'dance'</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        a = <span class="string">'bytedance'</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(foo());</span><br><span class="line"><span class="built_in">console</span>.log(a);</span><br></pre></td></tr></table></figure>
+
+<p>输出为：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;dance</span><br><span class="line">&#x2F;&#x2F;byte</span><br></pre></td></tr></table></figure>
+
+<p>上面代码实际效果是：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> a;</span><br><span class="line">	<span class="keyword">if</span>(a===<span class="literal">undefined</span>)&#123;</span><br><span class="line">		a=<span class="string">'dance'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		a=<span class="string">'bytedance'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a;</span><br><span class="line">a=<span class="string">'byte'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(foo());</span><br><span class="line"><span class="built_in">console</span>.log(a);</span><br></pre></td></tr></table></figure>
+
+<p>在当前作用域有对变量进行声明的时候，是不会去上一级作用域去寻找变量的声明的。</p>
+<img src="/images/loading.png" data-original="/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/4.png" class>
+
+<p>因为console.log(a)在当前函数作用域找到了<code>var a;</code>，即a的定义，所以它不会去全局作用域去找a的声明（及值）。</p>
+<p>上面的代码也是这个道理，<code>a===undefined</code>会找到当前函数作用域的<code>var a;</code>的定义，所以a的值为undefined。</p>
+<br>
+
+<p>参考：<a href="https://blog.csdn.net/qq_39712029/article/details/80951958" target="_blank" rel="noopener">https://blog.csdn.net/qq_39712029/article/details/80951958</a></p>
+<p>​            <a href="https://blog.csdn.net/Demo_18/article/details/78493489" target="_blank" rel="noopener">https://blog.csdn.net/Demo_18/article/details/78493489</a></p>
+<br>]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Math.floor()和~~运算符的异同</title>
     <url>/2020/02/10/Math-floor-%E5%92%8C-%E7%9A%84%E5%BC%82%E5%90%8C/</url>
     <content><![CDATA[<p>今天在用JavaScript实现大数相加的时候，发现网上的解法当中有使用<code>~~</code>运算符，之前没有见过。在网上一查，说是<code>Math.floor()</code>的更好的一种表示方法，运行速度更快。但是将大数相加的代码中的<code>~~</code>换成<code>Math.floor()</code>发觉得不到正确的答案，所以想来分析一下异同。</p>
