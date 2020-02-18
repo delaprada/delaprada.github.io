@@ -516,6 +516,16 @@
 <li>避免频繁读取会引发回流/重绘的属性，如果确实需要多次使用，就用一个变量缓存起来。</li>
 <li>对具有复杂动画的元素使用绝对定位，使它脱离文档流，否则会引起父元素及后续元素频繁回流。</li>
 </ul>
+<h2 id="DOM-CSS-JS之间的关系"><a href="#DOM-CSS-JS之间的关系" class="headerlink" title="DOM CSS JS之间的关系"></a>DOM CSS JS之间的关系</h2><ul>
+<li>CSS是不会阻塞DOM的解析的，JS是会阻塞DOM的解析的</li>
+<li>CSS是会阻塞DOM的渲染的。如果没有这个策略的话，页面首先会呈现一个原始的模样，待CSS下载完后又变成另一个模样，这样会导致用户体验变差而且渲染是有成本的。</li>
+<li>JS是会等待CSS加载完才会执行的（如果CSS文件在JS文件之前声明的话，那JS需要等待CSS文件加载完毕后才会执行）。<ul>
+<li>原因：因为JS有时需要查询（获取）元素的一些样式，这些样式是定义在CSS文件里的，所以CSS加载完之后再去执行JS会更好一些。</li>
+</ul>
+</li>
+</ul>
+<p>所以<code>&lt;script&gt;</code>最好放在底部，<code>&lt;link&gt;</code>最好放在头部，是因为JS会阻塞DOM树的解析，CSS不会阻塞DOM树的解析。</p>
+<p>如果头部同时有<code>&lt;script&gt;</code>和<code>&lt;link&gt;</code>的情况下，最好将<code>&lt;script&gt;</code>放在<code>&lt;link&gt;</code>上面，是因为JS会等待CSS加载完毕后才会执行，但是放在头部的JS一般不会对样式进行查询修改，所以放在前面没有太大影响（比如说引入VUE的CDN的js代码就会在头部，但是和CSS样式是无关的）</p>
 <br>
 
 <p>参考：</p>
