@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>每日一题——腐烂的橘子</title>
+    <url>/2020/03/04/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E8%85%90%E7%83%82%E7%9A%84%E6%A9%98%E5%AD%90/</url>
+    <content><![CDATA[<p>在给定的网格中，每个单元格可以有以下三个值之一：</p>
+<p>值 0 代表空单元格；<br>值 1 代表新鲜橘子；<br>值 2 代表腐烂的橘子。<br>每分钟，任何与腐烂的橘子（在 4 个正方向上）相邻的新鲜橘子都会腐烂。</p>
+<p>返回直到单元格中没有新鲜橘子为止所必须经过的最小分钟数。如果不可能，返回 -1。</p>
+<p> <img src="/images/loading.png" data-original="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2019/02/16/oranges.png" alt="img"></p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：[[2,1,1],[1,1,0],[0,1,1]]</span><br><span class="line">输出：4</span><br><span class="line">示例 2：</span><br><span class="line"></span><br><span class="line">输入：[[2,1,1],[0,1,1],[1,0,1]]</span><br><span class="line">输出：-1</span><br><span class="line">解释：左下角的橘子（第 2 行， 第 0 列）永远不会腐烂，因为腐烂只会发生在 4 个正向上。</span><br><span class="line">示例 3：</span><br><span class="line"></span><br><span class="line">输入：[[0,2]]</span><br><span class="line">输出：0</span><br><span class="line">解释：因为 0 分钟时已经没有新鲜橘子了，所以答案就是 0 。</span><br></pre></td></tr></table></figure>
+
+
+
+
+<p>提示：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1 &lt;&#x3D; grid.length &lt;&#x3D; 10</span><br><span class="line">1 &lt;&#x3D; grid[0].length &lt;&#x3D; 10</span><br><span class="line">grid&#96;[i][j]&#96; 仅为 0、1 或 2</span><br></pre></td></tr></table></figure>
+
+
+
+<p>思路：</p>
+<p>广度优先搜索。广度优先搜索的话一般会使用队列的思想，深度优先搜索使用栈的思想。最主要还有如何去控制节点去上下左右遍历，所以我们要设置一个<code>locs</code>数组为：[[0,-1],[0,1],[1,0],[-1,0]]，在遍历每个队列元素时，都让它去和<code>locs</code>数组的每个元素进行相加减，得到这个元素上下左右的元素，将为1的元素（即新鲜橙子），变为2（即腐烂橙子）。因为我们要计算时间，但又不能将循环次数用来计时，所以我们将时间和节点的x，y坐标一齐作为一个元素进入队列。</p>
+<p>题解：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number[][]&#125;</span> <span class="variable">grid</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> orangesRotting = <span class="function"><span class="keyword">function</span>(<span class="params">grid</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> row=grid.length;</span><br><span class="line">    <span class="keyword">var</span> col=grid[<span class="number">0</span>].length;</span><br><span class="line">    <span class="keyword">var</span> queue=[];</span><br><span class="line">    <span class="keyword">var</span> locs=[[<span class="number">0</span>,<span class="number">-1</span>],[<span class="number">0</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">0</span>],[<span class="number">-1</span>,<span class="number">0</span>]];</span><br><span class="line">    <span class="keyword">var</span> time=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">var</span> x,y;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;row;++i)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> j=<span class="number">0</span>;j&lt;col;++j)&#123;</span><br><span class="line">            <span class="keyword">if</span>(grid[i][j]==<span class="number">2</span>)&#123;</span><br><span class="line">                queue.push([i,j,time]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(queue.length!==<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="comment">//这是queue！！不要写成stack,先进先出是用shift</span></span><br><span class="line">        [x,y,time]=queue.shift();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> t=<span class="number">0</span>;t&lt;locs.length;++t)&#123;</span><br><span class="line">            <span class="keyword">var</span> new_x=x+locs[t][<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">var</span> new_y=y+locs[t][<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">if</span>(new_x&gt;=<span class="number">0</span>&amp;&amp;new_x&lt;row&amp;&amp;new_y&gt;=<span class="number">0</span>&amp;&amp;new_y&lt;col)&#123;</span><br><span class="line">                <span class="keyword">if</span>(grid[new_x][new_y]===<span class="number">1</span>)&#123;</span><br><span class="line">                    queue.push([new_x,new_y,time+<span class="number">1</span>]);</span><br><span class="line">                    grid[new_x][new_y]=<span class="number">2</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> p=<span class="number">0</span>;p&lt;row;++p)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> q=<span class="number">0</span>;q&lt;col;++q)&#123;</span><br><span class="line">            <span class="keyword">if</span>(grid[p][q]==<span class="number">1</span>)&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> time;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>每日一题</category>
+      </categories>
+      <tags>
+        <tag>每日一题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>每日一题——版本号比较 随机生成字符串 类型比较</title>
     <url>/2020/03/03/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E7%89%88%E6%9C%AC%E5%8F%B7%E6%AF%94%E8%BE%83-%E9%9A%8F%E6%9C%BA%E7%94%9F%E6%88%90%E5%AD%97%E7%AC%A6%E4%B8%B2/</url>
     <content><![CDATA[<h2 id="版本号比较"><a href="#版本号比较" class="headerlink" title="版本号比较"></a>版本号比较</h2><p>比较版本号 （类似1.0.1/1.2.0/1.2/0.1）<br>实现一个方法，用于比较两个版本号（version1、version2）<br>如果version1 &gt; version2，返回1；如果version1 &lt; version2，返回-1，其他情况返回0。版本号规则<code>x.y.z</code>，xyz均为大于等于0的整数，至少有x位</p>
