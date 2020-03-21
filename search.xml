@@ -7,22 +7,32 @@
 
 
 
-<img src="/images/loading.png" data-original="./设置display-none对DOM树和渲染树的影响/1.png" alt="img" style="zoom:80%;">
+<img src="/images/loading.png" data-original="/2020/03/21/%E8%AE%BE%E7%BD%AEdisplay-none%E5%AF%B9DOM%E6%A0%91%E5%92%8C%E6%B8%B2%E6%9F%93%E6%A0%91%E7%9A%84%E5%BD%B1%E5%93%8D/1.png" class>
+
+<br>
 
 <h2 id="设置display-none对渲染树的影响"><a href="#设置display-none对渲染树的影响" class="headerlink" title="设置display:none对渲染树的影响"></a>设置<code>display:none</code>对渲染树的影响</h2><p>在原本的<code>style</code>中添加上<code>display:none</code>：</p>
 <figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;<span class="selector-tag">style</span>&gt;</span><br><span class="line">    <span class="selector-class">.main</span>&#123;</span><br><span class="line">        <span class="attribute">width</span>:<span class="number">100px</span>;</span><br><span class="line">        <span class="attribute">height</span>:<span class="number">100px</span>;</span><br><span class="line">        <span class="attribute">background-color</span>: lightyellow;</span><br><span class="line">        <span class="attribute">display</span>:none;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
 
 <p>页面上没有显示任何东西：</p>
-<img src="/images/loading.png" data-original="./设置display-none对DOM树和渲染树的影响/2.png" alt="img" style="zoom: 50%;">
+<img src="/images/loading.png" data-original="/2020/03/21/%E8%AE%BE%E7%BD%AEdisplay-none%E5%AF%B9DOM%E6%A0%91%E5%92%8C%E6%B8%B2%E6%9F%93%E6%A0%91%E7%9A%84%E5%BD%B1%E5%93%8D/2.png" class>
 
 <p>所以设置<code>display:none</code>是会将节点从渲染树中摘除的。</p>
+<br>
+
+
+
 <h2 id="设置display-none对DOM树的影响"><a href="#设置display-none对DOM树的影响" class="headerlink" title="设置display:none对DOM树的影响"></a>设置<code>display:none</code>对DOM树的影响</h2><p>我们在刚才的代码中添加上一段<code>js</code>代码：</p>
 <figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> node=<span class="built_in">document</span>.getElementsByClassName(<span class="string">"main"</span>)[<span class="number">0</span>];</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(node.innerText);</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>控制台输出：</p>
-<img src="/images/loading.png" data-original="./设置display-none对DOM树和渲染树的影响/3.png" alt="img" style="zoom:80%;">
+<img src="/images/loading.png" data-original="/2020/03/21/%E8%AE%BE%E7%BD%AEdisplay-none%E5%AF%B9DOM%E6%A0%91%E5%92%8C%E6%B8%B2%E6%9F%93%E6%A0%91%E7%9A%84%E5%BD%B1%E5%93%8D/3.png" class>
 
 <p>说明DOM树中该节点并没有消失，否则不会获取到DOM上的信息。</p>
+<br>
+
+
+
 <h2 id="设置display-none对CSS规则树的影响"><a href="#设置display-none对CSS规则树的影响" class="headerlink" title="设置display:none对CSS规则树的影响"></a>设置<code>display:none</code>对CSS规则树的影响</h2><p>我们在div当中添加style样式：</p>
 <figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span> <span class="attr">style</span>=<span class="string">"width:100px"</span>&gt;</span></span><br><span class="line">	display属性testing</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
@@ -30,9 +40,7 @@
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(node.style.width);</span><br></pre></td></tr></table></figure>
 
 <p>控制台输出：</p>
-<img src="/images/loading.png" data-original="./设置display-none对DOM树和渲染树的影响/4.png" alt="img" style="zoom:80%;">
-
-
+<img src="/images/loading.png" data-original="/2020/03/21/%E8%AE%BE%E7%BD%AEdisplay-none%E5%AF%B9DOM%E6%A0%91%E5%92%8C%E6%B8%B2%E6%9F%93%E6%A0%91%E7%9A%84%E5%BD%B1%E5%93%8D/4.png" class>
 
 <p>说明CSS规则树中该节点的样式没有消失。</p>
 <br>
