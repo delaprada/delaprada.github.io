@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>每日一题——编辑距离</title>
+    <url>/2020/03/25/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E7%BC%96%E8%BE%91%E8%B7%9D%E7%A6%BB/</url>
+    <content><![CDATA[<h2 id="编辑距离"><a href="#编辑距离" class="headerlink" title="编辑距离"></a><a href="https://leetcode-cn.com/problems/edit-distance/" target="_blank" rel="noopener">编辑距离</a></h2><p>给定两个单词 word1 和 word2，计算出将 word1 转换成 word2 所使用的最少操作数 。</p>
+<p>你可以对一个单词进行如下三种操作：</p>
+<p>插入一个字符<br>删除一个字符<br>替换一个字符</p>
+<p>示例 1:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: word1 &#x3D; &quot;horse&quot;, word2 &#x3D; &quot;ros&quot;</span><br><span class="line">输出: 3</span><br><span class="line">解释: </span><br><span class="line">horse -&gt; rorse (将 &#39;h&#39; 替换为 &#39;r&#39;)</span><br><span class="line">rorse -&gt; rose (删除 &#39;r&#39;)</span><br><span class="line">rose -&gt; ros (删除 &#39;e&#39;)</span><br></pre></td></tr></table></figure>
+
+<p>示例 2:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: word1 &#x3D; &quot;intention&quot;, word2 &#x3D; &quot;execution&quot;</span><br><span class="line">输出: 5</span><br><span class="line">解释: </span><br><span class="line">intention -&gt; inention (删除 &#39;t&#39;)</span><br><span class="line">inention -&gt; enention (将 &#39;i&#39; 替换为 &#39;e&#39;)</span><br><span class="line">enention -&gt; exention (将 &#39;n&#39; 替换为 &#39;x&#39;)</span><br><span class="line">exention -&gt; exection (将 &#39;n&#39; 替换为 &#39;c&#39;)</span><br><span class="line">exection -&gt; execution (插入 &#39;u&#39;)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>思路：</p>
+<p>动态规划的思想。</p>
+<ul>
+<li>如果<code>word1[i]===word2[j]</code>，<code>dp[i][j]=dp[i-1][j-1]</code>，也就是说<code>word1</code>的第<code>i</code>个单词和<code>word2</code>的第<code>j</code>个单词相同的话，那<code>word1</code>前<code>i</code>个单词要变为<code>word2</code>前<code>j</code>个单词的编辑次数就会等于<code>word1</code>前<code>i-1</code>和单词变为<code>word2</code>前<code>j-1</code>个单词的编辑次数。</li>
+<li>如果<code>word1[i]!=word2[j]</code>，那<code>dp[i][j]=Math.min(dp[i-1][j-1],dp[i-1][j],dp[i][j-1])+1</code><ul>
+<li><code>dp[i-1][j-1]</code>表示替换操作，也就是将<code>word1[i]</code>替换为<code>word2[j]</code>，那<code>dp[i][j]</code>就等于<code>dp[i-1][j-1]</code>+1，也就是将<code>word1</code>前<code>i-1</code>个单词变为<code>word2</code>前<code>j-1</code>个单词所要执行的编辑次数+1（一次替换操作）。</li>
+<li><code>dp[i-1][j]</code>表示删除操作，就是将<code>word1</code>前<code>i-1</code>个字符变为<code>word2</code>前<code>j</code>个字符所要执行的操作+1（一次删除操作，即将<code>word1</code>的第<code>i</code>个字符删掉）</li>
+<li><code>dp[i][j-1]</code>表示插入操作，就是将<code>word1</code>前<code>i</code>个字符变为<code>word2</code>前<code>j-1</code>个字符所要执行的操作+1（一次插入操作，在<code>word1</code>插入一个和<code>word2</code>第<code>j</code>个字符一样的字符）</li>
+</ul>
+</li>
+</ul>
+<p>题解：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;string&#125;</span> <span class="variable">word1</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;string&#125;</span> <span class="variable">word2</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> minDistance = <span class="function"><span class="keyword">function</span>(<span class="params">word1, word2</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> dp=[];</span><br><span class="line">    <span class="keyword">var</span> len1=word1.length;</span><br><span class="line">    <span class="keyword">var</span> len2=word2.length;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;=len1;++i)&#123;</span><br><span class="line">        dp[i]=<span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> j=<span class="number">0</span>;j&lt;=len1;++j)&#123;</span><br><span class="line">        dp[j][<span class="number">0</span>]=j;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> k=<span class="number">0</span>;k&lt;=len2;++k)&#123;</span><br><span class="line">        dp[<span class="number">0</span>][k]=k;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> n=<span class="number">1</span>;n&lt;=len1;++n)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> m=<span class="number">1</span>;m&lt;=len2;++m)&#123;</span><br><span class="line">            <span class="comment">//这里表示的是word1[n]==word2[m],但是因为n和m是从1开始取的,所以比较的时候要-1</span></span><br><span class="line">            <span class="keyword">if</span>(word1[n<span class="number">-1</span>]==word2[m<span class="number">-1</span>])&#123;</span><br><span class="line">                dp[n][m]=dp[n<span class="number">-1</span>][m<span class="number">-1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                dp[n][m]=<span class="built_in">Math</span>.min(dp[n<span class="number">-1</span>][m<span class="number">-1</span>],dp[n][m<span class="number">-1</span>],dp[n<span class="number">-1</span>][m])+<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[len1][len2];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+]]></content>
+      <categories>
+        <category>每日一题</category>
+      </categories>
+      <tags>
+        <tag>每日一题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>每日一题——按摩师</title>
     <url>/2020/03/24/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E6%8C%89%E6%91%A9%E5%B8%88/</url>
     <content><![CDATA[<h2 id="面试题-17-16-按摩师"><a href="#面试题-17-16-按摩师" class="headerlink" title="面试题 17.16. 按摩师"></a><a href="https://leetcode-cn.com/problems/the-masseuse-lcci/" target="_blank" rel="noopener">面试题 17.16. 按摩师</a></h2><p>一个有名的按摩师会收到源源不断的预约请求，每个预约都可以选择接或不接。在每次预约服务之间要有休息时间，因此她不能接受相邻的预约。给定一个预约请求序列，替按摩师找到最优的预约集合（总预约时间最长），返回总的分钟数。</p>
