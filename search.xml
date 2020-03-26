@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>每日一题——合并区间</title>
+    <url>/2020/03/26/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E5%90%88%E5%B9%B6%E5%8C%BA%E9%97%B4/</url>
+    <content><![CDATA[<h2 id="合并区间"><a href="#合并区间" class="headerlink" title="合并区间"></a><a href="https://leetcode-cn.com/problems/merge-intervals/" target="_blank" rel="noopener">合并区间</a></h2><p>给出一个区间的集合，请合并所有重叠的区间。</p>
+<p>示例 1:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [[1,3],[2,6],[8,10],[15,18]]</span><br><span class="line">输出: [[1,6],[8,10],[15,18]]</span><br><span class="line">解释: 区间 [1,3] 和 [2,6] 重叠, 将它们合并为 [1,6].</span><br></pre></td></tr></table></figure>
+
+<p>示例 2:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [[1,4],[4,5]]</span><br><span class="line">输出: [[1,5]]</span><br><span class="line">解释: 区间 [1,4] 和 [4,5] 可被视为重叠区间。</span><br></pre></td></tr></table></figure>
+
+
+
+<p>思路：</p>
+<p>将每个区间的第一个数字放入<code>start</code>数组中，将每个区间的第二个数字放入<code>end</code>数组中，对<code>start</code>数组和<code>end</code>数组进行排序。判断<code>start[i+1]</code>和<code>end[i]</code>的大小，如果前者小，则说明区间有覆盖，<code>i++</code>；如果前者大，说明区间没有覆盖，可以将这个结果<code>push</code>进结果数组<code>res</code>中，同时<code>j=i+1</code>（<code>j</code>最开始为0）。</p>
+<p>题解：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number[][]&#125;</span> <span class="variable">intervals</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number[][]&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> merge = <span class="function"><span class="keyword">function</span>(<span class="params">intervals</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> start=[];</span><br><span class="line">    <span class="keyword">var</span> end=[];</span><br><span class="line">    <span class="keyword">var</span> res=[];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;intervals.length;++i)&#123;</span><br><span class="line">        start.push(intervals[i][<span class="number">0</span>]);</span><br><span class="line">        end.push(intervals[i][<span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    start.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a-b;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    end.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a-b;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> n=<span class="number">0</span>,m=<span class="number">0</span>;n&lt;intervals.length;++n)&#123;</span><br><span class="line">        <span class="keyword">if</span>(n==intervals.length<span class="number">-1</span>||start[n+<span class="number">1</span>]&gt;end[n])&#123;</span><br><span class="line">            res.push([start[m],end[n]]);</span><br><span class="line">            m=n+<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>每日一题</category>
+      </categories>
+      <tags>
+        <tag>每日一题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>每日一题——编辑距离</title>
     <url>/2020/03/25/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E7%BC%96%E8%BE%91%E8%B7%9D%E7%A6%BB/</url>
     <content><![CDATA[<h2 id="编辑距离"><a href="#编辑距离" class="headerlink" title="编辑距离"></a><a href="https://leetcode-cn.com/problems/edit-distance/" target="_blank" rel="noopener">编辑距离</a></h2><p>给定两个单词 word1 和 word2，计算出将 word1 转换成 word2 所使用的最少操作数 。</p>
