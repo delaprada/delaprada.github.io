@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>每日一题——单词的压缩编码</title>
+    <url>/2020/03/28/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E5%8D%95%E8%AF%8D%E7%9A%84%E5%8E%8B%E7%BC%A9%E7%BC%96%E7%A0%81/</url>
+    <content><![CDATA[<h2 id="单词的压缩编码"><a href="#单词的压缩编码" class="headerlink" title="单词的压缩编码"></a><a href="https://leetcode-cn.com/problems/short-encoding-of-words/" target="_blank" rel="noopener">单词的压缩编码</a></h2><p>给定一个单词列表，我们将这个列表编码成一个索引字符串 S 与一个索引列表 A。</p>
+<p>例如，如果这个列表是 [“time”, “me”, “bell”]，我们就可以将其表示为 S = “time#bell#” 和 indexes = [0, 2, 5]。</p>
+<p>对于每一个索引，我们可以通过从字符串 S 中索引的位置开始读取字符串，直到 “#” 结束，来恢复我们之前的单词列表。</p>
+<p>那么成功对给定单词列表进行编码的最小字符串长度是多少呢？</p>
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: words &#x3D; [&quot;time&quot;, &quot;me&quot;, &quot;bell&quot;]</span><br><span class="line">输出: 10</span><br><span class="line">说明: S &#x3D; &quot;time#bell#&quot; ， indexes &#x3D; [0, 2, 5] 。</span><br></pre></td></tr></table></figure>
+
+
+<p>提示：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1 &lt;&#x3D; words.length &lt;&#x3D; 2000</span><br><span class="line">1 &lt;&#x3D; words[i].length &lt;&#x3D; 7</span><br><span class="line">每个单词都是小写字母 。</span><br></pre></td></tr></table></figure>
+
+
+
+<p>思路：</p>
+<p>首先要先读懂题意，如果是单词之间的覆盖，只能是后缀覆盖，而不能是中间覆盖；其次，不一定是相邻的单词之间会出现覆盖，有可能像<code>[&quot;time&quot;, &quot;me&quot;, &quot;bell&quot;, &quot;atime&quot;]</code>跨着来覆盖。</p>
+<p>所以我们先按单词的长度进行降序排列，这样先将最大的添加到结果字符串中，后续判断较小的单词只需要使用<code>indexOf</code>方法，就能够判断是否在结果字符串中。</p>
+<p>需要注意的是，单词之间的覆盖只能是后缀覆盖，所以使用<code>indexOf</code>判断的时候要加上<code>“#”</code>。</p>
+<p>题解：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;string[]&#125;</span> <span class="variable">words</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> minimumLengthEncoding = <span class="function"><span class="keyword">function</span>(<span class="params">words</span>) </span>&#123;</span><br><span class="line">    words.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> b.length-a.length;</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">var</span> res=<span class="string">""</span>;</span><br><span class="line">    res+=words[<span class="number">0</span>]+<span class="string">"#"</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">1</span>;i&lt;words.length;++i)&#123;</span><br><span class="line">        <span class="comment">//加上#号就控制必须是后缀部分</span></span><br><span class="line">        <span class="keyword">if</span>(res.indexOf(words[i]+<span class="string">"#"</span>)===<span class="number">-1</span>)&#123;</span><br><span class="line">            res+=words[i]+<span class="string">"#"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res.length;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+]]></content>
+      <categories>
+        <category>每日一题</category>
+      </categories>
+      <tags>
+        <tag>每日一题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>每日一题——合并区间</title>
     <url>/2020/03/26/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E5%90%88%E5%B9%B6%E5%8C%BA%E9%97%B4/</url>
     <content><![CDATA[<h2 id="合并区间"><a href="#合并区间" class="headerlink" title="合并区间"></a><a href="https://leetcode-cn.com/problems/merge-intervals/" target="_blank" rel="noopener">合并区间</a></h2><p>给出一个区间的集合，请合并所有重叠的区间。</p>
