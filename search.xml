@@ -1,6 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>乱序数组的三种方法</title>
+    <url>/2020/03/28/%E4%B9%B1%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<p>今天面试的时候被问到实现乱序数组的最简便的方法，自己只知道使用<code>Math.random()</code>和结果数组的笨方法…总结一下。</p>
+<br>
+
+<h2 id="sort-方法"><a href="#sort-方法" class="headerlink" title="sort()方法"></a><code>sort()</code>方法</h2><p>数组的<code>sort()</code>方法是按照<code>return</code>的值的正负来去做排序判定，所以实现的思路可以是使得返回的值随机正负。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">randArr</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> arr.sort(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="built_in">Math</span>.random()<span class="number">-0.5</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Math.random()</code>是生成0.0（包含）~1.0（不包含）之间的随机数。</p>
+<p>但这么做是一个伪排序。参考：<a href="https://zhuanlan.zhihu.com/p/33260052" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/33260052</a></p>
+<p>有大神做过测试，进行10000次乱序操作后，<strong>元素大概率停留在自己的初始位置上</strong>。</p>
+<p><img src="/images/loading.png" data-original="./%E4%B9%B1%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E6%B3%95/1.jpg" alt="img"></p>
+<br>
+
+
+
+<h2 id="洗牌算法"><a href="#洗牌算法" class="headerlink" title="洗牌算法"></a>洗牌算法</h2><p>思路是：</p>
+<ul>
+<li>找到数组的最后一个元素</li>
+<li>从数组开头到最后一个元素之间，找到随机的一个数</li>
+<li>交换两个元素的位置</li>
+<li>此时最后一个元素已经是乱序后的结果</li>
+<li>指向最后一个元素的索引前移</li>
+<li>直到指向索引为0</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//洗牌算法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">randArr3</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> length=arr.length;</span><br><span class="line">    <span class="keyword">var</span> r=length;</span><br><span class="line">    <span class="keyword">var</span> rand=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(r)&#123;</span><br><span class="line">        rand=<span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random()*(r--));</span><br><span class="line">        [arr[r],arr[rand]]=[arr[rand],arr[r]];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+
+
+<h2 id="Math-random-结果数组"><a href="#Math-random-结果数组" class="headerlink" title="Math.random()+结果数组"></a><code>Math.random()</code>+结果数组</h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">randArr2</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> res=[];</span><br><span class="line">    <span class="keyword">var</span> len=arr.length;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;len;++i)&#123;</span><br><span class="line">        <span class="keyword">var</span> index=<span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random()*arr.length);</span><br><span class="line">        res.push(arr[index]);</span><br><span class="line">        arr.splice(index,<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>每日一题——单词的压缩编码</title>
     <url>/2020/03/28/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E5%8D%95%E8%AF%8D%E7%9A%84%E5%8E%8B%E7%BC%A9%E7%BC%96%E7%A0%81/</url>
     <content><![CDATA[<h2 id="单词的压缩编码"><a href="#单词的压缩编码" class="headerlink" title="单词的压缩编码"></a><a href="https://leetcode-cn.com/problems/short-encoding-of-words/" target="_blank" rel="noopener">单词的压缩编码</a></h2><p>给定一个单词列表，我们将这个列表编码成一个索引字符串 S 与一个索引列表 A。</p>
