@@ -35,7 +35,7 @@
 
 <p>上述代码实现的就是我们的<code>html</code>文档，使用<code>jsonp</code>方法向<code>http://localhost:3000/say</code>发起请求。当服务器监听到请求之后，将响应的数据放在指定名字的回调函数中传回来，然后调用<code>callback</code>回调函数执行<code>resolve(data)</code>。因为<code>jsonp</code>函数返回的是一个<code>Promise</code>对象，所以之后可以调用<code>.then</code>执行后续的<code>console.log</code>操作。</p>
 <p>结果：</p>
-
+<img src="/images/loading.png" data-original="/2020/03/29/%E4%BD%BF%E7%94%A8JSONP%E5%AE%9E%E7%8E%B0%E8%B7%A8%E5%9F%9F/2.png" class>
 
 <br>
 
@@ -47,7 +47,7 @@
 
 
 <p>就会报跨域的错误：</p>
-]]></content>
+<img src="/images/loading.png" data-original="/2020/03/29/%E4%BD%BF%E7%94%A8JSONP%E5%AE%9E%E7%8E%B0%E8%B7%A8%E5%9F%9F/1.png" class>]]></content>
       <categories>
         <category>浏览器</category>
       </categories>
