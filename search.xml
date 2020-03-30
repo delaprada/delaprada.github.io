@@ -67,8 +67,7 @@
 <p><code>Math.random()</code>是生成0.0（包含）~1.0（不包含）之间的随机数。</p>
 <p>但这么做是一个伪排序。参考：<a href="https://zhuanlan.zhihu.com/p/33260052" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/33260052</a></p>
 <p>有大神做过测试，进行10000次乱序操作后，<strong>元素大概率停留在自己的初始位置上</strong>。</p>
-<img src="/images/loading.png" data-original="/2020/03/28/%E4%B9%B1%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E6%B3%95/1.jpg" class>
-
+<p><img src="/images/loading.png" data-original="http://q7zfh0r3l.bkt.clouddn.com/blog/20200330/riRRTr2KjVrB.jpg?imageslim" alt="mark"></p>
 <br>
 
 
