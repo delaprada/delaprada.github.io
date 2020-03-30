@@ -22,7 +22,7 @@
 </ul>
 <p>这就是<code>JSONP</code>的来源</p>
 </blockquote>
-<h2 id="JSONP实现跨域"><a href="#JSONP实现跨域" class="headerlink" title="JSONP实现跨域"></a><code>JSONP</code>实现跨域</h2><p>基本思想：网页通过添加一个<script>元素（因为<code>src</code>属性），向服务器请求<code>json</code>数据，这种做法不受同源策略限制；服务器收到请求后，将数据放在一个指定名字的回调函数里传回来。但只支持<code>GET</code>请求。</p>
+<h2 id="JSONP实现跨域"><a href="#JSONP实现跨域" class="headerlink" title="JSONP实现跨域"></a><code>JSONP</code>实现跨域</h2><p>基本思想：网页通过添加一个<code>&lt;script&gt;</code>元素（因为<code>src</code>属性），向服务器请求<code>json</code>数据，这种做法不受同源策略限制；服务器收到请求后，将数据放在一个指定名字的回调函数里传回来。但只支持<code>GET</code>请求。</p>
 <p>实践代码：</p>
 <p>创建一个<code>JSONP</code>文件夹，在其中添加<code>template.html</code>以及<code>server.js</code>。</p>
 <p><code>template.html</code></p>
@@ -47,7 +47,7 @@
 
 
 <p>就会报跨域的错误：</p>
-</script></p>]]></content>
+]]></content>
       <categories>
         <category>浏览器</category>
       </categories>
