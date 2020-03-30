@@ -35,7 +35,7 @@
 
 <p>上述代码实现的就是我们的<code>html</code>文档，使用<code>jsonp</code>方法向<code>http://localhost:3000/say</code>发起请求。当服务器监听到请求之后，将响应的数据放在指定名字的回调函数中传回来，然后调用<code>callback</code>回调函数执行<code>resolve(data)</code>。因为<code>jsonp</code>函数返回的是一个<code>Promise</code>对象，所以之后可以调用<code>.then</code>执行后续的<code>console.log</code>操作。</p>
 <p>结果：</p>
-<p><img src="/images/loading.png" data-original="http://q7zfh0r3l.bkt.clouddn.com/1.png" alt="img"></p>
+<p><img src="/images/loading.png" data-original="http://q7zfh0r3l.bkt.clouddn.com/2.png" alt="img"></p>
 <br>
 
 
@@ -46,7 +46,8 @@
 
 
 <p>就会报跨域的错误：</p>
-<img src="/images/loading.png" data-original="/2020/03/29/%E4%BD%BF%E7%94%A8JSONP%E5%AE%9E%E7%8E%B0%E8%B7%A8%E5%9F%9F/1.png" class>]]></content>
+<p><img src="/images/loading.png" data-original="http://q7zfh0r3l.bkt.clouddn.com/1.png" alt="img"></p>
+]]></content>
       <categories>
         <category>浏览器</category>
       </categories>
@@ -344,8 +345,7 @@
 
 
 
-<img src="/images/loading.png" data-original="/2020/03/21/%E8%AE%BE%E7%BD%AEdisplay-none%E5%AF%B9DOM%E6%A0%91%E5%92%8C%E6%B8%B2%E6%9F%93%E6%A0%91%E7%9A%84%E5%BD%B1%E5%93%8D/1.png" class>
-
+<p><img src="/images/loading.png" data-original="http://q7zfh0r3l.bkt.clouddn.com/blog/20200330/xAEupl9vw42t.png?imageslim" alt="mark"></p>
 <br>
 
 <h2 id="设置display-none对渲染树的影响"><a href="#设置display-none对渲染树的影响" class="headerlink" title="设置display:none对渲染树的影响"></a>设置<code>display:none</code>对渲染树的影响</h2><p>在原本的<code>style</code>中添加上<code>display:none</code>：</p>
