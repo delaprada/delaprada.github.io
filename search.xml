@@ -30,7 +30,7 @@
 
 
 
-<p>现在ul只是一个 JavaScript 对象表示的 DOM 结构，页面上并没有这个结构。我们可以根据这个ul构建真正的<ul>：</ul></p>
+<p>现在ul只是一个 JavaScript 对象表示的 DOM 结构，页面上并没有这个结构。我们可以根据这个ul构建真正的<code>&lt;ul&gt;</code>：</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line">Element.prototype.render = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> el = <span class="built_in">document</span>.createElement(<span class="keyword">this</span>.tagName) <span class="comment">// 根据tagName构建</span></span><br><span class="line">  <span class="keyword">var</span> props = <span class="keyword">this</span>.props</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> propName <span class="keyword">in</span> props) &#123; <span class="comment">// 设置节点的DOM属性</span></span><br><span class="line">    <span class="keyword">var</span> propValue = props[propName]</span><br><span class="line">    el.setAttribute(propName, propValue)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> children = <span class="keyword">this</span>.children || []</span><br><span class="line"></span><br><span class="line">  children.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">child</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> childEl = (child <span class="keyword">instanceof</span> Element)</span><br><span class="line">      ? child.render() <span class="comment">// 如果子节点也是虚拟DOM，递归构建DOM节点</span></span><br><span class="line">      : <span class="built_in">document</span>.createTextNode(child) <span class="comment">// 如果字符串，只构建文本节点</span></span><br><span class="line">    el.appendChild(childEl)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> el</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
@@ -40,7 +40,7 @@
 
 
 
-<p>上面的ulRoot是真正的DOM节点，把它塞入文档中，这样body里面就有了真正的<ul>的DOM结构：</ul></p>
+<p>上面的ulRoot是真正的DOM节点，把它塞入文档中，这样body里面就有了真正的<code>&lt;ul&gt;</code>的DOM结构：</p>
 <figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">id</span>=<span class="string">'list'</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">'item'</span>&gt;</span>Item 1<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">'item'</span>&gt;</span>Item 2<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">'item'</span>&gt;</span>Item 3<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 
