@@ -121,8 +121,10 @@
 
 <p>即：使用get向<code>/post</code>发起http请求时，执行<code>entries.form</code>回调函数。使用post向<code>/post</code>发起http请求时，执行<code>entries.submit</code>回调。</p>
 <hr>
+这个`entries`是从`routes`中导入的模块。看一下定义：
 
-<p>这个<code>entries</code>是从<code>routes</code>中导入的模块。看一下定义：</p>
+</li>
+</ol>
 <p>表单模块部分：</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//routes/entries.js</span></span><br><span class="line">exports.form = <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.render(<span class="string">'post'</span>, &#123; <span class="attr">title</span>: <span class="string">'Post'</span> &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
@@ -136,7 +138,8 @@
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.use(bodyParser.urlencoded(&#123; <span class="attr">extended</span>: <span class="literal">true</span> &#125;));</span><br></pre></td></tr></table></figure>
 
 <hr>
-</li>
+
+<ol start="3">
 <li><p>实现消息提交功能</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//将代码添加到文件routes/entries.js中，实现用表单提交上来的数据创建消息</span></span><br><span class="line">exports.submit = <span class="function">(<span class="params">req, res, next</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> data = req.body.entry;</span><br><span class="line">  <span class="keyword">const</span> user = res.locals.user;</span><br><span class="line">  <span class="keyword">const</span> username = user ? user.name : <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">const</span> entry = <span class="keyword">new</span> Entry(&#123;</span><br><span class="line">    username: username,</span><br><span class="line">    title: data.title,</span><br><span class="line">    body: data.body</span><br><span class="line">  &#125;);</span><br><span class="line">  entry.save(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) <span class="keyword">return</span> next(err);</span><br><span class="line">    res.redirect(<span class="string">'/'</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
@@ -174,12 +177,11 @@
 <p>在<code>terminal</code>中运行<code>npm start</code>，访问<code>http://localhost:3000/post</code></p>
 <p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200405153923.png" alt></p>
 <p>点击post后跳转到首页：</p>
-<p><img src="/images/loading.png" data-original="C:%5CUsers%5Calice%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200405153955456.png" alt="image-20200405153955456"></p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/image-20200405153955456.png" alt></p>
 </li>
 </ol>
 <p>完成。</p>
-<p>​    </p>
-]]></content>
+<br>]]></content>
       <categories>
         <category>Node.js</category>
       </categories>
