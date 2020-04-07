@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Node.js——Express和koa框架对比</title>
+    <url>/2020/04/07/Node-js%E2%80%94%E2%80%94Express%E5%92%8Ckoa%E6%A1%86%E6%9E%B6%E5%AF%B9%E6%AF%94/</url>
+    <content><![CDATA[<blockquote>
+<p>此文参考：阿里技术协会《Node.js框架之<code>express</code>与<code>koa</code>对比分析》</p>
+<p><a href="https://yq.aliyun.com/articles/3062" target="_blank" rel="noopener">https://yq.aliyun.com/articles/3062</a></p>
+</blockquote>
+<img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407113616.png" style="zoom: 200%;">
+
+]]></content>
+      <categories>
+        <category>Node.js</category>
+      </categories>
+      <tags>
+        <tag>Node.js</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Node——事件循环</title>
     <url>/2020/04/07/Node%E2%80%94%E2%80%94%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/</url>
     <content><![CDATA[<h2 id="异步IO"><a href="#异步IO" class="headerlink" title="异步IO"></a>异步IO</h2><p>异步IO是指操作系统提供的IO（数据进出）能力，比如键盘输入，对应到显示器上会有专门的数据输出接口，这就是我们生活中可见的IO能力；这个接口在向下会进入到操作系统这个层面，在操作系统中，会提供诸多的能力，比如：磁盘的读写，DNS的查询，数据库的连接啊，网络请求的处理，等等。</p>
