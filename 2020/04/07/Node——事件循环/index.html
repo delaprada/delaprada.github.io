@@ -1,4 +1,1023 @@
-<!DOCTYPE html><html class="theme-next mist use-motion" lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><meta name="theme-color" content="#222"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"><link href="https://fonts.loli.net/css?family=Modern Antiqua:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css"><link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css"><link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4"><link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222"><meta name="keywords" content="Node.js,"><meta name="description" content="异步IO异步IO是指操作系统提供的IO（数据进出）能力，比如键盘输入，对应到显示器上会有专门的数据输出接口，这就是我们生活中可见的IO能力；这个接口在向下会进入到操作系统这个层面，在操作系统中，会提供诸多的能力，比如：磁盘的读写，DNS的查询，数据库的连接啊，网络请求的处理，等等。 在不同的操作系统层面，表现的不一致。有的是异步非阻塞的；有的是同步的阻塞的，无论如何，我们都可以看做是上层应用于下层"><meta property="og:type" content="article"><meta property="og:title" content="Node——事件循环"><meta property="og:url" content="http://delaprada.com/2020/04/07/Node%E2%80%94%E2%80%94%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/index.html"><meta property="og:site_name" content="Alice&#39;s  wonderland"><meta property="og:description" content="异步IO异步IO是指操作系统提供的IO（数据进出）能力，比如键盘输入，对应到显示器上会有专门的数据输出接口，这就是我们生活中可见的IO能力；这个接口在向下会进入到操作系统这个层面，在操作系统中，会提供诸多的能力，比如：磁盘的读写，DNS的查询，数据库的连接啊，网络请求的处理，等等。 在不同的操作系统层面，表现的不一致。有的是异步非阻塞的；有的是同步的阻塞的，无论如何，我们都可以看做是上层应用于下层"><meta property="og:image" content="http://delaprada.com/images/loading.png"><meta property="og:image" content="http://delaprada.com/images/loading.png"><meta property="og:image" content="http://delaprada.com/images/loading.png"><meta property="og:image" content="http://delaprada.com/images/loading.png"><meta property="og:image" content="http://delaprada.com/images/loading.png"><meta property="og:image" content="http://delaprada.com/images/loading.png"><meta property="og:image" content="http://delaprada.com/images/loading.png"><meta property="article:published_time" content="2020-04-07T00:51:23.000Z"><meta property="article:modified_time" content="2020-04-07T02:23:07.020Z"><meta property="article:author" content="Alice"><meta property="article:tag" content="Node.js"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="http://delaprada.com/images/loading.png"><script type="text/javascript" id="hexo.configurations">var NexT=window.NexT||{},CONFIG={root:"/",scheme:"Mist",version:"5.1.4",sidebar:{position:"left",display:"post",offset:12,b2t:!1,scrollpercent:!1,onmobile:!0},fancybox:!0,tabs:!0,motion:{enable:!0,async:!1,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},duoshuo:{userId:"0",author:"博主"},algolia:{applicationID:"",apiKey:"",indexName:"",hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}}}</script><link rel="canonical" href="http://delaprada.com/2020/04/07/Node——事件循环/"><title>Node——事件循环 | Alice's wonderland</title><meta name="generator" content="Hexo 4.2.0"></head><body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans"><div class="container sidebar-position-left page-post-detail"><div class="headband"></div><header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-wrapper"><div class="site-meta"><div class="custom-logo-site-title"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span> <span class="site-title">Alice's wonderland</span><span class="logo-line-after"><i></i></span></a></div><p class="site-subtitle"></p></div><div class="site-nav-toggle"> <button><span class="btn-bar"></span><span class="btn-bar"></span><span class="btn-bar"></span></button></div></div><nav class="site-nav"><ul id="menu" class="menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i><br> 首页</a></li><li class="menu-item menu-item-tags"><a href="/tags" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i><br> 标签</a></li><li class="menu-item menu-item-categories"><a href="/categories" rel="section"><i class="menu-item-icon fa fa-fw fa-question-circle"></i><br> 分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br> 归档</a></li><li class="menu-item menu-item-search"><a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i><br> 搜索</a></li></ul><div class="site-search"><div class="popup search-popup local-search-popup"><div class="local-search-header clearfix"><span class="search-icon"><i class="fa fa-search"></i></span><span class="popup-btn-close"><i class="fa fa-times-circle"></i></span><div class="local-search-input-wrapper"> <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input"></div></div><div id="local-search-result"></div></div></div></nav></div></header><main id="main" class="main"><div class="main-inner"><div class="content-wrap"><div id="content" class="content"><div id="posts" class="posts-expand"><article class="post post-type-normal" itemscope itemtype="http://schema.org/Article"><div class="post-block"><link itemprop="mainEntityOfPage" href="http://delaprada.com/2020/04/07/Node%E2%80%94%E2%80%94%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="name" content="Alice"><meta itemprop="description" content=""><meta itemprop="image" content="/images/avatar.jpg"></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="Alice's  wonderland"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">Node——事件循环</h1><div class="post-meta"><span class="post-time"><span class="post-meta-item-icon"><i class="fa fa-calendar-o"></i></span> <span class="post-meta-item-text">发表于</span> <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-07T08:51:23+08:00">2020-04-07</time></span> <span class="post-category"><span class="post-meta-divider">|</span><span class="post-meta-item-icon"><i class="fa fa-folder-o"></i></span> <span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Node-js/" itemprop="url" rel="index"><span itemprop="name">Node.js</span></a></span></span> <span class="post-meta-divider">|</span><span class="page-pv"><i class="fa fa-file-o"></i> &nbsp;本文总阅读量<span class="busuanzi-value" id="busuanzi_value_page_pv"></span> 次</span><div class="post-wordcount"><span class="post-meta-item-icon"><i class="fa fa-file-word-o"></i></span> <span class="post-meta-item-text">字数统计&#58;</span> <span title="字数统计">2.3k 字</span> <span class="post-meta-divider">|</span><span class="post-meta-item-icon"><i class="fa fa-clock-o"></i></span> <span class="post-meta-item-text">阅读时长 &asymp;</span> <span title="阅读时长">8 分钟</span></div></div></header><div class="post-body" itemprop="articleBody"><h2 id="异步IO"><a href="#异步IO" class="headerlink" title="异步IO"></a>异步IO</h2><p>异步IO是指操作系统提供的IO（数据进出）能力，比如键盘输入，对应到显示器上会有专门的数据输出接口，这就是我们生活中可见的IO能力；这个接口在向下会进入到操作系统这个层面，在操作系统中，会提供诸多的能力，比如：磁盘的读写，DNS的查询，数据库的连接啊，网络请求的处理，等等。</p><p>在不同的操作系统层面，表现的不一致。有的是异步非阻塞的；有的是同步的阻塞的，无论如何，我们都可以看做是上层应用于下层系统之间的数据交互；上层依赖于下层，但是反过来，上层也可以对下层提供的这些能力进行改造。<strong>如果这种操作是异步的，非阻塞的，那么这种就是异步非阻塞的异步IO模型</strong>；<strong>如果是同步的阻塞的，那么就是同步IO模型</strong>。</p><p><code>koa</code>就是一个上层的web服务框架，全部由JavaScript实现，他有操作系统之间的交互，全部通过<code>nodejs</code>来实现；如<code>nodejs</code>的 <code>readFile</code>就是一个异步非阻塞的接口，<code>readFileSync</code>就是一个同步阻塞接口。</p><br><h2 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h2><p>事件循环是指<code>Node.js</code>执行非阻塞I/O操作，尽管JavaScript是单线程的,但由于大多数内核都是多线程的，node.js会尽可能将操作装载到系统内核。因此它们可以处理在后台执行的多个操作。当其中一个操作完成时，内核会告诉Node.js，以便node.js可以将相应的回调添加到轮询队列中以最终执行。</p><p><code>Node.js</code>是单线程执行的，同时它又是基于<strong>事件驱动</strong>和<strong>非阻塞IO</strong>编程模型。这就使得我们不用等待异步操作结果返回，就可以继续往下执行代码。当异步事件触发之后，就会通知主线程，主线程执行相应事件的回调。</p><br><h2 id="Node-js架构分析"><a href="#Node-js架构分析" class="headerlink" title="Node.js架构分析"></a>Node.js架构分析</h2><p>说道 Nodejs 架构, 首先要知道<code>Nodejs</code> 与 <code>V8</code> 和 <code>libUV</code> 的关系和作用:</p><ul><li><strong>V8:</strong> 执行 JS 的引擎. 也就是翻译 JS. 包括我们熟悉的编译优化, 垃圾回收等等.</li><li><strong><code>libUV</code>:</strong> 提供 <code>async I/O</code>, 提供消息循环. 可见, 是操作系统 API 层的一个抽象层.</li></ul><blockquote><p>JavaScript引擎是一种专门处理JavaScript脚本的虚拟机，一般会附带在网页浏览器中。</p><p>V8：是Google开发的JavaScript引擎，用于Google Chrome和Chromium。V8能够即时编译JavaScript，使得JavaScript代码能够高效运行。</p><p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092819.png" alt></p><p>以往我们在执行c++的时候，会先进行编译工作，变为可执行文件后，再执行这个可执行文件。这个编译工作是由编译器完成的。</p><p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092540.png" alt></p><p>解释器就提供了一种边编译边运行的动态运行方法，而也正因为通过解释器运行的代码是边编译边运行的，所以运行的速度比静态编译的那种慢很多。</p><p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092653.png" alt></p><p>所以程序运行的方式分为<strong>静态编译</strong>和<strong>动态编译</strong>。</p></blockquote><p>回到<code>Node.js</code>架构，<code>Node.js</code>如何组织它们呢？</p><p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092915.png" alt></p><p><code>Node.js</code>通过一层C++ Binding，把JavaScript传给V8，V8解析后交给<code>libUV</code>发起异步IO，并等待消息循环调度。所以，<code>Node.js</code>实现异步机制的核心便是<code>libUV</code>。</p><p><code>Node.js</code>启动过程可以分为以下步骤：</p><p>1、调用platformInit方法 ，初始化 nodejs 的运行环境。</p><p>2、调用 performance_node_start 方法，对 nodejs 进行性能统计。</p><p>3、openssl设置的判断。</p><p>4、调用v8_platform.Initialize，初始化 libuv 线程池。</p><p>5、调用 V8::Initialize，初始化 V8 环境。</p><p>6、创建一个nodejs运行实例。</p><p>7、启动上一步创建好的实例。</p><p>8、开始执行js文件，同步代码执行完毕后，进入事件循环。</p><p>9、在没有任何可监听的事件时，销毁 nodejs 实例，程序执行完毕。</p><p>以上是<code>Node.js</code>执行一个<code>JavaScript</code>文件的全过程，事件循环是在第八个步骤中。</p><p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407093630.png" alt></p><p>Nodejs 完全是单线程的. 从进程启动后, 由主线程加载我们的 js 文件(下图中 main.js), 然后进入消息循环. 可见对于 js 程序而言, 完整运行在单线程之中。</p><p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407093708.png" alt></p><h2 id="事件循环-1"><a href="#事件循环-1" class="headerlink" title="事件循环"></a>事件循环</h2><p><code>Node.js</code>中事件循环分为6个阶段：</p><ul><li><code>timers</code>：执行<code>setTimeout()</code> 和 <code>setInterval()</code>中到期的回调。</li><li><code>I/O callbacks</code>：上一轮循环中有少数的<code>I/Ocallback</code>会被延迟到这一轮的这一阶段执行</li><li><code>idle, prepare</code>：仅内部使用</li><li><code>poll</code>：最为重要的阶段，执行I/O 回调，在适当的条件下会阻塞在这个阶段</li><li><code>check</code>：执行<code>setImmediate</code>的回调</li><li><code>close callbacks</code>：执行close事件的回调，例如<code>socket.on(&quot;close&quot;,func)</code></li></ul><blockquote><p>重点关注<code>timers</code>、<code>poll</code>、<code>check</code>三个阶段</p></blockquote> <img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407093930.png" style="zoom:50%"><h3 id="步骤："><a href="#步骤：" class="headerlink" title="步骤："></a>步骤：</h3><ul><li><p><code>node</code>的初始化</p><ul><li>初始化node环境</li><li>执行同步任务（例如<code>console.log</code>）</li><li>执行<code>process.nextTick</code>回调</li><li>执行<code>microtasks</code>（<code>Promise.then</code>）</li></ul></li><li><p>进入<code>event-loop</code></p><ol><li><p>进入<code>timers</code>阶段</p><ul><li>检查timer队列是否有到期的timer回调，如果有，将到期的timer回调按照<code>timerID</code>升序执行</li><li>检查是否有<code>process.nextTick</code>任务，如果有，全部执行</li><li>检查是否有<code>microtask</code>，如果有，全部执行</li><li>退出该阶段</li></ul></li><li><p>进入<code>IO callback</code>阶段</p><ul><li>检查是否有 pending 的 I/O 回调。如果有，执行回调。如果没有，退出该阶段。</li><li>检查是否有 <code>process.nextTick</code> 任务，如果有，全部执行。</li><li>检查是否有microtask，如果有，全部执行。</li><li>退出该阶段。</li></ul></li><li><p>进入<code>idle</code>、<code>prepare</code>阶段：</p><p>这两个阶段与我们编程关系不大，暂且按下不表。</p></li><li><p>进入<code>poll</code>阶段</p><p>首先检查是否存在尚未完成的回调，如果存在，分两种情况：</p><ul><li><p>如果有可用回调（可用回调包含：<strong>到期的定时器</strong>、一些<strong>IO事件</strong>等），执行所有可用回调。</p><ul><li><p>检查是否有<code>process.nextTick</code>回调，如果有，全部执行</p></li><li><p>检查是否有 <code>microtaks</code>，如果有，全部执行。</p></li><li><p>退出该阶段。</p></li></ul></li><li><p>如果没有可用回调</p><ul><li>检查是否有<code>setImmediate</code>回调，如果有，退出<code>poll</code>阶段。如果没有，阻塞在此阶段，等待新的事件通知。</li><li>如果不存在尚未完成的回调，退出<code>poll</code>。</li></ul></li></ul></li><li><p>进入<code>check</code>阶段</p><ul><li>如果有immediate回调，则执行所有immediate回调。</li><li>检查是否有 process.nextTick 回调，如果有，全部执行。</li><li>检查是否有 microtaks，如果有，全部执行。</li><li>退出 check 阶段</li></ul></li><li><p>进入<code>closing</code>阶段</p><ul><li>如果有immediate回调，则执行所有immediate回调。</li><li>检查是否有 process.nextTick 回调，如果有，全部执行。</li><li>检查是否有 microtaks，如果有，全部执行。</li><li>退出 closing 阶段</li></ul></li></ol></li></ul><blockquote><p>在事件循环的每个子阶段退出之前都会按顺序执行如下过程：</p><ul><li>检查是否有 process.nextTick 回调，如果有，全部执行。</li><li>检查是否有 microtaks，如果有，全部执行。</li><li>退出当前阶段。</li></ul></blockquote><h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="process-nextTick和Promise"><a href="#process-nextTick和Promise" class="headerlink" title="process.nextTick和Promise"></a><code>process.nextTick</code>和<code>Promise</code></h3><p>这个队列先保证所有的 <code>process.nextTick</code> 回调, 然后将所有的 <code>Promise</code> 回调追加在后面. 最终在每个 Phase 结束的时候一次性拿出来执行。</p><h3 id="setTimeout-0-vs-setImmediate-到底谁快"><a href="#setTimeout-0-vs-setImmediate-到底谁快" class="headerlink" title="setTimeout(..., 0)vs. setImmediate 到底谁快?"></a><code>setTimeout(..., 0)</code>vs. <code>setImmediate</code> 到底谁快?</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// index.js</span></span><br><span class="line"></span><br><span class="line">setImmediate(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="number">2</span>))</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="number">1</span>),<span class="number">0</span>)</span><br></pre></td></tr></table></figure><p>答案：可能是1 2，也可能是2 1。</p><p>首先我们在初始化阶段会将<code>setImmediate</code>添加到<code>check phase</code>中，将<code>setTimeout</code>添加到<code>timer phase</code>中。</p><ul><li>如果进入<code>timer phase</code>的时间 &gt; 消息循环保存的时间（即将以上两个回调添加到它们各自的<code>phase</code>的时间）<ul><li>那在进入<code>timer phase</code>的时候<code>setTimeout</code>的回调已经在里面了，就可以立即执行，然后到<code>check phase</code>的时候再执行<code>setImmediate</code>的回调。此时输出1 2。</li></ul></li><li>如果进入<code>timer phase</code>的时间 &lt; 消息循环保存的时间（即将以上两个回调添加到它们各自的<code>phase</code>的时间）<ul><li>那在进入<code>timer phase</code>的时候<code>setTimeout</code>的回调还不在里面，那就会先执行<code>check phase</code>中的<code>setImmediate</code>，然后在下一轮循环中再执行<code>timer phase</code>中的<code>setTimeout</code>。此时输出2 1。</li></ul></li></ul><p>如果把代码改为如下，则一定会得到稳定输出：</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">'fs'</span>).readFile(<span class="string">'my-file-path.txt'</span>, () =&gt; &#123;</span><br><span class="line"> setImmediate(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="number">2</span>))</span><br><span class="line"> setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="number">1</span>))</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 2 1</span></span><br></pre></td></tr></table></figure><p>因为消息在<code>poll phase</code>才会将<code>setImmediate</code>进入<code>check phase</code>，将<code>setTimeout</code>进入<code>timer phase</code>，那<code>poll</code>阶段后就回到<code>check</code>阶段，所以会输出2 1。</p><h3 id="判断输出顺序"><a href="#判断输出顺序" class="headerlink" title="判断输出顺序"></a>判断输出顺序</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">setImmediate(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'setImmediate1'</span>);</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'setTimeout1'</span>)</span><br><span class="line">    &#125;, <span class="number">0</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'then'</span>);</span><br><span class="line">&#125;)</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    process.nextTick(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'nextTick'</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'setTimeout2'</span>);</span><br><span class="line">    setImmediate(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'setImmediate2'</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"><span class="comment">//then setTimeout2  nextTick  setImmediate1 setImmediate2 setTimeout1</span></span><br></pre></td></tr></table></figure><p><code>step1</code>：初始化阶段</p><ul><li><code>setImmediate</code>进入<code>check phase</code>、<code>Promise.resolve().then</code>进入微任务<code>event queue</code>、<code>setTimeout</code>进入<code>timer phase</code>。</li><li>没有<code>process.nextTick</code></li><li>执行<code>microtask</code>，输出<code>then</code></li><li>结束该阶段</li></ul><p><code>step2</code>：进入<code>Timer phase</code>（或者<code>poll phase</code>？）</p><ul><li>执行<code>setTimeout</code></li><li>执行<code>console.log(&#39;setTimeout2&#39;)</code>，输出<code>setTimeout2</code></li><li><code>setImmediate</code>进入<code>check phase</code></li><li>有<code>process.nextTick</code>，输出<code>nextTick</code></li></ul><p><code>step3</code>：进入<code>check phase</code></p><ul><li>执行第一个<code>setImmediate</code>，输出<code>setImmediate1</code>，将<code>setTimeout</code>进入<code>Timer phase</code></li><li>执行第二个<code>setImmediate</code>，输出<code>setImmediate2</code></li></ul><p><code>step4</code>：下一个循环，进入<code>Timer phase</code></p><ul><li>执行<code>setTimeout</code>，输出<code>setTimeout1</code></li></ul><br><p>参考：</p><p><a href="https://juejin.im/post/5b61d8e3e51d45191d7a28a8" target="_blank" rel="noopener">https://juejin.im/post/5b61d8e3e51d45191d7a28a8</a></p><p><a href="https://www.jianshu.com/p/906eafb41ea6" target="_blank" rel="noopener">https://www.jianshu.com/p/906eafb41ea6</a></p><br></div><div><div><div style="text-align:center;color:#ccc;font-size:15px">-------本&nbsp;文&nbsp;结&nbsp;束&nbsp;&nbsp;<i class="fa fa-heart" aria-hidden="true"></i>&nbsp;&nbsp;感&nbsp;谢&nbsp;您&nbsp;的&nbsp;阅&nbsp;读-------</div></div></div><footer class="post-footer"><div class="post-tags"><a href="/tags/Node-js/" rel="tag"><i class="fa fa-tag"></i> Node.js</a></div><div class="post-nav"><div class="post-nav-next post-nav-item"><a href="/2020/04/06/Vue%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%A6%82%E4%BD%95%E7%94%A8Node%E4%BD%9C%E5%90%8E%E7%AB%AF%E4%BB%A3%E7%90%86%E8%8E%B7%E5%8F%96%E6%8E%A5%E5%8F%A3%E6%95%B0%E6%8D%AE/" rel="next" title="Vue项目中如何用Node作后端代理获取接口数据"><i class="fa fa-chevron-left"></i> Vue项目中如何用Node作后端代理获取接口数据</a></div><span class="post-nav-divider"></span><div class="post-nav-prev post-nav-item"> <a href="/2020/04/07/Node-js%E2%80%94%E2%80%94Express%E5%92%8Ckoa%E6%A1%86%E6%9E%B6%E5%AF%B9%E6%AF%94/" rel="prev" title="Node.js——Express和koa框架对比">Node.js——Express和koa框架对比<i class="fa fa-chevron-right"></i></a></div></div></footer></div></article><div class="post-spread"></div></div></div><div id="gitalk-container"></div></div><div class="sidebar-toggle"><div class="sidebar-toggle-line-wrap"><span class="sidebar-toggle-line sidebar-toggle-line-first"></span><span class="sidebar-toggle-line sidebar-toggle-line-middle"></span><span class="sidebar-toggle-line sidebar-toggle-line-last"></span></div></div><aside id="sidebar" class="sidebar"><div id="sidebar-dimmer"></div><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap"> 文章目录</li><li class="sidebar-nav-overview" data-target="site-overview-wrap"> 站点概览</li></ul><section class="site-overview-wrap sidebar-panel"><div class="site-overview"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"> <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Alice"><p class="site-author-name" itemprop="name">Alice</p><p class="site-description motion-element" itemprop="description">Goals determine what you going to be!</p></div><nav class="site-state motion-element"><div class="site-state-item site-state-posts"> <a href="/archives/%7C%7C%20archive"><span class="site-state-item-count">46</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"> <a href="/categories/index.html"><span class="site-state-item-count">10</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"> <a href="/tags/index.html"><span class="site-state-item-count">10</span> <span class="site-state-item-name">标签</span></a></div></nav><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/delaprada" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i> GitHub</a></span><span class="links-of-author-item"><a href="https://blog.csdn.net/weixin_41973410" target="_blank" title="CSDN"><i class="fa fa-fw fa-copyright"></i> CSDN</a></span></div><div class="links-of-blogroll motion-element links-of-blogroll-block"><div class="links-of-blogroll-title"><i class="fa fa-fw fa-book"></i> 推荐阅读</div><ul class="links-of-blogroll-list"><li class="links-of-blogroll-item"> <a href="https://io-oi.me/tech/hexo-next-optimization/#%E5%BF%85%E8%AF%BB-%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2" title="Hexo深度优化" target="_blank">Hexo深度优化</a></li><li class="links-of-blogroll-item"> <a href="https://diygod.me" title="diygod" target="_blank">diygod</a></li><li class="links-of-blogroll-item"> <a href="http://zhangwenli.com/blog" title="羡辙" target="_blank">羡辙</a></li></ul></div></div></section><section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active"><div class="post-toc"><div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#异步IO"><span class="nav-number">1.</span> <span class="nav-text">异步IO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件循环"><span class="nav-number">2.</span> <span class="nav-text">事件循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node-js架构分析"><span class="nav-number">3.</span> <span class="nav-text">Node.js架构分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件循环-1"><span class="nav-number">4.</span> <span class="nav-text">事件循环</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#步骤："><span class="nav-number">4.1.</span> <span class="nav-text">步骤：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见问题"><span class="nav-number">5.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#process-nextTick和Promise"><span class="nav-number">5.1.</span> <span class="nav-text">process.nextTick和Promise</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setTimeout-0-vs-setImmediate-到底谁快"><span class="nav-number">5.2.</span> <span class="nav-text">setTimeout(..., 0)vs. setImmediate 到底谁快?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#判断输出顺序"><span class="nav-number">5.3.</span> <span class="nav-text">判断输出顺序</span></a></li></ol></li></ol></div></div></section></div></aside></div></main><footer id="footer" class="footer"><div class="footer-inner"><div class="copyright">&copy; <span itemprop="copyrightYear">2020</span><span class="with-love" id="heart"><i class="fa fa-heart"></i></span> <span class="author" itemprop="copyrightHolder">Alice</span></div><div class="busuanzi-count"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span class="site-uv"><i class="fa fa-user"></i> &nbsp;本站访客数<span class="busuanzi-value" id="busuanzi_value_site_uv"></span> 人次</span></div></div></footer><div class="back-to-top"><i class="fa fa-arrow-up"></i></div></div><script type="text/javascript">"[object Function]"!==Object.prototype.toString.call(window.Promise)&&(window.Promise=null)</script><script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script><script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script><script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script><script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script><script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script><script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script><script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"><script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script><script src="/js/src/md5.min.js"></script><script type="text/javascript">var gitalk=new Gitalk({clientID:"9b4dade3bf26b8fd0713",clientSecret:"43302d4a47ac2c290d0d019c1929032f1f3f8ada",repo:"delaprada.github.io",owner:"delaprada",admin:["delaprada"],id:location.pathname,id:md5(location.pathname),distractionFreeMode:"true"});gitalk.render("gitalk-container")</script><script type="text/javascript">
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+    
+    
+    <link href="https://fonts.loli.net/css?family=Caveat:300,300italic,400,400italic,700,700italicRoboto Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Node.js," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="异步IO异步IO是指操作系统提供的IO（数据进出）能力，比如键盘输入，对应到显示器上会有专门的数据输出接口，这就是我们生活中可见的IO能力；这个接口在向下会进入到操作系统这个层面，在操作系统中，会提供诸多的能力，比如：磁盘的读写，DNS的查询，数据库的连接啊，网络请求的处理，等等。 在不同的操作系统层面，表现的不一致。有的是异步非阻塞的；有的是同步的阻塞的，无论如何，我们都可以看做是上层应用于下层">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node——事件循环">
+<meta property="og:url" content="http://delaprada.com/2020/04/07/Node%E2%80%94%E2%80%94%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/index.html">
+<meta property="og:site_name" content="Alice&#39;s  wonderland">
+<meta property="og:description" content="异步IO异步IO是指操作系统提供的IO（数据进出）能力，比如键盘输入，对应到显示器上会有专门的数据输出接口，这就是我们生活中可见的IO能力；这个接口在向下会进入到操作系统这个层面，在操作系统中，会提供诸多的能力，比如：磁盘的读写，DNS的查询，数据库的连接啊，网络请求的处理，等等。 在不同的操作系统层面，表现的不一致。有的是异步非阻塞的；有的是同步的阻塞的，无论如何，我们都可以看做是上层应用于下层">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="article:published_time" content="2020-04-07T00:51:23.000Z">
+<meta property="article:modified_time" content="2020-04-07T02:23:07.020Z">
+<meta property="article:author" content="Alice">
+<meta property="article:tag" content="Node.js">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://delaprada.com/images/loading.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://delaprada.com/2020/04/07/Node——事件循环/"/>
+
+
+
+
+
+  <title>Node——事件循环 | Alice's  wonderland</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Alice's  wonderland</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://delaprada.com/2020/04/07/Node%E2%80%94%E2%80%94%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alice">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alice's  wonderland">
+    </span>
+
+    
+      <header class="post-header">
+        <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-07T08:51:23+08:00">
+                2020-04-07
+              </time>
+            
+
+            
+
+            
+          </span>
+        
+        
+          <h1 class="post-title" itemprop="name headline">Node——事件循环</h1>
+        
+
+        
+      </header>
+    
+
+    
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="异步IO"><a href="#异步IO" class="headerlink" title="异步IO"></a>异步IO</h2><p>异步IO是指操作系统提供的IO（数据进出）能力，比如键盘输入，对应到显示器上会有专门的数据输出接口，这就是我们生活中可见的IO能力；这个接口在向下会进入到操作系统这个层面，在操作系统中，会提供诸多的能力，比如：磁盘的读写，DNS的查询，数据库的连接啊，网络请求的处理，等等。</p>
+<p>在不同的操作系统层面，表现的不一致。有的是异步非阻塞的；有的是同步的阻塞的，无论如何，我们都可以看做是上层应用于下层系统之间的数据交互；上层依赖于下层，但是反过来，上层也可以对下层提供的这些能力进行改造。<strong>如果这种操作是异步的，非阻塞的，那么这种就是异步非阻塞的异步IO模型</strong>；<strong>如果是同步的阻塞的，那么就是同步IO模型</strong>。</p>
+<p><code>koa</code>就是一个上层的web服务框架，全部由JavaScript实现，他有操作系统之间的交互，全部通过<code>nodejs</code>来实现；如<code>nodejs</code>的 <code>readFile</code>就是一个异步非阻塞的接口，<code>readFileSync</code>就是一个同步阻塞接口。</p>
+<br>
+
+
+
+<h2 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h2><p>事件循环是指<code>Node.js</code>执行非阻塞I/O操作，尽管JavaScript是单线程的,但由于大多数内核都是多线程的，node.js会尽可能将操作装载到系统内核。因此它们可以处理在后台执行的多个操作。当其中一个操作完成时，内核会告诉Node.js，以便node.js可以将相应的回调添加到轮询队列中以最终执行。</p>
+<p><code>Node.js</code>是单线程执行的，同时它又是基于<strong>事件驱动</strong>和<strong>非阻塞IO</strong>编程模型。这就使得我们不用等待异步操作结果返回，就可以继续往下执行代码。当异步事件触发之后，就会通知主线程，主线程执行相应事件的回调。</p>
+<br>
+
+
+
+<h2 id="Node-js架构分析"><a href="#Node-js架构分析" class="headerlink" title="Node.js架构分析"></a>Node.js架构分析</h2><p>说道 Nodejs 架构, 首先要知道<code>Nodejs</code> 与 <code>V8</code> 和 <code>libUV</code> 的关系和作用:</p>
+<ul>
+<li><strong>V8:</strong> 执行 JS 的引擎. 也就是翻译 JS. 包括我们熟悉的编译优化, 垃圾回收等等.</li>
+<li><strong><code>libUV</code>:</strong> 提供 <code>async I/O</code>, 提供消息循环. 可见, 是操作系统 API 层的一个抽象层.</li>
+</ul>
+<blockquote>
+<p>JavaScript引擎是一种专门处理JavaScript脚本的虚拟机，一般会附带在网页浏览器中。</p>
+<p>V8：是Google开发的JavaScript引擎，用于Google Chrome和Chromium。V8能够即时编译JavaScript，使得JavaScript代码能够高效运行。</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092819.png" alt></p>
+<p>以往我们在执行c++的时候，会先进行编译工作，变为可执行文件后，再执行这个可执行文件。这个编译工作是由编译器完成的。</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092540.png" alt></p>
+<p>解释器就提供了一种边编译边运行的动态运行方法，而也正因为通过解释器运行的代码是边编译边运行的，所以运行的速度比静态编译的那种慢很多。</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092653.png" alt></p>
+<p>所以程序运行的方式分为<strong>静态编译</strong>和<strong>动态编译</strong>。</p>
+</blockquote>
+<p>回到<code>Node.js</code>架构，<code>Node.js</code>如何组织它们呢？</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092915.png" alt></p>
+<p><code>Node.js</code>通过一层C++ Binding，把JavaScript传给V8，V8解析后交给<code>libUV</code>发起异步IO，并等待消息循环调度。所以，<code>Node.js</code>实现异步机制的核心便是<code>libUV</code>。</p>
+<p><code>Node.js</code>启动过程可以分为以下步骤：</p>
+<p>1、调用platformInit方法 ，初始化 nodejs 的运行环境。</p>
+<p>2、调用 performance_node_start 方法，对 nodejs 进行性能统计。</p>
+<p>3、openssl设置的判断。</p>
+<p>4、调用v8_platform.Initialize，初始化 libuv 线程池。</p>
+<p>5、调用 V8::Initialize，初始化 V8 环境。</p>
+<p>6、创建一个nodejs运行实例。</p>
+<p>7、启动上一步创建好的实例。</p>
+<p>8、开始执行js文件，同步代码执行完毕后，进入事件循环。</p>
+<p>9、在没有任何可监听的事件时，销毁 nodejs 实例，程序执行完毕。</p>
+<p>以上是<code>Node.js</code>执行一个<code>JavaScript</code>文件的全过程，事件循环是在第八个步骤中。</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407093630.png" alt></p>
+<p>Nodejs 完全是单线程的. 从进程启动后, 由主线程加载我们的 js 文件(下图中 main.js), 然后进入消息循环. 可见对于 js 程序而言, 完整运行在单线程之中。</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407093708.png" alt></p>
+<h2 id="事件循环-1"><a href="#事件循环-1" class="headerlink" title="事件循环"></a>事件循环</h2><p><code>Node.js</code>中事件循环分为6个阶段：</p>
+<ul>
+<li><code>timers</code>：执行<code>setTimeout()</code> 和 <code>setInterval()</code>中到期的回调。</li>
+<li><code>I/O callbacks</code>：上一轮循环中有少数的<code>I/Ocallback</code>会被延迟到这一轮的这一阶段执行</li>
+<li><code>idle, prepare</code>：仅内部使用</li>
+<li><code>poll</code>：最为重要的阶段，执行I/O 回调，在适当的条件下会阻塞在这个阶段</li>
+<li><code>check</code>：执行<code>setImmediate</code>的回调</li>
+<li><code>close callbacks</code>：执行close事件的回调，例如<code>socket.on(&quot;close&quot;,func)</code></li>
+</ul>
+<blockquote>
+<p>重点关注<code>timers</code>、<code>poll</code>、<code>check</code>三个阶段</p>
+</blockquote>
+<img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407093930.png" style="zoom: 50%;">
+
+
+
+<h3 id="步骤："><a href="#步骤：" class="headerlink" title="步骤："></a>步骤：</h3><ul>
+<li><p><code>node</code>的初始化</p>
+<ul>
+<li>初始化node环境</li>
+<li>执行同步任务（例如<code>console.log</code>）</li>
+<li>执行<code>process.nextTick</code>回调</li>
+<li>执行<code>microtasks</code>（<code>Promise.then</code>）</li>
+</ul>
+</li>
+<li><p>进入<code>event-loop</code></p>
+<ol>
+<li><p>进入<code>timers</code>阶段</p>
+<ul>
+<li>检查timer队列是否有到期的timer回调，如果有，将到期的timer回调按照<code>timerID</code>升序执行</li>
+<li>检查是否有<code>process.nextTick</code>任务，如果有，全部执行</li>
+<li>检查是否有<code>microtask</code>，如果有，全部执行</li>
+<li>退出该阶段</li>
+</ul>
+</li>
+<li><p>进入<code>IO callback</code>阶段</p>
+<ul>
+<li>检查是否有 pending 的 I/O 回调。如果有，执行回调。如果没有，退出该阶段。</li>
+<li>检查是否有 <code>process.nextTick</code> 任务，如果有，全部执行。</li>
+<li>检查是否有microtask，如果有，全部执行。</li>
+<li>退出该阶段。</li>
+</ul>
+</li>
+<li><p>进入<code>idle</code>、<code>prepare</code>阶段：</p>
+<p>这两个阶段与我们编程关系不大，暂且按下不表。</p>
+</li>
+<li><p>进入<code>poll</code>阶段</p>
+<p>首先检查是否存在尚未完成的回调，如果存在，分两种情况：</p>
+<ul>
+<li><p>如果有可用回调（可用回调包含：<strong>到期的定时器</strong>、一些<strong>IO事件</strong>等），执行所有可用回调。</p>
+<ul>
+<li><p>检查是否有<code>process.nextTick</code>回调，如果有，全部执行</p>
+</li>
+<li><p>检查是否有 <code>microtaks</code>，如果有，全部执行。</p>
+</li>
+<li><p>退出该阶段。</p>
+</li>
+</ul>
+</li>
+<li><p>如果没有可用回调</p>
+<ul>
+<li>检查是否有<code>setImmediate</code>回调，如果有，退出<code>poll</code>阶段。如果没有，阻塞在此阶段，等待新的事件通知。</li>
+<li>如果不存在尚未完成的回调，退出<code>poll</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>进入<code>check</code>阶段</p>
+<ul>
+<li>如果有immediate回调，则执行所有immediate回调。</li>
+<li>检查是否有 process.nextTick 回调，如果有，全部执行。</li>
+<li>检查是否有 microtaks，如果有，全部执行。</li>
+<li>退出 check 阶段</li>
+</ul>
+</li>
+<li><p>进入<code>closing</code>阶段</p>
+<ul>
+<li>如果有immediate回调，则执行所有immediate回调。</li>
+<li>检查是否有 process.nextTick 回调，如果有，全部执行。</li>
+<li>检查是否有 microtaks，如果有，全部执行。</li>
+<li>退出 closing 阶段</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<blockquote>
+<p>在事件循环的每个子阶段退出之前都会按顺序执行如下过程：</p>
+<ul>
+<li>检查是否有 process.nextTick 回调，如果有，全部执行。</li>
+<li>检查是否有 microtaks，如果有，全部执行。</li>
+<li>退出当前阶段。</li>
+</ul>
+</blockquote>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="process-nextTick和Promise"><a href="#process-nextTick和Promise" class="headerlink" title="process.nextTick和Promise"></a><code>process.nextTick</code>和<code>Promise</code></h3><p>这个队列先保证所有的 <code>process.nextTick</code> 回调, 然后将所有的 <code>Promise</code> 回调追加在后面. 最终在每个 Phase 结束的时候一次性拿出来执行。</p>
+<h3 id="setTimeout-0-vs-setImmediate-到底谁快"><a href="#setTimeout-0-vs-setImmediate-到底谁快" class="headerlink" title="setTimeout(..., 0)vs. setImmediate 到底谁快?"></a><code>setTimeout(..., 0)</code>vs. <code>setImmediate</code> 到底谁快?</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// index.js</span></span><br><span class="line"></span><br><span class="line">setImmediate(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="number">2</span>))</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="number">1</span>),<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>答案：可能是1 2，也可能是2 1。</p>
+<p>首先我们在初始化阶段会将<code>setImmediate</code>添加到<code>check phase</code>中，将<code>setTimeout</code>添加到<code>timer phase</code>中。</p>
+<ul>
+<li>如果进入<code>timer phase</code>的时间 &gt; 消息循环保存的时间（即将以上两个回调添加到它们各自的<code>phase</code>的时间）<ul>
+<li>那在进入<code>timer phase</code>的时候<code>setTimeout</code>的回调已经在里面了，就可以立即执行，然后到<code>check phase</code>的时候再执行<code>setImmediate</code>的回调。此时输出1 2。</li>
+</ul>
+</li>
+<li>如果进入<code>timer phase</code>的时间 &lt; 消息循环保存的时间（即将以上两个回调添加到它们各自的<code>phase</code>的时间）<ul>
+<li>那在进入<code>timer phase</code>的时候<code>setTimeout</code>的回调还不在里面，那就会先执行<code>check phase</code>中的<code>setImmediate</code>，然后在下一轮循环中再执行<code>timer phase</code>中的<code>setTimeout</code>。此时输出2 1。</li>
+</ul>
+</li>
+</ul>
+<p>如果把代码改为如下，则一定会得到稳定输出：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">'fs'</span>).readFile(<span class="string">'my-file-path.txt'</span>, () =&gt; &#123;</span><br><span class="line"> setImmediate(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="number">2</span>))</span><br><span class="line"> setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="number">1</span>))</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 2 1</span></span><br></pre></td></tr></table></figure>
+
+<p>因为消息在<code>poll phase</code>才会将<code>setImmediate</code>进入<code>check phase</code>，将<code>setTimeout</code>进入<code>timer phase</code>，那<code>poll</code>阶段后就回到<code>check</code>阶段，所以会输出2 1。</p>
+<h3 id="判断输出顺序"><a href="#判断输出顺序" class="headerlink" title="判断输出顺序"></a>判断输出顺序</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">setImmediate(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'setImmediate1'</span>);</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'setTimeout1'</span>)</span><br><span class="line">    &#125;, <span class="number">0</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'then'</span>);</span><br><span class="line">&#125;)</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    process.nextTick(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'nextTick'</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'setTimeout2'</span>);</span><br><span class="line">    setImmediate(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'setImmediate2'</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"><span class="comment">//then setTimeout2  nextTick  setImmediate1 setImmediate2 setTimeout1</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>step1</code>：初始化阶段</p>
+<ul>
+<li><code>setImmediate</code>进入<code>check phase</code>、<code>Promise.resolve().then</code>进入微任务<code>event queue</code>、<code>setTimeout</code>进入<code>timer phase</code>。</li>
+<li>没有<code>process.nextTick</code></li>
+<li>执行<code>microtask</code>，输出<code>then</code></li>
+<li>结束该阶段</li>
+</ul>
+<p><code>step2</code>：进入<code>Timer phase</code>（或者<code>poll phase</code>？）</p>
+<ul>
+<li>执行<code>setTimeout</code></li>
+<li>执行<code>console.log(&#39;setTimeout2&#39;)</code>，输出<code>setTimeout2</code></li>
+<li><code>setImmediate</code>进入<code>check phase</code></li>
+<li>有<code>process.nextTick</code>，输出<code>nextTick</code></li>
+</ul>
+<p><code>step3</code>：进入<code>check phase</code></p>
+<ul>
+<li>执行第一个<code>setImmediate</code>，输出<code>setImmediate1</code>，将<code>setTimeout</code>进入<code>Timer phase</code></li>
+<li>执行第二个<code>setImmediate</code>，输出<code>setImmediate2</code></li>
+</ul>
+<p><code>step4</code>：下一个循环，进入<code>Timer phase</code></p>
+<ul>
+<li>执行<code>setTimeout</code>，输出<code>setTimeout1</code></li>
+</ul>
+<br>
+
+<p>参考：</p>
+<p><a href="https://juejin.im/post/5b61d8e3e51d45191d7a28a8" target="_blank" rel="noopener">https://juejin.im/post/5b61d8e3e51d45191d7a28a8</a></p>
+<p><a href="https://www.jianshu.com/p/906eafb41ea6" target="_blank" rel="noopener">https://www.jianshu.com/p/906eafb41ea6</a></p>
+<br>
+
+
+      
+    </div>
+    
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:15px;">-------本&nbsp;文&nbsp;结&nbsp;束&nbsp;&nbsp;<i class="fa fa-heart" aria-hidden="true"></i>&nbsp;&nbsp;感&nbsp;谢&nbsp;您&nbsp;的&nbsp;阅&nbsp;读-------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Node-js/" rel="tag"><i class="fa fa-tag"></i> Node.js</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/06/Vue%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%A6%82%E4%BD%95%E7%94%A8Node%E4%BD%9C%E5%90%8E%E7%AB%AF%E4%BB%A3%E7%90%86%E8%8E%B7%E5%8F%96%E6%8E%A5%E5%8F%A3%E6%95%B0%E6%8D%AE/" rel="next" title="Vue项目中如何用Node作后端代理获取接口数据">
+                <i class="fa fa-chevron-left"></i> Vue项目中如何用Node作后端代理获取接口数据
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/07/Node-js%E2%80%94%E2%80%94Express%E5%92%8Ckoa%E6%A1%86%E6%9E%B6%E5%AF%B9%E6%AF%94/" rel="prev" title="Node.js——Express和koa框架对比">
+                Node.js——Express和koa框架对比 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Alice" />
+            
+              <p class="site-author-name" itemprop="name">Alice</p>
+              <p class="site-description motion-element" itemprop="description">Goals determine what you going to be!</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/delaprada" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://blog.csdn.net/weixin_41973410" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-copyright"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-book"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://io-oi.me/tech/hexo-next-optimization/#%E5%BF%85%E8%AF%BB-%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2" title="Hexo深度优化" target="_blank">Hexo深度优化</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://diygod.me" title="diygod" target="_blank">diygod</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://zhangwenli.com/blog" title="羡辙" target="_blank">羡辙</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#异步IO"><span class="nav-number">1.</span> <span class="nav-text">异步IO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件循环"><span class="nav-number">2.</span> <span class="nav-text">事件循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node-js架构分析"><span class="nav-number">3.</span> <span class="nav-text">Node.js架构分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件循环-1"><span class="nav-number">4.</span> <span class="nav-text">事件循环</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#步骤："><span class="nav-number">4.1.</span> <span class="nav-text">步骤：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见问题"><span class="nav-number">5.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#process-nextTick和Promise"><span class="nav-number">5.1.</span> <span class="nav-text">process.nextTick和Promise</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setTimeout-0-vs-setImmediate-到底谁快"><span class="nav-number">5.2.</span> <span class="nav-text">setTimeout(..., 0)vs. setImmediate 到底谁快?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#判断输出顺序"><span class="nav-number">5.3.</span> <span class="nav-text">判断输出顺序</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="heart">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alice</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>&nbsp;本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="/js/src/md5.min.js"></script>
+  <script type="text/javascript">
+    var gitalk = new Gitalk({
+      clientID: '9b4dade3bf26b8fd0713',
+      clientSecret: '43302d4a47ac2c290d0d019c1929032f1f3f8ada',
+      repo: 'delaprada.github.io',
+      owner: 'delaprada',
+      admin: ['delaprada'],
+      id: location.pathname,
+      id: md5(location.pathname),
+      distractionFreeMode: 'true'
+    })
+    gitalk.render('gitalk-container')
+  </script>
+
+
+  
+
+  <script type="text/javascript">
     // Popup Window;
     var isfetched = false;
     var isXml = true;
@@ -313,4 +1332,36 @@
         onPopupClose();
       }
     });
-  </script><script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/clipboard.min.js"></script><script type="text/javascript" src="/js/src/clipboard-use.js"></script><script type="text/javascript" src="/js/src/clicklove.js"></script><script>!function(e){var c=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){for(var r=0;r<c.length;r++)0<=(t=c[r].getBoundingClientRect()).top&&0<=t.left&&t.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=c[r];t=o,n=function(){c=c.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n()},e.src=i}();var t}i(),e.addEventListener("scroll",function(){var t,n;t=i,n=e,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)})}(this)</script></body></html>
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+
+  <!-- 代码块复制功能 -->
+  <script type="text/javascript" src="/js/src/clipboard.min.js"></script>  
+  <script type="text/javascript" src="/js/src/clipboard-use.js"></script>
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/clicklove.js"></script>
+
+<script>!function(e){var c=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){for(var r=0;r<c.length;r++)t=c[r],0<=(n=t.getBoundingClientRect()).top&&0<=n.left&&n.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=c[r];t=o,n=function(){c=c.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}();var t,n}i(),e.addEventListener("scroll",function(){var t,n;t=i,n=e,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)})}(this);</script></body>
+</html>

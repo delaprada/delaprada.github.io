@@ -1,4 +1,883 @@
-<!DOCTYPE html><html class="theme-next mist use-motion" lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><meta name="theme-color" content="#222"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"><link href="https://fonts.loli.net/css?family=Modern Antiqua:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css"><link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css"><link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4"><link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222"><meta name="keywords" content="Node.js,"><meta name="description" content="用Gulp实现自动化Gulp是基于流的构建系统。我们可以通过对这些流的引导来创建构建过程，除了转译和缩码，还能做很多事情。 Gulp之所以能实现高度重用，主要归功于两项技术：使用插件和自定义构建任务。Gulp的构建过程是一个流，所以这些任务和插件是可以一个接一个拼在一起的。 把Gulp添加到项目中添加Gulp需要用npm安装gulp-cli和gulp两个包。下面这段代码中，全局安装gulp-cli"><meta property="og:type" content="article"><meta property="og:title" content="Node——Gulp基于流的自动化构建工具"><meta property="og:url" content="http://delaprada.com/2020/04/03/Node%E2%80%94%E2%80%94Gulp%E5%9F%BA%E4%BA%8E%E6%B5%81%E7%9A%84%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/index.html"><meta property="og:site_name" content="Alice&#39;s  wonderland"><meta property="og:description" content="用Gulp实现自动化Gulp是基于流的构建系统。我们可以通过对这些流的引导来创建构建过程，除了转译和缩码，还能做很多事情。 Gulp之所以能实现高度重用，主要归功于两项技术：使用插件和自定义构建任务。Gulp的构建过程是一个流，所以这些任务和插件是可以一个接一个拼在一起的。 把Gulp添加到项目中添加Gulp需要用npm安装gulp-cli和gulp两个包。下面这段代码中，全局安装gulp-cli"><meta property="og:image" content="http://delaprada.com/images/loading.png"><meta property="article:published_time" content="2020-04-03T02:59:55.000Z"><meta property="article:modified_time" content="2020-04-03T04:01:47.163Z"><meta property="article:author" content="Alice"><meta property="article:tag" content="Node.js"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="http://delaprada.com/images/loading.png"><script type="text/javascript" id="hexo.configurations">var NexT=window.NexT||{},CONFIG={root:"/",scheme:"Mist",version:"5.1.4",sidebar:{position:"left",display:"post",offset:12,b2t:!1,scrollpercent:!1,onmobile:!0},fancybox:!0,tabs:!0,motion:{enable:!0,async:!1,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},duoshuo:{userId:"0",author:"博主"},algolia:{applicationID:"",apiKey:"",indexName:"",hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}}}</script><link rel="canonical" href="http://delaprada.com/2020/04/03/Node——Gulp基于流的自动化构建工具/"><title>Node——Gulp基于流的自动化构建工具 | Alice's wonderland</title><meta name="generator" content="Hexo 4.2.0"></head><body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans"><div class="container sidebar-position-left page-post-detail"><div class="headband"></div><header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-wrapper"><div class="site-meta"><div class="custom-logo-site-title"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span> <span class="site-title">Alice's wonderland</span><span class="logo-line-after"><i></i></span></a></div><p class="site-subtitle"></p></div><div class="site-nav-toggle"> <button><span class="btn-bar"></span><span class="btn-bar"></span><span class="btn-bar"></span></button></div></div><nav class="site-nav"><ul id="menu" class="menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i><br> 首页</a></li><li class="menu-item menu-item-tags"><a href="/tags" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i><br> 标签</a></li><li class="menu-item menu-item-categories"><a href="/categories" rel="section"><i class="menu-item-icon fa fa-fw fa-question-circle"></i><br> 分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br> 归档</a></li><li class="menu-item menu-item-search"><a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i><br> 搜索</a></li></ul><div class="site-search"><div class="popup search-popup local-search-popup"><div class="local-search-header clearfix"><span class="search-icon"><i class="fa fa-search"></i></span><span class="popup-btn-close"><i class="fa fa-times-circle"></i></span><div class="local-search-input-wrapper"> <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input"></div></div><div id="local-search-result"></div></div></div></nav></div></header><main id="main" class="main"><div class="main-inner"><div class="content-wrap"><div id="content" class="content"><div id="posts" class="posts-expand"><article class="post post-type-normal" itemscope itemtype="http://schema.org/Article"><div class="post-block"><link itemprop="mainEntityOfPage" href="http://delaprada.com/2020/04/03/Node%E2%80%94%E2%80%94Gulp%E5%9F%BA%E4%BA%8E%E6%B5%81%E7%9A%84%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="name" content="Alice"><meta itemprop="description" content=""><meta itemprop="image" content="/images/avatar.jpg"></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="Alice's  wonderland"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">Node——Gulp基于流的自动化构建工具</h1><div class="post-meta"><span class="post-time"><span class="post-meta-item-icon"><i class="fa fa-calendar-o"></i></span> <span class="post-meta-item-text">发表于</span> <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-03T10:59:55+08:00">2020-04-03</time></span> <span class="post-category"><span class="post-meta-divider">|</span><span class="post-meta-item-icon"><i class="fa fa-folder-o"></i></span> <span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Node-js/" itemprop="url" rel="index"><span itemprop="name">Node.js</span></a></span></span> <span class="post-meta-divider">|</span><span class="page-pv"><i class="fa fa-file-o"></i> &nbsp;本文总阅读量<span class="busuanzi-value" id="busuanzi_value_page_pv"></span> 次</span><div class="post-wordcount"><span class="post-meta-item-icon"><i class="fa fa-file-word-o"></i></span> <span class="post-meta-item-text">字数统计&#58;</span> <span title="字数统计">830 字</span> <span class="post-meta-divider">|</span><span class="post-meta-item-icon"><i class="fa fa-clock-o"></i></span> <span class="post-meta-item-text">阅读时长 &asymp;</span> <span title="阅读时长">3 分钟</span></div></div></header><div class="post-body" itemprop="articleBody"><h2 id="用Gulp实现自动化"><a href="#用Gulp实现自动化" class="headerlink" title="用Gulp实现自动化"></a>用Gulp实现自动化</h2><p>Gulp是基于流的构建系统。我们可以通过对这些流的引导来创建构建过程，除了<strong>转译</strong>和<strong>缩码</strong>，还能做很多事情。</p><p>Gulp之所以能实现高度重用，主要归功于两项技术：使用插件和自定义构建任务。Gulp的构建过程是一个流，所以这些任务和插件是可以一个接一个拼在一起的。</p><h2 id="把Gulp添加到项目中"><a href="#把Gulp添加到项目中" class="headerlink" title="把Gulp添加到项目中"></a>把Gulp添加到项目中</h2><p>添加Gulp需要用<code>npm</code>安装<code>gulp-cli</code>和<code>gulp</code>两个包。下面这段代码中，全局安装<code>gulp-cli</code>，并创建一个带有<code>Gulp</code>开发依赖项的新Node项目。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm i --global gulp-cli</span><br><span class="line">npm init -y</span><br><span class="line">npm i -save-dev gulp</span><br></pre></td></tr></table></figure><p>接着创建<code>gulpfile.js</code></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch gulpfile.js</span><br></pre></td></tr></table></figure><blockquote><p>touch为<code>linux</code>指令</p></blockquote><p>现在用Gulp构建一个小型的React项目。这里会用到<code>gulp-babel</code>、<code>gulp-sourcemaps</code>和<code>gulp-concat</code>：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm i --save-dev gulp-sourcemaps gulp-babel babel-preset-es2015</span><br><span class="line">npm i --save-dev gulp-concat react react-dom babel-preset-react</span><br></pre></td></tr></table></figure><blockquote><p>这里要注意的是，安装<code>gulp-babel</code>的时候要安装7版本的，后续还要安装<code>babel-core</code>。如果直接安装，是安装8版本，<code>babel-core</code>是7，就会出错。</p></blockquote><h2 id="Gulp任务的创建及运行"><a href="#Gulp任务的创建及运行" class="headerlink" title="Gulp任务的创建及运行"></a>Gulp任务的创建及运行</h2><p>创建Gulp任务需要在<code>gulpfile.js</code>中编写Node代码，调用<code>Gulp</code>的API。<code>Gulp</code>的API可以做很多事情，比如查找文件，把对文件进行某种转换的插件拼到一起等。</p><p>打开<code>gulpfile.js</code>设置一个构建任务，用<code>gulp.src</code>查找JSX文件，用Babel处理<code>ES6</code>和<code>React</code>，然后把这些文件拼到一起。</p><p><code>gulpfile.js</code></p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> gulp=<span class="built_in">require</span>(<span class="string">'gulp'</span>);</span><br><span class="line"><span class="keyword">const</span> sourcemaps=<span class="built_in">require</span>(<span class="string">'gulp-sourcemaps'</span>);</span><br><span class="line"><span class="keyword">const</span> babel=<span class="built_in">require</span>(<span class="string">'gulp-babel'</span>);</span><br><span class="line"><span class="keyword">const</span> concat=<span class="built_in">require</span>(<span class="string">'gulp-concat'</span>);</span><br><span class="line"></span><br><span class="line">gulp.task(<span class="string">'default'</span>,()=&gt;&#123;</span><br><span class="line">    <span class="keyword">return</span> gulp.src(<span class="string">'app/*.jsx'</span>)</span><br><span class="line">        .pipe(sourcemaps.init())</span><br><span class="line">        .pipe(babel(&#123;</span><br><span class="line">            presets:[<span class="string">'es2015'</span>,<span class="string">'react'</span>]</span><br><span class="line">        &#125;))</span><br><span class="line">        .pipe(concat(<span class="string">'all.js'</span>))</span><br><span class="line">        .pipe(sourcemaps.write(<span class="string">'.'</span>))</span><br><span class="line">        .pipe(gulp.dest(<span class="string">'dist'</span>));</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure><ul><li><code>gulp.src</code>：<code>Gulp</code>自带的文件聚集工具，查找所有的<code>React</code> jsx文件</li><li><code>sourcemaps.init()</code>：开始监视源文件，为调试构建源码映射</li><li><code>concat(&#39;all.js&#39;)</code>：把所有源码文件拼到一个<code>all.js</code>中</li><li><code>soucemaps.write(&#39;.&#39;)</code>：单独写入源码映射文件</li><li><code>gulp.dest(&#39;dist&#39;)</code>：将所有文件放到<code>dist/</code>目录下</li></ul><p>创建一个名为<code>app/index.jsx</code>的文件，就可以试验一下<code>Gulp</code>了。可以用下面这段JSX代码：</p><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom'</span>;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(</span><br><span class="line">    &lt;h1&gt;Hello,world!<span class="xml"><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>,</span><br><span class="line">    <span class="built_in">document</span>.getElementById(<span class="string">'example'</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure><p>在终端运行<code>gulp</code>：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[10:21:44] Using gulpfile ~\Desktop\大三\实习\笔记\Node.js\gulp_test\gulpfile.js</span><br><span class="line">[10:21:44] Starting &#39;default&#39;...</span><br><span class="line">[10:21:44] Finished &#39;default&#39; after 213 ms</span><br></pre></td></tr></table></figure><p>目录：</p><p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200403115724.png" alt></p><p>打包生成的<code>all.js</code>：</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> _react = <span class="built_in">require</span>(<span class="string">'react'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> _react2 = _interopRequireDefault(_react);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> _reactDom = <span class="built_in">require</span>(<span class="string">'react-dom'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> _reactDom2 = _interopRequireDefault(_reactDom);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_interopRequireDefault</span>(<span class="params">obj</span>) </span>&#123; <span class="keyword">return</span> obj &amp;&amp; obj.__esModule ? obj : &#123; <span class="attr">default</span>: obj &#125;; &#125;</span><br><span class="line"></span><br><span class="line">_reactDom2.default.render(_react2.default.createElement(</span><br><span class="line">    <span class="string">'h1'</span>,</span><br><span class="line">    <span class="literal">null</span>,</span><br><span class="line">    <span class="string">'Hello,world'</span></span><br><span class="line">), <span class="built_in">document</span>.getElementById(<span class="string">'example'</span>));</span><br><span class="line"><span class="comment">//# sourceMappingURL=all.js.map</span></span><br></pre></td></tr></table></figure><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在Gulp中，用JavaScript表示构建阶段很容易。并且我们可以用<code>gulp.task()</code>往这个文件里添加自己的任务。这些任务通常都遵循相同的模式。</p><ol><li>源文件：收集输入文件</li><li>转译：让它们依次通过一个个对它们进行转换的插件</li><li>合并：把这些文件合到一起，创建一个整体构建文件</li><li>输出：设定文件的目标地址或移动输出文件</li></ol><blockquote><p>在前面那个例子中，<code>sourcemaps</code>是个特例，因为它需要两次pipe：第一次是配置，最后一次是输出文件。</p></blockquote><br></div><div><div><div style="text-align:center;color:#ccc;font-size:15px">-------本&nbsp;文&nbsp;结&nbsp;束&nbsp;&nbsp;<i class="fa fa-heart" aria-hidden="true"></i>&nbsp;&nbsp;感&nbsp;谢&nbsp;您&nbsp;的&nbsp;阅&nbsp;读-------</div></div></div><footer class="post-footer"><div class="post-tags"><a href="/tags/Node-js/" rel="tag"><i class="fa fa-tag"></i> Node.js</a></div><div class="post-nav"><div class="post-nav-next post-nav-item"><a href="/2020/04/01/Node%E2%80%94%E2%80%94%E4%B8%B2%E8%A1%8C%E5%8C%96-%E5%B9%B6%E8%A1%8C%E5%8C%96%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/" rel="next" title="Node——串行化/并行化流程控制"><i class="fa fa-chevron-left"></i> Node——串行化/并行化流程控制</a></div><span class="post-nav-divider"></span><div class="post-nav-prev post-nav-item"> <a href="/2020/04/05/Node%E2%80%94%E2%80%94Connect%E5%92%8CExpress/" rel="prev" title="Node——Connect和Express">Node——Connect和Express<i class="fa fa-chevron-right"></i></a></div></div></footer></div></article><div class="post-spread"></div></div></div><div id="gitalk-container"></div></div><div class="sidebar-toggle"><div class="sidebar-toggle-line-wrap"><span class="sidebar-toggle-line sidebar-toggle-line-first"></span><span class="sidebar-toggle-line sidebar-toggle-line-middle"></span><span class="sidebar-toggle-line sidebar-toggle-line-last"></span></div></div><aside id="sidebar" class="sidebar"><div id="sidebar-dimmer"></div><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap"> 文章目录</li><li class="sidebar-nav-overview" data-target="site-overview-wrap"> 站点概览</li></ul><section class="site-overview-wrap sidebar-panel"><div class="site-overview"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"> <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Alice"><p class="site-author-name" itemprop="name">Alice</p><p class="site-description motion-element" itemprop="description">Goals determine what you going to be!</p></div><nav class="site-state motion-element"><div class="site-state-item site-state-posts"> <a href="/archives/%7C%7C%20archive"><span class="site-state-item-count">46</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"> <a href="/categories/index.html"><span class="site-state-item-count">10</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"> <a href="/tags/index.html"><span class="site-state-item-count">10</span> <span class="site-state-item-name">标签</span></a></div></nav><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/delaprada" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i> GitHub</a></span><span class="links-of-author-item"><a href="https://blog.csdn.net/weixin_41973410" target="_blank" title="CSDN"><i class="fa fa-fw fa-copyright"></i> CSDN</a></span></div><div class="links-of-blogroll motion-element links-of-blogroll-block"><div class="links-of-blogroll-title"><i class="fa fa-fw fa-book"></i> 推荐阅读</div><ul class="links-of-blogroll-list"><li class="links-of-blogroll-item"> <a href="https://io-oi.me/tech/hexo-next-optimization/#%E5%BF%85%E8%AF%BB-%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2" title="Hexo深度优化" target="_blank">Hexo深度优化</a></li><li class="links-of-blogroll-item"> <a href="https://diygod.me" title="diygod" target="_blank">diygod</a></li><li class="links-of-blogroll-item"> <a href="http://zhangwenli.com/blog" title="羡辙" target="_blank">羡辙</a></li></ul></div></div></section><section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active"><div class="post-toc"><div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#用Gulp实现自动化"><span class="nav-number">1.</span> <span class="nav-text">用Gulp实现自动化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#把Gulp添加到项目中"><span class="nav-number">2.</span> <span class="nav-text">把Gulp添加到项目中</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gulp任务的创建及运行"><span class="nav-number">3.</span> <span class="nav-text">Gulp任务的创建及运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div></div></section></div></aside></div></main><footer id="footer" class="footer"><div class="footer-inner"><div class="copyright">&copy; <span itemprop="copyrightYear">2020</span><span class="with-love" id="heart"><i class="fa fa-heart"></i></span> <span class="author" itemprop="copyrightHolder">Alice</span></div><div class="busuanzi-count"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span class="site-uv"><i class="fa fa-user"></i> &nbsp;本站访客数<span class="busuanzi-value" id="busuanzi_value_site_uv"></span> 人次</span></div></div></footer><div class="back-to-top"><i class="fa fa-arrow-up"></i></div></div><script type="text/javascript">"[object Function]"!==Object.prototype.toString.call(window.Promise)&&(window.Promise=null)</script><script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script><script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script><script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script><script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script><script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script><script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script><script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"><script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script><script src="/js/src/md5.min.js"></script><script type="text/javascript">var gitalk=new Gitalk({clientID:"9b4dade3bf26b8fd0713",clientSecret:"43302d4a47ac2c290d0d019c1929032f1f3f8ada",repo:"delaprada.github.io",owner:"delaprada",admin:["delaprada"],id:location.pathname,id:md5(location.pathname),distractionFreeMode:"true"});gitalk.render("gitalk-container")</script><script type="text/javascript">
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+    
+    
+    <link href="https://fonts.loli.net/css?family=Caveat:300,300italic,400,400italic,700,700italicRoboto Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Node.js," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="用Gulp实现自动化Gulp是基于流的构建系统。我们可以通过对这些流的引导来创建构建过程，除了转译和缩码，还能做很多事情。 Gulp之所以能实现高度重用，主要归功于两项技术：使用插件和自定义构建任务。Gulp的构建过程是一个流，所以这些任务和插件是可以一个接一个拼在一起的。 把Gulp添加到项目中添加Gulp需要用npm安装gulp-cli和gulp两个包。下面这段代码中，全局安装gulp-cli">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node——Gulp基于流的自动化构建工具">
+<meta property="og:url" content="http://delaprada.com/2020/04/03/Node%E2%80%94%E2%80%94Gulp%E5%9F%BA%E4%BA%8E%E6%B5%81%E7%9A%84%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/index.html">
+<meta property="og:site_name" content="Alice&#39;s  wonderland">
+<meta property="og:description" content="用Gulp实现自动化Gulp是基于流的构建系统。我们可以通过对这些流的引导来创建构建过程，除了转译和缩码，还能做很多事情。 Gulp之所以能实现高度重用，主要归功于两项技术：使用插件和自定义构建任务。Gulp的构建过程是一个流，所以这些任务和插件是可以一个接一个拼在一起的。 把Gulp添加到项目中添加Gulp需要用npm安装gulp-cli和gulp两个包。下面这段代码中，全局安装gulp-cli">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="article:published_time" content="2020-04-03T02:59:55.000Z">
+<meta property="article:modified_time" content="2020-04-03T04:01:47.163Z">
+<meta property="article:author" content="Alice">
+<meta property="article:tag" content="Node.js">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://delaprada.com/images/loading.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://delaprada.com/2020/04/03/Node——Gulp基于流的自动化构建工具/"/>
+
+
+
+
+
+  <title>Node——Gulp基于流的自动化构建工具 | Alice's  wonderland</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Alice's  wonderland</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://delaprada.com/2020/04/03/Node%E2%80%94%E2%80%94Gulp%E5%9F%BA%E4%BA%8E%E6%B5%81%E7%9A%84%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alice">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alice's  wonderland">
+    </span>
+
+    
+      <header class="post-header">
+        <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-03T10:59:55+08:00">
+                2020-04-03
+              </time>
+            
+
+            
+
+            
+          </span>
+        
+        
+          <h1 class="post-title" itemprop="name headline">Node——Gulp基于流的自动化构建工具</h1>
+        
+
+        
+      </header>
+    
+
+    
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="用Gulp实现自动化"><a href="#用Gulp实现自动化" class="headerlink" title="用Gulp实现自动化"></a>用Gulp实现自动化</h2><p>Gulp是基于流的构建系统。我们可以通过对这些流的引导来创建构建过程，除了<strong>转译</strong>和<strong>缩码</strong>，还能做很多事情。</p>
+<p>Gulp之所以能实现高度重用，主要归功于两项技术：使用插件和自定义构建任务。Gulp的构建过程是一个流，所以这些任务和插件是可以一个接一个拼在一起的。</p>
+<h2 id="把Gulp添加到项目中"><a href="#把Gulp添加到项目中" class="headerlink" title="把Gulp添加到项目中"></a>把Gulp添加到项目中</h2><p>添加Gulp需要用<code>npm</code>安装<code>gulp-cli</code>和<code>gulp</code>两个包。下面这段代码中，全局安装<code>gulp-cli</code>，并创建一个带有<code>Gulp</code>开发依赖项的新Node项目。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm i --global gulp-cli</span><br><span class="line">npm init -y</span><br><span class="line">npm i -save-dev gulp</span><br></pre></td></tr></table></figure>
+
+<p>接着创建<code>gulpfile.js</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch gulpfile.js</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>touch为<code>linux</code>指令</p>
+</blockquote>
+<p>现在用Gulp构建一个小型的React项目。这里会用到<code>gulp-babel</code>、<code>gulp-sourcemaps</code>和<code>gulp-concat</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm i --save-dev gulp-sourcemaps gulp-babel babel-preset-es2015</span><br><span class="line">npm i --save-dev gulp-concat react react-dom babel-preset-react</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这里要注意的是，安装<code>gulp-babel</code>的时候要安装7版本的，后续还要安装<code>babel-core</code>。如果直接安装，是安装8版本，<code>babel-core</code>是7，就会出错。</p>
+</blockquote>
+<h2 id="Gulp任务的创建及运行"><a href="#Gulp任务的创建及运行" class="headerlink" title="Gulp任务的创建及运行"></a>Gulp任务的创建及运行</h2><p>创建Gulp任务需要在<code>gulpfile.js</code>中编写Node代码，调用<code>Gulp</code>的API。<code>Gulp</code>的API可以做很多事情，比如查找文件，把对文件进行某种转换的插件拼到一起等。</p>
+<p>打开<code>gulpfile.js</code>设置一个构建任务，用<code>gulp.src</code>查找JSX文件，用Babel处理<code>ES6</code>和<code>React</code>，然后把这些文件拼到一起。</p>
+<p><code>gulpfile.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> gulp=<span class="built_in">require</span>(<span class="string">'gulp'</span>);</span><br><span class="line"><span class="keyword">const</span> sourcemaps=<span class="built_in">require</span>(<span class="string">'gulp-sourcemaps'</span>);</span><br><span class="line"><span class="keyword">const</span> babel=<span class="built_in">require</span>(<span class="string">'gulp-babel'</span>);</span><br><span class="line"><span class="keyword">const</span> concat=<span class="built_in">require</span>(<span class="string">'gulp-concat'</span>);</span><br><span class="line"></span><br><span class="line">gulp.task(<span class="string">'default'</span>,()=&gt;&#123;</span><br><span class="line">    <span class="keyword">return</span> gulp.src(<span class="string">'app/*.jsx'</span>)</span><br><span class="line">        .pipe(sourcemaps.init())</span><br><span class="line">        .pipe(babel(&#123;</span><br><span class="line">            presets:[<span class="string">'es2015'</span>,<span class="string">'react'</span>]</span><br><span class="line">        &#125;))</span><br><span class="line">        .pipe(concat(<span class="string">'all.js'</span>))</span><br><span class="line">        .pipe(sourcemaps.write(<span class="string">'.'</span>))</span><br><span class="line">        .pipe(gulp.dest(<span class="string">'dist'</span>));</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>gulp.src</code>：<code>Gulp</code>自带的文件聚集工具，查找所有的<code>React</code> jsx文件</li>
+<li><code>sourcemaps.init()</code>：开始监视源文件，为调试构建源码映射</li>
+<li><code>concat(&#39;all.js&#39;)</code>：把所有源码文件拼到一个<code>all.js</code>中</li>
+<li><code>soucemaps.write(&#39;.&#39;)</code>：单独写入源码映射文件</li>
+<li><code>gulp.dest(&#39;dist&#39;)</code>：将所有文件放到<code>dist/</code>目录下</li>
+</ul>
+<p>创建一个名为<code>app/index.jsx</code>的文件，就可以试验一下<code>Gulp</code>了。可以用下面这段JSX代码：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom'</span>;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(</span><br><span class="line">    &lt;h1&gt;Hello,world!<span class="xml"><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>,</span><br><span class="line">    <span class="built_in">document</span>.getElementById(<span class="string">'example'</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在终端运行<code>gulp</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[10:21:44] Using gulpfile ~\Desktop\大三\实习\笔记\Node.js\gulp_test\gulpfile.js</span><br><span class="line">[10:21:44] Starting &#39;default&#39;...</span><br><span class="line">[10:21:44] Finished &#39;default&#39; after 213 ms</span><br></pre></td></tr></table></figure>
+
+
+
+<p>目录：</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200403115724.png" alt></p>
+<p>打包生成的<code>all.js</code>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> _react = <span class="built_in">require</span>(<span class="string">'react'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> _react2 = _interopRequireDefault(_react);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> _reactDom = <span class="built_in">require</span>(<span class="string">'react-dom'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> _reactDom2 = _interopRequireDefault(_reactDom);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_interopRequireDefault</span>(<span class="params">obj</span>) </span>&#123; <span class="keyword">return</span> obj &amp;&amp; obj.__esModule ? obj : &#123; <span class="attr">default</span>: obj &#125;; &#125;</span><br><span class="line"></span><br><span class="line">_reactDom2.default.render(_react2.default.createElement(</span><br><span class="line">    <span class="string">'h1'</span>,</span><br><span class="line">    <span class="literal">null</span>,</span><br><span class="line">    <span class="string">'Hello,world'</span></span><br><span class="line">), <span class="built_in">document</span>.getElementById(<span class="string">'example'</span>));</span><br><span class="line"><span class="comment">//# sourceMappingURL=all.js.map</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在Gulp中，用JavaScript表示构建阶段很容易。并且我们可以用<code>gulp.task()</code>往这个文件里添加自己的任务。这些任务通常都遵循相同的模式。</p>
+<ol>
+<li>源文件：收集输入文件</li>
+<li>转译：让它们依次通过一个个对它们进行转换的插件</li>
+<li>合并：把这些文件合到一起，创建一个整体构建文件</li>
+<li>输出：设定文件的目标地址或移动输出文件</li>
+</ol>
+<blockquote>
+<p>在前面那个例子中，<code>sourcemaps</code>是个特例，因为它需要两次pipe：第一次是配置，最后一次是输出文件。</p>
+</blockquote>
+<br>
+      
+    </div>
+    
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:15px;">-------本&nbsp;文&nbsp;结&nbsp;束&nbsp;&nbsp;<i class="fa fa-heart" aria-hidden="true"></i>&nbsp;&nbsp;感&nbsp;谢&nbsp;您&nbsp;的&nbsp;阅&nbsp;读-------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Node-js/" rel="tag"><i class="fa fa-tag"></i> Node.js</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/01/Node%E2%80%94%E2%80%94%E4%B8%B2%E8%A1%8C%E5%8C%96-%E5%B9%B6%E8%A1%8C%E5%8C%96%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/" rel="next" title="Node——串行化/并行化流程控制">
+                <i class="fa fa-chevron-left"></i> Node——串行化/并行化流程控制
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/05/Node%E2%80%94%E2%80%94Connect%E5%92%8CExpress/" rel="prev" title="Node——Connect和Express">
+                Node——Connect和Express <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Alice" />
+            
+              <p class="site-author-name" itemprop="name">Alice</p>
+              <p class="site-description motion-element" itemprop="description">Goals determine what you going to be!</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/delaprada" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://blog.csdn.net/weixin_41973410" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-copyright"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-book"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://io-oi.me/tech/hexo-next-optimization/#%E5%BF%85%E8%AF%BB-%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2" title="Hexo深度优化" target="_blank">Hexo深度优化</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://diygod.me" title="diygod" target="_blank">diygod</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://zhangwenli.com/blog" title="羡辙" target="_blank">羡辙</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#用Gulp实现自动化"><span class="nav-number">1.</span> <span class="nav-text">用Gulp实现自动化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#把Gulp添加到项目中"><span class="nav-number">2.</span> <span class="nav-text">把Gulp添加到项目中</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gulp任务的创建及运行"><span class="nav-number">3.</span> <span class="nav-text">Gulp任务的创建及运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="heart">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alice</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>&nbsp;本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="/js/src/md5.min.js"></script>
+  <script type="text/javascript">
+    var gitalk = new Gitalk({
+      clientID: '9b4dade3bf26b8fd0713',
+      clientSecret: '43302d4a47ac2c290d0d019c1929032f1f3f8ada',
+      repo: 'delaprada.github.io',
+      owner: 'delaprada',
+      admin: ['delaprada'],
+      id: location.pathname,
+      id: md5(location.pathname),
+      distractionFreeMode: 'true'
+    })
+    gitalk.render('gitalk-container')
+  </script>
+
+
+  
+
+  <script type="text/javascript">
     // Popup Window;
     var isfetched = false;
     var isXml = true;
@@ -313,4 +1192,36 @@
         onPopupClose();
       }
     });
-  </script><script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/clipboard.min.js"></script><script type="text/javascript" src="/js/src/clipboard-use.js"></script><script type="text/javascript" src="/js/src/clicklove.js"></script><script>!function(e){var c=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){for(var r=0;r<c.length;r++)0<=(t=c[r].getBoundingClientRect()).top&&0<=t.left&&t.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=c[r];t=o,n=function(){c=c.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n()},e.src=i}();var t}i(),e.addEventListener("scroll",function(){var t,n;t=i,n=e,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)})}(this)</script></body></html>
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+
+  <!-- 代码块复制功能 -->
+  <script type="text/javascript" src="/js/src/clipboard.min.js"></script>  
+  <script type="text/javascript" src="/js/src/clipboard-use.js"></script>
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/clicklove.js"></script>
+
+<script>!function(e){var c=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){for(var r=0;r<c.length;r++)t=c[r],0<=(n=t.getBoundingClientRect()).top&&0<=n.left&&n.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=c[r];t=o,n=function(){c=c.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}();var t,n}i(),e.addEventListener("scroll",function(){var t,n;t=i,n=e,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)})}(this);</script></body>
+</html>
