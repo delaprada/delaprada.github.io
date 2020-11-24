@@ -1829,7 +1829,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #50ff4d;
+  background: #8bfe71;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2765,7 +2765,7 @@ hr {
   }
 }
 .menu .menu-item a:hover {
-  background: #fff0f5;
+  background: #aee1f9;
 }
 .menu a::before {
   display: none;
@@ -2809,10 +2809,6 @@ hr {
   border-right-width: 2px;
   border-bottom-width: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,0.075);
-}
-.posts-expand .post:hover {
-  cursor: pointer;
-  background-color: #eee;
 }
 .posts-expand .post:first-child {
   margin-top: 0;
