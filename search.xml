@@ -13,6 +13,8 @@
 <p>Q：http协议为无状态协议，如何记住用户的状态？</p>
 <p>A：无状态协议的好处是快速，但是有时我想要记住用户的状态（比如：登录状态）。此时我们可以使用cookie或者session记录用户的浏览状态信息，用户身份信息。</p>
 </blockquote>
+<br>
+
 <h1 id="http请求-响应报文"><a href="#http请求-响应报文" class="headerlink" title="http请求/响应报文"></a>http请求/响应报文</h1><h2 id="请求报文"><a href="#请求报文" class="headerlink" title="请求报文"></a>请求报文</h2><ul>
 <li>由4个部分组成：请求行、请求头、空行、请求体</li>
 <li>请求行由3个字段组成：请求方法、URL字段、HTTP协议版本字段<ul>
@@ -30,31 +32,33 @@
 <li>响应行：由协议版本、状态码、状态描述构成</li>
 </ul>
 <p><img src="/images/loading.png" data-original="http://www.2cto.com/uploadfile/Collfiles/20160921/20160921092902557.jpg" alt="这里写图片描述"></p>
+<br>
+
 <h1 id="http状态码"><a href="#http状态码" class="headerlink" title="http状态码"></a>http状态码</h1><p>1XX 通知</p>
 <p>2XX 成功</p>
 <p>3XX 重定向</p>
 <p>4XX 客户端错误</p>
 <p>5XX 服务端错误</p>
-<h2 id="100（”continue”）"><a href="#100（”continue”）" class="headerlink" title="100（”continue”）"></a>100（”continue”）</h2><p>该状态码说明服务器收到了请求的初始部分，并且请客户端继续发送。</p>
+<h3 id="100（”continue”）"><a href="#100（”continue”）" class="headerlink" title="100（”continue”）"></a>100（”continue”）</h3><p>该状态码说明服务器收到了请求的初始部分，并且请客户端继续发送。</p>
 <p>例如：客户端有一个较大的文件需要上传并保存，但是客户端不知道服务器是否愿意接受这个文件，所以希望在消耗网络资源进行传输之前，先询问一下服务器的意愿。</p>
 <p>实际操作为客户端发送一条特殊的请求报文，报文的头部应包含：</p>
 <figure class="highlight http"><table><tr><td class="code"><pre><span class="line"><span class="attribute">Expect</span>: 100-continue</span><br></pre></td></tr></table></figure>
 
 <p>如果服务器愿意接受，就会返回100 continue状态码。</p>
-<h2 id="200（”OK”）"><a href="#200（”OK”）" class="headerlink" title="200（”OK”）"></a>200（”OK”）</h2><p>一切正常</p>
-<h2 id="204-（无内容）"><a href="#204-（无内容）" class="headerlink" title="204 （无内容）"></a>204 （无内容）</h2><p>服务器成功处理了请求，但没有返回任何内容。</p>
+<h3 id="200（”OK”）"><a href="#200（”OK”）" class="headerlink" title="200（”OK”）"></a>200（”OK”）</h3><p>一切正常</p>
+<h3 id="204-（无内容）"><a href="#204-（无内容）" class="headerlink" title="204 （无内容）"></a>204 （无内容）</h3><p>服务器成功处理了请求，但没有返回任何内容。</p>
 <p>对于一些提交到服务器处理的数据，只需要返回是否成功的情况下，可以考虑使用状态码204来作为返回信息，从而省掉多余的数据传输。</p>
-<h2 id="206（部分内容）"><a href="#206（部分内容）" class="headerlink" title="206（部分内容）"></a>206（部分内容）</h2><p>这种响应是在<strong>客户端表明自己只需要目标url上的部分资源的时候返回的</strong>，这种情况经常发生在客户端继续请求一个未完成的下载时使用。</p>
-<h2 id="301（Move-Permanently）"><a href="#301（Move-Permanently）" class="headerlink" title="301（Move Permanently）"></a>301（Move Permanently）</h2><p>永久性转移。将跳转到新的url地址，原本请求的资源已经不可以再访问了。</p>
-<h2 id="302（Move-Temporarily）"><a href="#302（Move-Temporarily）" class="headerlink" title="302（Move Temporarily）"></a>302（Move Temporarily）</h2><p>暂时性转移。将跳转到新的url地址，原本请求的资源仍然可以被访问。</p>
-<h2 id="304（”Not-Modified”）"><a href="#304（”Not-Modified”）" class="headerlink" title="304（”Not Modified”）"></a>304（”Not Modified”）</h2><p>和浏览器缓存相关。表明服务器端资源未发生改变，可以继续使用浏览器缓存中的资源。请求的时候一般结合last-modified/if-modified-since和Etag/if-none-match使用。</p>
-<h2 id="400（”Bad-Request”）"><a href="#400（”Bad-Request”）" class="headerlink" title="400（”Bad Request”）"></a>400（”Bad Request”）</h2><p>请求不能被服务器理解。</p>
-<h2 id="401（”unauthorized”）"><a href="#401（”unauthorized”）" class="headerlink" title="401（”unauthorized”）"></a>401（”unauthorized”）</h2><p>请求没有http认证的认证信息。</p>
-<h2 id="403（”Forbidden”）"><a href="#403（”Forbidden”）" class="headerlink" title="403（”Forbidden”）"></a>403（”Forbidden”）</h2><p>请求被服务器拒绝。</p>
-<h2 id="404（”Not-Found”）"><a href="#404（”Not-Found”）" class="headerlink" title="404（”Not Found”）"></a>404（”Not Found”）</h2><p>请求的资源不在服务器端。</p>
-<h2 id="500（”Internet-Server-Error”）"><a href="#500（”Internet-Server-Error”）" class="headerlink" title="500（”Internet Server Error”）"></a>500（”Internet Server Error”）</h2><p>服务器方面的问题。</p>
-<h2 id="502（”Bad-Gateway”）"><a href="#502（”Bad-Gateway”）" class="headerlink" title="502（”Bad Gateway”）"></a>502（”Bad Gateway”）</h2><p>作为网关或者代理的服务器向上游服务器发起请求时，从上游服务器接收到无效响应。</p>
-<h2 id="504（”Gateway-Timeout”）"><a href="#504（”Gateway-Timeout”）" class="headerlink" title="504（”Gateway Timeout”）"></a>504（”Gateway Timeout”）</h2><p>作为网关或者代理的服务器向上游服务器发起请求时，未能及时从上游服务器接收到响应。</p>
+<h3 id="206（部分内容）"><a href="#206（部分内容）" class="headerlink" title="206（部分内容）"></a>206（部分内容）</h3><p>这种响应是在<strong>客户端表明自己只需要目标url上的部分资源的时候返回的</strong>，这种情况经常发生在客户端继续请求一个未完成的下载时使用。</p>
+<h3 id="301（Move-Permanently）"><a href="#301（Move-Permanently）" class="headerlink" title="301（Move Permanently）"></a>301（Move Permanently）</h3><p>永久性转移。将跳转到新的url地址，原本请求的资源已经不可以再访问了。</p>
+<h3 id="302（Move-Temporarily）"><a href="#302（Move-Temporarily）" class="headerlink" title="302（Move Temporarily）"></a>302（Move Temporarily）</h3><p>暂时性转移。将跳转到新的url地址，原本请求的资源仍然可以被访问。</p>
+<h3 id="304（”Not-Modified”）"><a href="#304（”Not-Modified”）" class="headerlink" title="304（”Not Modified”）"></a>304（”Not Modified”）</h3><p>和浏览器缓存相关。表明服务器端资源未发生改变，可以继续使用浏览器缓存中的资源。请求的时候一般结合last-modified/if-modified-since和Etag/if-none-match使用。</p>
+<h3 id="400（”Bad-Request”）"><a href="#400（”Bad-Request”）" class="headerlink" title="400（”Bad Request”）"></a>400（”Bad Request”）</h3><p>请求不能被服务器理解。</p>
+<h3 id="401（”unauthorized”）"><a href="#401（”unauthorized”）" class="headerlink" title="401（”unauthorized”）"></a>401（”unauthorized”）</h3><p>请求没有http认证的认证信息。</p>
+<h3 id="403（”Forbidden”）"><a href="#403（”Forbidden”）" class="headerlink" title="403（”Forbidden”）"></a>403（”Forbidden”）</h3><p>请求被服务器拒绝。</p>
+<h3 id="404（”Not-Found”）"><a href="#404（”Not-Found”）" class="headerlink" title="404（”Not Found”）"></a>404（”Not Found”）</h3><p>请求的资源不在服务器端。</p>
+<h3 id="500（”Internet-Server-Error”）"><a href="#500（”Internet-Server-Error”）" class="headerlink" title="500（”Internet Server Error”）"></a>500（”Internet Server Error”）</h3><p>服务器方面的问题。</p>
+<h3 id="502（”Bad-Gateway”）"><a href="#502（”Bad-Gateway”）" class="headerlink" title="502（”Bad Gateway”）"></a>502（”Bad Gateway”）</h3><p>作为网关或者代理的服务器向上游服务器发起请求时，从上游服务器接收到无效响应。</p>
+<h3 id="504（”Gateway-Timeout”）"><a href="#504（”Gateway-Timeout”）" class="headerlink" title="504（”Gateway Timeout”）"></a>504（”Gateway Timeout”）</h3><p>作为网关或者代理的服务器向上游服务器发起请求时，未能及时从上游服务器接收到响应。</p>
 <h2 id="301和302的区别"><a href="#301和302的区别" class="headerlink" title="301和302的区别"></a>301和302的区别</h2><p>共同点：301和302状态码都表示重定向，也就是说浏览器在拿到服务器返回的这个状态码之后会自动跳转到一个新的url地址。</p>
 <p>区别：301表示旧地址已经被永久地移除了，这个资源不可以访问了。</p>
 <p>​           302表示旧地址的资源还在，可以访问，这个重定向只是临时地从旧地址转到新地址。</p>
@@ -62,6 +66,8 @@
 <p>也就是说：<strong>如果客户端发出非GET, HEAD请求后(比如POST请求)，收到302状态码，是不能够自动地向新的URL发送重复请求，除非得到用户的确认。</strong></p>
 <h3 id="303"><a href="#303" class="headerlink" title="303"></a>303</h3><p><strong>会直接将上述的POST请求重定向为GET请求</strong></p>
 <h3 id="307"><a href="#307" class="headerlink" title="307"></a>307</h3><p><strong>不会将POST转为GET，而是会询问用户是否应该在新的URL上发起POST请求</strong></p>
+<br>
+
 <h1 id="http方法"><a href="#http方法" class="headerlink" title="http方法"></a>http方法</h1><table>
 <thead>
 <tr>
@@ -116,6 +122,8 @@
 <p>于是<code>patch</code>诞生，只传一个<code>userName</code>到指定资源去，表示该请求是一个局部更新，后端仅更新接收到的字段。</p>
 <p>而<strong><code>put</code>虽然也是更新资源，但要求前端提供的一定是一个完整的资源对象</strong>，理论上说，如果你用了<code>put</code>，但却没有提供完整的<code>UserInfo</code>，那么缺了的那些字段应该被清空。</p>
 <p>参考：<a href="https://segmentfault.com/q/1010000005685904/" target="_blank" rel="noopener">https://segmentfault.com/q/1010000005685904/</a></p>
+<br>
+
 <h1 id="http缺陷"><a href="#http缺陷" class="headerlink" title="http缺陷"></a>http缺陷</h1><ol>
 <li>通信使用明文（不加密），内容可能被窃听</li>
 <li>不验证通信方的身份，因此有可能遭遇伪装</li>
@@ -130,6 +138,8 @@
 </li>
 </ul>
 <p>摘自：<a href="https://blog.csdn.net/wangxp423/article/details/80033225" target="_blank" rel="noopener">https://blog.csdn.net/wangxp423/article/details/80033225</a></p>
+<br>
+
 <h1 id="https"><a href="#https" class="headerlink" title="https"></a>https</h1><ul>
 <li>http协议传输的数据都是未加密的，也就是明文的，因此使用http协议传输隐私信息非常不安全。为了保证这些隐私数据能加密传输，设计了SSL（Secure Sockets Layer）/ TLS（Transport Layer Security）协议用于对http协议传输的数据进行加密，从而诞生了https。</li>
 <li>因此，https很安全。此外，https同时也一定程度上保护了服务端，使用恶意攻击和伪装数据的成本大大提高。</li>
@@ -187,8 +197,12 @@
 <p>这一步对应的是Server Finish消息，服务端也会将握手过程的消息生成摘要再用秘钥加密，这是服务端发出的第一条加密消息。客户端接收后会用秘钥解密，能解出来说明协商的秘钥是一致的。</p>
 <p>Application Data</p>
 <p><strong>到这里，双方已安全协商出同一份秘钥，所有的应用层数据都会用这个秘钥加密后再通过TCP进行可靠传输</strong>。</p>
-<p>参考：<a href="http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html</a></p>
-<p>​            <a href="https://juejin.im/post/584b76d3a22b9d0058d5036f" target="_blank" rel="noopener">https://juejin.im/post/584b76d3a22b9d0058d5036f</a></p>
+<blockquote>
+<p> 参考：<a href="http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html</a></p>
+<p><a href="https://juejin.im/post/584b76d3a22b9d0058d5036f" target="_blank" rel="noopener">https://juejin.im/post/584b76d3a22b9d0058d5036f</a></p>
+</blockquote>
+<br>
+
 <h1 id="http1-0-1-1-2-0的区别"><a href="#http1-0-1-1-2-0的区别" class="headerlink" title="http1.0/1.1/2.0的区别"></a>http1.0/1.1/2.0的区别</h1><h2 id="http1-0"><a href="#http1-0" class="headerlink" title="http1.0"></a>http1.0</h2><ul>
 <li>http协议老的标准是http1.0。为了提高系统的效率，http1.0规定浏览器与服务器只保持短暂的连接，浏览器的每次请求都需要与服务器建立一个tcp连接，服务器完成请求处理后立即断开tcp连接，服务器不跟踪每个客户也不记录过去的请求。连接无法复用。</li>
 <li>客户端和服务器端每次建立和关闭连接是一个相对比较费时的过程，并且会严重影响客户端和服务器的性能。</li>
@@ -220,15 +234,14 @@
 </li>
 <li><p><strong>二进制分帧</strong>：用二进制的格式去定义报文。</p>
 <ul>
-<li><p>http2.0和http1.1报文格式区别</p>
+<li><p>http1.1的解析是基于文本的，基本文本协议的格式存在天然的缺陷。因为文本的表现形式有多样性，要做到健壮性考虑的场景必然很多。</p>
+</li>
+<li><p>http2.0和http1.1报文格式区别：</p>
 <p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201208092935.png" alt></p>
 <p><img src="/images/loading.png" data-original="https://cloud.githubusercontent.com/assets/8046480/21041167/411f0f84-be24-11e6-946e-126b1036dd15.png" alt="image"></p>
 </li>
 </ul>
 </li>
-</ul>
-<ul>
-<li>http1.1的解析是基于文本的，基本文本协议的格式存在天然的缺陷。因为文本的表现形式有多样性，要做到健壮性考虑的场景必然很多。</li>
 </ul>
 <ul>
 <li><p><strong>首部压缩</strong></p>
@@ -240,7 +253,7 @@
 </li>
 </ul>
 <h3 id="如何升级到http2-0"><a href="#如何升级到http2-0" class="headerlink" title="如何升级到http2.0"></a>如何升级到http2.0</h3><blockquote>
-<p>参考：FunDebug：<a href="https://blog.fundebug.com/2019/10/28/speedup-fundebug-by-using-http2/" target="_blank" rel="noopener">https://blog.fundebug.com/2019/10/28/speedup-fundebug-by-using-http2/</a></p>
+<p>参考FunDebug文章：<a href="https://blog.fundebug.com/2019/10/28/speedup-fundebug-by-using-http2/" target="_blank" rel="noopener">https://blog.fundebug.com/2019/10/28/speedup-fundebug-by-using-http2/</a></p>
 </blockquote>
 <p>我们使用了Nginx作为前端页面与后端接口的反向代理服务器(Reverse Proxy)，只需要修改一下Nginx配置文件就可以升级HTTP/2了，非常简单。</p>
 <p>注意，在 Nginx 上 开启 HTTP/2 需要 Nginx 1.9.5 以上版本（包括1.9.5），并且需要 OpenSSL 1.0.2 以上版本(包括1.0.2)。使用<code>nginx -V</code>命令可以查看Nginx的版本信息：</p>
@@ -260,7 +273,7 @@
 <p>参考：<a href="https://www.ruanyifeng.com/blog/2019/09/curl-reference.html" target="_blank" rel="noopener">https://www.ruanyifeng.com/blog/2019/09/curl-reference.html</a></p>
 </blockquote>
 <h2 id="如何查看当前网站使用哪种协议"><a href="#如何查看当前网站使用哪种协议" class="headerlink" title="如何查看当前网站使用哪种协议"></a>如何查看当前网站使用哪种协议</h2><p>打开chrome的devTool（f12），选择network项：</p>
-<p><img src="/images/loading.png" data-original="C:%5CUsers%5Calice%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20201208095906207.png" alt="image-20201208095906207"></p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/image-20201208095906207.png" alt></p>
 <p>如果没有的话在Status一栏，点击右键，选择protocol项即可：</p>
 <p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201208100043.png" alt></p>
 ]]></content>
