@@ -1,6 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>React hooks: useRef, useImperativeHandle</title>
+    <url>/2020/12/14/React-hooks-useRef-useImperativeHandle/</url>
+    <content><![CDATA[<h1 id="useRef"><a href="#useRef" class="headerlink" title="useRef"></a><strong>useRef</strong></h1><p><strong><code>useRef</code>最为传统的用法就是存储一个DOM节点的引用</strong>。当这个DOM节点更新时，这个引用也会更新。我们可以通过<code>current</code>属性来访问DOM节点。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> domRef = useRef()useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  doSomething(domRef.current) <span class="comment">// access the DOM node here</span></span><br><span class="line">&#125;, [])<span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ref</span>=<span class="string">&#123;domRef&#125;</span>&gt;</span><span class="tag">&lt;<span class="name">Components</span> /&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>还有一种常用的用法是在父子组件中使用，通过结合<code>useRef</code>和<code>forwardRef</code>方法，父组件能够访问子组件内部的DOM节点</strong>。</p>
+<p><code>Refs</code>允许某些组件接收<code>ref</code>，并向下传递给子组件。比如在下面这个实例中，<code>FancyButton</code>使用<code>React.forwardRef</code>来传递给它的<code>ref</code>，然后转发到它渲染的DOM <code>button</code>，此时在父组件中就可以使用<code>ref.current</code>来访问<code>button</code>的DOM节点：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> FancyButton = React.forwardRef(<span class="function">(<span class="params">props, ref</span>) =&gt;</span> (</span><br><span class="line">  &lt;button ref=&#123;ref&#125; className=<span class="string">"FancyButton"</span>&gt;</span><br><span class="line">    &#123;props.children&#125;</span><br><span class="line">  &lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">));</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ 你可以直接获取 DOM button 的 ref：</span></span><br><span class="line"><span class="regexp">const ref = React.createRef();</span></span><br><span class="line"><span class="regexp">&lt;FancyButton ref=&#123;ref&#125;&gt;Click me!&lt;/</span>FancyButton&gt;;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>上述代码的逐步解释：</p>
+<ol>
+<li>通过调用<code>React.createRef</code>创建了一个<code>React</code> <code>ref</code>并将其赋值给<code>ref</code>变量</li>
+<li>通过制定<code>ref</code>为<code>JSX</code>属性，将其向下传递给<code>&lt;FancyButton ref={ref}&gt;</code></li>
+<li><code>React</code>传递<code>ref</code>给<code>forwardRef</code>内函数<code>(props, ref) =&gt; ...，</code>作为其第二个参数</li>
+<li>向下转发该<code>ref</code>参数到<code>&lt;button ref={ref}&gt;</code>，将其指定为JSX属性</li>
+<li>当<code>ref</code>挂载完毕，<code>ref.current</code>将指向<code>&lt;button&gt;</code>DOM节点</li>
+</ol>
+<p>注意：</p>
+<ol>
+<li>第二个参数ref只在使用<code>React.forwardRef</code>定义组件时存在。常规函数和class组件不接收<code>ref</code>参数，且<code>props</code>中也不存在<code>ref</code>。所以用<code>forwardRef</code>定义组件是一个比较特殊的用法。</li>
+<li>如果想要在高阶组件中使用<code>ref</code>，需要多一步透传，见<a href="https://react.docschina.org/docs/forwarding-refs.html" target="_blank" rel="noopener">官网例子</a></li>
+</ol>
+<br>
+
+<h1 id="useImperativeHandle"><a href="#useImperativeHandle" class="headerlink" title="useImperativeHandle"></a><strong>useImperativeHandle</strong></h1><p><code>useImperativeHandle</code>方法可以让我们通过ref将一些变量和函数<strong>从子组件传递给父组件</strong>。父组件可以选择使用它或者将这个ref又传递给另一个子组件。</p>
+<p>我们都知道，React是单向数据流的，数据是从父组件通过props传递到子组件的，所以<strong><code>useImperativeHandle</code>和<code>forwardRef</code>相结合实现信息从子组件传递给父组件</strong>，这是一个比较新颖的用法。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useState, useRef, forwardRef, useImperativeHandle &#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">const</span> ChildOne = forwardRef(<span class="function">(<span class="params">props, ref</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> [ count, setCount ] = useState(<span class="number">0</span>);</span><br><span class="line">    </span><br><span class="line">    useImperativeHandle(ref, () =&gt; (&#123;</span><br><span class="line">        count,</span><br><span class="line">    &#125;));</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">const</span> updateCount = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        setCount(<span class="function">(<span class="params">c</span>) =&gt;</span> c + <span class="number">1</span>);</span><br><span class="line">        <span class="built_in">console</span>.log(count + <span class="number">1</span>);</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;updateCount&#125;</span>&gt;</span>Increment<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span>;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ChildTwo = forwardRef(<span class="function">(<span class="params">props, ref</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> checkCount = <span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">"-&gt;"</span>, ref.current.count);</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;checkCount&#125;</span>&gt;</span>Count<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span>;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Parent = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> ref = useRef();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &lt;ChildOne ref=&#123;ref&#125; /&gt;</span><br><span class="line">            &lt;ChildTwo ref=&#123;ref&#125; /&gt;</span><br><span class="line">        &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，我们在<code>Parent</code>中初始化<code>ref</code>，然后传递给两个子组件。</p>
+<p>子组件1有自己的<code>state</code>，使用<code>useState</code> <code>hook</code>来控制，同时它有一个<code>updateCount</code>方法来增加<code>count</code>数量。</p>
+<p>然后子组件1通过<code>useImperativeHandle</code>这个<code>hook</code>让父组件能够访问<code>count</code>，<code>useImperativeHandle</code>方法接受<code>ref</code>作为参数，然后返回一个包含<code>count</code>变量的对象。</p>
+<p>现在父组件能够访问<code>count</code>，并传递给子组件2。当点击子组件2时，输出<code>ref.current.count</code>。</p>
+<p>这是一个信息流从子组件传递到父组件，再从父组件传递给子组件的例子。与此同时，我们可以注意到，因为我们使用了<code>useRef</code>，所以父组件是没有发生任何的重新渲染（re-render）。</p>
+<br>
+
+<p>参考：</p>
+<p><a href="https://react.docschina.org/docs/forwarding-refs.html" target="_blank" rel="noopener">https://react.docschina.org/docs/forwarding-refs.html</a></p>
+<p><a href="https://medium.com/@binyamin/react-hooks-useref-useimperativehandle-uselayouteffect-ede6f40f393e" target="_blank" rel="noopener">https://medium.com/@binyamin/react-hooks-useref-useimperativehandle-uselayouteffect-ede6f40f393e</a></p>
+]]></content>
+      <categories>
+        <category>React</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>http知识汇总</title>
     <url>/2020/12/07/http%E7%9F%A5%E8%AF%86%E6%B1%87%E6%80%BB/</url>
     <content><![CDATA[<h1 id="http协议"><a href="#http协议" class="headerlink" title="http协议"></a>http协议</h1><ul>
