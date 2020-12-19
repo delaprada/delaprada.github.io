@@ -427,7 +427,7 @@
 
 
 
-<h4 id="Vue-cli-3-x"><a href="#Vue-cli-3-x" class="headerlink" title="Vue-cli 3.x"></a>Vue-cli 3.x</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// vue.config.js 如果没有就新建</span></span><br><span class="line"><span class="comment">// config/index.js</span></span><br><span class="line"></span><br><span class="line">...</span><br><span class="line">proxyTable: &#123;</span><br><span class="line">  <span class="string">'/api'</span>: &#123;</span><br><span class="line">     target: <span class="string">'http://localhost:8080'</span>,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h4 id="Vue-cli-3-x"><a href="#Vue-cli-3-x" class="headerlink" title="Vue-cli 3.x"></a>Vue-cli 3.x</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// vue.config.js 如果没有就新建</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  devServer: &#123;</span><br><span class="line">    port: <span class="number">8000</span>,</span><br><span class="line">    proxy: &#123;</span><br><span class="line">      <span class="string">"/api"</span>: &#123;</span><br><span class="line">        target: <span class="string">"http://localhost:8080"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 
 
 
