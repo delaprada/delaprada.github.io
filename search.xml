@@ -3,14 +3,14 @@
   <entry>
     <title>stroke学习之stroke-dasharray和stroke-dashoffset</title>
     <url>/2020/12/26/stroke%E5%AD%A6%E4%B9%A0%E4%B9%8Bstroke-dasharray%E5%92%8Cstroke-dashoffset/</url>
-    <content><![CDATA[<h1 id="SVG学习之stroke-dasharray和stroke-dashoffset"><a href="#SVG学习之stroke-dasharray和stroke-dashoffset" class="headerlink" title="SVG学习之stroke-dasharray和stroke-dashoffset"></a><strong>SVG学习之stroke-dasharray和stroke-dashoffset</strong></h1><p>今天在做音乐APP的进度条功能的时候，使用到了svg的stroke-dasharray和stoke-dashoffset两个之前没有用到过的属性，借此机会总结一下。</p>
+    <content><![CDATA[<p>今天在做音乐APP的进度条功能的时候，使用到了svg的stroke-dasharray和stoke-dashoffset两个之前没有用到过的属性，借此机会总结一下。</p>
 <h1 id="概念解析"><a href="#概念解析" class="headerlink" title="概念解析"></a><strong>概念解析</strong></h1><ul>
 <li>stroke：画短线于，在…上划线</li>
 <li>stroke-dasharray：用于创建虚线。之所以是array是因为其值其实是数组</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">stroke-dasharray &#x3D; &#39;10&#39; </span><br><span class="line">stroke-dasharray &#x3D; &#39;10, 5&#39; </span><br><span class="line">stroke-dasharray &#x3D; &#39;20, 10, 5&#39;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/images/loading.png" data-original="https://docimg9.docs.qq.com/image/GGJ6L_YAhUv3jzyzQzrk0w?w=250&h=77" alt="img"></p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201226091645.png" alt></p>
 <ul>
 <li><p>stroke-dasharray为一个参数时： 其实是表示虚线长度和每段虚线之间的间距。如：stroke-dasharray = ‘10’ 表示：虚线长10，间距10，然后重复 虚线长10，间距10。</p>
 </li>
@@ -25,7 +25,7 @@
 
 
 <h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a><strong>实例</strong></h1><p>举一下MDN的例子，图中的红线段表示偏移的距离：</p>
-<p><img src="/images/loading.png" data-original="https://docimg9.docs.qq.com/image/XEKz2X7hfhqzBspG5x_AFA?w=671&h=208" alt="img"></p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201226091709.png" alt></p>
 <p>上图效果分别是：</p>
 <ol>
 <li>没有虚线</li>
@@ -48,11 +48,11 @@
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;svg &gt; 　　</span><br><span class="line">&lt;line id=<span class="string">"line"</span> x1=<span class="string">"30"</span> y1=<span class="string">"30"</span> x2=<span class="string">"300"</span> y2=<span class="string">"30"</span> stroke-width=<span class="string">"20"</span> stroke=<span class="string">"red"</span> stroke-dasharray=<span class="string">"300,320"</span>/&gt; </span><br><span class="line">&lt;<span class="regexp">/svg&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>这时候我们可以在可视区域内看到一条红色的实线（因为间隔不在可视区域内）：</p>
-<p><img src="/images/loading.png" data-original="https://docimg7.docs.qq.com/image/uZ2rujq1EiSsnpp-GypCCQ?w=337&h=76" alt="img"></p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201226091915.png" alt></p>
 <ol start="2">
 <li>设置stroke左移300（即<strong>stroke-dashoffset: 300</strong>），这样就刚好隐藏了虚线，可视区域看到的是320的间隔（其实应该是270的间隔，因为可视区域只有270）：</li>
 </ol>
-<p><img src="/images/loading.png" data-original="https://docimg3.docs.qq.com/image/ToocOxUqjnEcMVtmSk0Htw?w=630&h=98" alt="img"></p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201226091933.png" alt></p>
 <ol start="3">
 <li>当鼠标移入的时候，使offset由300变为0，就实现图中的效果了：</li>
 </ol>
@@ -61,18 +61,14 @@
 
 
 <h2 id="圆形进度条"><a href="#圆形进度条" class="headerlink" title="圆形进度条"></a><strong>圆形进度条</strong></h2><p>实现思路和上面是类似的，设置stroke-dasharray虚线长度等于当前圆的周长，间隔大于或等于圆的周长。</p>
-<p><img src="/images/loading.png" data-original="https://img2018.cnblogs.com/blog/1312697/201906/1312697-20190618115412705-1014505699.gif" alt="img"></p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/1312697-20190618115412705-1014505699.gif" alt="img"></p>
 <p>实现思路：</p>
 <ol>
 <li>先画一个圆</li>
 </ol>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;svg  width=<span class="string">"200"</span> height=<span class="string">"200"</span> viewBox=<span class="string">"0 0 200 200"</span>&gt;    </span><br><span class="line">&lt;circle id=<span class="string">"circle"</span> cx=<span class="string">"100"</span> cy=<span class="string">"80"</span> r=<span class="string">"50"</span>  fill=<span class="string">"gray"</span> stroke-width=<span class="string">"5"</span> stroke=<span class="string">"green"</span> /&gt; </span><br><span class="line">&lt;<span class="regexp">/svg&gt;</span></span><br></pre></td></tr></table></figure>
 
-
-
-
-
-<p><img src="/images/loading.png" data-original="https://docimg7.docs.qq.com/image/L7noX9ef9CwShoXd-y_gGw?w=219&h=150" alt="img"></p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201226092002.png" alt></p>
 <ol start="2">
 <li>设置stroke-dasharray和stroke-dashoffset</li>
 </ol>
@@ -85,7 +81,7 @@
 
 <p><img src="/images/loading.png" data-original="https://img2018.cnblogs.com/blog/1312697/201906/1312697-20190618115412705-1014505699.gif" alt="img"></p>
 <p>因此，如果我们想让圆从上方中点开始，需要将圆逆时针旋转90度（rotate(-90deg)）:</p>
-<p><img src="/images/loading.png" data-original="https://docimg3.docs.qq.com/image/XqEPDOQxdOax4fgJ3kQGSA?w=377&h=52" alt="img"></p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201226092030.png" alt></p>
 <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">&amp;<span class="selector-class">.progress-bar</span> &#123;       </span><br><span class="line">    <span class="attribute">transform</span>: scale (<span class="number">0.9</span>) rotate (-<span class="number">90deg</span>);       </span><br><span class="line">    <span class="attribute">stroke</span>: $&#123;style [<span class="string">"theme-color"</span>]&#125;;     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <br>
