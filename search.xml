@@ -1,6 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>stroke学习之stroke-dasharray和stroke-dashoffset</title>
+    <url>/2020/12/26/stroke%E5%AD%A6%E4%B9%A0%E4%B9%8Bstroke-dasharray%E5%92%8Cstroke-dashoffset/</url>
+    <content><![CDATA[<h1 id="SVG学习之stroke-dasharray和stroke-dashoffset"><a href="#SVG学习之stroke-dasharray和stroke-dashoffset" class="headerlink" title="SVG学习之stroke-dasharray和stroke-dashoffset"></a><strong>SVG学习之stroke-dasharray和stroke-dashoffset</strong></h1><p>今天在做音乐APP的进度条功能的时候，使用到了svg的stroke-dasharray和stoke-dashoffset两个之前没有用到过的属性，借此机会总结一下。</p>
+<h1 id="概念解析"><a href="#概念解析" class="headerlink" title="概念解析"></a><strong>概念解析</strong></h1><ul>
+<li>stroke：画短线于，在…上划线</li>
+<li>stroke-dasharray：用于创建虚线。之所以是array是因为其值其实是数组</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">stroke-dasharray &#x3D; &#39;10&#39; </span><br><span class="line">stroke-dasharray &#x3D; &#39;10, 5&#39; </span><br><span class="line">stroke-dasharray &#x3D; &#39;20, 10, 5&#39;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/loading.png" data-original="https://docimg9.docs.qq.com/image/GGJ6L_YAhUv3jzyzQzrk0w?w=250&h=77" alt="img"></p>
+<ul>
+<li><p>stroke-dasharray为一个参数时： 其实是表示虚线长度和每段虚线之间的间距。如：stroke-dasharray = ‘10’ 表示：虚线长10，间距10，然后重复 虚线长10，间距10。</p>
+</li>
+<li><p>两个参数或者多个参数时：一个表示长度，一个表示间距。如：stroke-dasharray = ‘10, 5’ 表示：虚线长10，间距5，然后重复 虚线长10，间距5。如：stroke-dasharray = ‘20, 10, 5’ 表示：虚线长20，间距10，虚线长5，接着是间距20，虚线10，间距5，之后开始如此循环。</p>
+</li>
+<li><p>stroke-dashoffset：offset是偏移的意思，因此这个属性是相对于起始点的偏移。偏移x值为正数时，表示向左移动了x个长度单位，偏移x值为负数时，表示向右移动了x个长度单位。</p>
+</li>
+</ul>
+<p>需要注意的是，不管偏移的方向是哪一边，dasharray是循环的，也就是：虚线-间隔-虚线-间隔。dashoffset属性需要搭配dasharray属性才能看得出效果，因为不是虚线的话是无法看出偏移的。</p>
+<br>
+
+
+
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a><strong>实例</strong></h1><p>举一下MDN的例子，图中的红线段表示偏移的距离：</p>
+<p><img src="/images/loading.png" data-original="https://docimg9.docs.qq.com/image/XEKz2X7hfhqzBspG5x_AFA?w=671&h=208" alt="img"></p>
+<p>上图效果分别是：</p>
+<ol>
+<li>没有虚线</li>
+<li>stroke-dasharray=”3 1” ，虚线没有设置偏移，也就是stroke-dashoffset值为0</li>
+<li>stroke-dashoffset=”3”，偏移正数，虚线整体左移了3个单位，图中3后面的红线段，就是起始线段，线段之后是1个单位的间隔，我们可见区域从这个间隔开始，然后循环 3-1,3-1的虚线-间隔-虚线-间隔</li>
+<li>stroke-dashoffset=”-3”，偏移负数，虚线整体右移动了3个单位，由于dasharray 是循环的，前面偏移的位置会有dasharray 填充上</li>
+<li>stroke-dashoffset=”1”，偏移正数，虚线整体左移了1个单位，最终呈现出来的效果跟线段4 一样</li>
+</ol>
+<p>（红色部分是我们看不见的部分，是可视区域或者偏移导致的）</p>
+<br>
+
+
+
+<h1 id="进度条效果"><a href="#进度条效果" class="headerlink" title="进度条效果"></a><strong>进度条效果</strong></h1><h2 id="线性进度条"><a href="#线性进度条" class="headerlink" title="线性进度条"></a><strong>线性进度条</strong></h2><p>实现这样一个动画：线段从无到有，由短变长</p>
+<p><img src="/images/loading.png" data-original="https://img2018.cnblogs.com/blog/1312697/201906/1312697-20190618114824197-199415331.gif" alt="img"></p>
+<p>实现思路是：</p>
+<ol>
+<li>设置stroke-dasharray虚线长度等于当前svg的宽度，间隔大于或者等于svg宽度</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;svg &gt; 　　</span><br><span class="line">&lt;line id=<span class="string">"line"</span> x1=<span class="string">"30"</span> y1=<span class="string">"30"</span> x2=<span class="string">"300"</span> y2=<span class="string">"30"</span> stroke-width=<span class="string">"20"</span> stroke=<span class="string">"red"</span> stroke-dasharray=<span class="string">"300,320"</span>/&gt; </span><br><span class="line">&lt;<span class="regexp">/svg&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这时候我们可以在可视区域内看到一条红色的实线（因为间隔不在可视区域内）：</p>
+<p><img src="/images/loading.png" data-original="https://docimg7.docs.qq.com/image/uZ2rujq1EiSsnpp-GypCCQ?w=337&h=76" alt="img"></p>
+<ol start="2">
+<li>设置stroke左移300（即<strong>stroke-dashoffset: 300</strong>），这样就刚好隐藏了虚线，可视区域看到的是320的间隔（其实应该是270的间隔，因为可视区域只有270）：</li>
+</ol>
+<p><img src="/images/loading.png" data-original="https://docimg3.docs.qq.com/image/ToocOxUqjnEcMVtmSk0Htw?w=630&h=98" alt="img"></p>
+<ol start="3">
+<li>当鼠标移入的时候，使offset由300变为0，就实现图中的效果了：</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">svg:hover #line&#123;</span><br><span class="line">    stroke-dashoffset: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">#line&#123;</span><br><span class="line">    transition: all <span class="number">2</span>s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="圆形进度条"><a href="#圆形进度条" class="headerlink" title="圆形进度条"></a><strong>圆形进度条</strong></h2><p>实现思路和上面是类似的，设置stroke-dasharray虚线长度等于当前圆的周长，间隔大于或等于圆的周长。</p>
+<p><img src="/images/loading.png" data-original="https://img2018.cnblogs.com/blog/1312697/201906/1312697-20190618115412705-1014505699.gif" alt="img"></p>
+<p>实现思路：</p>
+<ol>
+<li>先画一个圆</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;svg  width=<span class="string">"200"</span> height=<span class="string">"200"</span> viewBox=<span class="string">"0 0 200 200"</span>&gt;    </span><br><span class="line">&lt;circle id=<span class="string">"circle"</span> cx=<span class="string">"100"</span> cy=<span class="string">"80"</span> r=<span class="string">"50"</span>  fill=<span class="string">"gray"</span> stroke-width=<span class="string">"5"</span> stroke=<span class="string">"green"</span> /&gt; </span><br><span class="line">&lt;<span class="regexp">/svg&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><img src="/images/loading.png" data-original="https://docimg7.docs.qq.com/image/L7noX9ef9CwShoXd-y_gGw?w=219&h=150" alt="img"></p>
+<ol start="2">
+<li>设置stroke-dasharray和stroke-dashoffset</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-id">#circle</span>&#123;      </span><br><span class="line">    <span class="attribute">transition</span>: all <span class="number">2s</span>;</span><br><span class="line">    stroke-dasharray:314,314; // 周长为2πr</span><br><span class="line">    stroke-dashoffset:314; // 相当于左移了314，虚线部分则不在可视区域内</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>hover时，设置stroke-dashoffset为0，将虚线部分又展示到可视区域内，注意圆的stroke起始位置为右侧中间</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">svg:hover #circle&#123;     </span><br><span class="line">    stroke-dashoffset:<span class="number">0</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/loading.png" data-original="https://img2018.cnblogs.com/blog/1312697/201906/1312697-20190618115412705-1014505699.gif" alt="img"></p>
+<p>因此，如果我们想让圆从上方中点开始，需要将圆逆时针旋转90度（rotate(-90deg)）:</p>
+<p><img src="/images/loading.png" data-original="https://docimg3.docs.qq.com/image/XqEPDOQxdOax4fgJ3kQGSA?w=377&h=52" alt="img"></p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">&amp;<span class="selector-class">.progress-bar</span> &#123;       </span><br><span class="line">    <span class="attribute">transform</span>: scale (<span class="number">0.9</span>) rotate (-<span class="number">90deg</span>);       </span><br><span class="line">    <span class="attribute">stroke</span>: $&#123;style [<span class="string">"theme-color"</span>]&#125;;     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+
+
+<h1 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a><strong>适用场景</strong></h1><p>用<code>svg</code>的<code>stroke-dasharray</code>和<code>stroke-dashoffset</code>实现进度条效果适用于：不会人为拖动进度条的场景，比如通过<code>props</code>传入百分比控制<code>dashoffset</code>的位置。</p>
+<p>因为在人为拖动进度条的场景下，一般需要有拖动按钮，需要为拖动按钮绑定用户的<code>touchStart</code>，<code>touchMove</code>，<code>touchEnd</code>事件，这些在<code>svg</code>上是不可行的。</p>
+<p>在人为拖动进度条的场景下，只能乖乖用<code>div</code>去画进度条，例如：</p>
+<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line">&lt;ProgressBarWrapper&gt;</span><br><span class="line">    &lt;div className=<span class="string">"bar-inner"</span> </span><br><span class="line">        ref=&#123;progressBar&#125;</span><br><span class="line">        onClick=&#123;progressClick&#125;</span><br><span class="line">     &gt;</span><br><span class="line">     &lt;div className=<span class="string">"progress"</span> ref=&#123;progress&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">     &lt;div className=<span class="string">"progress-btn-wrapper"</span></span><br><span class="line">         ref=&#123;progressBtn&#125;</span><br><span class="line">         onTouchStart=&#123;progressTouchStart&#125;</span><br><span class="line">         onTouchMove=&#123;progressTouchMove&#125;</span><br><span class="line">         onTouchEnd=&#123;progressTouchEnd&#125;</span><br><span class="line">      &gt;</span><br><span class="line">      	&lt;div className=<span class="string">"progress-btn"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>div&gt;</span><br><span class="line">&lt;<span class="regexp">/ProgressBarWrapper&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>ProgressBarWrapper</code>为整个进度条的容器，<code>bar-inner</code>是进度条的背景（100%），<code>progress</code>是当前进度（可变），<code>progress-btn-wrapper</code>是拖动按钮容器，<code>progress-btn</code>是拖动按钮。</p>
+<p>可以看到此时进度条有拖动事件（<code>touch</code>）和点击事件（<code>click</code>），这两个事件的处理是不同的。</p>
+<p>touch事件处理函数：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> _offset = <span class="function">(<span class="params">offsetWidth</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 设置进度条长度为offsetWidth，按钮的x偏移量为offsetWidth</span></span><br><span class="line">    progress.current.style.width = <span class="string">`<span class="subst">$&#123;offsetWidth&#125;</span>px`</span>;</span><br><span class="line">    progressBtn.current.style.transform = <span class="string">`translate3d($    &#123;offsetWidth&#125;px, 0, 0)`</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 记录开始位置和当前进度条宽度</span></span><br><span class="line"><span class="keyword">const</span> progressTouchStart = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> startTouch = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 表示滑动动作开始</span></span><br><span class="line">    startTouch.initiated = <span class="literal">true</span>;</span><br><span class="line">    startTouch.startX = e.touches[<span class="number">0</span>].pageX;</span><br><span class="line">    startTouch.left = progress.current.clientWidth;</span><br><span class="line">    setTouch(startTouch);  <span class="comment">// touch是一个state状态</span></span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> progressTouchMove = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(!touch.initiated) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// deltaX记录移动距离</span></span><br><span class="line">    <span class="keyword">const</span> deltaX = e.touches[<span class="number">0</span>].pageX - touch.startX;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 进度条净宽度 = 进度条宽度 - 按钮宽度</span></span><br><span class="line">    <span class="keyword">const</span> barWidth = progressBar.current.clientWidth -         progressBtnWidth;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 控制offsetWidth大小使得进度条长度和按钮位置在最小（0）和最大（barWidth）范围之内</span></span><br><span class="line">    <span class="keyword">const</span> offsetWidth = <span class="built_in">Math</span>.min(<span class="built_in">Math</span>.max(<span class="number">0</span>, touch.left + deltaX), barWidth);</span><br><span class="line">    _offset(offsetWidth)；</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>点击事件：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 点击事件（与前面的拖动事件效果不同）</span></span><br><span class="line"><span class="keyword">const</span> progressClick = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 进度条当前长度，getBoundingClientRect可获取DOM元素到浏览器可视范围的距离</span></span><br><span class="line">    <span class="keyword">const</span> rect = progressBar.current.getBoundingClientRect();</span><br><span class="line">    <span class="keyword">const</span> offsetWidth = e.pageX - rect.left;</span><br><span class="line">    _offset(offsetWidth);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+  </entry>
+  <entry>
     <title>React hooks: useRef, useImperativeHandle</title>
     <url>/2020/12/14/React-hooks-useRef-useImperativeHandle/</url>
     <content><![CDATA[<h1 id="Refs"><a href="#Refs" class="headerlink" title="Refs"></a>Refs</h1><p><code>Refs</code>提供了一种方式，允许我们访问<strong>DOM节点</strong>或<strong>在render方法中创建的React元素</strong>。</p>
