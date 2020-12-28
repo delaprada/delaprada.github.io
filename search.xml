@@ -1,6 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>useRef vs useState: 我们是否需要重渲染</title>
+    <url>/2020/12/28/useRef-vs-useState-%E6%88%91%E4%BB%AC%E6%98%AF%E5%90%A6%E9%9C%80%E8%A6%81%E9%87%8D%E6%B8%B2%E6%9F%93/</url>
+    <content><![CDATA[<h1 id="TL-DR（Too-Long-Don’t-Read）"><a href="#TL-DR（Too-Long-Don’t-Read）" class="headerlink" title="TL;DR（Too Long, Don’t Read）"></a>TL;DR（Too Long, Don’t Read）</h1><ul>
+<li><code>useState</code>会导致<code>re-render</code>；<code>useRef</code>不会</li>
+<li><code>useState</code>和<code>useRef</code>在重渲染后都会记住它们之前的值</li>
+</ul>
+<p>开始学习<code>React</code>并不难，难点在于理解<code>React</code>的生命周期以及<code>re-render</code>。在<code>hook</code>这些新的<code>api</code>出现之后，我们脑海中会产生更多关于<code>React</code>的<code>re-render</code>（即虚拟DOM是在什么时候怎么样进行协调<code>reconciliation</code>的）的问题。</p>
+<blockquote>
+<p>Reconciliation（协调）是指仅在DOM树的diff发生变化时进行重渲染。</p>
+</blockquote>
+<p>我们为什么需要知道什么时候进行重渲染：</p>
+<ol>
+<li><code>re-render</code>是基于最新的变化（<code>latest changes</code>）来更新UI层</li>
+<li><code>re-render</code>导致DOM树协调是影响性能（<code>performance factor</code>）的一大因素</li>
+</ol>
+<br>
+
+<h1 id="什么导致re-render"><a href="#什么导致re-render" class="headerlink" title="什么导致re-render"></a>什么导致<code>re-render</code></h1><p><code>React</code>的<code>re-render</code>给我们展示了，我们通过事件（<code>events</code>）、请求（<code>requests</code>）、定时器（<code>timers</code>）等方式对数据层做出的改变。但它们并不是真正的触发者（<code>triggers</code>）——<code>state</code>的改变才是真正的触发者（触发<code>re-render</code>）。这个是合理的，因为事件、请求最终都是通过更新<code>state</code>来触发<code>re-render</code>。</p>
+<p>当组件是嵌套着的时候，我们便很难准确判断<code>state</code>改变是怎么触发UI层的变化的。这也是经常困惑新手的点。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [value, setValue] = React.useState(<span class="string">""</span>);</span><br><span class="line">  <span class="keyword">const</span> handleInputChange = <span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">    setValue(e.target.value);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div className=<span class="string">"App"</span>&gt;</span><br><span class="line">      &lt;Input value=&#123;value&#125; onChange=&#123;handleInputChange&#125; /&gt;</span><br><span class="line">      &lt;Button&gt;Button&lt;<span class="regexp">/Button&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>App</code>组件由两个子组件<code>Input</code>和<code>Button</code>，你觉得当用户在<code>input</code>中输入内容时DOM树的哪一部分会发生重渲染呢？</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> Input = <span class="function">(<span class="params">&#123; value, onChange &#125;</span>) =&gt;</span> (</span><br><span class="line">  &lt;input value=&#123;value&#125; onChange=&#123;onChange&#125; /&gt;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h1 id="解释一下嵌套组件"><a href="#解释一下嵌套组件" class="headerlink" title="解释一下嵌套组件"></a>解释一下嵌套组件</h1><p>嵌套组件是最困扰新手们的点了。他们总是会想着<code>props</code>也会触发<code>re-render</code>，我时常会听到：“但<code>Input</code>没有<code>state</code>，它只有<code>props</code>。但它<code>re-render</code>了，为什么？”</p>
+<p>为了证明<code>Input</code>真的<code>re-render</code>，我们通过<code>React&#39;s dev tool</code>来检测。点击<code>settings/gear icon</code>，点击<code>Highlight Update</code>键。</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201228100723.png" alt></p>
+<p>当我们在<code>input</code>中输入内容时，会发现<code>App</code>、<code>Input</code>、<code>Button</code>都提示在<code>re-render</code>，<strong>这种<code>re-render</code>的触发只是因为改变了其中一个子组件<code>Input</code>的内容</strong>。这种更新准确来说并不是<code>input</code>内容变化所导致的，而是因为<code>App</code>组件中的<code>state</code> <code>value</code>发生变化导致的。</p>
+<p>因此我们可以得出结论：只要<code>App</code>的<code>state</code>发生变化，每个<code>App</code>的子组件都会<code>re-render</code>。也有例外，如果我们使用<code>PureComponent</code>或者<code>shouldComponentUpdate</code>显式地表明<code>Input</code>和<code>Button</code>不会<code>re-render</code>，则子组件<code>Input</code>和<code>Button</code>不会<code>re-render</code>。</p>
+<p>除了使用<code>PureComponent</code>和<code>shouldComponentUpdate</code>以外，有两种办法能够控制<code>re-render</code>。第一种办法是将<code>state</code>逻辑从<code>App</code>挪到<code>Input</code>子组件中。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> Input = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [value, setValue] = React.useState(<span class="string">""</span>);</span><br><span class="line">  <span class="keyword">const</span> handleInputChange = <span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">    setValue(e.target.value);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">input</span> <span class="attr">value</span>=<span class="string">&#123;value&#125;</span> <span class="attr">onChange</span>=<span class="string">&#123;handleInputChange&#125;</span> /&gt;</span>;</span></span><br><span class="line"><span class="xml">&#125;;</span></span><br></pre></td></tr></table></figure>
+
+<p>这么做的话，<code>App</code>就不会更新，因为<code>state</code>挪到了子组件<code>Input</code>中。<code>App</code>不会更新也意味着<code>Button</code>也不会更新。</p>
+<p>这里关键的一点是——尽管协调（<code>reconciliation</code>）能够使得<code>React</code>变得更快，在一些复杂的DOM场景下也会导致性能瓶颈。所以，不要盲目地优化（<code>do not blindly optimize</code>）。</p>
+<br>
+
+<h1 id="在不re-render的情况下保存数据"><a href="#在不re-render的情况下保存数据" class="headerlink" title="在不re-render的情况下保存数据"></a>在不<code>re-render</code>的情况下保存数据</h1><p>在数据发生变化和UI更新时，<code>state</code>会保存着数据。在有些情况下，UI的更新是没有什么必要的。</p>
+<p>非受控组件避免在<code>state</code>中保存数据，它们会选择在<code>refs</code>中保存数据。下面的例子使用<code>ref</code>来处理表格场景：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [value, setValue] = React.useState(<span class="string">""</span>);</span><br><span class="line">  <span class="keyword">const</span> valueRef = React.useRef();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> handleClick = <span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">    setValue(valueRef.current.value);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div className=<span class="string">"App"</span>&gt;</span><br><span class="line">      &lt;h4&gt;Value: &#123;value&#125;&lt;<span class="regexp">/h4&gt;</span></span><br><span class="line"><span class="regexp">      &lt;input ref=&#123;valueRef&#125; /</span>&gt;</span><br><span class="line">      &lt;Button onClick=&#123;handleClick&#125;&gt;Button&lt;<span class="regexp">/Button&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因为我们没有在<code>input</code>中使用<code>state</code>来存储其<code>value</code>，所以当我们填写表格的时候是没有<code>re-render</code>。只有当我们点击<code>button</code>时，才将<code>ref</code>中的<code>current.value</code>赋值给<code>state</code>中的<code>value</code>。</p>
+<p>所以<code>ref</code>不只可以用于访问DOM节点，还可以用来存储数据。</p>
+<p>受控组件是非受控组件的反义词，它们是使用<code>state</code>作为数据存储的组件。受控组件并不差（<code>bad</code>），实际上，它们是最为推荐的。</p>
+<p>参考：</p>
+<blockquote>
+<p><a href="https://www.codebeast.dev/usestate-vs-useref-re-render-or-not/" target="_blank" rel="noopener">https://www.codebeast.dev/usestate-vs-useref-re-render-or-not/</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>React</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>stroke学习之stroke-dasharray和stroke-dashoffset</title>
     <url>/2020/12/26/stroke%E5%AD%A6%E4%B9%A0%E4%B9%8Bstroke-dasharray%E5%92%8Cstroke-dashoffset/</url>
     <content><![CDATA[<p>今天在做音乐APP的进度条功能的时候，使用到了svg的stroke-dasharray和stoke-dashoffset两个之前没有用到过的属性，借此机会总结一下。</p>
