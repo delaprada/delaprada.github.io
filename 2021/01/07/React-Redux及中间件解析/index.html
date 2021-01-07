@@ -121,7 +121,7 @@
 <meta property="og:image" content="http://delaprada.com/images/loading.png">
 <meta property="og:image" content="http://delaprada.com/images/loading.png">
 <meta property="article:published_time" content="2021-01-07T07:55:48.000Z">
-<meta property="article:modified_time" content="2021-01-07T09:00:08.697Z">
+<meta property="article:modified_time" content="2021-01-07T10:17:18.302Z">
 <meta property="article:author" content="Alice">
 <meta property="article:tag" content="React">
 <meta name="twitter:card" content="summary">
@@ -171,7 +171,7 @@
 
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -239,7 +239,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
             分类
           </a>
@@ -252,6 +252,16 @@
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
           </a>
         </li>
       
@@ -403,11 +413,15 @@
 </ol>
 <br>
 
+<hr>
+
 <h1 id="Redux的设计思想"><a href="#Redux的设计思想" class="headerlink" title="Redux的设计思想"></a><strong>Redux的设计思想</strong></h1><ol>
 <li>Web应用是一个状态机，视图和状态是一一对应的。</li>
 <li>所有的状态，都保存在一个对象（Store）里。</li>
 </ol>
 <br>
+
+<hr>
 
 <h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a><strong>基本概念</strong></h1><h2 id="Store"><a href="#Store" class="headerlink" title="Store"></a><strong>Store</strong></h2><p>Store是保存数据的地方，可看作一个容器。<strong>整个应用只能有一个store</strong>，一般用createStore这个方法来生成Store。</p>
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createStore &#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> store = createStore(reducer, preloadedState, enhancer);</span><br></pre></td></tr></table></figure>
@@ -458,11 +472,9 @@
 
 
 
-<blockquote>
 <p>js数组api reduce方法解析：</p>
 <p><a href="https://www.cnblogs.com/amujoe/p/11376940.html" target="_blank" rel="noopener">JS中 reduce() 的用法</a></p>
 <p><a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce" target="_blank" rel="noopener">reduce mdn官方文档</a></p>
-</blockquote>
 <p>一些需要熟记的点：</p>
 <ol>
 <li>reduce的第一个参数为reducer函数，可传入4个参数，分别是prev、cur、index、arr，根据英文大致能猜出它的意思。prev表示上一次调用的返回值或者初始值，cur表示当前正在处理的数组元素，index表示当前正在处理的数组元素的索引（若提供init值，则索引为0，否则索引为1，因为init值不算作数组元素），arr表示原数组</li>
@@ -495,6 +507,8 @@
 
 <br>
 
+<hr>
+
 <h1 id="Store的实现"><a href="#Store的实现" class="headerlink" title="Store的实现"></a><strong>Store的实现</strong></h1><p>Store提供了三个方法：</p>
 <ol>
 <li>store.getState()</li>
@@ -505,6 +519,8 @@
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> createStore = <span class="function">(<span class="params">reducer</span>) =&gt;</span> &#123;</span><br><span class="line"><span class="keyword">let</span> state;</span><br><span class="line"><span class="keyword">let</span> listeners = [];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> getState = <span class="function"><span class="params">()</span> =&gt;</span> state; <span class="comment">// getState方法</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> dispatch = <span class="function">(<span class="params">action</span>) =&gt;</span> &#123; <span class="comment">// dispatch方法</span></span><br><span class="line">        state = reducer(state, action);</span><br><span class="line">        listeners.forEach(<span class="function"><span class="params">listener</span> =&gt;</span> listener());</span><br><span class="line">      &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> subscribe = <span class="function">(<span class="params">listener</span>) =&gt;</span> &#123;  <span class="comment">// subscribe方法</span></span><br><span class="line">        listeners.push(listener);</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">              listeners = listeners.filter(<span class="function"><span class="params">l</span> =&gt;</span> l !== listener);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;;</span><br><span class="line"></span><br><span class="line">    dispatch(&#123;&#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123; getState, dispatch, subscribe &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <br>
+
+<hr>
 
 <h1 id="Reducer的拆分"><a href="#Reducer的拆分" class="headerlink" title="Reducer的拆分"></a><strong>Reducer的拆分</strong></h1><p>Reducer函数如果不进行拆分的话，会变得十分庞大。Reducer需要根据所有组件的action进行处理，代码的可读性也会变得很糟糕。</p>
 <p>Redux提供了一个combineReducers方法，用于Reducer的拆分。你只要定义各个子Reducer函数，然后用这个方法，将它们合成一个大的Reducer。</p>
@@ -521,11 +537,13 @@
 <p>例如（注意其中的区别，原生实现中是要调用函数，返回对象）：</p>
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> reducer = combineReducers(&#123;</span><br><span class="line">  a: doSomethingWithA,</span><br><span class="line">  b: processB,</span><br><span class="line">  c: c</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 等同于</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">reducer</span>(<span class="params">state = &#123;&#125;, action</span>) </span>&#123;</span><br><span class="line"><span class="keyword">return</span> &#123;</span><br><span class="line">    a: doSomethingWithA(state.a, action),</span><br><span class="line">    b: processB(state.b, action),</span><br><span class="line">    c: c(state.c, action)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<img src="/images/loading.png" data-original="https://docimg4.docs.qq.com/image/Piu64bIv7RSgL8zS_M72-g?w=1007&h=1142" alt="img" style="zoom: 33%;">
+<img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210107173147.png" style="zoom:33%;">
 
 <br>
 
-<h1 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a><strong>工作流程</strong></h1><p><img src="/images/loading.png" data-original="https://docimg5.docs.qq.com/image/VIEdvHZLt8G29N59BYxviA?w=638&h=479" alt="img"></p>
+<hr>
+
+<h1 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a><strong>工作流程</strong></h1><p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210107173249.png" alt></p>
 <p>（注意Action Creators到Reducers之间是虚线，因为是Store自动调用reducer来改变state，所以是虚线，这里的画法体现了这一思路。）</p>
 <ol>
 <li>首先，用户发出Action。</li>
@@ -539,6 +557,8 @@
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置监听函数</span></span><br><span class="line">store.subscribe(listener);</span><br></pre></td></tr></table></figure>
 
 <br>
+
+<hr>
 
 <h1 id="Redux中间件与异步操作"><a href="#Redux中间件与异步操作" class="headerlink" title="Redux中间件与异步操作"></a><strong>Redux中间件与异步操作</strong></h1><p>我们已经了解到Redux的基本做法：用户发出Action，Reducer函数算出新的State，View重新渲染。</p>
 <p>但如果涉及到异步操作，则需要用到新的工具：中间件。</p>
@@ -611,6 +631,8 @@
 </ol>
 <br>
 
+<hr>
+
 <h1 id="React-Redux的用法"><a href="#React-Redux的用法" class="headerlink" title="React-Redux的用法"></a><strong>React-Redux的用法</strong></h1><h2 id="UI组件"><a href="#UI组件" class="headerlink" title="UI组件"></a><strong>UI组件</strong></h2><p>React-Redux将所有组件分成两大类：UI组件和容器组件。</p>
 <p>UI组件有以下几个特征：</p>
 <ol>
@@ -646,12 +668,12 @@
 <h2 id="mapStateToProps"><a href="#mapStateToProps" class="headerlink" title="mapStateToProps()"></a><strong>mapStateToProps()</strong></h2><p>mapStateToProps是一个函数，接受state作为参数，返回一个对象：</p>
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> mapStateToProps = <span class="function">(<span class="params">state</span>) =&gt;</span> (&#123;</span><br><span class="line">    currentAlbum: state.getIn([<span class="string">"album"</span>, <span class="string">"currentAlbum"</span>]),</span><br><span class="line">    enterLoading: state.getIn([<span class="string">"album"</span>, <span class="string">"enterLoading"</span>]),</span><br><span class="line">    songsCount: state.getIn([<span class="string">"player"</span>, <span class="string">"playList"</span>]).size,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
-<p><img src="/images/loading.png" data-original="https://docimg9.docs.qq.com/image/2WH8De0bJvv6_JertnMckw?w=1668&h=711" alt="img"></p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210107173307.png" alt></p>
 <p>mapStateToProps会订阅Store，每当state更新的时候，就会自动执行，重新计算UI组件的参数，从而触发UI组件的重新渲染。</p>
 <h2 id="mapDispatchToProps"><a href="#mapDispatchToProps" class="headerlink" title="mapDispatchToProps()"></a><strong>mapDispatchToProps()</strong></h2><p>mapDispatchToProps是connect函数的第二个参数，用来建立UI组件的参数（props）到store.dispatch方法的映射。它定义了哪些用户的操作应该当做Action，传给Store。</p>
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> mapDispatchToProps = <span class="function">(<span class="params">dispatch</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        getAlbumDataDispatch(id) &#123;</span><br><span class="line">            dispatch(changeEnterLoading(<span class="literal">true</span>));</span><br><span class="line">            dispatch(getAlbumList(id));</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/images/loading.png" data-original="https://docimg1.docs.qq.com/image/9KlSty4IIog-Ezuh_-U9jg?w=1603&h=633" alt="img"></p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210107173320.png" alt></p>
 <p>组件内部就可以通过以下方式获取数据和方法：</p>
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; </span><br><span class="line">    currentAlbum,</span><br><span class="line">    enterLoading,</span><br><span class="line">    songsCount,</span><br><span class="line">  &#125; = props;</span><br><span class="line"><span class="keyword">const</span> &#123; getAlbumDataDispatch &#125; = props;</span><br></pre></td></tr></table></figure>
 
@@ -1466,5 +1488,10 @@
   <!-- 页面点击小红心 -->
   <script type="text/javascript" src="/js/src/clicklove.js"></script>
 
-<script>!function(e){var c=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){for(var r=0;r<c.length;r++)t=c[r],0<=(n=t.getBoundingClientRect()).top&&0<=n.left&&n.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=c[r];t=o,n=function(){c=c.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}();var t,n}i(),e.addEventListener("scroll",function(){var t,n;t=i,n=e,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)})}(this);</script></body>
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=i;var e=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}i(),n.addEventListener("scroll",function(){var t,e;t=i,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
 </html>

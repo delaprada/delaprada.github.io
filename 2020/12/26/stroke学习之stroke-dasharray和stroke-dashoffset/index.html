@@ -176,7 +176,7 @@
 
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -244,7 +244,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
             分类
           </a>
@@ -257,6 +257,16 @@
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
           </a>
         </li>
       
@@ -480,7 +490,7 @@
 <h1 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a><strong>适用场景</strong></h1><p>用<code>svg</code>的<code>stroke-dasharray</code>和<code>stroke-dashoffset</code>实现进度条效果适用于：不会人为拖动进度条的场景，比如通过<code>props</code>传入百分比控制<code>dashoffset</code>的位置。</p>
 <p>因为在人为拖动进度条的场景下，一般需要有拖动按钮，需要为拖动按钮绑定用户的<code>touchStart</code>，<code>touchMove</code>，<code>touchEnd</code>事件，这些在<code>svg</code>上是不可行的。</p>
 <p>在人为拖动进度条的场景下，只能乖乖用<code>div</code>去画进度条，例如：</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;ProgressBarWrapper&gt;</span><br><span class="line">    &lt;div className=<span class="string">"bar-inner"</span> </span><br><span class="line">        ref=&#123;progressBar&#125;</span><br><span class="line">        onClick=&#123;progressClick&#125;</span><br><span class="line">     &gt;</span><br><span class="line">     &lt;div className=<span class="string">"progress"</span> ref=&#123;progress&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">     &lt;div className=<span class="string">"progress-btn-wrapper"</span></span><br><span class="line">         ref=&#123;progressBtn&#125;</span><br><span class="line">         onTouchStart=&#123;progressTouchStart&#125;</span><br><span class="line">         onTouchMove=&#123;progressTouchMove&#125;</span><br><span class="line">         onTouchEnd=&#123;progressTouchEnd&#125;</span><br><span class="line">      &gt;</span><br><span class="line">      	&lt;div className=<span class="string">"progress-btn"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>div&gt;</span><br><span class="line">&lt;<span class="regexp">/ProgressBarWrapper&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;ProgressBarWrapper&gt;</span><br><span class="line">    &lt;div className=<span class="string">"bar-inner"</span> </span><br><span class="line">        ref=&#123;progressBar&#125;</span><br><span class="line">        onClick=&#123;progressClick&#125;</span><br><span class="line">     &gt;</span><br><span class="line">     &lt;div className=<span class="string">"progress"</span> ref=&#123;progress&#125;&gt;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">     &lt;div className="progress-btn-wrapper"</span></span><br><span class="line"><span class="regexp">         ref=&#123;progressBtn&#125;</span></span><br><span class="line"><span class="regexp">         onTouchStart=&#123;progressTouchStart&#125;</span></span><br><span class="line"><span class="regexp">         onTouchMove=&#123;progressTouchMove&#125;</span></span><br><span class="line"><span class="regexp">         onTouchEnd=&#123;progressTouchEnd&#125;</span></span><br><span class="line"><span class="regexp">      &gt;</span></span><br><span class="line"><span class="regexp">      	&lt;div className="progress-btn"&gt;&lt;/</span>div&gt;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>div&gt;</span><br><span class="line">&lt;<span class="regexp">/ProgressBarWrapper&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p><code>ProgressBarWrapper</code>为整个进度条的容器，<code>bar-inner</code>是进度条的背景（100%），<code>progress</code>是当前进度（可变），<code>progress-btn-wrapper</code>是拖动按钮容器，<code>progress-btn</code>是拖动按钮。</p>
 <p>可以看到此时进度条有拖动事件（<code>touch</code>）和点击事件（<code>click</code>），这两个事件的处理是不同的。</p>
@@ -1286,5 +1296,10 @@
   <!-- 页面点击小红心 -->
   <script type="text/javascript" src="/js/src/clicklove.js"></script>
 
-<script>!function(e){var c=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){for(var r=0;r<c.length;r++)t=c[r],0<=(n=t.getBoundingClientRect()).top&&0<=n.left&&n.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=c[r];t=o,n=function(){c=c.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}();var t,n}i(),e.addEventListener("scroll",function(){var t,n;t=i,n=e,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)})}(this);</script></body>
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=i;var e=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}i(),n.addEventListener("scroll",function(){var t,e;t=i,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
 </html>

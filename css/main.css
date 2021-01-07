@@ -975,9 +975,9 @@ pre .javascript .function {
   margin-top: 4px;
 }
 .pagination {
-  margin: 120px 0 40px;
+  margin: 80px 0 40px;
   text-align: center;
-  border-top: 1px solid #eee;
+  height: 40px;
 }
 .page-number-basic,
 .pagination .prev,
@@ -986,9 +986,13 @@ pre .javascript .function {
 .pagination .space {
   display: inline-block;
   position: relative;
-  top: -1px;
   margin: 0 10px;
-  padding: 0 11px;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  border: 1.5px solid #dee2e6;
+  color: #2196f3;
 }
 @media (max-width: 767px) {
   .page-number-basic,
@@ -1002,21 +1006,24 @@ pre .javascript .function {
 .pagination .prev,
 .pagination .next,
 .pagination .page-number {
-  border-bottom: 0;
-  border-top: 1px solid #eee;
   transition-property: border-color;
   transition-duration: 0.2s;
   transition-timing-function: ease-in-out;
   transition-delay: 0s;
+  border-radius: 50%;
 }
 .pagination .prev:hover,
 .pagination .next:hover,
 .pagination .page-number:hover {
-  border-top-color: #222;
+  color: #fff;
+  background: #2196f3;
+  transition: 0.3s;
+  border: 1.5px solid #dee2e6;
 }
 .pagination .space {
   padding: 0;
   margin: 0;
+  border: none;
 }
 .pagination .prev {
   margin-left: 0;
@@ -1026,8 +1033,7 @@ pre .javascript .function {
 }
 .pagination .page-number.current {
   color: #fff;
-  background: #ccc;
-  border-top-color: #ccc;
+  background: #2196f3;
 }
 @media (max-width: 767px) {
   .pagination {
@@ -1829,7 +1835,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #1728ff;
+  background: #ff3275;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2934,7 +2940,7 @@ hr {
   margin-bottom: 60px;
 }
 .pagination {
-  margin: 120px 0 0;
+  margin: 80px 0 0;
   text-align: left;
 }
 @media (max-width: 767px) {
@@ -2978,7 +2984,7 @@ body {
   font-size: 40px;
 }
 .main-inner {
-  width: 800px;
+  width: 70%;
   padding: 0px 40px 20px 40px;
 }
 .header-inner {

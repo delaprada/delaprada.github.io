@@ -168,7 +168,7 @@
 
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -236,7 +236,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
             分类
           </a>
@@ -249,6 +249,16 @@
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
           </a>
         </li>
       
@@ -449,7 +459,7 @@
 
 
 <p>现在已经完成了滑动事件，上拉下拉事件的判断，现在需要给外界暴露组件方法，假设这样的一个情景：</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 上层组件代码</span></span><br><span class="line"><span class="keyword">const</span> scrollRef = useRef ();</span><br><span class="line">...</span><br><span class="line">&lt;Scroll ref=&#123;scrollRef&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Scroll</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 上层组件代码</span></span><br><span class="line"><span class="keyword">const</span> scrollRef = useRef ();</span><br><span class="line">...</span><br><span class="line">&lt;Scroll ref=&#123;scrollRef&#125;&gt;&lt;<span class="regexp">/Scroll&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>想要通过这种调用方法的方式刷新 scroll 组件：</p>
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrollRef.current.refresh ();</span><br></pre></td></tr></table></figure>
@@ -478,7 +488,7 @@
 
 
 <p>在<code>return</code>中应用：</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;Content&gt;</span><br><span class="line">  &lt;Scroll className=<span class="string">"list"</span>&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;Slider bannerList=&#123;bannerList&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Slider</span>&gt;</span></span></span><br><span class="line">      &lt;RecommendList recommendList=&#123;recommendList&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">RecommendList</span>&gt;</span></span></span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  &lt;/</span>Scroll&gt;</span><br><span class="line">&lt;<span class="regexp">/Content&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;Content&gt;</span><br><span class="line">  &lt;Scroll className=<span class="string">"list"</span>&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;Slider bannerList=&#123;bannerList&#125;&gt;&lt;<span class="regexp">/Slider&gt;</span></span><br><span class="line"><span class="regexp">      &lt;RecommendList recommendList=&#123;recommendList&#125;&gt;&lt;/</span>RecommendList&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  &lt;/</span>Scroll&gt;</span><br><span class="line">&lt;<span class="regexp">/Content&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>这里作者用了个<code>Content</code>，来去保证父组件高度固定，这里是我疑惑的一个点，按照<code>better-scroll</code>的官方文档的内容，我们执行</p>
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> BScroll (scrollContaninerRef.current, &#123;</span><br><span class="line">    scrollX: direction === <span class="string">"horizental"</span>,</span><br><span class="line">    scrollY: direction === <span class="string">"vertical"</span>,</span><br><span class="line">    probeType: <span class="number">3</span>,</span><br><span class="line">    click: click,</span><br><span class="line">    bounce:&#123;</span><br><span class="line">      top: bounceTop,</span><br><span class="line">      bottom: bounceBottom</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
@@ -1285,5 +1295,10 @@
   <!-- 页面点击小红心 -->
   <script type="text/javascript" src="/js/src/clicklove.js"></script>
 
-<script>!function(e){var c=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){for(var r=0;r<c.length;r++)t=c[r],0<=(n=t.getBoundingClientRect()).top&&0<=n.left&&n.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=c[r];t=o,n=function(){c=c.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}();var t,n}i(),e.addEventListener("scroll",function(){var t,n;t=i,n=e,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)})}(this);</script></body>
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=i;var e=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}i(),n.addEventListener("scroll",function(){var t,e;t=i,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
 </html>

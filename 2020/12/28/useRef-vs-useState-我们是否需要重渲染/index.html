@@ -168,7 +168,7 @@
 
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -236,7 +236,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
             分类
           </a>
@@ -249,6 +249,16 @@
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
           </a>
         </li>
       
@@ -399,7 +409,7 @@
 <p>当我们在<code>input</code>中输入内容时，会发现<code>App</code>、<code>Input</code>、<code>Button</code>都提示在<code>re-render</code>，<strong>这种<code>re-render</code>的触发只是因为改变了其中一个子组件<code>Input</code>的内容</strong>。这种更新准确来说并不是<code>input</code>内容变化所导致的，而是因为<code>App</code>组件中的<code>state</code> <code>value</code>发生变化导致的。</p>
 <p>因此我们可以得出结论：只要<code>App</code>的<code>state</code>发生变化，每个<code>App</code>的子组件都会<code>re-render</code>。也有例外，如果我们使用<code>PureComponent</code>或者<code>shouldComponentUpdate</code>显式地表明<code>Input</code>和<code>Button</code>不会<code>re-render</code>，则子组件<code>Input</code>和<code>Button</code>不会<code>re-render</code>。</p>
 <p>除了使用<code>PureComponent</code>和<code>shouldComponentUpdate</code>以外，有两种办法能够控制<code>re-render</code>。第一种办法是将<code>state</code>逻辑从<code>App</code>挪到<code>Input</code>子组件中。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Input = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [value, setValue] = React.useState(<span class="string">""</span>);</span><br><span class="line">  <span class="keyword">const</span> handleInputChange = <span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">    setValue(e.target.value);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">input</span> <span class="attr">value</span>=<span class="string">&#123;value&#125;</span> <span class="attr">onChange</span>=<span class="string">&#123;handleInputChange&#125;</span> /&gt;</span>;</span></span><br><span class="line"><span class="xml">&#125;;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Input = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [value, setValue] = React.useState(<span class="string">""</span>);</span><br><span class="line">  <span class="keyword">const</span> handleInputChange = <span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">    setValue(e.target.value);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">input</span> <span class="attr">value</span>=<span class="string">&#123;value&#125;</span> <span class="attr">onChange</span>=<span class="string">&#123;handleInputChange&#125;</span> /&gt;</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>这么做的话，<code>App</code>就不会更新，因为<code>state</code>挪到了子组件<code>Input</code>中。<code>App</code>不会更新也意味着<code>Button</code>也不会更新。</p>
 <p>这里关键的一点是——尽管协调（<code>reconciliation</code>）能够使得<code>React</code>变得更快，在一些复杂的DOM场景下也会导致性能瓶颈。所以，不要盲目地优化（<code>do not blindly optimize</code>）。</p>
@@ -1212,5 +1222,10 @@
   <!-- 页面点击小红心 -->
   <script type="text/javascript" src="/js/src/clicklove.js"></script>
 
-<script>!function(e){var c=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){for(var r=0;r<c.length;r++)t=c[r],0<=(n=t.getBoundingClientRect()).top&&0<=n.left&&n.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=c[r];t=o,n=function(){c=c.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}();var t,n}i(),e.addEventListener("scroll",function(){var t,n;t=i,n=e,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)})}(this);</script></body>
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=i;var e=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}i(),n.addEventListener("scroll",function(){var t,e;t=i,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
 </html>
