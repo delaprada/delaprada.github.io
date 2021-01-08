@@ -1807,6 +1807,56 @@
       </tags>
   </entry>
   <entry>
+    <title>易混淆JS题目——this指向 闭包</title>
+    <url>/2020/02/18/%E6%98%93%E6%B7%B7%E6%B7%86JS%E9%A2%98%E7%9B%AE%E2%80%94%E2%80%94this%E6%8C%87%E5%90%91-%E9%97%AD%E5%8C%85/</url>
+    <content><![CDATA[<p>Q：代码运行结果</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="keyword">this</span>.b = <span class="number">3</span>; &#125;</span><br><span class="line"><span class="keyword">var</span> c = <span class="keyword">new</span> a();</span><br><span class="line">a.prototype.b = <span class="number">9</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="number">7</span>;</span><br><span class="line">a();</span><br><span class="line"><span class="built_in">console</span>.log(b);</span><br><span class="line"><span class="built_in">console</span>.log(c.b);</span><br></pre></td></tr></table></figure>
+
+<p>解：</p>
+<p>整个代码在变量提升之后可以写为：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a;</span><br><span class="line"><span class="keyword">var</span> c;</span><br><span class="line"><span class="keyword">var</span> b;</span><br><span class="line">a=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.b=<span class="number">3</span>;</span><br><span class="line">&#125;</span><br><span class="line">c=<span class="keyword">new</span> a();</span><br><span class="line">a.prototype.b=<span class="number">9</span>;</span><br><span class="line">b=<span class="number">7</span>;</span><br><span class="line">a();</span><br><span class="line"><span class="built_in">console</span>.log(b);</span><br><span class="line"><span class="built_in">console</span>.log(c.b);</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：函数声明的时候还没有执行！不要弄混了。</strong>当执行<code>c=new a()</code>的时候，会将函数a内部的this指向c，所以<code>c.b</code>此时就是3。<code>a.prototype.b=9</code>没有什么影响。<code>b=7;</code>表示将全局变量b赋值为7。此后执行了函数<code>a()</code>，要注意在默认情况下，函数中this的指向是指向全局作用域的，所以执行函数<code>a()</code>的话是把全局变量b的值变为3。所以输出的是3 3。</p>
+<hr>  
+
+<p>Q：以最小的改动解决以下代码的错误（可以使用es6）</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">name: <span class="string">" jsCoder"</span>,</span><br><span class="line">skill: [<span class="string">"es6"</span>, <span class="string">"react"</span>, <span class="string">"angular"</span>],</span><br><span class="line">say: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"> <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>, len = <span class="keyword">this</span>.skill.length; i&lt; len; i++)&#123;</span><br><span class="line">   setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">     <span class="built_in">console</span>.log(<span class="string">'No.'</span> + i + <span class="keyword">this</span>.name);</span><br><span class="line">     <span class="built_in">console</span>.log(<span class="keyword">this</span>.skill[i]);</span><br><span class="line">     <span class="built_in">console</span>.log(<span class="string">'--------------------------'</span>);</span><br><span class="line">   &#125;, <span class="number">0</span>);</span><br><span class="line">   <span class="built_in">console</span>.log(i);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br><span class="line">obj.say();</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/loading.png" data-original="https://uploadfiles.nowcoder.com/images/20191107/5097896_1573106521909_62B29BD26061B47E81ED3150A290E160" alt="图片说明"></p>
+<p>解：</p>
+<ul>
+<li>第一点：for循环当中有个异步函数，而且异步函数根据for循环<code>i</code>的值依次输出No.1，No.2，No.3，这样的话for循环中<code>i</code>必须使用let去声明，因为使用let才能让异步函数记住每一轮<code>i</code>的值，得到相应的输出结果。</li>
+<li>第二点：在对象函数say中，有一个异步函数，它使用了this。源代码的意图是想让这个this表示对象<code>obj</code>，但是对象的方法say的this指向的是<code>obj</code>，但是这个方法内部的函数（使用了闭包）是指向全局变量的！这么写是得不到想要的结果的。所以要将<code>setTimeout</code>函数改为箭头函数，因为箭头函数它会继承上一层作用域的this，所以它会继承say函数的this，就会指向<code>obj</code>了。</li>
+</ul>
+<p>修改后的代码为：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">    name: <span class="string">" jsCoder"</span>,</span><br><span class="line">    skill: [<span class="string">"es6"</span>, <span class="string">"react"</span>, <span class="string">"angular"</span>],</span><br><span class="line">    say: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>,len=<span class="keyword">this</span>.skill.length; i&lt;len; i++)&#123;</span><br><span class="line">            <span class="comment">//闭包！！</span></span><br><span class="line">            setTimeout(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">'No.'</span> + (i+<span class="number">1</span>) + <span class="keyword">this</span>.name);</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="keyword">this</span>.skill[i]);</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">'--------------------------'</span>);</span><br><span class="line">            &#125;, <span class="number">0</span>);</span><br><span class="line">            <span class="built_in">console</span>.log(i+<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;;</span><br><span class="line">obj.say();</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+
+<p>Q：repeat 实现，使用JS实现一个repeat方法，调用这个 repeatedFunc(“helloworld”)，会alert4次 helloworld, 每次间隔3秒</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">repeat</span>(<span class="params">func, times, wait</span>) </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> repeatFunc = repeat(alert, <span class="number">4</span>, <span class="number">3000</span>)</span><br><span class="line">repearFunc(<span class="string">"helloworld"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>解：</p>
+<p>这种问题一般要结合闭包来实现。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">repeat</span>(<span class="params">func, times, wait</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> count=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">var</span> timer=<span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> args=[].slice.call(<span class="built_in">arguments</span>);</span><br><span class="line">        timer=setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(count==(times<span class="number">-1</span>))&#123;</span><br><span class="line">                clearTimeout(timer);</span><br><span class="line">            &#125;</span><br><span class="line">            func(args.join(<span class="string">""</span>));</span><br><span class="line">            count++;</span><br><span class="line">        &#125;,wait)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>题目中说，调用<code>repeatedFunc(&quot;helloworld&quot;)</code>会有相关的结果，所以它应该是在函数中还有一个函数的，所以应该有个闭包。通过闭包可以记住count的值。注意<code>clearTimeout</code>要写在<code>setInterval</code>函数当中，这个和防抖节流不同，因为它只执行了一次函数，它是通过<code>setInterval</code>函数的循环才会输出多次结果，所以要写在里面才能够判断count的值是否已经到达输出次数。</p>
+<hr>
+
+<p>Q：实现每隔1s输出一个数组的元素及其索引</p>
+<p>解：</p>
+<p>这题和上一题的思路类似，但是它没有需要说要调用的时候再去执行，那就不需要写<code>return functionf(){}</code>了。因为<code>setInterval</code>函数已经是output函数的内部函数，有闭包能够记住count的值了。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">output</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> length = arr.length;</span><br><span class="line">  <span class="keyword">var</span> count = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">var</span> timer = <span class="literal">null</span>;</span><br><span class="line">  timer = setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (count == length - <span class="number">1</span>) &#123;</span><br><span class="line">      clearTimeout(timer);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">console</span>.log(arr[count]);</span><br><span class="line">    <span class="built_in">console</span>.log(count);</span><br><span class="line">    count++;</span><br><span class="line">  &#125;, <span class="number">1000</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">output([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]);</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>每日一题——最大上升子序列</title>
     <url>/2020/03/14/%E6%9C%80%E5%A4%A7%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/</url>
     <content><![CDATA[<h2 id="最长上升子序列"><a href="#最长上升子序列" class="headerlink" title="最长上升子序列"></a><a href="https://leetcode-cn.com/problems/longest-increasing-subsequence/" target="_blank" rel="noopener">最长上升子序列</a></h2><p>给定一个无序的整数数组，找到其中最长上升子序列的长度。</p>
@@ -1922,53 +1972,38 @@
       </tags>
   </entry>
   <entry>
-    <title>易混淆JS题目——this指向 闭包</title>
-    <url>/2020/02/18/%E6%98%93%E6%B7%B7%E6%B7%86JS%E9%A2%98%E7%9B%AE%E2%80%94%E2%80%94this%E6%8C%87%E5%90%91-%E9%97%AD%E5%8C%85/</url>
-    <content><![CDATA[<p>Q：代码运行结果</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="keyword">this</span>.b = <span class="number">3</span>; &#125;</span><br><span class="line"><span class="keyword">var</span> c = <span class="keyword">new</span> a();</span><br><span class="line">a.prototype.b = <span class="number">9</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="number">7</span>;</span><br><span class="line">a();</span><br><span class="line"><span class="built_in">console</span>.log(b);</span><br><span class="line"><span class="built_in">console</span>.log(c.b);</span><br></pre></td></tr></table></figure>
+    <title>每日一题——按摩师</title>
+    <url>/2020/03/24/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E6%8C%89%E6%91%A9%E5%B8%88/</url>
+    <content><![CDATA[<h2 id="面试题-17-16-按摩师"><a href="#面试题-17-16-按摩师" class="headerlink" title="面试题 17.16. 按摩师"></a><a href="https://leetcode-cn.com/problems/the-masseuse-lcci/" target="_blank" rel="noopener">面试题 17.16. 按摩师</a></h2><p>一个有名的按摩师会收到源源不断的预约请求，每个预约都可以选择接或不接。在每次预约服务之间要有休息时间，因此她不能接受相邻的预约。给定一个预约请求序列，替按摩师找到最优的预约集合（总预约时间最长），返回总的分钟数。</p>
+<p>注意：本题相对原题稍作改动</p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入： [1,2,3,1]</span><br><span class="line">输出： 4</span><br><span class="line">解释： 选择 1 号预约和 3 号预约，总时长 &#x3D; 1 + 3 &#x3D; 4。</span><br></pre></td></tr></table></figure>
 
-<p>解：</p>
-<p>整个代码在变量提升之后可以写为：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a;</span><br><span class="line"><span class="keyword">var</span> c;</span><br><span class="line"><span class="keyword">var</span> b;</span><br><span class="line">a=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.b=<span class="number">3</span>;</span><br><span class="line">&#125;</span><br><span class="line">c=<span class="keyword">new</span> a();</span><br><span class="line">a.prototype.b=<span class="number">9</span>;</span><br><span class="line">b=<span class="number">7</span>;</span><br><span class="line">a();</span><br><span class="line"><span class="built_in">console</span>.log(b);</span><br><span class="line"><span class="built_in">console</span>.log(c.b);</span><br></pre></td></tr></table></figure>
+<p>示例 2：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入： [2,7,9,3,1]</span><br><span class="line">输出： 12</span><br><span class="line">解释： 选择 1 号预约、 3 号预约和 5 号预约，总时长 &#x3D; 2 + 9 + 1 &#x3D; 12。</span><br></pre></td></tr></table></figure>
 
-<p><strong>注意：函数声明的时候还没有执行！不要弄混了。</strong>当执行<code>c=new a()</code>的时候，会将函数a内部的this指向c，所以<code>c.b</code>此时就是3。<code>a.prototype.b=9</code>没有什么影响。<code>b=7;</code>表示将全局变量b赋值为7。此后执行了函数<code>a()</code>，要注意在默认情况下，函数中this的指向是指向全局作用域的，所以执行函数<code>a()</code>的话是把全局变量b的值变为3。所以输出的是3 3。</p>
-<hr>  
-
-<p>Q：以最小的改动解决以下代码的错误（可以使用es6）</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">name: <span class="string">" jsCoder"</span>,</span><br><span class="line">skill: [<span class="string">"es6"</span>, <span class="string">"react"</span>, <span class="string">"angular"</span>],</span><br><span class="line">say: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"> <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>, len = <span class="keyword">this</span>.skill.length; i&lt; len; i++)&#123;</span><br><span class="line">   setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">     <span class="built_in">console</span>.log(<span class="string">'No.'</span> + i + <span class="keyword">this</span>.name);</span><br><span class="line">     <span class="built_in">console</span>.log(<span class="keyword">this</span>.skill[i]);</span><br><span class="line">     <span class="built_in">console</span>.log(<span class="string">'--------------------------'</span>);</span><br><span class="line">   &#125;, <span class="number">0</span>);</span><br><span class="line">   <span class="built_in">console</span>.log(i);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br><span class="line">obj.say();</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/loading.png" data-original="https://uploadfiles.nowcoder.com/images/20191107/5097896_1573106521909_62B29BD26061B47E81ED3150A290E160" alt="图片说明"></p>
-<p>解：</p>
-<ul>
-<li>第一点：for循环当中有个异步函数，而且异步函数根据for循环<code>i</code>的值依次输出No.1，No.2，No.3，这样的话for循环中<code>i</code>必须使用let去声明，因为使用let才能让异步函数记住每一轮<code>i</code>的值，得到相应的输出结果。</li>
-<li>第二点：在对象函数say中，有一个异步函数，它使用了this。源代码的意图是想让这个this表示对象<code>obj</code>，但是对象的方法say的this指向的是<code>obj</code>，但是这个方法内部的函数（使用了闭包）是指向全局变量的！这么写是得不到想要的结果的。所以要将<code>setTimeout</code>函数改为箭头函数，因为箭头函数它会继承上一层作用域的this，所以它会继承say函数的this，就会指向<code>obj</code>了。</li>
-</ul>
-<p>修改后的代码为：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">    name: <span class="string">" jsCoder"</span>,</span><br><span class="line">    skill: [<span class="string">"es6"</span>, <span class="string">"react"</span>, <span class="string">"angular"</span>],</span><br><span class="line">    say: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>,len=<span class="keyword">this</span>.skill.length; i&lt;len; i++)&#123;</span><br><span class="line">            <span class="comment">//闭包！！</span></span><br><span class="line">            setTimeout(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">'No.'</span> + (i+<span class="number">1</span>) + <span class="keyword">this</span>.name);</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="keyword">this</span>.skill[i]);</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">'--------------------------'</span>);</span><br><span class="line">            &#125;, <span class="number">0</span>);</span><br><span class="line">            <span class="built_in">console</span>.log(i+<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;;</span><br><span class="line">obj.say();</span><br></pre></td></tr></table></figure>
+<p>示例 3：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入： [2,1,4,5,3,1,1,3]</span><br><span class="line">输出： 12</span><br><span class="line">解释： 选择 1 号预约、 3 号预约、 5 号预约和 8 号预约，总时长 &#x3D; 2 + 4 + 3 + 3 &#x3D; 12。</span><br></pre></td></tr></table></figure>
 
 
 
-<hr>
+<p>思路：</p>
+<p>动态规划的思想。但是这题和最大上升子序列的动态规划思想不同。这题与背包问题都是要求一个对于整体来说最大的和，但是最大上升子序列是求一个最长的上升子序列，之前的数要比当前的数小才能做一次计算，和是否相邻无关，所以最大上升子序列还需要在内层加多一层循环。</p>
+<p>题解：</p>
+<p>最初想的方案：</p>
+<p>内层多了一个循环。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number[]&#125;</span> <span class="variable">nums</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> massage = <span class="function"><span class="keyword">function</span>(<span class="params">nums</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> F=[];</span><br><span class="line">    <span class="keyword">if</span>(nums.length==<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> nums[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> m=<span class="number">0</span>;m&lt;nums.length;++m)&#123;</span><br><span class="line">        F[m]=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    F[<span class="number">0</span>]=nums[<span class="number">0</span>];</span><br><span class="line">    F[<span class="number">1</span>]=nums[<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">2</span>;i&lt;nums.length;++i)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> j=<span class="number">0</span>;j&lt;=i<span class="number">-2</span>;++j)&#123;</span><br><span class="line">            F[i]=<span class="built_in">Math</span>.max(F[j]+nums[i],F[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> max=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> t=<span class="number">0</span>;t&lt;F.length;++t)&#123;</span><br><span class="line">        <span class="keyword">if</span>(F[t]&gt;max)&#123;</span><br><span class="line">            max=F[t];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> max;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<p>Q：repeat 实现，使用JS实现一个repeat方法，调用这个 repeatedFunc(“helloworld”)，会alert4次 helloworld, 每次间隔3秒</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">repeat</span>(<span class="params">func, times, wait</span>) </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> repeatFunc = repeat(alert, <span class="number">4</span>, <span class="number">3000</span>)</span><br><span class="line">repearFunc(<span class="string">"helloworld"</span>);</span><br></pre></td></tr></table></figure>
 
-<p>解：</p>
-<p>这种问题一般要结合闭包来实现。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">repeat</span>(<span class="params">func, times, wait</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> count=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">var</span> timer=<span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> args=[].slice.call(<span class="built_in">arguments</span>);</span><br><span class="line">        timer=setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(count==(times<span class="number">-1</span>))&#123;</span><br><span class="line">                clearTimeout(timer);</span><br><span class="line">            &#125;</span><br><span class="line">            func(args.join(<span class="string">""</span>));</span><br><span class="line">            count++;</span><br><span class="line">        &#125;,wait)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>题目中说，调用<code>repeatedFunc(&quot;helloworld&quot;)</code>会有相关的结果，所以它应该是在函数中还有一个函数的，所以应该有个闭包。通过闭包可以记住count的值。注意<code>clearTimeout</code>要写在<code>setInterval</code>函数当中，这个和防抖节流不同，因为它只执行了一次函数，它是通过<code>setInterval</code>函数的循环才会输出多次结果，所以要写在里面才能够判断count的值是否已经到达输出次数。</p>
-<hr>
-
-<p>Q：实现每隔1s输出一个数组的元素及其索引</p>
-<p>解：</p>
-<p>这题和上一题的思路类似，但是它没有需要说要调用的时候再去执行，那就不需要写<code>return functionf(){}</code>了。因为<code>setInterval</code>函数已经是output函数的内部函数，有闭包能够记住count的值了。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">output</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> length = arr.length;</span><br><span class="line">  <span class="keyword">var</span> count = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">var</span> timer = <span class="literal">null</span>;</span><br><span class="line">  timer = setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (count == length - <span class="number">1</span>) &#123;</span><br><span class="line">      clearTimeout(timer);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">console</span>.log(arr[count]);</span><br><span class="line">    <span class="built_in">console</span>.log(count);</span><br><span class="line">    count++;</span><br><span class="line">  &#125;, <span class="number">1000</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">output([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]);</span><br></pre></td></tr></table></figure>]]></content>
+<p>后来看评论优化的题解：</p>
+<p><code>dp</code>思想：<code>F[i]=Math.max(F[i-1],F[i-2]+nums[i]);</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number[]&#125;</span> <span class="variable">nums</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> massage = <span class="function"><span class="keyword">function</span>(<span class="params">nums</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> F=[];</span><br><span class="line">    <span class="keyword">if</span>(nums.length==<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(nums.length==<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> nums[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> m=<span class="number">0</span>;m&lt;nums.length;++m)&#123;</span><br><span class="line">        F[m]=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    F[<span class="number">0</span>]=nums[<span class="number">0</span>];</span><br><span class="line">    F[<span class="number">1</span>]=<span class="built_in">Math</span>.max(nums[<span class="number">0</span>],nums[<span class="number">1</span>]);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">2</span>;i&lt;nums.length;++i)&#123;</span><br><span class="line">        F[i]=<span class="built_in">Math</span>.max(F[i<span class="number">-1</span>],F[i<span class="number">-2</span>]+nums[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> F[nums.length<span class="number">-1</span>];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>JavaScript</category>
+        <category>每日一题</category>
       </categories>
       <tags>
-        <tag>JavaScript</tag>
+        <tag>每日一题</tag>
       </tags>
   </entry>
   <entry>
@@ -2005,41 +2040,6 @@
 
 
 ]]></content>
-      <categories>
-        <category>每日一题</category>
-      </categories>
-      <tags>
-        <tag>每日一题</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>每日一题——按摩师</title>
-    <url>/2020/03/24/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E6%8C%89%E6%91%A9%E5%B8%88/</url>
-    <content><![CDATA[<h2 id="面试题-17-16-按摩师"><a href="#面试题-17-16-按摩师" class="headerlink" title="面试题 17.16. 按摩师"></a><a href="https://leetcode-cn.com/problems/the-masseuse-lcci/" target="_blank" rel="noopener">面试题 17.16. 按摩师</a></h2><p>一个有名的按摩师会收到源源不断的预约请求，每个预约都可以选择接或不接。在每次预约服务之间要有休息时间，因此她不能接受相邻的预约。给定一个预约请求序列，替按摩师找到最优的预约集合（总预约时间最长），返回总的分钟数。</p>
-<p>注意：本题相对原题稍作改动</p>
-<p>示例 1：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入： [1,2,3,1]</span><br><span class="line">输出： 4</span><br><span class="line">解释： 选择 1 号预约和 3 号预约，总时长 &#x3D; 1 + 3 &#x3D; 4。</span><br></pre></td></tr></table></figure>
-
-<p>示例 2：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入： [2,7,9,3,1]</span><br><span class="line">输出： 12</span><br><span class="line">解释： 选择 1 号预约、 3 号预约和 5 号预约，总时长 &#x3D; 2 + 9 + 1 &#x3D; 12。</span><br></pre></td></tr></table></figure>
-
-<p>示例 3：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入： [2,1,4,5,3,1,1,3]</span><br><span class="line">输出： 12</span><br><span class="line">解释： 选择 1 号预约、 3 号预约、 5 号预约和 8 号预约，总时长 &#x3D; 2 + 4 + 3 + 3 &#x3D; 12。</span><br></pre></td></tr></table></figure>
-
-
-
-<p>思路：</p>
-<p>动态规划的思想。但是这题和最大上升子序列的动态规划思想不同。这题与背包问题都是要求一个对于整体来说最大的和，但是最大上升子序列是求一个最长的上升子序列，之前的数要比当前的数小才能做一次计算，和是否相邻无关，所以最大上升子序列还需要在内层加多一层循环。</p>
-<p>题解：</p>
-<p>最初想的方案：</p>
-<p>内层多了一个循环。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number[]&#125;</span> <span class="variable">nums</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> massage = <span class="function"><span class="keyword">function</span>(<span class="params">nums</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> F=[];</span><br><span class="line">    <span class="keyword">if</span>(nums.length==<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> nums[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> m=<span class="number">0</span>;m&lt;nums.length;++m)&#123;</span><br><span class="line">        F[m]=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    F[<span class="number">0</span>]=nums[<span class="number">0</span>];</span><br><span class="line">    F[<span class="number">1</span>]=nums[<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">2</span>;i&lt;nums.length;++i)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> j=<span class="number">0</span>;j&lt;=i<span class="number">-2</span>;++j)&#123;</span><br><span class="line">            F[i]=<span class="built_in">Math</span>.max(F[j]+nums[i],F[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> max=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> t=<span class="number">0</span>;t&lt;F.length;++t)&#123;</span><br><span class="line">        <span class="keyword">if</span>(F[t]&gt;max)&#123;</span><br><span class="line">            max=F[t];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> max;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>后来看评论优化的题解：</p>
-<p><code>dp</code>思想：<code>F[i]=Math.max(F[i-1],F[i-2]+nums[i]);</code></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number[]&#125;</span> <span class="variable">nums</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> massage = <span class="function"><span class="keyword">function</span>(<span class="params">nums</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> F=[];</span><br><span class="line">    <span class="keyword">if</span>(nums.length==<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(nums.length==<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> nums[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> m=<span class="number">0</span>;m&lt;nums.length;++m)&#123;</span><br><span class="line">        F[m]=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    F[<span class="number">0</span>]=nums[<span class="number">0</span>];</span><br><span class="line">    F[<span class="number">1</span>]=<span class="built_in">Math</span>.max(nums[<span class="number">0</span>],nums[<span class="number">1</span>]);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">2</span>;i&lt;nums.length;++i)&#123;</span><br><span class="line">        F[i]=<span class="built_in">Math</span>.max(F[i<span class="number">-1</span>],F[i<span class="number">-2</span>]+nums[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> F[nums.length<span class="number">-1</span>];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>每日一题</category>
       </categories>
@@ -2106,6 +2106,44 @@
       </tags>
   </entry>
   <entry>
+    <title>每日一题——编辑距离</title>
+    <url>/2020/03/25/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E7%BC%96%E8%BE%91%E8%B7%9D%E7%A6%BB/</url>
+    <content><![CDATA[<h2 id="编辑距离"><a href="#编辑距离" class="headerlink" title="编辑距离"></a><a href="https://leetcode-cn.com/problems/edit-distance/" target="_blank" rel="noopener">编辑距离</a></h2><p>给定两个单词 word1 和 word2，计算出将 word1 转换成 word2 所使用的最少操作数 。</p>
+<p>你可以对一个单词进行如下三种操作：</p>
+<p>插入一个字符<br>删除一个字符<br>替换一个字符</p>
+<p>示例 1:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: word1 &#x3D; &quot;horse&quot;, word2 &#x3D; &quot;ros&quot;</span><br><span class="line">输出: 3</span><br><span class="line">解释: </span><br><span class="line">horse -&gt; rorse (将 &#39;h&#39; 替换为 &#39;r&#39;)</span><br><span class="line">rorse -&gt; rose (删除 &#39;r&#39;)</span><br><span class="line">rose -&gt; ros (删除 &#39;e&#39;)</span><br></pre></td></tr></table></figure>
+
+<p>示例 2:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: word1 &#x3D; &quot;intention&quot;, word2 &#x3D; &quot;execution&quot;</span><br><span class="line">输出: 5</span><br><span class="line">解释: </span><br><span class="line">intention -&gt; inention (删除 &#39;t&#39;)</span><br><span class="line">inention -&gt; enention (将 &#39;i&#39; 替换为 &#39;e&#39;)</span><br><span class="line">enention -&gt; exention (将 &#39;n&#39; 替换为 &#39;x&#39;)</span><br><span class="line">exention -&gt; exection (将 &#39;n&#39; 替换为 &#39;c&#39;)</span><br><span class="line">exection -&gt; execution (插入 &#39;u&#39;)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>思路：</p>
+<p>动态规划的思想。</p>
+<ul>
+<li>如果<code>word1[i]===word2[j]</code>，<code>dp[i][j]=dp[i-1][j-1]</code>，也就是说<code>word1</code>的第<code>i</code>个单词和<code>word2</code>的第<code>j</code>个单词相同的话，那<code>word1</code>前<code>i</code>个单词要变为<code>word2</code>前<code>j</code>个单词的编辑次数就会等于<code>word1</code>前<code>i-1</code>和单词变为<code>word2</code>前<code>j-1</code>个单词的编辑次数。</li>
+<li>如果<code>word1[i]!=word2[j]</code>，那<code>dp[i][j]=Math.min(dp[i-1][j-1],dp[i-1][j],dp[i][j-1])+1</code><ul>
+<li><code>dp[i-1][j-1]</code>表示替换操作，也就是将<code>word1[i]</code>替换为<code>word2[j]</code>，那<code>dp[i][j]</code>就等于<code>dp[i-1][j-1]</code>+1，也就是将<code>word1</code>前<code>i-1</code>个单词变为<code>word2</code>前<code>j-1</code>个单词所要执行的编辑次数+1（一次替换操作）。</li>
+<li><code>dp[i-1][j]</code>表示删除操作，就是将<code>word1</code>前<code>i-1</code>个字符变为<code>word2</code>前<code>j</code>个字符所要执行的操作+1（一次删除操作，即将<code>word1</code>的第<code>i</code>个字符删掉）</li>
+<li><code>dp[i][j-1]</code>表示插入操作，就是将<code>word1</code>前<code>i</code>个字符变为<code>word2</code>前<code>j-1</code>个字符所要执行的操作+1（一次插入操作，在<code>word1</code>插入一个和<code>word2</code>第<code>j</code>个字符一样的字符）</li>
+</ul>
+</li>
+</ul>
+<p>题解：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;string&#125;</span> <span class="variable">word1</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;string&#125;</span> <span class="variable">word2</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> minDistance = <span class="function"><span class="keyword">function</span>(<span class="params">word1, word2</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> dp=[];</span><br><span class="line">    <span class="keyword">var</span> len1=word1.length;</span><br><span class="line">    <span class="keyword">var</span> len2=word2.length;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;=len1;++i)&#123;</span><br><span class="line">        dp[i]=<span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> j=<span class="number">0</span>;j&lt;=len1;++j)&#123;</span><br><span class="line">        dp[j][<span class="number">0</span>]=j;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> k=<span class="number">0</span>;k&lt;=len2;++k)&#123;</span><br><span class="line">        dp[<span class="number">0</span>][k]=k;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> n=<span class="number">1</span>;n&lt;=len1;++n)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> m=<span class="number">1</span>;m&lt;=len2;++m)&#123;</span><br><span class="line">            <span class="comment">//这里表示的是word1[n]==word2[m],但是因为n和m是从1开始取的,所以比较的时候要-1</span></span><br><span class="line">            <span class="keyword">if</span>(word1[n<span class="number">-1</span>]==word2[m<span class="number">-1</span>])&#123;</span><br><span class="line">                dp[n][m]=dp[n<span class="number">-1</span>][m<span class="number">-1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                dp[n][m]=<span class="built_in">Math</span>.min(dp[n<span class="number">-1</span>][m<span class="number">-1</span>],dp[n][m<span class="number">-1</span>],dp[n<span class="number">-1</span>][m])+<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[len1][len2];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+]]></content>
+      <categories>
+        <category>每日一题</category>
+      </categories>
+      <tags>
+        <tag>每日一题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>每日一题——腐烂的橘子</title>
     <url>/2020/03/04/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E8%85%90%E7%83%82%E7%9A%84%E6%A9%98%E5%AD%90/</url>
     <content><![CDATA[<p>在给定的网格中，每个单元格可以有以下三个值之一：</p>
@@ -2137,34 +2175,29 @@
       </tags>
   </entry>
   <entry>
-    <title>每日一题——编辑距离</title>
-    <url>/2020/03/25/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E7%BC%96%E8%BE%91%E8%B7%9D%E7%A6%BB/</url>
-    <content><![CDATA[<h2 id="编辑距离"><a href="#编辑距离" class="headerlink" title="编辑距离"></a><a href="https://leetcode-cn.com/problems/edit-distance/" target="_blank" rel="noopener">编辑距离</a></h2><p>给定两个单词 word1 和 word2，计算出将 word1 转换成 word2 所使用的最少操作数 。</p>
-<p>你可以对一个单词进行如下三种操作：</p>
-<p>插入一个字符<br>删除一个字符<br>替换一个字符</p>
+    <title>每日一题——零钱兑换</title>
+    <url>/2020/03/08/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E9%9B%B6%E9%92%B1%E5%85%91%E6%8D%A2/</url>
+    <content><![CDATA[<h4 id="零钱兑换"><a href="#零钱兑换" class="headerlink" title="零钱兑换"></a><a href="https://leetcode-cn.com/problems/coin-change/" target="_blank" rel="noopener">零钱兑换</a></h4><p>给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。</p>
 <p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: word1 &#x3D; &quot;horse&quot;, word2 &#x3D; &quot;ros&quot;</span><br><span class="line">输出: 3</span><br><span class="line">解释: </span><br><span class="line">horse -&gt; rorse (将 &#39;h&#39; 替换为 &#39;r&#39;)</span><br><span class="line">rorse -&gt; rose (删除 &#39;r&#39;)</span><br><span class="line">rose -&gt; ros (删除 &#39;e&#39;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: coins &#x3D; [1, 2, 5], amount &#x3D; 11</span><br><span class="line">输出: 3 </span><br><span class="line">解释: 11 &#x3D; 5 + 5 + 1</span><br></pre></td></tr></table></figure>
+
+
 
 <p>示例 2:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: word1 &#x3D; &quot;intention&quot;, word2 &#x3D; &quot;execution&quot;</span><br><span class="line">输出: 5</span><br><span class="line">解释: </span><br><span class="line">intention -&gt; inention (删除 &#39;t&#39;)</span><br><span class="line">inention -&gt; enention (将 &#39;i&#39; 替换为 &#39;e&#39;)</span><br><span class="line">enention -&gt; exention (将 &#39;n&#39; 替换为 &#39;x&#39;)</span><br><span class="line">exention -&gt; exection (将 &#39;n&#39; 替换为 &#39;c&#39;)</span><br><span class="line">exection -&gt; execution (插入 &#39;u&#39;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: coins &#x3D; [2], amount &#x3D; 3</span><br><span class="line">输出: -1</span><br></pre></td></tr></table></figure>
 
 
 
-<p>思路：</p>
-<p>动态规划的思想。</p>
-<ul>
-<li>如果<code>word1[i]===word2[j]</code>，<code>dp[i][j]=dp[i-1][j-1]</code>，也就是说<code>word1</code>的第<code>i</code>个单词和<code>word2</code>的第<code>j</code>个单词相同的话，那<code>word1</code>前<code>i</code>个单词要变为<code>word2</code>前<code>j</code>个单词的编辑次数就会等于<code>word1</code>前<code>i-1</code>和单词变为<code>word2</code>前<code>j-1</code>个单词的编辑次数。</li>
-<li>如果<code>word1[i]!=word2[j]</code>，那<code>dp[i][j]=Math.min(dp[i-1][j-1],dp[i-1][j],dp[i][j-1])+1</code><ul>
-<li><code>dp[i-1][j-1]</code>表示替换操作，也就是将<code>word1[i]</code>替换为<code>word2[j]</code>，那<code>dp[i][j]</code>就等于<code>dp[i-1][j-1]</code>+1，也就是将<code>word1</code>前<code>i-1</code>个单词变为<code>word2</code>前<code>j-1</code>个单词所要执行的编辑次数+1（一次替换操作）。</li>
-<li><code>dp[i-1][j]</code>表示删除操作，就是将<code>word1</code>前<code>i-1</code>个字符变为<code>word2</code>前<code>j</code>个字符所要执行的操作+1（一次删除操作，即将<code>word1</code>的第<code>i</code>个字符删掉）</li>
-<li><code>dp[i][j-1]</code>表示插入操作，就是将<code>word1</code>前<code>i</code>个字符变为<code>word2</code>前<code>j-1</code>个字符所要执行的操作+1（一次插入操作，在<code>word1</code>插入一个和<code>word2</code>第<code>j</code>个字符一样的字符）</li>
-</ul>
-</li>
-</ul>
+<p>说明:<br>你可以认为每种硬币的数量是无限的。</p>
+<p>思路：<br>动态规划的思想，每种硬币都找到当前自身的最优解，从而求出结果为amount时的最优解。在初始化的时候，要为每种金额的硬币声明一个初始的解，这个解应该是个比amount要大的值（因为解最大为amount）。这样我们在做结果判断的时候就可以知道，如果当前解是amount+1就说明没有组合能组成总金额。</p>
 <p>题解：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;string&#125;</span> <span class="variable">word1</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;string&#125;</span> <span class="variable">word2</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> minDistance = <span class="function"><span class="keyword">function</span>(<span class="params">word1, word2</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> dp=[];</span><br><span class="line">    <span class="keyword">var</span> len1=word1.length;</span><br><span class="line">    <span class="keyword">var</span> len2=word2.length;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;=len1;++i)&#123;</span><br><span class="line">        dp[i]=<span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> j=<span class="number">0</span>;j&lt;=len1;++j)&#123;</span><br><span class="line">        dp[j][<span class="number">0</span>]=j;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> k=<span class="number">0</span>;k&lt;=len2;++k)&#123;</span><br><span class="line">        dp[<span class="number">0</span>][k]=k;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> n=<span class="number">1</span>;n&lt;=len1;++n)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> m=<span class="number">1</span>;m&lt;=len2;++m)&#123;</span><br><span class="line">            <span class="comment">//这里表示的是word1[n]==word2[m],但是因为n和m是从1开始取的,所以比较的时候要-1</span></span><br><span class="line">            <span class="keyword">if</span>(word1[n<span class="number">-1</span>]==word2[m<span class="number">-1</span>])&#123;</span><br><span class="line">                dp[n][m]=dp[n<span class="number">-1</span>][m<span class="number">-1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                dp[n][m]=<span class="built_in">Math</span>.min(dp[n<span class="number">-1</span>][m<span class="number">-1</span>],dp[n][m<span class="number">-1</span>],dp[n<span class="number">-1</span>][m])+<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[len1][len2];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number[]&#125;</span> <span class="variable">coins</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number&#125;</span> <span class="variable">amount</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> coinChange = <span class="function"><span class="keyword">function</span>(<span class="params">coins, amount</span>) </span>&#123;</span><br><span class="line">    coins.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a-b;</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="built_in">console</span>.log(coins);</span><br><span class="line">    <span class="keyword">var</span> F=[];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;=amount;++i)&#123;</span><br><span class="line">        F[i]=amount+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    F[<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> j=<span class="number">0</span>;j&lt;=amount;++j)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> k=<span class="number">0</span>;k&lt;coins.length;++k)&#123;</span><br><span class="line">            <span class="keyword">if</span>(j&lt;coins[k])&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                F[j]=<span class="built_in">Math</span>.min(F[j-coins[k]]+<span class="number">1</span>,F[j]);  <span class="comment">//注意此处是F[j]</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> F[amount]!==amount+<span class="number">1</span>?F[amount]:<span class="number">-1</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<br>
+
+
+
+
+
 
 ]]></content>
       <categories>
@@ -2581,39 +2614,6 @@
       </categories>
       <tags>
         <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>每日一题——零钱兑换</title>
-    <url>/2020/03/08/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E9%9B%B6%E9%92%B1%E5%85%91%E6%8D%A2/</url>
-    <content><![CDATA[<h4 id="零钱兑换"><a href="#零钱兑换" class="headerlink" title="零钱兑换"></a><a href="https://leetcode-cn.com/problems/coin-change/" target="_blank" rel="noopener">零钱兑换</a></h4><p>给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。</p>
-<p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: coins &#x3D; [1, 2, 5], amount &#x3D; 11</span><br><span class="line">输出: 3 </span><br><span class="line">解释: 11 &#x3D; 5 + 5 + 1</span><br></pre></td></tr></table></figure>
-
-
-
-<p>示例 2:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: coins &#x3D; [2], amount &#x3D; 3</span><br><span class="line">输出: -1</span><br></pre></td></tr></table></figure>
-
-
-
-<p>说明:<br>你可以认为每种硬币的数量是无限的。</p>
-<p>思路：<br>动态规划的思想，每种硬币都找到当前自身的最优解，从而求出结果为amount时的最优解。在初始化的时候，要为每种金额的硬币声明一个初始的解，这个解应该是个比amount要大的值（因为解最大为amount）。这样我们在做结果判断的时候就可以知道，如果当前解是amount+1就说明没有组合能组成总金额。</p>
-<p>题解：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number[]&#125;</span> <span class="variable">coins</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number&#125;</span> <span class="variable">amount</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> coinChange = <span class="function"><span class="keyword">function</span>(<span class="params">coins, amount</span>) </span>&#123;</span><br><span class="line">    coins.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a-b;</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="built_in">console</span>.log(coins);</span><br><span class="line">    <span class="keyword">var</span> F=[];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;=amount;++i)&#123;</span><br><span class="line">        F[i]=amount+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    F[<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> j=<span class="number">0</span>;j&lt;=amount;++j)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> k=<span class="number">0</span>;k&lt;coins.length;++k)&#123;</span><br><span class="line">            <span class="keyword">if</span>(j&lt;coins[k])&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                F[j]=<span class="built_in">Math</span>.min(F[j-coins[k]]+<span class="number">1</span>,F[j]);  <span class="comment">//注意此处是F[j]</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> F[amount]!==amount+<span class="number">1</span>?F[amount]:<span class="number">-1</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-]]></content>
-      <categories>
-        <category>每日一题</category>
-      </categories>
-      <tags>
-        <tag>每日一题</tag>
       </tags>
   </entry>
   <entry>

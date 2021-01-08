@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next mist use-motion" lang="zh-Hans">
+<html class="theme-next mist use-motion" lang="zh-CN">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -51,12 +51,13 @@
   
 
   
-
+    
+    
   
 
   
-
-  
+    
+      
     
 
     
@@ -64,6 +65,24 @@
 
   
     
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
 
     
   
@@ -71,7 +90,7 @@
   
     
     
-    <link href="https://fonts.loli.net/css?family=Caveat:300,300italic,400,400italic,700,700italicRoboto Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic|Caveat:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
   
 
 
@@ -116,6 +135,7 @@
 <meta property="og:url" content="http://delaprada.com/2020/04/05/Node%E2%80%94%E2%80%94Connect%E5%92%8CExpress/index.html">
 <meta property="og:site_name" content="Alice&#39;s  wonderland">
 <meta property="og:description" content="前言Connect和Express是两个热门的Node模块。Express就是在Connect的基础上，通过添加高层糖衣扩展和搭建出来的。 Connect创建简单的Connect程序指令： 1npm install connect@3.4.0   在要安装的模块后加@可以指定版本号  简单的Connect程序应该是这样的： 12345const app&#x3D;require(&#39;conn">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://delaprada.com/images/loading.png">
 <meta property="og:image" content="http://delaprada.com/images/loading.png">
 <meta property="og:image" content="http://delaprada.com/images/loading.png">
@@ -142,7 +162,7 @@
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
-      author: '博主'
+      author: 'Author'
     },
     algolia: {
       applicationID: '',
@@ -174,7 +194,7 @@
 
 <meta name="generator" content="Hexo 4.2.1"></head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -222,7 +242,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            首页
+            Home
           </a>
         </li>
       
@@ -232,7 +252,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            标签
+            Tags
           </a>
         </li>
       
@@ -242,7 +262,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            分类
+            Categories
           </a>
         </li>
       
@@ -252,7 +272,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            归档
+            Archives
           </a>
         </li>
       
@@ -262,7 +282,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
-            关于
+            About
           </a>
         </li>
       
@@ -275,7 +295,7 @@
             
               <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
             
-            搜索
+            Search
           </a>
         </li>
       
@@ -295,7 +315,7 @@
     </span>
     <div class="local-search-input-wrapper">
       <input autocomplete="off"
-             placeholder="搜索..." spellcheck="false"
+             placeholder="Searching..." spellcheck="false"
              type="text" id="local-search-input">
     </div>
   </div>
@@ -353,9 +373,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-05T14:03:20+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-05T14:03:20+08:00">
                 2020-04-05
               </time>
             
@@ -673,10 +693,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
+            Overview
           </li>
         </ul>
       
@@ -701,7 +721,7 @@
                 <a href="/archives/%7C%7C%20archive">
               
                   <span class="site-state-item-count">55</span>
-                  <span class="site-state-item-name">日志</span>
+                  <span class="site-state-item-name">posts</span>
                 </a>
               </div>
             
@@ -712,7 +732,7 @@
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
                   <span class="site-state-item-count">10</span>
-                  <span class="site-state-item-name">分类</span>
+                  <span class="site-state-item-name">categories</span>
                 </a>
               </div>
             
@@ -723,7 +743,7 @@
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
                   <span class="site-state-item-count">10</span>
-                  <span class="site-state-item-name">标签</span>
+                  <span class="site-state-item-name">tags</span>
                 </a>
               </div>
             

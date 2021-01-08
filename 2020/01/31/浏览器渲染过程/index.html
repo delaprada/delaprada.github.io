@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next mist use-motion" lang="zh-Hans">
+<html class="theme-next mist use-motion" lang="zh-CN">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -51,12 +51,13 @@
   
 
   
-
+    
+    
   
 
   
-
-  
+    
+      
     
 
     
@@ -64,6 +65,24 @@
 
   
     
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
 
     
   
@@ -71,7 +90,7 @@
   
     
     
-    <link href="https://fonts.loli.net/css?family=Caveat:300,300italic,400,400italic,700,700italicRoboto Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic|Caveat:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
   
 
 
@@ -116,6 +135,7 @@
 <meta property="og:url" content="http://delaprada.com/2020/01/31/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Alice&#39;s  wonderland">
 <meta property="og:description" content="浏览器渲染的过程主要包括以下5步 浏览器将获取的HTML文档解析为DOM树 处理CSS标记，构成CSS规则树 将DOM树和CSS规则树合并为渲染树（rendering tree），生成渲染树 渲染树布局，确定每个节点对象在页面上的确切大小和位置 将渲染树的各个节点绘制到屏幕上        具体流程构建DOM树当浏览器接受到服务器响应来的HTML文档后，会遍历文档节点，生成DOM树。注意：DOM树">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://delaprada.com/images/loading.png">
 <meta property="og:image" content="http://delaprada.com/images/loading.png">
 <meta property="og:image" content="http://delaprada.com/images/loading.png">
@@ -144,7 +164,7 @@
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
-      author: '博主'
+      author: 'Author'
     },
     algolia: {
       applicationID: '',
@@ -176,7 +196,7 @@
 
 <meta name="generator" content="Hexo 4.2.1"></head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -224,7 +244,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            首页
+            Home
           </a>
         </li>
       
@@ -234,7 +254,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            标签
+            Tags
           </a>
         </li>
       
@@ -244,7 +264,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            分类
+            Categories
           </a>
         </li>
       
@@ -254,7 +274,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            归档
+            Archives
           </a>
         </li>
       
@@ -264,7 +284,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
-            关于
+            About
           </a>
         </li>
       
@@ -277,7 +297,7 @@
             
               <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
             
-            搜索
+            Search
           </a>
         </li>
       
@@ -297,7 +317,7 @@
     </span>
     <div class="local-search-input-wrapper">
       <input autocomplete="off"
-             placeholder="搜索..." spellcheck="false"
+             placeholder="Searching..." spellcheck="false"
              type="text" id="local-search-input">
     </div>
   </div>
@@ -355,9 +375,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-31T09:50:01+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-31T09:50:01+08:00">
                 2020-01-31
               </time>
             
@@ -634,10 +654,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
+            Overview
           </li>
         </ul>
       
@@ -662,7 +682,7 @@
                 <a href="/archives/%7C%7C%20archive">
               
                   <span class="site-state-item-count">55</span>
-                  <span class="site-state-item-name">日志</span>
+                  <span class="site-state-item-name">posts</span>
                 </a>
               </div>
             
@@ -673,7 +693,7 @@
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
                   <span class="site-state-item-count">10</span>
-                  <span class="site-state-item-name">分类</span>
+                  <span class="site-state-item-name">categories</span>
                 </a>
               </div>
             
@@ -684,7 +704,7 @@
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
                   <span class="site-state-item-count">10</span>
-                  <span class="site-state-item-name">标签</span>
+                  <span class="site-state-item-name">tags</span>
                 </a>
               </div>
             

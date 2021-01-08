@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next mist use-motion" lang="zh-Hans">
+<html class="theme-next mist use-motion" lang="zh-CN">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -51,12 +51,13 @@
   
 
   
-
+    
+    
   
 
   
-
-  
+    
+      
     
 
     
@@ -64,6 +65,24 @@
 
   
     
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
 
     
   
@@ -71,7 +90,7 @@
   
     
     
-    <link href="https://fonts.loli.net/css?family=Caveat:300,300italic,400,400italic,700,700italicRoboto Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic|Caveat:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
   
 
 
@@ -116,6 +135,7 @@
 <meta property="og:url" content="http://delaprada.com/2021/01/07/React-Redux%E5%8F%8A%E4%B8%AD%E9%97%B4%E4%BB%B6%E8%A7%A3%E6%9E%90/index.html">
 <meta property="og:site_name" content="Alice&#39;s  wonderland">
 <meta property="og:description" content="为什么需要ReduxReact知识DOM的一个抽象层，并不是Web应用的完整解决方案。有两个方面它没有涉及：  代码结构 组件之间的通信  对于大型的复杂应用来说，这两方面是很关键的，因此只有React没有办法写大型应用。 但Redux并不是非用不可。如果你的UI层非常简单，没有很多互动，Redux就是不必要的，用了反而会增加复杂性。 以下这些情况都不需要使用Redux：  用户的使用方式非常简单">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://delaprada.com/images/loading.png">
 <meta property="og:image" content="http://delaprada.com/images/loading.png">
 <meta property="og:image" content="http://delaprada.com/images/loading.png">
@@ -141,7 +161,7 @@
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
-      author: '博主'
+      author: 'Author'
     },
     algolia: {
       applicationID: '',
@@ -173,7 +193,7 @@
 
 <meta name="generator" content="Hexo 4.2.1"></head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -221,7 +241,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            首页
+            Home
           </a>
         </li>
       
@@ -231,7 +251,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            标签
+            Tags
           </a>
         </li>
       
@@ -241,7 +261,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            分类
+            Categories
           </a>
         </li>
       
@@ -251,7 +271,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            归档
+            Archives
           </a>
         </li>
       
@@ -261,7 +281,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
-            关于
+            About
           </a>
         </li>
       
@@ -274,7 +294,7 @@
             
               <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
             
-            搜索
+            Search
           </a>
         </li>
       
@@ -294,7 +314,7 @@
     </span>
     <div class="local-search-input-wrapper">
       <input autocomplete="off"
-             placeholder="搜索..." spellcheck="false"
+             placeholder="Searching..." spellcheck="false"
              type="text" id="local-search-input">
     </div>
   </div>
@@ -352,9 +372,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-07T15:55:48+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-01-07T15:55:48+08:00">
                 2021-01-07
               </time>
             
@@ -804,10 +824,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
+            Overview
           </li>
         </ul>
       
@@ -832,7 +852,7 @@
                 <a href="/archives/%7C%7C%20archive">
               
                   <span class="site-state-item-count">55</span>
-                  <span class="site-state-item-name">日志</span>
+                  <span class="site-state-item-name">posts</span>
                 </a>
               </div>
             
@@ -843,7 +863,7 @@
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
                   <span class="site-state-item-count">10</span>
-                  <span class="site-state-item-name">分类</span>
+                  <span class="site-state-item-name">categories</span>
                 </a>
               </div>
             
@@ -854,7 +874,7 @@
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
                   <span class="site-state-item-count">10</span>
-                  <span class="site-state-item-name">标签</span>
+                  <span class="site-state-item-name">tags</span>
                 </a>
               </div>
             
