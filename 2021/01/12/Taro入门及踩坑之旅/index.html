@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic|Caveat:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="小程序," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言因最近开始准备毕设，我的毕设是要做一个小程序，便开始了学习如何开发小程序之旅。 Taro是一个开放式跨端跨框架的解决方案，支持使用React&#x2F;Vue&#x2F;Nerv等框架来开发微信、京东、百度、支付宝、字节跳动、QQ小程序 &#x2F; H5等应用。 所以，使用Taro的话，只需编写一套代码就能够拥有适配到多端的能力。Taro目前在github上 有27.9k个star，这也是我选择学习它的一个原因。（虽然整">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Taro入门及踩坑之旅">
+<meta property="og:url" content="http://delaprada.com/2021/01/12/Taro%E5%85%A5%E9%97%A8%E5%8F%8A%E8%B8%A9%E5%9D%91%E4%B9%8B%E6%97%85/index.html">
+<meta property="og:site_name" content="Alice&#39;s  wonderland">
+<meta property="og:description" content="前言因最近开始准备毕设，我的毕设是要做一个小程序，便开始了学习如何开发小程序之旅。 Taro是一个开放式跨端跨框架的解决方案，支持使用React&#x2F;Vue&#x2F;Nerv等框架来开发微信、京东、百度、支付宝、字节跳动、QQ小程序 &#x2F; H5等应用。 所以，使用Taro的话，只需编写一套代码就能够拥有适配到多端的能力。Taro目前在github上 有27.9k个star，这也是我选择学习它的一个原因。（虽然整">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="article:published_time" content="2021-01-12T13:33:41.000Z">
+<meta property="article:modified_time" content="2021-01-13T08:07:24.523Z">
+<meta property="article:author" content="Alice">
+<meta property="article:tag" content="小程序">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://delaprada.com/images/loading.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://delaprada.com/2021/01/12/Taro入门及踩坑之旅/"/>
+
+
+
+
+
+  <title>Taro入门及踩坑之旅 | Alice's  wonderland</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Alice's  wonderland</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://delaprada.com/2021/01/12/Taro%E5%85%A5%E9%97%A8%E5%8F%8A%E8%B8%A9%E5%9D%91%E4%B9%8B%E6%97%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alice">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alice's  wonderland">
+    </span>
+
+    
+      <header class="post-header">
+        <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-12T21:33:41+08:00">
+                2021-01-12
+              </time>
+            
+
+            
+
+            
+          </span>
+        
+        
+          <h1 class="post-title" itemprop="name headline">Taro入门及踩坑之旅</h1>
+        
+
+        
+      </header>
+    
+
+    
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>因最近开始准备毕设，我的毕设是要做一个小程序，便开始了学习如何开发小程序之旅。</p>
+<p><code>Taro</code>是一个开放式跨端跨框架的解决方案，支持使用<code>React/Vue/Nerv</code>等框架来开发微信、京东、百度、支付宝、字节跳动、QQ小程序 / H5等应用。</p>
+<p>所以，使用<code>Taro</code>的话，只需编写一套代码就能够拥有适配到多端的能力。<code>Taro</code>目前在<code>github</code>上 有27.9k个star，这也是我选择学习它的一个原因。（虽然整个做下来之后发现它的教程坑实在是多……）</p>
+<p>那就开始吧。</p>
+<blockquote>
+<p>官方文档：<a href="https://docs.taro.zone/docs/README" target="_blank" rel="noopener">Taro官方文档</a></p>
+</blockquote>
+<br>
+
+<h1 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h1><p>因为有一定前端开发经验，所以我直接从渐进式入门教程着手，通过实操一步步上手。</p>
+<blockquote>
+<p><a href="https://docs.taro.zone/docs/guide" target="_blank" rel="noopener">渐进式入门教程</a></p>
+<p><a href="https://github.com/NervJS/taro-v2ex" target="_blank" rel="noopener">渐进式入门教程源码</a></p>
+</blockquote>
+<p>渐进式入门教程是使用<code>Taro</code>开发一个简单的<code>V2EX</code>论坛客户端，整个教程分为4个部分：</p>
+<ul>
+<li>环境准备</li>
+<li>基础教程</li>
+<li>项目进阶与优化</li>
+<li>多端开发</li>
+</ul>
+<p>这里就展开一些教程中没有提到的点和总结其中比较关键的点。</p>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>使用<code>Taro</code>开发需要安装：</p>
+<ul>
+<li><code>Taro CLI</code></li>
+<li><code>Node.js</code></li>
+</ul>
+<p><code>Taro CLI</code>安装指令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -g @tarojs&#x2F;cli</span><br></pre></td></tr></table></figure>
+
+<p>安装完毕后在终端输入<code>taro</code>，如果出现类似内容说明安装成功：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">👽 Taro v3.0.0-beta.6</span><br><span class="line"></span><br><span class="line">Usage: taro &lt;command&gt; [options]</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">  -V, --version       output the version number</span><br><span class="line">  -h, --help          output usage information</span><br><span class="line"></span><br><span class="line">Commands:</span><br><span class="line">  init [projectName]  Init a project with default templete</span><br><span class="line">  config &lt;cmd&gt;        Taro config</span><br><span class="line">  create              Create page for project</span><br><span class="line">  build               Build a project with options</span><br><span class="line">  update              Update packages of taro</span><br><span class="line">  convert             Convert weapp to taro</span><br><span class="line">  info                Diagnostics Taro env info</span><br><span class="line">  doctor              Diagnose taro project</span><br><span class="line">  help [cmd]          display help for [cmd]</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="基础教程"><a href="#基础教程" class="headerlink" title="基础教程"></a>基础教程</h2><h3 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h3><p>在小程序中，组件分为页面组件和基础组件。页面组件就是那些可以通过路由跳转到指定页面的组件，具有生命周期，基础组件就是一些普通组件，不构成页面，是页面或者组件的一部分。</p>
+<h4 id="页面组件"><a href="#页面组件" class="headerlink" title="页面组件"></a>页面组件</h4><p>页面组件一般在<code>pages</code>文件夹下定义：</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210112215246.png" alt></p>
+<p>以<code>thread_detail</code>组件举例，该文件夹下有三个文件：</p>
+<ul>
+<li><code>index.css</code>：样式文件</li>
+<li><code>thread_detail.tsx</code>：组件</li>
+<li><code>thread_detail.config.ts</code>：页面组件配置文件</li>
+</ul>
+<p>配置文件主要是配置一些基础样式和文字，<a href="https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/page.html" target="_blank" rel="noopener">页面配置</a>，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">backgroundTextStyle: &#39;light&#39;,</span><br><span class="line">navigationBarBackgroundColor: &#39;#fff&#39;,</span><br><span class="line">navigationBarTitleText: &#39;WeChat&#39;,</span><br><span class="line">navigationBarTextStyle: &#39;black&#39;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>thread_detail.config.ts</code>中是这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export default &#123;</span><br><span class="line">  navigationBarTitleText: &#39;话题&#39;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这个配置文件是必须要写的，否则在项目打包编译就会报如下错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Module not found: Can‘t resolve ‘.&#x2F;pages&#x2F;xxx&#x2F;xxx.config‘ in ‘xxxx‘</span><br></pre></td></tr></table></figure>
+
+<p>这里要注意一下。</p>
+<p>类组件：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> &#123; View &#125; <span class="keyword">from</span> <span class="string">'@tarojs/components'</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Index</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 可以使用所有的 React 组件方法</span></span><br><span class="line">  componentDidMount () &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// onLoad</span></span><br><span class="line">  onLoad () &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// onReady</span></span><br><span class="line">  onReady () &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 对应 onShow</span></span><br><span class="line">  componentDidShow () &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 对应 onHide</span></span><br><span class="line">  componentDidHide () &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 对应 onPullDownRefresh，除了 componentDidShow/componentDidHide 之外，</span></span><br><span class="line">  <span class="comment">// 所有页面生命周期函数名都与小程序相对应</span></span><br><span class="line">  onPullDownRefresh () &#123;&#125;</span><br><span class="line"></span><br><span class="line">  render () &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;View className=<span class="string">'index'</span> /&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> Index</span><br></pre></td></tr></table></figure>
+
+
+
+<p>函数组件：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useEffect &#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> &#123; View &#125; <span class="keyword">from</span> <span class="string">'@tarojs/components'</span></span><br><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  useReady,</span><br><span class="line">  useDidShow,</span><br><span class="line">  useDidHide,</span><br><span class="line">  usePullDownRefresh</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">'@tarojs/taro'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Index</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 可以使用所有的 React Hooks</span></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;&#125;)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 对应 onReady</span></span><br><span class="line">  useReady(<span class="function"><span class="params">()</span> =&gt;</span> &#123;&#125;)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 对应 onShow</span></span><br><span class="line">  useDidShow(<span class="function"><span class="params">()</span> =&gt;</span> &#123;&#125;)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 对应 onHide</span></span><br><span class="line">  useDidHide(<span class="function"><span class="params">()</span> =&gt;</span> &#123;&#125;)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Taro 对所有小程序页面生命周期都实现了对应的自定义 React Hooks 进行支持</span></span><br><span class="line">  <span class="comment">// 详情可查阅：【Taro 文档】-&gt; 【进阶指南】-&gt;【Hooks】</span></span><br><span class="line">  usePullDownRefresh(<span class="function"><span class="params">()</span> =&gt;</span> &#123;&#125;)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;View className=<span class="string">'index'</span> /&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> Index</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="基础组件"><a href="#基础组件" class="headerlink" title="基础组件"></a>基础组件</h4><p>基础组件一般在<code>components</code>文件夹下定义：</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210112220336.png" alt></p>
+<p>这里就不需要为每个组件设置配置文件。</p>
+<h3 id="入口配置"><a href="#入口配置" class="headerlink" title="入口配置"></a>入口配置</h3><p><code>app.config.ts</code>就是入口配置文件，我们可以在其中配置页面路径列表、全局的默认窗口表现等属性。<code>Taro</code>的配置规范是基于微信小程序的全局配置进行规定的：<a href="https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE" target="_blank" rel="noopener">微信小程序全局配置</a>。</p>
+<p>在V2EX项目中，全局配置为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app.config.ts</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  pages: [</span><br><span class="line">    <span class="string">'pages/index/index'</span>,</span><br><span class="line">    <span class="string">'pages/nodes/nodes'</span>,</span><br><span class="line">    <span class="string">'pages/hot/hot'</span>,</span><br><span class="line">    <span class="string">'pages/node_detail/node_detail'</span>,</span><br><span class="line">    <span class="string">'pages/thread_detail/thread_detail'</span>,</span><br><span class="line">  ],</span><br><span class="line">  tabBar: &#123;</span><br><span class="line">    list: [&#123;</span><br><span class="line">      <span class="string">'iconPath'</span>: <span class="string">'resource/latest.png'</span>,</span><br><span class="line">      <span class="string">'selectedIconPath'</span>: <span class="string">'resource/lastest_on.png'</span>,</span><br><span class="line">      pagePath: <span class="string">'pages/index/index'</span>,</span><br><span class="line">      text: <span class="string">'最新'</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">      <span class="string">'iconPath'</span>: <span class="string">'resource/hotest.png'</span>,</span><br><span class="line">      <span class="string">'selectedIconPath'</span>: <span class="string">'resource/hotest_on.png'</span>,</span><br><span class="line">      pagePath: <span class="string">'pages/hot/hot'</span>,</span><br><span class="line">      text: <span class="string">'热门'</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">      <span class="string">'iconPath'</span>: <span class="string">'resource/node.png'</span>,</span><br><span class="line">      <span class="string">'selectedIconPath'</span>: <span class="string">'resource/node_on.png'</span>,</span><br><span class="line">      pagePath: <span class="string">'pages/nodes/nodes'</span>,</span><br><span class="line">      text: <span class="string">'节点'</span></span><br><span class="line">    &#125;],</span><br><span class="line">    <span class="string">'color'</span>: <span class="string">'#000'</span>,</span><br><span class="line">    <span class="string">'selectedColor'</span>: <span class="string">'#56abe4'</span>,</span><br><span class="line">    <span class="string">'backgroundColor'</span>: <span class="string">'#fff'</span>,</span><br><span class="line">    <span class="string">'borderStyle'</span>: <span class="string">'white'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="built_in">window</span>: &#123;</span><br><span class="line">    backgroundTextStyle: <span class="string">'light'</span>,</span><br><span class="line">    navigationBarBackgroundColor: <span class="string">'#fff'</span>,</span><br><span class="line">    navigationBarTitleText: <span class="string">'WeChat'</span>,</span><br><span class="line">    navigationBarTextStyle: <span class="string">'black'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h3><h4 id="路由跳转"><a href="#路由跳转" class="headerlink" title="路由跳转"></a>路由跳转</h4><p>在<code>Taro</code>中，可以使用<code>Taro</code>的<code>navigateTo</code>方法进行路由跳转：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Taro.navigateTo(&#123; <span class="attr">url</span>: <span class="string">'/pages/thread_detail/thread_detail'</span> &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>这个用法类似<code>React</code>中的<code>props.history.push(&#39;/xxx&#39;)</code>。</p>
+<h4 id="路由参数"><a href="#路由参数" class="headerlink" title="路由参数"></a>路由参数</h4><p>在页面组件中，可以通过 <code>getCurrentInstance().router</code> 或者<code>Current.router?.params</code>获取当前页面的路由参数：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Taro, &#123; Current &#125; <span class="keyword">from</span> <span class="string">'@tarojs/taro'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在组件内</span></span><br><span class="line"><span class="keyword">const</span> &#123; full_name &#125; = Current.router?.params;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h3><p><code>React</code>组件的生命周期方法和小程序的生命周期方法在<code>Taro</code>中均支持，但需要注意它们的触发时机和顺序。见官方文档：<a href="https://taro-docs.jd.com/taro/docs/react#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E8%A7%A6%E5%8F%91%E6%9C%BA%E5%88%B6" target="_blank" rel="noopener">生命周期触发机制</a>。</p>
+<h3 id="内置组件"><a href="#内置组件" class="headerlink" title="内置组件"></a>内置组件</h3><p><code>Taro</code>中使用小程序规范的内置组件进行开发，如<code>&lt;View /&gt;</code>、<code>&lt;Text /&gt;</code>、<code>&lt;Button /&gt;</code>等，这些是跨平台组件。</p>
+<p>在<code>React</code>中使用这些内置组件前，必须从<code>@tarojs/components</code>进行引入，组件的<code>props</code>遵从大驼峰式命名规范：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 小程序写法</span></span><br><span class="line">&lt;view hover-<span class="class"><span class="keyword">class</span></span>=<span class="string">'test'</span> /&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Taro写法</span></span><br><span class="line"><span class="keyword">import</span> &#123; View &#125; <span class="keyword">from</span> <span class="string">'@tarojs/components'</span></span><br><span class="line"></span><br><span class="line">&lt;View hoverClass=<span class="string">'test'</span> /&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h3><p>在 Taro 中事件遵从小驼峰式（camelCase）命名规范，所有内置事件名以 <code>on</code> 开头。</p>
+<p>在事件回调函数中，第一个参数是事件本身，回调中调用 <code>stopPropagation</code> 可以阻止冒泡。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Comp</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">clickHandler</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">    e.stopPropagation() <span class="comment">// 阻止冒泡</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">scrollHandler</span> (<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 只有小程序的 bindtap 对应 Taro 的 onClick</span></span><br><span class="line">  <span class="comment">// 其余小程序事件名把 bind 换成 on 即是 Taro 事件名（支付宝小程序除外，它的事件就是以 on 开头）</span></span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">ScrollView</span> <span class="attr">onClick</span>=<span class="string">&#123;clickHandler&#125;</span> <span class="attr">onScroll</span>=<span class="string">&#123;scrollHandler&#125;</span> /&gt;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="项目进阶与优化"><a href="#项目进阶与优化" class="headerlink" title="项目进阶与优化"></a>项目进阶与优化</h2><p>项目在开发完毕之后，我们想要看项目的效果是怎么样的，要怎么做呢？当时我很疑惑，于是找了<code>Taro</code>官方的一个5分钟上手小程序的<a href="https://mp.weixin.qq.com/s?__biz=MzU3NDkzMTI3MA==&mid=2247484205&idx=1&sn=935bb7a35c11c33563eeb7c3aaca3321&chksm=fd2bab04ca5c2212b4cd8aeb5858bd08517aeb31e20727b22d1eee00b394184e7e61359e7dd9&token=1180618535&lang=zh_CN#rd" target="_blank" rel="noopener">视频</a>来看，便找到了答案。</p>
+<p>首先，先打包编译。使用<code>Taro CLI</code>生成的项目，在<code>package.json</code>中已经配置好了各种小程序的打包编译指令：</p>
+<img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210113104709.png" style="zoom:67%;">
+
+<p>比如，我想打包微信小程序，则在终端输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run dev:weapp</span><br></pre></td></tr></table></figure>
+
+<p>调试的话就执行<code>npm run dev</code>，打包构建到生产环境则执行<code>npm run build</code>。</p>
+<p>如果想要<strong>多端编译</strong>，在<code>config</code>文件夹下的<code>index.js</code>里修改<code>outputRoot</code>属性：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">outputRoot: <span class="string">`dist/<span class="subst">$&#123;process.env.TARO_ENV&#125;</span>`</span></span><br></pre></td></tr></table></figure>
+
+<p>这样的话，各个端打包好的文件就可以同时存放在<code>dist</code>文件夹内，比如微信小程序的路径是<code>dist/weapp</code>，<code>h5</code>的路径是<code>dist/h5</code>。</p>
+<p>然后，打开微信开发者工具，导入打包编译好的项目，就有效果啦：</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210113110200.png" alt></p>
+<p>但此时，我的项目遇到了一个bug，在微信开发者工具中报错了：<br><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210113110650.png" alt></p>
+<p>当时没有仔细看报错信息，其实第二行<code>Thread.render</code>中点击进去有提示报错位置。心想：这没法调试。。。也没办法<code>console.log</code>。（实际上是可以的）。</p>
+<p>于是便想，那是不是可以打包成<code>h5</code>，在浏览器里调试，这样不就和平时的前端开发一样了么！于是便转向了另一个方向。但是在浏览器端，会有跨域问题，<code>localhost</code>向<code>https://www.v2ex.com/api/</code>发起请求是违反了浏览器的同源策略。小程序开发工具并没有同源策略的限制，于是不会有这个问题。</p>
+<h3 id="Taro-h5-跨域问题解决"><a href="#Taro-h5-跨域问题解决" class="headerlink" title="Taro h5 跨域问题解决"></a><code>Taro</code> h5 跨域问题解决</h3><p>首先，要在<code>config/dev.js</code>中添加h5配置：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">h5: &#123;</span><br><span class="line">    devServer: &#123;</span><br><span class="line">        proxy: &#123;</span><br><span class="line">            <span class="string">'/api/'</span>: &#123;</span><br><span class="line">                target: <span class="string">"https://www.v2ex.com"</span>,</span><br><span class="line">                    changeOrigin: <span class="literal">true</span></span><br><span class="line">                <span class="comment">// pathRewrite: &#123;</span></span><br><span class="line">                <span class="comment">//   '^/api/': '/'</span></span><br><span class="line">                <span class="comment">// &#125;,</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中的配置就是<code>webpack</code>的<code>devServer</code>的配置，详情可参考博客：<a href="https://blog.csdn.net/mobile18611667978/article/details/100545882" target="_blank" rel="noopener">devServer之proxy跨域</a></p>
+<p>第二步，修改<code>api.ts</code>里的<code>HOST</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> HOST_URI = <span class="string">'https://www.v2ex.com/api/'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 修改为</span></span><br><span class="line"><span class="keyword">const</span> HOST_URI = <span class="string">'/api/'</span></span><br></pre></td></tr></table></figure>
+
+<p>为什么要这么改呢？因为在proxy中，我们会检查请求的开头是否为<code>/api/</code>，如果是以<code>http</code>开头，则检查不匹配，不走代理，跨域失效。所以去掉前面的<code>http</code>部分，相当于遇到<code>/api/</code>才做代理，则会把默认域名<code>http://localhost:xxxx</code>改成<code>target</code>，也就是<code>https://www.v2ex.com</code>地址。不过在浏览器F12下，<code>Network-&gt;Headers</code>中看到的还是<code>http://localhost:xxxx/api/xxx</code>，但是真正的请求地址为：<code>https://www.v2ex.com/api/xxx</code>。</p>
+<p>需要添加<code>pathRewrite</code>属性的场景是：相当于遇见<code>/api/</code>才做代理，但真实的请求中没有<code>/api/</code>，所以在<code>pathRewrite</code>中把<code>/api/</code>去掉, 这样既有了标识, 又能在请求接口中把<code>/api/</code>去掉。</p>
+<p>运行<code>npm run dev:h5</code>，可以在浏览器端查看到效果：</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210113114233.png" alt></p>
+<p>最后问题是由于将生命周期函数<code>componentWillMount</code>写成<code>componentWillUnmount</code>导致的，找了好久，以至于想锤死自己。</p>
+<p>不过<code>React</code>已经不建议使用<code>componentWillMount</code>这个生命周期函数了，所以我们应该将数据获取放在<code>componentDidMount</code>中：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> componentDidMount() &#123;</span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">      thread: <span class="keyword">this</span>.props.thread</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>渲染时加一层判断：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 组件内</span></span><br><span class="line"><span class="comment">// 在加载到thread的数据后再渲染，防止出现property of undefined的报错</span></span><br><span class="line"><span class="keyword">const</span> attrLen = <span class="built_in">Object</span>.keys(thread).length;</span><br><span class="line"></span><br><span class="line">&#123;attrLen ? <span class="xml"><span class="tag">&lt;<span class="name">Thread</span></span></span></span><br><span class="line"><span class="xml">    node=&#123;thread.node&#125;</span></span><br><span class="line"><span class="xml">    title=&#123;thread.title&#125;</span></span><br><span class="line"><span class="xml">    last_modified=&#123;thread.last_modified&#125;</span></span><br><span class="line"><span class="xml">    replies=&#123;thread.replies&#125;</span></span><br><span class="line"><span class="xml">    tid=&#123;thread.id&#125;</span></span><br><span class="line"><span class="xml">    member=&#123;thread.member&#125;</span></span><br><span class="line"><span class="xml">    not_navi=&#123;true&#125;</span></span><br><span class="line"><span class="xml">/&gt;</span> : <span class="literal">null</span>&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>其实微信开发者工具也有完善的调试器，能够看到<code>console.log</code>等的结果，所以我们直接在<code>vscode</code>中修改代码，<code>ctrl s</code>之后，就能够在微信开发者工具中看到相应的渲染结果，也可以通过看<code>console</code>来调试。不过微信开发者工具似乎不能够使用<code>Redux</code>的调试工具，这个之后再研究研究。</p>
+<p>后续计划用hooks对这个demo进行优化。</p>
+<br>
+
+<h1 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h1><p><code>Taro</code>学习优秀资源：<a href="https://github.com/NervJS/awesome-taro" target="_blank" rel="noopener">awesome-taro</a></p>
+
+      
+    </div>
+    
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:15px;">-------本&nbsp;文&nbsp;结&nbsp;束&nbsp;&nbsp;<i class="fa fa-heart" aria-hidden="true"></i>&nbsp;&nbsp;感&nbsp;谢&nbsp;您&nbsp;的&nbsp;阅&nbsp;读-------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag"><i class="fa fa-tag"></i> 小程序</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/01/09/Redux%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="next" title="Redux源码解析">
+                <i class="fa fa-chevron-left"></i> Redux源码解析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Alice" />
+            
+              <p class="site-author-name" itemprop="name">Alice</p>
+              <p class="site-description motion-element" itemprop="description">Goals determine what you going to be!</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/delaprada" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://blog.csdn.net/weixin_41973410" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-copyright"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-book"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://io-oi.me/tech/hexo-next-optimization/#%E5%BF%85%E8%AF%BB-%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2" title="Hexo深度优化" target="_blank">Hexo深度优化</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://diygod.me" title="diygod" target="_blank">diygod</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://zhangwenli.com/blog" title="羡辙" target="_blank">羡辙</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#入门"><span class="nav-number">2.</span> <span class="nav-text">入门</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境准备"><span class="nav-number">2.1.</span> <span class="nav-text">环境准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础教程"><span class="nav-number">2.2.</span> <span class="nav-text">基础教程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#组件"><span class="nav-number">2.2.1.</span> <span class="nav-text">组件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#页面组件"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">页面组件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基础组件"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">基础组件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#入口配置"><span class="nav-number">2.2.2.</span> <span class="nav-text">入口配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#路由"><span class="nav-number">2.2.3.</span> <span class="nav-text">路由</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#路由跳转"><span class="nav-number">2.2.3.1.</span> <span class="nav-text">路由跳转</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#路由参数"><span class="nav-number">2.2.3.2.</span> <span class="nav-text">路由参数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生命周期"><span class="nav-number">2.2.4.</span> <span class="nav-text">生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内置组件"><span class="nav-number">2.2.5.</span> <span class="nav-text">内置组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件"><span class="nav-number">2.2.6.</span> <span class="nav-text">事件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目进阶与优化"><span class="nav-number">2.3.</span> <span class="nav-text">项目进阶与优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Taro-h5-跨域问题解决"><span class="nav-number">2.3.1.</span> <span class="nav-text">Taro h5 跨域问题解决</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#学习资料"><span class="nav-number">3.</span> <span class="nav-text">学习资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="heart">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alice</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>&nbsp;本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="/js/src/md5.min.js"></script>
+  <script type="text/javascript">
+    var gitalk = new Gitalk({
+      clientID: '9b4dade3bf26b8fd0713',
+      clientSecret: '43302d4a47ac2c290d0d019c1929032f1f3f8ada',
+      repo: 'delaprada.github.io',
+      owner: 'delaprada',
+      admin: ['delaprada'],
+      id: location.pathname,
+      id: md5(location.pathname),
+      distractionFreeMode: 'true'
+    })
+    gitalk.render('gitalk-container')
+  </script>
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+
+  <!-- 代码块复制功能 -->
+  <script type="text/javascript" src="/js/src/clipboard.min.js"></script>  
+  <script type="text/javascript" src="/js/src/clipboard-use.js"></script>
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/clicklove.js"></script>
+
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=i;var e=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}i(),n.addEventListener("scroll",function(){var t,e;t=i,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+</html>
