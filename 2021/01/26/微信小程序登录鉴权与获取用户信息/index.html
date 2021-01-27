@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic|Caveat:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="小程序," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言在小程序中，与云开发相比，传统的前后端开发在登录鉴权的实现方面相对来说更加复杂，不仅需要前端和后端的交互，后端还需要与微信接口服务进行交互，以完成整个鉴权流程：  整个流程简单来说分为以下7步：  前端调用wx.login()获取临时登录凭证code，并回传到开发者服务器。 服务器调用auth.code2Session换取用户唯一标识OpenID和会话密钥session_key。 服务器端根据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微信小程序登录鉴权与获取用户信息">
+<meta property="og:url" content="http://delaprada.com/2021/01/26/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%99%BB%E5%BD%95%E9%89%B4%E6%9D%83%E4%B8%8E%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF/index.html">
+<meta property="og:site_name" content="Alice&#39;s  wonderland">
+<meta property="og:description" content="前言在小程序中，与云开发相比，传统的前后端开发在登录鉴权的实现方面相对来说更加复杂，不仅需要前端和后端的交互，后端还需要与微信接口服务进行交互，以完成整个鉴权流程：  整个流程简单来说分为以下7步：  前端调用wx.login()获取临时登录凭证code，并回传到开发者服务器。 服务器调用auth.code2Session换取用户唯一标识OpenID和会话密钥session_key。 服务器端根据">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="article:published_time" content="2021-01-26T00:29:21.000Z">
+<meta property="article:modified_time" content="2021-01-27T01:53:36.179Z">
+<meta property="article:author" content="Alice">
+<meta property="article:tag" content="小程序">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://delaprada.com/images/loading.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://delaprada.com/2021/01/26/微信小程序登录鉴权与获取用户信息/"/>
+
+
+
+
+
+  <title>微信小程序登录鉴权与获取用户信息 | Alice's  wonderland</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Alice's  wonderland</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://delaprada.com/2021/01/26/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%99%BB%E5%BD%95%E9%89%B4%E6%9D%83%E4%B8%8E%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alice">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alice's  wonderland">
+    </span>
+
+    
+      <header class="post-header">
+        <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-26T08:29:21+08:00">
+                2021-01-26
+              </time>
+            
+
+            
+
+            
+          </span>
+        
+        
+          <h1 class="post-title" itemprop="name headline">微信小程序登录鉴权与获取用户信息</h1>
+        
+
+        
+      </header>
+    
+
+    
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在小程序中，与云开发相比，传统的前后端开发在登录鉴权的实现方面相对来说更加复杂，不仅需要前端和后端的交互，后端还需要与微信接口服务进行交互，以完成整个鉴权流程：</p>
+<p><img src="/images/loading.png" data-original="https://res.wx.qq.com/wxdoc/dist/assets/img/api-login.2fcc9f35.jpg" alt="img"></p>
+<p>整个流程简单来说分为以下7步：</p>
+<ol>
+<li>前端调用<code>wx.login()</code>获取临时登录凭证<code>code</code>，并回传到开发者服务器。</li>
+<li>服务器调用<a href="https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/login/auth.code2Session.html" target="_blank" rel="noopener">auth.code2Session</a>换取<strong>用户唯一标识OpenID和会话密钥session_key</strong>。</li>
+<li>服务器端根据<code>OpenID</code>或<code>session_key</code>生成自定义登录态（可以理解为是<code>token</code>），将<code>token</code>响应给前端。</li>
+<li>前端将<code>token</code>存入<code>Storage</code>中。</li>
+<li>当前端之后向后端发起请求时，就会带上<code>token</code>。</li>
+<li>后台通过<code>token</code>（或者其他类型密钥），解密获取<code>OpenID</code>，判断是哪个用户的行为，做出响应的逻辑处理（比如操作数据库等）。</li>
+<li>后台响应数据给前端。</li>
+</ol>
+<p>这个是小程序登录的流程，但是<strong>小程序登录和小程序获取用户信息并不是一回事</strong>。小程序登录的<code>API</code>是<code>wx.login</code>，可以获取用户的<code>openID</code>，<code>openID</code>是用户的唯一标识，是比较隐私的数据，一般不会返回给前端。小程序获取用户信息的<code>API</code>是<code>wx.getUserInfo</code>，它可以获取用户的一些基本信息，比如<code>nickName</code>、<code>avatarUrl</code>等。两者不要弄混。</p>
+<p>其实微信登录一开始并不是这样的，以往微信小程序在用户没有任何操作的情况下就会直接弹出授权的登录方式，如果用户点击拒绝授权，则无法使用小程序。按照微信官方对这个功能更新的解释是：</p>
+<img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210126090858.png" style="zoom:67%;">
+
+<img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210126091038.png" style="zoom:67%;">
+
+<p>因此，微信对开发的建议是：</p>
+<ol>
+<li>当用户打开小程序时访问第一个页面时，先通过<code>wx.login</code>，获取用户 <code>openID</code> 。这时无需弹框授权，开发者拿到 <code>openID</code> 可以建立自身的帐号<code>ID</code>。</li>
+<li>在第一步中，拿到 <code>openID</code> 后，判断是新用户还是老用户。如果是老用户，可以直接登录；如果是新用户，可先在小程序首页展示你的信息服务，让用户对这个小程序有大概的了解，再引导用户进行下一步的操作。</li>
+<li>当需要获取用户头像昵称的时候，对用户展示一个登录页面，这个页面只有一个最重要的操作，引导用户进行登录。</li>
+</ol>
+<h1 id="小程序登录"><a href="#小程序登录" class="headerlink" title="小程序登录"></a>小程序登录</h1><p>在上一节中有提到，小程序登录可以分为7个步骤，下面就详细讲一下7个步骤具体是如何实现。</p>
+<h2 id="step1-前端调用wx-login-获取临时登录凭证code"><a href="#step1-前端调用wx-login-获取临时登录凭证code" class="headerlink" title="step1: 前端调用wx.login()获取临时登录凭证code"></a>step1: 前端调用<code>wx.login()</code>获取临时登录凭证<code>code</code></h2><p>在项目中，我使用了<code>Taro</code>框架，所以调用的<code>API</code>对应为<code>Taro.login()</code>：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">Taro.login(&#123;&#125;)</span><br><span class="line">      .then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (res.code) &#123;</span><br><span class="line">          <span class="comment">// 将code发送到后台，以获取token</span></span><br><span class="line">          getToken(res.code)</span><br><span class="line">            .then(<span class="function">(<span class="params">res: any</span>) =&gt;</span> &#123;</span><br><span class="line">              <span class="keyword">const</span> &#123; token, userExist &#125; = res;</span><br><span class="line"></span><br><span class="line">              <span class="comment">// 将token存储到Storage中</span></span><br><span class="line">              Taro.setStorageSync(<span class="string">'token'</span>, token);</span><br><span class="line"></span><br><span class="line">              <span class="comment">// 如果是老用户，获取用户信息</span></span><br><span class="line">              <span class="keyword">if</span>(userExist) &#123;</span><br><span class="line">                <span class="keyword">const</span> &#123; userInfo &#125; = res;</span><br><span class="line">                Taro.setStorageSync(<span class="string">'userInfo'</span>, userInfo);</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">            .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">              <span class="built_in">console</span>.error(err);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="built_in">console</span>.log(<span class="string">'登录失败! '</span> + res.errMsg);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">      .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.error(err);</span><br><span class="line">      &#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="step2-服务端调用auth-code2Session换取openid和session-key"><a href="#step2-服务端调用auth-code2Session换取openid和session-key" class="headerlink" title="step2: 服务端调用auth.code2Session换取openid和session_key"></a>step2: 服务端调用<a href="https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/login/auth.code2Session.html" target="_blank" rel="noopener">auth.code2Session</a>换取openid和session_key</h2><p>服务端调用外部接口需要使用<code>egg.js</code>中的一个<code>api</code>：<code>this.ctx.curl</code>，因为是异步请求，所以需要加上<code>await</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app/controller/home.js</span></span><br><span class="line"><span class="comment">// login接口</span></span><br><span class="line"><span class="keyword">async</span> login() &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; ctx &#125; = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">const</span> &#123; code &#125; = ctx.request.body;</span><br><span class="line">    <span class="comment">// 服务器根据客户端传来的code向微信接口服务获取session_key和openid</span></span><br><span class="line">    <span class="keyword">const</span> res = <span class="keyword">await</span> ctx.curl(</span><br><span class="line">        <span class="string">`https://api.weixin.qq.com/sns/jscode2session?		</span></span><br><span class="line"><span class="string">    appid=wx6936c18b38186cf3&amp;secret=d11f77fb7d5a959b6ba46c30dbd4da95&amp;js_code=<span class="subst">$&#123;code&#125;</span>&amp;grant_type=authorization_code`</span>,</span><br><span class="line">        &#123;</span><br><span class="line">        	dataType: <span class="string">'json'</span>,</span><br><span class="line">        &#125;</span><br><span class="line">    );</span><br><span class="line">    <span class="keyword">const</span> &#123; openid &#125; = res.data;  <span class="comment">// 获取到openid</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="step3-根据openid生成自定义登录态token，响应给前端"><a href="#step3-根据openid生成自定义登录态token，响应给前端" class="headerlink" title="step3: 根据openid生成自定义登录态token，响应给前端"></a>step3: 根据<code>openid</code>生成自定义登录态token，响应给前端</h2><p>因为<code>openid</code>是用户的唯一标识，根据它生成token，响应给前端后，前端每次发请求带上token，后台解密请求中的token，获取到<code>openid</code>，便能识别这是哪个用户的请求行为。</p>
+<p>这里我们使用<code>jwt</code>来生成自定义登录态<code>token</code>，使用<code>jwt-simple</code>库来生成<code>jwt</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> jwt = <span class="built_in">require</span>(<span class="string">'jwt-simple'</span>);</span><br><span class="line"><span class="keyword">const</span> SECRET = <span class="string">'zhuoran'</span>; <span class="comment">// 自定义</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> login() &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">const</span> &#123; openid &#125; = res.data;  <span class="comment">// 获取到openid</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 根据用户的openid生成token</span></span><br><span class="line">    <span class="keyword">const</span> token = jwt.encode(openid, SECRET);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 将token返回</span></span><br><span class="line">    ctx.body = &#123;</span><br><span class="line">      token: token,</span><br><span class="line">      ...</span><br><span class="line">    &#125;;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="step4-前端将token存入storage"><a href="#step4-前端将token存入storage" class="headerlink" title="step4: 前端将token存入storage"></a>step4: 前端将token存入storage</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将token存储到Storage中</span></span><br><span class="line">Taro.setStorageSync(<span class="string">'token'</span>, token);</span><br></pre></td></tr></table></figure>
+
+
+
+<p>并在每次请求时带上<code>token</code>，将<code>token</code>放在请求头的<code>Authorization</code>字段里面：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> option = &#123;</span><br><span class="line">    url: BASE_URL + url,</span><br><span class="line">    data: data,</span><br><span class="line">    method: method,</span><br><span class="line">    header: &#123;</span><br><span class="line">        <span class="string">'content-type'</span>: contentType,</span><br><span class="line">        Authorization: Taro.getStorageSync(<span class="string">'token'</span>),</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">Taro.request(option);</span><br></pre></td></tr></table></figure>
+
+<p>这样前端之后向后端发起请求，都会带上token。</p>
+<h2 id="step5-后台解密token获取openid"><a href="#step5-后台解密token获取openid" class="headerlink" title="step5: 后台解密token获取openid"></a>step5: 后台解密token获取openid</h2><p>在后台解密token获取openid之后，便能知道这是哪个用户的请求，执行响应的操作：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> request() &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; ctx &#125; = <span class="keyword">this</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 从请求头的authorization字段获取token</span></span><br><span class="line">    <span class="keyword">const</span> token = ctx.get(<span class="string">'authorization'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 对token进行解密获取其中的openid</span></span><br><span class="line">    <span class="keyword">const</span> openid = jwt.decode(token, SECRET);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 根据openid查找用户信息</span></span><br><span class="line">    <span class="keyword">const</span> res = <span class="keyword">await</span> ctx.model.User.findAll(&#123;</span><br><span class="line">      where: &#123;</span><br><span class="line">        openid: openid,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 之后注意要将openid属性去掉，私密属性不传回给客户端</span></span><br><span class="line">    ctx.body = res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="额外需要注意的点"><a href="#额外需要注意的点" class="headerlink" title="额外需要注意的点"></a>额外需要注意的点</h2><p>保存用户登录态，一直以来都有两种解决方案：前端保存和后端保存。</p>
+<ul>
+<li>后端保存：在后端设定并存储当前token的过期时间，定期通知小程序前端重新登录</li>
+<li>前端保存：因为session_key存在时效性（因为通过session_key我们可以查看敏感信息，所以必定会有一定的时效性），而小程序前端可以通过<code>wx.checkSession()</code>来检查<code>session_key</code>是否过期。我们可以自定义登录态，并考虑以session_key有效期作为自身登录态有效期（也就是以session_key的到期时间作为自定义登录态的到期时间，两者实际上并没有实质联系）。这个也是小程序文档中推荐的方法。</li>
+</ul>
+<p>因此，在项目中token是会过期的，一段时间没有使用就会导致它过期。那怎么去检验token是否过期，然后去更新它呢？</p>
+<p>这里就需要用到前端拦截器和后端中间件。前端拦截器用来判断<code>token</code>是否过期，后端中间件用于判断请求是否携带token以及token是否有效。</p>
+<h2 id="前端拦截器"><a href="#前端拦截器" class="headerlink" title="前端拦截器"></a>前端拦截器</h2><p>这里会使用到<code>Taro</code>拦截器<code>API</code>：<a href="https://taro-docs.jd.com/taro/docs/apis/network/request/addInterceptor" target="_blank" rel="noopener"><code>Taro.addInterceptor(callback)</code></a>。拦截器允许我们在请求发出前或发出后做一些额外操作。</p>
+<p>例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> interceptor = <span class="function"><span class="keyword">function</span> (<span class="params">chain</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 拦截请求发出前做一些额外操作</span></span><br><span class="line">  <span class="keyword">const</span> requestParams = chain.requestParams</span><br><span class="line">  <span class="keyword">const</span> &#123; method, data, url &#125; = requestParams</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`http <span class="subst">$&#123;method || <span class="string">'GET'</span>&#125;</span> --&gt; <span class="subst">$&#123;url&#125;</span> data: `</span>, data)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> chain.proceed(requestParams)</span><br><span class="line">    .then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// 拦截请求发出后做一些额外操作</span></span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">`http &lt;-- <span class="subst">$&#123;url&#125;</span> result:`</span>, res)</span><br><span class="line">      <span class="keyword">return</span> res</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">Taro.addInterceptor(interceptor)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>所以，我们可以将<code>checkSession</code>步骤写在前端拦截器里，在请求每次发出之前判断<code>session_key</code>是否有过期，如果过期了，则重新调用<code>login</code>方法，更新token，如果没有过期，则正常发起请求：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// login方法</span></span><br><span class="line"><span class="keyword">const</span> login = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  Taro.login(&#123;&#125;)</span><br><span class="line">    .then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (res.code) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'code为'</span> + res.code);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 将code和userInfo发送到后台，以获取token</span></span><br><span class="line">        getToken(res.code)</span><br><span class="line">          .then(<span class="function">(<span class="params">token</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'获取token'</span>);</span><br><span class="line">            <span class="built_in">console</span>.log(token);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 将token存储到Storage中</span></span><br><span class="line">            Taro.setStorageSync(<span class="string">'token'</span>, token);</span><br><span class="line">          &#125;)</span><br><span class="line">          .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.error(err);</span><br><span class="line">          &#125;);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'登录失败! '</span> + res.errMsg);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.error(err);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 自定义拦截器</span></span><br><span class="line"><span class="keyword">const</span> customInterceptor = <span class="function">(<span class="params">chain</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> requestParams = chain.requestParams;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 获取token</span></span><br><span class="line">  <span class="keyword">const</span> loginFlag = Taro.getStorageSync(<span class="string">'token'</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 检查session是否过期</span></span><br><span class="line">  Taro.checkSession(&#123;&#125;)</span><br><span class="line">    .then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(res);</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'session没过期，不用重新登录'</span>);</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'token为'</span> + loginFlag);</span><br><span class="line">    &#125;)</span><br><span class="line">    .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(err);</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'session已过期，要重新登录'</span>);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 重新登录</span></span><br><span class="line">      login();</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> chain.proceed(requestParams).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 只要请求成功，不管返回什么状态码，都走这个回调</span></span><br><span class="line">    <span class="keyword">switch</span> (res.statusCode) &#123;</span><br><span class="line">      <span class="keyword">case</span> HTTP_STATUS.NOT_FOUND:</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(<span class="string">'请求资源不存在'</span>);</span><br><span class="line">      <span class="keyword">case</span> HTTP_STATUS.BAD_GATEWAY:</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(<span class="string">'服务端出现了问题'</span>);</span><br><span class="line">      <span class="keyword">case</span> HTTP_STATUS.FORBIDDEN: &#123;</span><br><span class="line">        Taro.setStorageSync(<span class="string">'Authorization'</span>, <span class="string">''</span>);</span><br><span class="line">        <span class="comment">// pageToLogin();</span></span><br><span class="line">        <span class="comment">// TODO 根据自身业务修改</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(<span class="string">'没有权限访问'</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">case</span> HTTP_STATUS.AUTHENTICATE: &#123;</span><br><span class="line">        Taro.setStorageSync(<span class="string">'Authorization'</span>, <span class="string">''</span>);</span><br><span class="line">        <span class="comment">// pageToLogin();</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(<span class="string">'需要鉴权'</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">case</span> HTTP_STATUS.SUCCESS:</span><br><span class="line">        <span class="keyword">return</span> res.data;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Taro 提供了两个内置拦截器</span></span><br><span class="line"><span class="comment">// logInterceptor - 用于打印请求的相关信息</span></span><br><span class="line"><span class="comment">// timeoutInterceptor - 在请求超时时抛出错误。</span></span><br><span class="line"><span class="keyword">const</span> interceptors = [</span><br><span class="line">  customInterceptor,</span><br><span class="line">  Taro.interceptors.logInterceptor,</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> interceptors;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="后端中间件"><a href="#后端中间件" class="headerlink" title="后端中间件"></a>后端中间件</h2><p>正如之前所述，后端中间件的作用是用户判断请求是否携带token以及token是否有效的。我们在egg Node.js后端项目中定义校验token的中间件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app/middleware/auth.js</span></span><br><span class="line"><span class="keyword">let</span> jwt = <span class="built_in">require</span>(<span class="string">'jwt-simple'</span>);</span><br><span class="line"><span class="keyword">const</span> SECRET = <span class="string">'zhuoran'</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function">(<span class="params">options</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">auth</span>(<span class="params">ctx, next</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> token = ctx.get(<span class="string">'authorization'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (token) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'请求带有token'</span>);</span><br><span class="line"></span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> openid = jwt.decode(token, SECRET);</span><br><span class="line">        <span class="keyword">await</span> next();</span><br><span class="line">      &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">        ctx.body = &#123;</span><br><span class="line">          code: <span class="number">401</span>,</span><br><span class="line">          msg: <span class="string">'token有误'</span>,</span><br><span class="line">        &#125;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'请求没有带token'</span>);</span><br><span class="line">      ctx.body = &#123;</span><br><span class="line">        code: <span class="number">401</span>,</span><br><span class="line">        msg: <span class="string">'您没有登录'</span>,</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>因为小程序中，有些功能不强制要求用户登录之后才能使用，所以有些请求操作不需要后台校验是否有token，那么这个<code>auth.js</code>中间件就不能够全局配置，而是放在需要校验token的路由下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function">(<span class="params">app</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; router, controller, middleware &#125; = app;</span><br><span class="line">  <span class="keyword">const</span> auth = middleware.auth();</span><br><span class="line"></span><br><span class="line">  router.get(<span class="string">'/'</span>, controller.home.index);</span><br><span class="line">  router.get(<span class="string">'/request'</span>, auth, controller.home.request); <span class="comment">// 将middleware放在中间</span></span><br><span class="line">  router.post(<span class="string">'/login'</span>, controller.home.login);</span><br><span class="line">  router.post(<span class="string">'/userInfo'</span>, controller.home.userInfo);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="登录鉴权及获得用户信息流程梳理"><a href="#登录鉴权及获得用户信息流程梳理" class="headerlink" title="登录鉴权及获得用户信息流程梳理"></a>登录鉴权及获得用户信息流程梳理</h1><p>登录：</p>
+<img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210127093505.png" style="zoom:80%;">
+
+<p>获取用户信息：</p>
+<img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210127094738.png" style="zoom:80%;">
+
+
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>相对于云开发来说，传统的前后端开发在登录鉴权方面复杂许多，涉及多端交互，以上总结也有许多要改进的地方。总而言之，将逻辑理顺之后，写代码就比较简单了。</p>
+<p>在登录鉴权过程中比较重要的点：</p>
+<ol>
+<li>知道什么是用户的唯一标识，并根据它生成token</li>
+<li>对token进行校验，判断其是否过期，是否准确</li>
+<li>通过画流程图等方式理清各个过程的逻辑</li>
+</ol>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://juejin.cn/post/6873700061000237069" target="_blank" rel="noopener">使用Nodejs实现jwt原理</a></p>
+<p><a href="https://juejin.cn/post/6844903588498522120" target="_blank" rel="noopener">手把手教会你小程序登录鉴权</a></p>
+<p><a href="https://juejin.cn/post/6844903756887228430" target="_blank" rel="noopener">小程序登录那些事</a></p>
+<p><a href="https://blog.csdn.net/qq_33594380/article/details/80431582?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-3.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-3.control" target="_blank" rel="noopener">小程序：授权、登录、session_key、unionId</a></p>
+<p><a href="https://segmentfault.com/a/1190000023682165" target="_blank" rel="noopener">微信小程序wx.getUserInfo授权获取用户信息（头像、昵称）</a></p>
+<p><a href="https://segmentfault.com/q/1010000016300232#" target="_blank" rel="noopener">前后端分离项目，token过期，重新登录和刷新token的问题</a></p>
+<p><a href="https://blog.csdn.net/bocongbo/article/details/93719624" target="_blank" rel="noopener">egg中间件匹配路由</a></p>
+<p><a href="https://www.cnblogs.com/juewuzhe/p/11130475.html" target="_blank" rel="noopener">Taro微信小程序登录</a></p>
+<p><a href="https://github.com/NervJS/taro/issues/421" target="_blank" rel="noopener">Button组件onGetUserInfo未执行</a></p>
+
+      
+    </div>
+    
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:15px;">-------本&nbsp;文&nbsp;结&nbsp;束&nbsp;&nbsp;<i class="fa fa-heart" aria-hidden="true"></i>&nbsp;&nbsp;感&nbsp;谢&nbsp;您&nbsp;的&nbsp;阅&nbsp;读-------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag"><i class="fa fa-tag"></i> 小程序</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/01/19/egg-js-react-SSR%E5%AE%9E%E8%B7%B5/" rel="next" title="egg.js+react SSR实践">
+                <i class="fa fa-chevron-left"></i> egg.js+react SSR实践
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Alice" />
+            
+              <p class="site-author-name" itemprop="name">Alice</p>
+              <p class="site-description motion-element" itemprop="description">Goals determine what you going to be!</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/delaprada" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://blog.csdn.net/weixin_41973410" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-copyright"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-book"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://io-oi.me/tech/hexo-next-optimization/#%E5%BF%85%E8%AF%BB-%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2" title="Hexo深度优化" target="_blank">Hexo深度优化</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://diygod.me" title="diygod" target="_blank">diygod</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://zhangwenli.com/blog" title="羡辙" target="_blank">羡辙</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小程序登录"><span class="nav-number">2.</span> <span class="nav-text">小程序登录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#step1-前端调用wx-login-获取临时登录凭证code"><span class="nav-number">2.1.</span> <span class="nav-text">step1: 前端调用wx.login()获取临时登录凭证code</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step2-服务端调用auth-code2Session换取openid和session-key"><span class="nav-number">2.2.</span> <span class="nav-text">step2: 服务端调用auth.code2Session换取openid和session_key</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step3-根据openid生成自定义登录态token，响应给前端"><span class="nav-number">2.3.</span> <span class="nav-text">step3: 根据openid生成自定义登录态token，响应给前端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step4-前端将token存入storage"><span class="nav-number">2.4.</span> <span class="nav-text">step4: 前端将token存入storage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step5-后台解密token获取openid"><span class="nav-number">2.5.</span> <span class="nav-text">step5: 后台解密token获取openid</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#额外需要注意的点"><span class="nav-number">2.6.</span> <span class="nav-text">额外需要注意的点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前端拦截器"><span class="nav-number">2.7.</span> <span class="nav-text">前端拦截器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后端中间件"><span class="nav-number">2.8.</span> <span class="nav-text">后端中间件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#登录鉴权及获得用户信息流程梳理"><span class="nav-number">3.</span> <span class="nav-text">登录鉴权及获得用户信息流程梳理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="heart">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alice</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>&nbsp;本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="/js/src/md5.min.js"></script>
+  <script type="text/javascript">
+    var gitalk = new Gitalk({
+      clientID: '9b4dade3bf26b8fd0713',
+      clientSecret: '43302d4a47ac2c290d0d019c1929032f1f3f8ada',
+      repo: 'delaprada.github.io',
+      owner: 'delaprada',
+      admin: ['delaprada'],
+      id: location.pathname,
+      id: md5(location.pathname),
+      distractionFreeMode: 'true'
+    })
+    gitalk.render('gitalk-container')
+  </script>
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+
+  <!-- 代码块复制功能 -->
+  <script type="text/javascript" src="/js/src/clipboard.min.js"></script>  
+  <script type="text/javascript" src="/js/src/clipboard-use.js"></script>
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/clicklove.js"></script>
+
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=i;var e=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}i(),n.addEventListener("scroll",function(){var t,e;t=i,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+</html>
