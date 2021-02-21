@@ -118,7 +118,7 @@
 
 
 
-  <meta name="keywords" content="JavaScript," />
+  <meta name="keywords" content="小程序," />
 
 
 
@@ -129,20 +129,34 @@
 
 
 
-<meta name="description" content="今天面试的时候被问到了变量提升的问题，一脸懵逼，掌握得不够熟练，写篇博客来总结一下。 JS代码解析规则 第一步为解释：先扫描所有的JS代码，把所有声明提升到顶端。 第二步为执行：执行就是操作一类的。    变量提升例一： 12console.log(a);  &#x2F;&#x2F;undefinedvar a&#x3D;10;  因为有变量提升，上面的代码相当于： 123var a;console.log(a);a&#x3D;10;">
+<meta name="description" content="最近在做毕业设计，用egg+mysql+sequelize+taro写一个小程序，因为没有用到微信的云开发，是自己搭建的后台，所以需要将后台项目部署到云服务器上。整个过程踩了不少坑，于是想写个流程以防忘记。  云服务器准备购买云服务器可在腾讯云购买轻量应用服务器，学生的话可以购买校园云服务器，规格是cpu1核，内存2GB，系统盘40GB，对于我的项目来说应该够用了：腾讯云校园云服务器 注册域名微">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JavaScript之变量提升">
-<meta property="og:url" content="http://delaprada.com/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/index.html">
+<meta property="og:title" content="云服务器部署node.js egg项目">
+<meta property="og:url" content="http://delaprada.com/2021/02/21/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2node-js-egg%E9%A1%B9%E7%9B%AE/index.html">
 <meta property="og:site_name" content="Alice&#39;s  wonderland">
-<meta property="og:description" content="今天面试的时候被问到了变量提升的问题，一脸懵逼，掌握得不够熟练，写篇博客来总结一下。 JS代码解析规则 第一步为解释：先扫描所有的JS代码，把所有声明提升到顶端。 第二步为执行：执行就是操作一类的。    变量提升例一： 12console.log(a);  &#x2F;&#x2F;undefinedvar a&#x3D;10;  因为有变量提升，上面的代码相当于： 123var a;console.log(a);a&#x3D;10;">
+<meta property="og:description" content="最近在做毕业设计，用egg+mysql+sequelize+taro写一个小程序，因为没有用到微信的云开发，是自己搭建的后台，所以需要将后台项目部署到云服务器上。整个过程踩了不少坑，于是想写个流程以防忘记。  云服务器准备购买云服务器可在腾讯云购买轻量应用服务器，学生的话可以购买校园云服务器，规格是cpu1核，内存2GB，系统盘40GB，对于我的项目来说应该够用了：腾讯云校园云服务器 注册域名微">
 <meta property="og:image" content="http://delaprada.com/images/loading.png">
 <meta property="og:image" content="http://delaprada.com/images/loading.png">
 <meta property="og:image" content="http://delaprada.com/images/loading.png">
 <meta property="og:image" content="http://delaprada.com/images/loading.png">
-<meta property="article:published_time" content="2020-02-17T01:58:59.000Z">
-<meta property="article:modified_time" content="2020-02-17T02:32:12.967Z">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="article:published_time" content="2021-02-21T12:43:07.000Z">
+<meta property="article:modified_time" content="2021-02-21T12:47:15.837Z">
 <meta property="article:author" content="Alice">
-<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="小程序">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://delaprada.com/images/loading.png">
 
@@ -174,13 +188,13 @@
 
 
 
-  <link rel="canonical" href="http://delaprada.com/2020/02/17/JavaScript之变量提升/"/>
+  <link rel="canonical" href="http://delaprada.com/2021/02/21/云服务器部署node-js-egg项目/"/>
 
 
 
 
 
-  <title>JavaScript之变量提升 | Alice's  wonderland</title>
+  <title>云服务器部署node.js egg项目 | Alice's  wonderland</title>
   
 
 
@@ -351,7 +365,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://delaprada.com/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/">
+    <link itemprop="mainEntityOfPage" href="http://delaprada.com/2021/02/21/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2node-js-egg%E9%A1%B9%E7%9B%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Alice">
@@ -373,8 +387,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-17T09:58:59+08:00">
-                2020-02-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-02-21T20:43:07+08:00">
+                2021-02-21
               </time>
             
 
@@ -384,7 +398,7 @@
           </span>
         
         
-          <h1 class="post-title" itemprop="name headline">JavaScript之变量提升</h1>
+          <h1 class="post-title" itemprop="name headline">云服务器部署node.js egg项目</h1>
         
 
         
@@ -401,109 +415,104 @@
       
 
       
-        <p>今天面试的时候被问到了变量提升的问题，一脸懵逼，掌握得不够熟练，写篇博客来总结一下。</p>
-<h2 id="JS代码解析规则"><a href="#JS代码解析规则" class="headerlink" title="JS代码解析规则"></a>JS代码解析规则</h2><ul>
-<li>第一步为解释：先扫描所有的JS代码，把所有声明提升到顶端。</li>
-<li>第二步为执行：执行就是操作一类的。</li>
-</ul>
+        <blockquote>
+<p>最近在做毕业设计，用egg+mysql+sequelize+taro写一个小程序，因为没有用到微信的云开发，是自己搭建的后台，所以需要将后台项目部署到云服务器上。整个过程踩了不少坑，于是想写个流程以防忘记。</p>
+</blockquote>
+<h2 id="云服务器准备"><a href="#云服务器准备" class="headerlink" title="云服务器准备"></a>云服务器准备</h2><h3 id="购买云服务器"><a href="#购买云服务器" class="headerlink" title="购买云服务器"></a>购买云服务器</h3><p>可在腾讯云购买轻量应用服务器，学生的话可以购买校园云服务器，规格是cpu1核，内存2GB，系统盘40GB，对于我的项目来说应该够用了：<br><a href="https://cloud.tencent.com/act/campus?fromSource=gwzcw.1110252.1110252.1110252&gclid=Cj0KCQiA4L2BBhCvARIsAO0SBdb7oOpn-mxK3fRq6pa841xfw9l8An7-ViduP8BaQNyJHA6tNFlJ5BUaAhbMEALw_wcB" target="_blank" rel="noopener">腾讯云校园云服务器</a><br><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/img_convert/c01c8d4516e1a750d549a4cc89722943.png" alt></p>
+<h3 id="注册域名"><a href="#注册域名" class="headerlink" title="注册域名"></a>注册域名</h3><p>微信小程序官方文档中表明，服务器域名只支持https，且不能使用ip地址，所以我们需要注册域名。</p>
+<p><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/img_convert/688aea7d208a7aef956f1239d4e3abb2.png" alt></p>
+<p>域名购买完成后，需要实名认证，实名认证完成后才能进行下一步解析。</p>
+<p><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/img_convert/c72801f7c37de45abd73663643986b91.png" alt></p>
+<p>不和ip配套使用的域名是没有任何意义的，所以我们需要将域名绑定到我们需要对外提供服务的服务器ip上。因此我们点击域名的解析操作，添加解析到你之前购买的服务器的ip上：</p>
+<p><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/img_convert/b9ed96b9e6a9c630e919181ba4d7b286.png" alt></p>
+<p>可以到轻量云服务器控制台查看之前购买的云服务器的公网ip：</p>
+<p><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/img_convert/7fa69db8860a51762fce954b135b46dd.png" alt></p>
+<h3 id="申请SSL证书"><a href="#申请SSL证书" class="headerlink" title="申请SSL证书"></a>申请SSL证书</h3><p>上面提到，微信小程序官方规定域名必须是https，所以我们需要申请ssl证书，腾讯云可以免费申请ssl证书，证书也要添加到域名解析记录中：<br><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/img_convert/c3295fe949f13f8714f12ec7b765ce14.png" alt><br>证书申请成功后先下载下来，以备后续使用：<br><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/img_convert/3fa785df4f7d08b7b864985a646142f8.png" alt><br>证书下载下来后会有多种，我们后续会使用到nginx的证书。</p>
+<p>以上就完成好云服务器的准备工作了。<br><br></p>
+<h2 id="云服务器环境部署"><a href="#云服务器环境部署" class="headerlink" title="云服务器环境部署"></a>云服务器环境部署</h2><p>根据项目需求，我们要在云服务器上安装node、MySQL、nginx。</p>
+<h3 id="连接远程服务器"><a href="#连接远程服务器" class="headerlink" title="连接远程服务器"></a>连接远程服务器</h3><p> 连接远程服务器的意义在于，我们能够在本地对远程服务器进行操作，比如文件上传、安装包。这里我们需要安装两个应用：XShell和Xftp，XShell一般用于对远程服务器进行操作，Xftp一般用于文件上传。</p>
+<p>XShell和Xftp安装配置参考博客：<a href="https://blog.csdn.net/ctrlxv/article/details/79054941" target="_blank" rel="noopener">新手搭建云服务器详细过程</a></p>
+<p>安装好以上两个应用后就可以开始环境部署了。</p>
+<h3 id="环境部署"><a href="#环境部署" class="headerlink" title="环境部署"></a>环境部署</h3><p>以下步骤均在XShell中执行。</p>
+<h4 id="node安装"><a href="#node安装" class="headerlink" title="node安装"></a>node安装</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1、下载node二进制安装包</span><br><span class="line">  wget https://nodejs.org/dist/v10.13.0/node-v10.13.0-linux-x64.tar.xz</span><br><span class="line">2、解压</span><br><span class="line">  tar xvf node-v10.13.0-linux-x64.tar.xz</span><br><span class="line">3、创建软链接，使node和npm全局有效</span><br><span class="line">  ln -s /root/node-v10.13.0-linux-x64/bin/node /usr/<span class="built_in">local</span>/bin/node</span><br><span class="line">  ln -s /root/node-v10.13.0-linux-x64/bin/npm /usr/<span class="built_in">local</span>/bin/npm</span><br><span class="line">4、查看node和npm版本，如果显示版本号，说明安装成功</span><br><span class="line">  node -v</span><br><span class="line">  npm -v</span><br><span class="line">5、软件默认安装在/root/node-v10.13.0-linux-x64/目录下</span><br></pre></td></tr></table></figure>
+<p>按照这个步骤node可以成功，但npm会出现问题，因此后续我改用nvm安装node。</p>
+<p>安装nvm：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.9/install.sh | bash</span><br><span class="line">或者</span><br><span class="line">wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.9/install.sh | bash</span><br></pre></td></tr></table></figure>
+<p>安装node，注意：如果你已经安装了node，不用卸载旧的，直接安装就好，nvm会替你管理版本的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm install node</span><br></pre></td></tr></table></figure>
+<p>此时再输入<code>node -v</code>和<code>npm -v</code>都显示对应版本，表明安装成功。<br><br></p>
+<h4 id="MySQL安装"><a href="#MySQL安装" class="headerlink" title="MySQL安装"></a>MySQL安装</h4><h5 id="安装yum-repo"><a href="#安装yum-repo" class="headerlink" title="安装yum repo"></a>安装yum repo</h5><p>由于CentOS的yum源中没有MySQL，需要到MySQL的官网下载yum repo配置文件。<br>执行以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm</span><br></pre></td></tr></table></figure>
+<p>然后进行repo的安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh mysql57-community-release-el7-9.noarch.rpm</span><br></pre></td></tr></table></figure>
+<p>执行完成后会在/etc/yum.repos.d/目录下生成两个repo文件mysql-community.repo mysql-community-source.repo。</p>
+<h5 id="使用yum命令完成MySQL安装"><a href="#使用yum命令完成MySQL安装" class="headerlink" title="使用yum命令完成MySQL安装"></a>使用yum命令完成MySQL安装</h5><p>必须进入<code>/etc/yum.repos.d/</code>目录后再执行以下脚本。</p>
+<ol>
+<li>安装命令：<code>yum install mysql-server</code></li>
+<li>启动MySQL：<code>systemctl start mysqld</code></li>
+<li>获取安装时的临时密码（在第一次登陆时就是用这个密码）：<code>grep &#39;temporary password&#39; /var/log/mysqld.log</code></li>
+</ol>
+<h5 id="登陆"><a href="#登陆" class="headerlink" title="登陆"></a>登陆</h5><p>执行<code>mysql -u root -p</code>指令，然后输入密码（刚刚获取的临时密码）。</p>
+<h5 id="登陆成功后修改密码"><a href="#登陆成功后修改密码" class="headerlink" title="登陆成功后修改密码"></a>登陆成功后修改密码</h5><p>修改密码时，MySQL会进行密码强度校验，不满足校验时会报异常：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR 1819 (HY000): Your password does not satisfy the current policy requirements</span><br></pre></td></tr></table></figure>
+<p>但我们通常想设置更为简单的密码，这里需要执行以下步骤：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> global validate_password_policy=0; </span><br><span class="line"><span class="built_in">set</span> global validate_password_length=4; </span><br><span class="line">ALTER USER <span class="string">'root'</span>@<span class="string">'localhost'</span> IDENTIFIED BY <span class="string">'123456'</span>;</span><br></pre></td></tr></table></figure>
+<p>这样我们就将MySQL的密码改为简单的123456了。</p>
+<p>以上就完成好MySQL的安装。</p>
+<h5 id="数据导入"><a href="#数据导入" class="headerlink" title="数据导入"></a>数据导入</h5><p>因为之前是在本地进行前后端联调，数据都存储在本地的数据库中，所以需要将本地的数据导入云服务器的数据库中。</p>
+<p><strong>step1</strong>：<br>将本地数据库信息导出为.sql文件。cmd进入终端，执行以下指令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -u root -p miniprogram &gt; C:\Users\alice\miniprogram.sql</span><br></pre></td></tr></table></figure>
+<p>我的数据库名称为miniprogram，导出的.sql文件的名称也要叫miniprogram，导出到一个你可以找到的位置。</p>
+<p><strong>step2</strong>：<br>在云服务器中也创建一个名字相同的数据库。在XShell中输入<code>mysql -u root -p</code>输入密码登录进去。<br>新建一个和文件相同名称的数据库（输入sql语句时不要漏了分号）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create database miniprogram;</span><br></pre></td></tr></table></figure>
+<p>进入数据库：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use miniprogram;</span><br></pre></td></tr></table></figure>
+<p>设置数据库编码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> names utf8;</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>step3</strong>：<br>将miniprogram.sql文件通过Xftp上传到云服务器上。我是现在root文件夹下新建user文件夹，并将.sql文件传输过去：<br><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/img_convert/a14a1b55acf8bf4b76b9d1e73f547185.png" alt></p>
+<p><strong>step4</strong>：<br>第二步已经登录数据库，此处只需执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> /root/user/miniprogram.sql;</span><br></pre></td></tr></table></figure>
+<p>即可导入成功。</p>
+<p>可以后续进入数据库查看是否有对应的表判断是否导入成功（指令：<code>show databases;</code>、<code>use miniprogram;</code>）。<br><br></p>
+<h4 id="nginx安装"><a href="#nginx安装" class="headerlink" title="nginx安装"></a>nginx安装</h4><p>执行命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install nginx</span><br></pre></td></tr></table></figure>
+<p>安装完后输入<code>nginx -v</code>，若显示nginx版本号则表示安装成功。<br><br></p>
+<h4 id="上传SSL证书"><a href="#上传SSL证书" class="headerlink" title="上传SSL证书"></a>上传SSL证书</h4><p>在服务器新建目录: /data/release/nginx（/data文件本身存在，只需在里面新建release文件夹和nginx文件夹即可）</p>
+<p>使用xftp将证书上传到该文件夹下：</p>
+<p><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/img_convert/fdc295822acd923dea56e3fb536cd6c1.png" alt></p>
+<p>上传后在服务器上查询：</p>
+<p><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/20210221110315475.png" alt="在这里插入图片描述"></p>
+<p>上传完证书后就可以开始配置nginx。进入服务器的/etc/nginx/conf.d目录，新建一个weapp.conf文件，将文件拷贝到本地，打开编辑，写入如下配置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">upstream app_weapp &#123;</span><br><span class="line">    server localhost:7001; // 你的项目服务端启动的地址</span><br><span class="line">    keepalive 8;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">server &#123;</span><br><span class="line">    listen      80;</span><br><span class="line">    server_name www.miniprogram.ltd; // 你的域名</span><br><span class="line"> </span><br><span class="line">    rewrite ^(.*)$ https://<span class="variable">$server_name</span><span class="variable">$1</span> permanent;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">server &#123;</span><br><span class="line">    listen      443;</span><br><span class="line">    server_name www.miniprogram.ltd; // 你的域名</span><br><span class="line"> </span><br><span class="line">    ssl on;</span><br><span class="line"> </span><br><span class="line">    ssl_certificate           /data/release/nginx/1_miniprogram.ltd_bundle.crt; //你的证书</span><br><span class="line">    ssl_certificate_key       /data/release/nginx/2_miniprogram.ltd.key; // 你的证书</span><br><span class="line">    ssl_session_timeout       5m;</span><br><span class="line">    ssl_protocols             TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line">    ssl_ciphers               ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA;</span><br><span class="line">    ssl_session_cache         shared:SSL:50m;</span><br><span class="line">    ssl_prefer_server_ciphers on;</span><br><span class="line"> </span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass http://app_weapp;</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Upgrade <span class="variable">$http_upgrade</span>;</span><br><span class="line">        proxy_set_header Connection <span class="string">'upgrade'</span>;</span><br><span class="line">        proxy_set_header Host <span class="variable">$host</span>;</span><br><span class="line">        proxy_cache_bypass <span class="variable">$http_upgrade</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>nginx配置的upstream主要是实现负载均衡的效果。<br>简单来说就是：upstream按照轮询（默认）方式进行负载，每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器down掉，能自动剔除。<br>所以实际上你向域名发起请求，是会被转发到云服务器的后端服务器上的。详情可参考博客：<a href="https://www.cnblogs.com/muhy/p/10528449.html" target="_blank" rel="noopener">nginx使用upstream实现负载均衡</a>。</p>
+<p>修改好后将该文件上传至/etc/nginx/conf.d目录下，然后再XShell中输入nginx -t，如显示以下信息，则配置成功：</p>
+<p><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/2021022112295142.png" alt="在这里插入图片描述"></p>
+<p>配置成功后，输入nginx回车，即可启动nginx。此时通过配置的域名访问服务器（<a href="http://www.miniprogram.ltd），会显示Nginx详情页。" target="_blank" rel="noopener">http://www.miniprogram.ltd），会显示Nginx详情页。</a></p>
+<p>如果访问 http://你的域名/weapp/a 会自动跳转到 HTTPS 上，并显示 502 Bad Gateway，则表示配置成功：<br><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/20210221123436197.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTk3MzQxMA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>如果上传的weapp.conf文件发生了修改，需要重启nginx：<code>nginx -s reload</code>。</p>
+<p>如果出现<code>nginx: [emerg] bind() to [::]:80 failed (98: Address already in use)</code>的报错，可以执行<code>netstat -ntpl</code>指令查看进程，将占用80端口的进程kill掉，或执行<code>fuser -n tcp 80</code>直接查看占用80端口的进程有哪些，依次kill掉即可。<br><br></p>
+<p>至此云服务器的环境已经完全搭建好了。<br><br></p>
+<h3 id="将服务端项目上传至云服务器"><a href="#将服务端项目上传至云服务器" class="headerlink" title="将服务端项目上传至云服务器"></a>将服务端项目上传至云服务器</h3><p>在服务器端创建目录/data/release/weapp（和上面存放nginx证书同目录），将服务端代码通过xftp传输到云服务器上（记得不要传node_modules）：<br><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/img_convert/b9e278751a68db8649f93a7b876979d9.png" alt></p>
+<p>注意服务端数据库项目的配置部分，项目中用到sequelize构建数据库，需将配置的用户名和密码改为云服务器端MySQL的用户名和密码：</p>
+<p><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/img_convert/8f8aa0e05d212b7c0cf0f0cbbd61749e.png" alt></p>
+<p>上传完后，执行以下指令将npm源切换到淘宝镜像：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config <span class="built_in">set</span> registry https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+<p>安装全局依赖：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --production</span><br></pre></td></tr></table></figure>
+<p>启动服务端：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
+<p><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/img_convert/3157bd94e8bb0ca5865452702b8b9f00.png" alt></p>
+<p>服务端项目启动成功。</p>
 <br>
 
-<h3 id="变量提升"><a href="#变量提升" class="headerlink" title="变量提升"></a>变量提升</h3><p>例一：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(a);  <span class="comment">//undefined</span></span><br><span class="line"><span class="keyword">var</span> a=<span class="number">10</span>;</span><br></pre></td></tr></table></figure>
 
-<p>因为有变量提升，上面的代码相当于：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a;</span><br><span class="line"><span class="built_in">console</span>.log(a);</span><br><span class="line">a=<span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="云服务器防火墙开放7001端口"><a href="#云服务器防火墙开放7001端口" class="headerlink" title="云服务器防火墙开放7001端口"></a>云服务器防火墙开放7001端口</h3><p>此步骤很关键，否则无法访问服务端接口。在腾讯云轻量云服务器防火墙处添加规则，开放7001端口：<br><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/img_convert/194f2977aa307742921ab084fcbb7922.png" alt></p>
+<p>因为目前域名还未备案成功，所以不能通过域名进行访问。此时只需启动mysql和服务端项目，不需要启动nginx来测试服务端接口：<br><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/img_convert/37fb83a790e7d07678175c1286b75b77.png" alt><br><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/img_convert/0c9e660c76d51628d13d130eaea26583.png" alt><br>到此为止完成整个后端的服务器部署，后续域名备案成功后会再更新文章。</p>
 
-<br>
-
-<h3 id="函数提升"><a href="#函数提升" class="headerlink" title="函数提升"></a>函数提升</h3><h4 id="函数声明的两种方式"><a href="#函数声明的两种方式" class="headerlink" title="函数声明的两种方式"></a>函数声明的两种方式</h4><ul>
-<li><p>函数声明式</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>)</span>&#123; &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-<ul>
-<li><p>函数字面量式</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> bar=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; &#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<p><strong>注意：函数字面量式的提升和变量提升一样，都是只提升声明，不提升赋值，比如上面代码中函数字面量式，只会把<code>var bar</code>提升上去，但是函数声明式是会将整个函数体都提升上去。</strong></p>
-<br>
-
-<p>例二：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">foo();  <span class="comment">//aaa</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"aaa"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>因为存在函数声明提升，函数声明提升会直接把整个函数提升到执行环境的最顶端。相当于：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"aaa"</span>);</span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br></pre></td></tr></table></figure>
-
-
-
-<p><strong>注意：变量提升只提升变量名，而函数提升是会提升整个函数体。函数提升在变量提升之前。</strong></p>
-<br>
-
-<p>例三：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">foo(); <span class="comment">//foo is not a function</span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"aaa"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<img src="/images/loading.png" data-original="/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/1.png" class>
-
-
-
-<p>因为进行了变量提升（函数字面量式），上面的代码相当于：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> foo;</span><br><span class="line">foo();</span><br><span class="line">foo=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"aaa"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>JS解析在遇到foo()时会默认当做函数来解析，所以会输出foo is not a function。</p>
-<br>
-
-<p>例四：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(foo);</span><br><span class="line"><span class="keyword">var</span> foo=<span class="number">10</span>;</span><br><span class="line"><span class="built_in">console</span>.log(foo);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="number">10</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(foo);</span><br></pre></td></tr></table></figure>
-
-<p>输出：</p>
-<img src="/images/loading.png" data-original="/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/2.png" class>
-
-
-
-<p>上面的代码相当于：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="number">10</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> foo;</span><br><span class="line"><span class="built_in">console</span>.log(foo);  <span class="comment">//foo()&#123;console.log(10);&#125;</span></span><br><span class="line">foo=<span class="number">10</span>;</span><br><span class="line"><span class="built_in">console</span>.log(foo);  <span class="comment">//10</span></span><br><span class="line"><span class="built_in">console</span>.log(foo);  <span class="comment">//10</span></span><br></pre></td></tr></table></figure>
-
-<p>第一个console.log(foo)之所以输出函数体，是因为<code>var foo</code>只是声明（提升了的声明），并没有赋值，所以它会调用上面的函数体。</p>
-<br>
-
-<h2 id="面试题"><a href="#面试题" class="headerlink" title="面试题"></a>面试题</h2><p>先看一道经典面试题：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(v1);</span><br><span class="line"><span class="keyword">var</span> v1 = <span class="number">100</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(v1);</span><br><span class="line">	<span class="keyword">var</span> v1 = <span class="number">200</span>;</span><br><span class="line">	<span class="built_in">console</span>.log(v1);</span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br><span class="line"><span class="built_in">console</span>.log(v1);</span><br></pre></td></tr></table></figure>
-
-<p>输出是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;undefined</span><br><span class="line">&#x2F;&#x2F;undefined</span><br><span class="line">&#x2F;&#x2F;200</span><br><span class="line">&#x2F;&#x2F;100</span><br></pre></td></tr></table></figure>
-
-<p>上面的代码相当于：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> v1;</span><br><span class="line"><span class="built_in">console</span>.log(v1); <span class="comment">//undefined</span></span><br><span class="line">v1=<span class="number">100</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> v1;</span><br><span class="line">	<span class="built_in">console</span>.log(v1);  <span class="comment">//undefined</span></span><br><span class="line">	v1=<span class="number">200</span>;</span><br><span class="line">	<span class="built_in">console</span>.log(v1);  <span class="comment">//200</span></span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br><span class="line"><span class="built_in">console</span>.log(v1);  <span class="comment">//100</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>注意，如果内部没有声明v1的时候，函数才会到全局作用域去查找变量的赋值。但是如果函数作用域内部定义了的话，就不会到全局作用域去找。参照作用域链的定义。</strong></p>
-<img src="/images/loading.png" data-original="/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/3.png" class>
-
-<br>
-
-<p>看一道字节面试时候的题目：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">'byte'</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (a === <span class="literal">undefined</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> a = <span class="string">'dance'</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        a = <span class="string">'bytedance'</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(foo());</span><br><span class="line"><span class="built_in">console</span>.log(a);</span><br></pre></td></tr></table></figure>
-
-<p>输出为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;dance</span><br><span class="line">&#x2F;&#x2F;byte</span><br></pre></td></tr></table></figure>
-
-<p>上面代码实际效果是：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> a;</span><br><span class="line">	<span class="keyword">if</span>(a===<span class="literal">undefined</span>)&#123;</span><br><span class="line">		a=<span class="string">'dance'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		a=<span class="string">'bytedance'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a;</span><br><span class="line">a=<span class="string">'byte'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(foo());</span><br><span class="line"><span class="built_in">console</span>.log(a);</span><br></pre></td></tr></table></figure>
-
-<p>在当前作用域有对变量进行声明的时候，是不会去上一级作用域去寻找变量的声明的。</p>
-<img src="/images/loading.png" data-original="/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/4.png" class>
-
-<p>因为console.log(a)在当前函数作用域找到了<code>var a;</code>，即a的定义，所以它不会去全局作用域去找a的声明（及值）。</p>
-<p>上面的代码也是这个道理，<code>a===undefined</code>会找到当前函数作用域的<code>var a;</code>的定义，所以a的值为undefined。</p>
-<br>
-
-<p>参考：<a href="https://blog.csdn.net/qq_39712029/article/details/80951958" target="_blank" rel="noopener">https://blog.csdn.net/qq_39712029/article/details/80951958</a></p>
-<p>​            <a href="https://blog.csdn.net/Demo_18/article/details/78493489" target="_blank" rel="noopener">https://blog.csdn.net/Demo_18/article/details/78493489</a></p>
-<br>
       
     </div>
     
@@ -531,7 +540,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/JavaScript/" rel="tag"><i class="fa fa-tag"></i> JavaScript</a>
+            <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag"><i class="fa fa-tag"></i> 小程序</a>
           
         </div>
       
@@ -544,8 +553,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/10/Math-floor-%E5%92%8C-%E7%9A%84%E5%BC%82%E5%90%8C/" rel="next" title="Math.floor()和~~运算符的异同">
-                <i class="fa fa-chevron-left"></i> Math.floor()和~~运算符的异同
+              <a href="/2021/02/02/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AD%A6%E4%B9%A0%E5%8F%8A%E6%8E%A2%E7%B4%A2%E4%B9%8B%E6%97%85/" rel="next" title="数据库学习及探索之旅">
+                <i class="fa fa-chevron-left"></i> 数据库学习及探索之旅
               </a>
             
           </div>
@@ -553,10 +562,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/02/17/Vue%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7%E7%9A%84%E5%BA%94%E7%94%A8/" rel="prev" title="Vue之计算属性的应用">
-                Vue之计算属性的应用 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -735,7 +740,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JS代码解析规则"><span class="nav-number">1.</span> <span class="nav-text">JS代码解析规则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#变量提升"><span class="nav-number">1.1.</span> <span class="nav-text">变量提升</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数提升"><span class="nav-number">1.2.</span> <span class="nav-text">函数提升</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#函数声明的两种方式"><span class="nav-number">1.2.1.</span> <span class="nav-text">函数声明的两种方式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#面试题"><span class="nav-number">2.</span> <span class="nav-text">面试题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#云服务器准备"><span class="nav-number">1.</span> <span class="nav-text">云服务器准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#购买云服务器"><span class="nav-number">1.1.</span> <span class="nav-text">购买云服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注册域名"><span class="nav-number">1.2.</span> <span class="nav-text">注册域名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#申请SSL证书"><span class="nav-number">1.3.</span> <span class="nav-text">申请SSL证书</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#云服务器环境部署"><span class="nav-number">2.</span> <span class="nav-text">云服务器环境部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#连接远程服务器"><span class="nav-number">2.1.</span> <span class="nav-text">连接远程服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#环境部署"><span class="nav-number">2.2.</span> <span class="nav-text">环境部署</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#node安装"><span class="nav-number">2.2.1.</span> <span class="nav-text">node安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL安装"><span class="nav-number">2.2.2.</span> <span class="nav-text">MySQL安装</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#安装yum-repo"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">安装yum repo</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#使用yum命令完成MySQL安装"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">使用yum命令完成MySQL安装</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#登陆"><span class="nav-number">2.2.2.3.</span> <span class="nav-text">登陆</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#登陆成功后修改密码"><span class="nav-number">2.2.2.4.</span> <span class="nav-text">登陆成功后修改密码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#数据导入"><span class="nav-number">2.2.2.5.</span> <span class="nav-text">数据导入</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nginx安装"><span class="nav-number">2.2.3.</span> <span class="nav-text">nginx安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#上传SSL证书"><span class="nav-number">2.2.4.</span> <span class="nav-text">上传SSL证书</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将服务端项目上传至云服务器"><span class="nav-number">2.3.</span> <span class="nav-text">将服务端项目上传至云服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#云服务器防火墙开放7001端口"><span class="nav-number">2.4.</span> <span class="nav-text">云服务器防火墙开放7001端口</span></a></li></ol></li></ol></div>
             
 
           </div>
