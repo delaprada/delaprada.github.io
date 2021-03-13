@@ -1,67 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>CSS 圣杯布局和双飞翼布局</title>
-    <url>/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/</url>
-    <content><![CDATA[<h1 id="CSS-圣杯布局和双飞翼布局"><a href="#CSS-圣杯布局和双飞翼布局" class="headerlink" title="CSS 圣杯布局和双飞翼布局"></a>CSS 圣杯布局和双飞翼布局</h1><p>两个常见的前端布局。圣杯布局和双飞翼布局作为经典的三栏式布局是面试中的常客。两种布局达到效果上基本相同，都是<strong>两边两栏宽度固定，中间栏宽度自适应</strong>。在HTML结构上<strong>中间栏在最前面</strong>保证了最先渲染中间提升性能（因为这两种布局都比较老，我认为在现代浏览器中这点儿性能优化效果并不是很大），并且兼容性良好。两种布局的实现方法前半部分相同，后半部分的实现各有利弊，下面会简单介绍两者的区别。</p>
-<h2 id="圣杯布局"><a href="#圣杯布局" class="headerlink" title="圣杯布局"></a>圣杯布局</h2><p>代码实现：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">        *&#123;</span><br><span class="line"><span class="css">            <span class="selector-tag">margin</span><span class="selector-pseudo">:0</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">padding</span><span class="selector-pseudo">:0</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">text-align</span><span class="selector-pseudo">:center</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.header</span>, <span class="selector-class">.footer</span>&#123;</span></span><br><span class="line">            background-color: skyblue;</span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:60px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:60px</span>;  <span class="comment">/*文字水平垂直居中*/</span></span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.container</span>&#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">overflow</span><span class="selector-pseudo">:hidden</span>;  <span class="comment">/*因为内部都是浮动元素，所以要设置overflow来撑起父元素*/</span></span></span><br><span class="line"><span class="css">            <span class="selector-tag">padding</span><span class="selector-pseudo">:0</span> 100<span class="selector-tag">px</span>;  <span class="comment">/*左右内边距为100px*/</span></span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.main</span>&#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">width</span><span class="selector-pseudo">:100</span>%;</span></span><br><span class="line">            background-color: peachpuff; </span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line">            line-height: 100px;</span><br><span class="line"><span class="css">            <span class="selector-tag">float</span><span class="selector-pseudo">:left</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.left</span>&#123;</span></span><br><span class="line">            background-color: lightgreen;</span><br><span class="line"><span class="css">            <span class="selector-tag">width</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">float</span><span class="selector-pseudo">:left</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">margin-left</span><span class="selector-pseudo">:-100</span>%;  <span class="comment">/*让left前移一行*/</span></span></span><br><span class="line"></span><br><span class="line"><span class="css">            <span class="selector-tag">position</span><span class="selector-pseudo">:relative</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">left</span><span class="selector-pseudo">:-100px</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.right</span>&#123;</span></span><br><span class="line">            background-color: pink;</span><br><span class="line"><span class="css">            <span class="selector-tag">width</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">float</span><span class="selector-pseudo">:left</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">margin-left</span><span class="selector-pseudo">:-100px</span>; <span class="comment">/*right只需要前移right的宽度即可*/</span></span></span><br><span class="line"></span><br><span class="line"><span class="css">            <span class="selector-tag">position</span><span class="selector-pseudo">:relative</span>;  <span class="comment">/*container设置了padding,所以要相对定位移动才能将left和right移动到对应的位置*/</span></span></span><br><span class="line"><span class="css">            <span class="selector-tag">right</span><span class="selector-pseudo">:-100px</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"header"</span>&gt;</span>header<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span>main<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span>left<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span>right<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"footer"</span>&gt;</span>footer<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>效果图：</p>
-<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/1.png" class>
-
-
-
-<p>实现原理：</p>
-<ol>
-<li><p>设置父元素<code>container</code>为<code>overflow:hidden</code>，撑起父元素，子元素<code>main</code>、<code>left</code>、<code>right</code>均设为<code>float:left</code>，浮动起来。效果如下：</p>
-<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/2.png" class>
-</li>
-<li><p>为了让<code>main</code>模块自适应，将其设为100%</p>
-<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/3.png" class>
-</li>
-<li><p>为了让<code>left</code>和<code>right</code>模块跑上去，设置<code>left</code>模块的<code>margin:-100%</code>，可以理解为：负的话就是向上前进，正值的话就是直接的间隔；<code>right</code>模块就设置为<code>margin:-100px</code>，大小为<code>right</code>模块的宽度</p>
-<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/4.png" class>
-</li>
-<li><p>为了使<code>main</code>模块往里收，设置<code>.container{ padding: 0 100px}</code>，即设置左右内边距。</p>
-<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/5.png" class>
-
-
-
-</li>
-</ol>
-<ol start="5">
-<li><p>利用相对定位移动left和right</p>
-<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/6.png" class>
-
-
-
-
-
-</li>
-</ol>
-<h2 id="双飞翼布局"><a href="#双飞翼布局" class="headerlink" title="双飞翼布局"></a>双飞翼布局</h2><p>代码实现：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">        *&#123;</span><br><span class="line"><span class="css">            <span class="selector-tag">margin</span><span class="selector-pseudo">:0</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">padding</span><span class="selector-pseudo">:0</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">text-align</span><span class="selector-pseudo">:center</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.header</span>, <span class="selector-class">.footer</span>&#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:60px</span>;</span></span><br><span class="line">            background-color: skyblue;</span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:60px</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.container</span>&#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">overflow</span><span class="selector-pseudo">:hidden</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.main</span>&#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">width</span><span class="selector-pseudo">:100</span>%;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">float</span><span class="selector-pseudo">:left</span>;</span></span><br><span class="line">            background-color: peachpuff;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.inner-main</span>&#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">margin-left</span><span class="selector-pseudo">:100px</span>;  <span class="comment">/*通过在main内部再设置一个div来进行左右模块的间隔布局*/</span></span></span><br><span class="line"><span class="css">            <span class="selector-tag">margin-right</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.left</span>&#123;</span></span><br><span class="line">            background-color: lightgreen;</span><br><span class="line"><span class="css">            <span class="selector-tag">width</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">margin-left</span><span class="selector-pseudo">:-100</span>%;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">float</span><span class="selector-pseudo">:left</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.right</span>&#123;</span></span><br><span class="line">            background-color: yellow;</span><br><span class="line"><span class="css">            <span class="selector-tag">width</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">margin-left</span><span class="selector-pseudo">:-100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">float</span><span class="selector-pseudo">:left</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"header"</span>&gt;</span>header<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inner-main"</span>&gt;</span>main<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span>left<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span>right<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"footer"</span>&gt;</span>footer<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>效果图：</p>
-<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/7.png" class>
-
-<p>实现原理：</p>
-<p>双飞翼布局则不设置<code>container</code>里的<code>padding</code>属性，而是通过在<code>main</code>模块中添加<code>inner-main</code>模块，然后对这个<code>div</code>进行<code>margin-left</code>和<code>margin-right</code>计算。</p>
-<h2 id="圣杯布局和双飞翼布局的主要区别："><a href="#圣杯布局和双飞翼布局的主要区别：" class="headerlink" title="圣杯布局和双飞翼布局的主要区别："></a>圣杯布局和双飞翼布局的主要区别：</h2><ul>
-<li>圣杯布局是设置<code>container</code>的<code>padding</code>属性以及<code>left</code>和<code>right</code>模块的<code>position:relative</code>，<code>left:-100px</code>或<code>right:-100px</code></li>
-<li>双飞翼布局则不设置<code>container</code>里的<code>padding</code>属性，而是通过在<code>main</code>模块中添加<code>inner-main</code>模块，然后对这个<code>div</code>进行<code>margin-left</code>和<code>margin-right</code>计算</li>
-</ul>
-<p>参考：<a href="https://segmentfault.com/a/1190000004579886" target="_blank" rel="noopener">https://segmentfault.com/a/1190000004579886</a></p>
-]]></content>
-      <categories>
-        <category>CSS</category>
-      </categories>
-      <tags>
-        <tag>CSS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ES11新增属性解析</title>
     <url>/2020/11/25/ES11%E6%96%B0%E5%A2%9E%E5%B1%9E%E6%80%A7%E8%A7%A3%E6%9E%90/</url>
     <content><![CDATA[<h1 id="ES11新增属性解析"><a href="#ES11新增属性解析" class="headerlink" title="ES11新增属性解析"></a>ES11新增属性解析</h1><p>ES2020(ES11)引入了以下新特性（个人觉得比较实用的以粗体形式展示）：</p>
@@ -160,6 +99,67 @@
 ]]></content>
       <tags>
         <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CSS 圣杯布局和双飞翼布局</title>
+    <url>/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/</url>
+    <content><![CDATA[<h1 id="CSS-圣杯布局和双飞翼布局"><a href="#CSS-圣杯布局和双飞翼布局" class="headerlink" title="CSS 圣杯布局和双飞翼布局"></a>CSS 圣杯布局和双飞翼布局</h1><p>两个常见的前端布局。圣杯布局和双飞翼布局作为经典的三栏式布局是面试中的常客。两种布局达到效果上基本相同，都是<strong>两边两栏宽度固定，中间栏宽度自适应</strong>。在HTML结构上<strong>中间栏在最前面</strong>保证了最先渲染中间提升性能（因为这两种布局都比较老，我认为在现代浏览器中这点儿性能优化效果并不是很大），并且兼容性良好。两种布局的实现方法前半部分相同，后半部分的实现各有利弊，下面会简单介绍两者的区别。</p>
+<h2 id="圣杯布局"><a href="#圣杯布局" class="headerlink" title="圣杯布局"></a>圣杯布局</h2><p>代码实现：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">        *&#123;</span><br><span class="line"><span class="css">            <span class="selector-tag">margin</span><span class="selector-pseudo">:0</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">padding</span><span class="selector-pseudo">:0</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">text-align</span><span class="selector-pseudo">:center</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.header</span>, <span class="selector-class">.footer</span>&#123;</span></span><br><span class="line">            background-color: skyblue;</span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:60px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:60px</span>;  <span class="comment">/*文字水平垂直居中*/</span></span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.container</span>&#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">overflow</span><span class="selector-pseudo">:hidden</span>;  <span class="comment">/*因为内部都是浮动元素，所以要设置overflow来撑起父元素*/</span></span></span><br><span class="line"><span class="css">            <span class="selector-tag">padding</span><span class="selector-pseudo">:0</span> 100<span class="selector-tag">px</span>;  <span class="comment">/*左右内边距为100px*/</span></span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.main</span>&#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">width</span><span class="selector-pseudo">:100</span>%;</span></span><br><span class="line">            background-color: peachpuff; </span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line">            line-height: 100px;</span><br><span class="line"><span class="css">            <span class="selector-tag">float</span><span class="selector-pseudo">:left</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.left</span>&#123;</span></span><br><span class="line">            background-color: lightgreen;</span><br><span class="line"><span class="css">            <span class="selector-tag">width</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">float</span><span class="selector-pseudo">:left</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">margin-left</span><span class="selector-pseudo">:-100</span>%;  <span class="comment">/*让left前移一行*/</span></span></span><br><span class="line"></span><br><span class="line"><span class="css">            <span class="selector-tag">position</span><span class="selector-pseudo">:relative</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">left</span><span class="selector-pseudo">:-100px</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.right</span>&#123;</span></span><br><span class="line">            background-color: pink;</span><br><span class="line"><span class="css">            <span class="selector-tag">width</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">float</span><span class="selector-pseudo">:left</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">margin-left</span><span class="selector-pseudo">:-100px</span>; <span class="comment">/*right只需要前移right的宽度即可*/</span></span></span><br><span class="line"></span><br><span class="line"><span class="css">            <span class="selector-tag">position</span><span class="selector-pseudo">:relative</span>;  <span class="comment">/*container设置了padding,所以要相对定位移动才能将left和right移动到对应的位置*/</span></span></span><br><span class="line"><span class="css">            <span class="selector-tag">right</span><span class="selector-pseudo">:-100px</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"header"</span>&gt;</span>header<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span>main<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span>left<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span>right<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"footer"</span>&gt;</span>footer<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>效果图：</p>
+<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/1.png" class>
+
+
+
+<p>实现原理：</p>
+<ol>
+<li><p>设置父元素<code>container</code>为<code>overflow:hidden</code>，撑起父元素，子元素<code>main</code>、<code>left</code>、<code>right</code>均设为<code>float:left</code>，浮动起来。效果如下：</p>
+<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/2.png" class>
+</li>
+<li><p>为了让<code>main</code>模块自适应，将其设为100%</p>
+<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/3.png" class>
+</li>
+<li><p>为了让<code>left</code>和<code>right</code>模块跑上去，设置<code>left</code>模块的<code>margin:-100%</code>，可以理解为：负的话就是向上前进，正值的话就是直接的间隔；<code>right</code>模块就设置为<code>margin:-100px</code>，大小为<code>right</code>模块的宽度</p>
+<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/4.png" class>
+</li>
+<li><p>为了使<code>main</code>模块往里收，设置<code>.container{ padding: 0 100px}</code>，即设置左右内边距。</p>
+<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/5.png" class>
+
+
+
+</li>
+</ol>
+<ol start="5">
+<li><p>利用相对定位移动left和right</p>
+<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/6.png" class>
+
+
+
+
+
+</li>
+</ol>
+<h2 id="双飞翼布局"><a href="#双飞翼布局" class="headerlink" title="双飞翼布局"></a>双飞翼布局</h2><p>代码实现：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">        *&#123;</span><br><span class="line"><span class="css">            <span class="selector-tag">margin</span><span class="selector-pseudo">:0</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">padding</span><span class="selector-pseudo">:0</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">text-align</span><span class="selector-pseudo">:center</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.header</span>, <span class="selector-class">.footer</span>&#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:60px</span>;</span></span><br><span class="line">            background-color: skyblue;</span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:60px</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.container</span>&#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">overflow</span><span class="selector-pseudo">:hidden</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.main</span>&#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">width</span><span class="selector-pseudo">:100</span>%;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">float</span><span class="selector-pseudo">:left</span>;</span></span><br><span class="line">            background-color: peachpuff;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.inner-main</span>&#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">margin-left</span><span class="selector-pseudo">:100px</span>;  <span class="comment">/*通过在main内部再设置一个div来进行左右模块的间隔布局*/</span></span></span><br><span class="line"><span class="css">            <span class="selector-tag">margin-right</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.left</span>&#123;</span></span><br><span class="line">            background-color: lightgreen;</span><br><span class="line"><span class="css">            <span class="selector-tag">width</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">margin-left</span><span class="selector-pseudo">:-100</span>%;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">float</span><span class="selector-pseudo">:left</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.right</span>&#123;</span></span><br><span class="line">            background-color: yellow;</span><br><span class="line"><span class="css">            <span class="selector-tag">width</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">margin-left</span><span class="selector-pseudo">:-100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">float</span><span class="selector-pseudo">:left</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"header"</span>&gt;</span>header<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inner-main"</span>&gt;</span>main<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span>left<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span>right<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"footer"</span>&gt;</span>footer<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>效果图：</p>
+<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/7.png" class>
+
+<p>实现原理：</p>
+<p>双飞翼布局则不设置<code>container</code>里的<code>padding</code>属性，而是通过在<code>main</code>模块中添加<code>inner-main</code>模块，然后对这个<code>div</code>进行<code>margin-left</code>和<code>margin-right</code>计算。</p>
+<h2 id="圣杯布局和双飞翼布局的主要区别："><a href="#圣杯布局和双飞翼布局的主要区别：" class="headerlink" title="圣杯布局和双飞翼布局的主要区别："></a>圣杯布局和双飞翼布局的主要区别：</h2><ul>
+<li>圣杯布局是设置<code>container</code>的<code>padding</code>属性以及<code>left</code>和<code>right</code>模块的<code>position:relative</code>，<code>left:-100px</code>或<code>right:-100px</code></li>
+<li>双飞翼布局则不设置<code>container</code>里的<code>padding</code>属性，而是通过在<code>main</code>模块中添加<code>inner-main</code>模块，然后对这个<code>div</code>进行<code>margin-left</code>和<code>margin-right</code>计算</li>
+</ul>
+<p>参考：<a href="https://segmentfault.com/a/1190000004579886" target="_blank" rel="noopener">https://segmentfault.com/a/1190000004579886</a></p>
+]]></content>
+      <categories>
+        <category>CSS</category>
+      </categories>
+      <tags>
+        <tag>CSS</tag>
       </tags>
   </entry>
   <entry>
@@ -368,6 +368,23 @@
       </tags>
   </entry>
   <entry>
+    <title>Node.js——Express和koa框架对比</title>
+    <url>/2020/04/07/Node-js%E2%80%94%E2%80%94Express%E5%92%8Ckoa%E6%A1%86%E6%9E%B6%E5%AF%B9%E6%AF%94/</url>
+    <content><![CDATA[<blockquote>
+<p>此文参考：阿里技术协会《Node.js框架之<code>express</code>与<code>koa</code>对比分析》</p>
+<p><a href="https://yq.aliyun.com/articles/3062" target="_blank" rel="noopener">https://yq.aliyun.com/articles/3062</a></p>
+</blockquote>
+<img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407140734.png" style="zoom:200%;">
+
+]]></content>
+      <categories>
+        <category>Node.js</category>
+      </categories>
+      <tags>
+        <tag>Node.js</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JavaScript模块化编程</title>
     <url>/2020/01/14/JavaScript%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BC%96%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="模块化编程"><a href="#模块化编程" class="headerlink" title="模块化编程"></a>模块化编程</h1><p>目录：</p>
@@ -437,23 +454,6 @@
       </categories>
       <tags>
         <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Node.js——Express和koa框架对比</title>
-    <url>/2020/04/07/Node-js%E2%80%94%E2%80%94Express%E5%92%8Ckoa%E6%A1%86%E6%9E%B6%E5%AF%B9%E6%AF%94/</url>
-    <content><![CDATA[<blockquote>
-<p>此文参考：阿里技术协会《Node.js框架之<code>express</code>与<code>koa</code>对比分析》</p>
-<p><a href="https://yq.aliyun.com/articles/3062" target="_blank" rel="noopener">https://yq.aliyun.com/articles/3062</a></p>
-</blockquote>
-<img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407140734.png" style="zoom:200%;">
-
-]]></content>
-      <categories>
-        <category>Node.js</category>
-      </categories>
-      <tags>
-        <tag>Node.js</tag>
       </tags>
   </entry>
   <entry>
@@ -785,37 +785,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Vue之计算属性的应用</title>
-    <url>/2020/02/17/Vue%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7%E7%9A%84%E5%BA%94%E7%94%A8/</url>
-    <content><![CDATA[<p>昨天面试的时候被问到了Vue计算属性相关的代码题，又是一脸懵逼呀…赶紧来总结一下。</p>
-<p>面试官先出了第一道题，点击div时输出是什么？</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span> @<span class="attr">click</span>=<span class="string">"b += 1"</span>&gt;</span>&#123;&#123;c&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="actionscript">      el: <span class="string">"#app"</span>,</span></span><br><span class="line">      data() &#123;</span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> &#123; a: <span class="number">1</span>, b: <span class="number">2</span> &#125;;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      computed: &#123;</span><br><span class="line">        c() &#123;</span><br><span class="line"><span class="javascript">          <span class="built_in">console</span>.log(<span class="keyword">this</span>.b);</span></span><br><span class="line"><span class="actionscript">          <span class="keyword">return</span> <span class="keyword">this</span>.a;</span></span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>输出是3。</p>
-<p>首先，computed中的属性都是以函数的形式声明的，看看官网的例子：</p>
-<img src="/images/loading.png" data-original="/2020/02/17/Vue%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7%E7%9A%84%E5%BA%94%E7%94%A8/1.png" class>
-
-<p>结果是：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Original message: &quot;Hello&quot;</span><br><span class="line"></span><br><span class="line">Computed reversed message: &quot;olleH&quot;</span><br></pre></td></tr></table></figure>
-
-<p>computed属性它所依赖的数据是data当中的，是要使用this来去获取的。所以计算属性c中的<code>this.b</code>和<code>this.a</code>其实是data当中的属性值。执行点击事件之后，b是会发生变化的，所以在计算属性c中输出<code>this.b</code>是会发生变化的，所以在控制台会输出3。因为计算属性c<code>return</code>的是<code>this.a</code>，所以<code></code>的值是不变的，是1。</p>
-<p>接着面试官又出了第二道题，此时又输出什么？（其实面试官人真的好好，他的表述是此时会输出么？他这么问的话我就会倾向于回答不会输出）</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span> @<span class="attr">click</span>=<span class="string">"b += 1"</span>&gt;</span>&#123;&#123;c&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="actionscript">      el: <span class="string">"#app"</span>,</span></span><br><span class="line">      data() &#123;</span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> &#123; a: <span class="number">1</span>, b: <span class="number">2</span> &#125;;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      computed: &#123;</span><br><span class="line">        c() &#123;</span><br><span class="line"><span class="actionscript">          <span class="keyword">if</span>(<span class="literal">false</span>)&#123;</span></span><br><span class="line"><span class="javascript">              <span class="built_in">console</span>.log(<span class="keyword">this</span>.b);</span></span><br><span class="line"><span class="actionscript">              <span class="keyword">return</span> <span class="keyword">this</span>.a;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>答案是不输出。此时c连渲染都不会发生。</p>
-<p>最后面试官又问了第三道题，此时会输出什么？</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span> @<span class="attr">click</span>=<span class="string">"b += 1"</span>&gt;</span>absdflj<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="actionscript">      el: <span class="string">"#app"</span>,</span></span><br><span class="line">      data() &#123;</span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> &#123; a: <span class="number">1</span>, b: <span class="number">2</span> &#125;;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      computed: &#123;</span><br><span class="line">        c() &#123;</span><br><span class="line"><span class="javascript">          <span class="built_in">console</span>.log(<span class="keyword">this</span>.b);</span></span><br><span class="line"><span class="actionscript">          <span class="keyword">return</span> <span class="keyword">this</span>.a;</span></span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>此时这个计算属性并没有写在页面上，所以是不会监听c的值，此时控制台没有输出，页面显示的是：<code>absdflj</code>。</p>
-]]></content>
-      <categories>
-        <category>Vue</category>
-      </categories>
-      <tags>
-        <tag>Vue</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Vue项目中如何用Node作后端代理获取接口数据</title>
     <url>/2020/04/06/Vue%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%A6%82%E4%BD%95%E7%94%A8Node%E4%BD%9C%E5%90%8E%E7%AB%AF%E4%BB%A3%E7%90%86%E8%8E%B7%E5%8F%96%E6%8E%A5%E5%8F%A3%E6%95%B0%E6%8D%AE/</url>
     <content><![CDATA[<p>在做音乐APP项目的时候，发觉QQ音乐的有些接口是没有办法直接获取其中的数据的，因为它指定了请求的<code>host</code>和<code>referer</code>，所以我们需要用<code>Node</code>在其中做一层代理，去“欺骗”<code>QQ</code>，这样就能够获取数据。有点像跨域的思想，只不过跨域是用代理作为跳板，转发请求，不存在跨域问题；这里是用Node Server发起请求，将请求的<code>referer</code>和<code>host</code>改为接口允许访问的<code>referer</code>和<code>host</code>，来“欺骗”QQ。</p>
@@ -884,6 +853,37 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Vue之计算属性的应用</title>
+    <url>/2020/02/17/Vue%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7%E7%9A%84%E5%BA%94%E7%94%A8/</url>
+    <content><![CDATA[<p>昨天面试的时候被问到了Vue计算属性相关的代码题，又是一脸懵逼呀…赶紧来总结一下。</p>
+<p>面试官先出了第一道题，点击div时输出是什么？</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span> @<span class="attr">click</span>=<span class="string">"b += 1"</span>&gt;</span>&#123;&#123;c&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="actionscript">      el: <span class="string">"#app"</span>,</span></span><br><span class="line">      data() &#123;</span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> &#123; a: <span class="number">1</span>, b: <span class="number">2</span> &#125;;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      computed: &#123;</span><br><span class="line">        c() &#123;</span><br><span class="line"><span class="javascript">          <span class="built_in">console</span>.log(<span class="keyword">this</span>.b);</span></span><br><span class="line"><span class="actionscript">          <span class="keyword">return</span> <span class="keyword">this</span>.a;</span></span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>输出是3。</p>
+<p>首先，computed中的属性都是以函数的形式声明的，看看官网的例子：</p>
+<img src="/images/loading.png" data-original="/2020/02/17/Vue%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7%E7%9A%84%E5%BA%94%E7%94%A8/1.png" class>
+
+<p>结果是：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Original message: &quot;Hello&quot;</span><br><span class="line"></span><br><span class="line">Computed reversed message: &quot;olleH&quot;</span><br></pre></td></tr></table></figure>
+
+<p>computed属性它所依赖的数据是data当中的，是要使用this来去获取的。所以计算属性c中的<code>this.b</code>和<code>this.a</code>其实是data当中的属性值。执行点击事件之后，b是会发生变化的，所以在计算属性c中输出<code>this.b</code>是会发生变化的，所以在控制台会输出3。因为计算属性c<code>return</code>的是<code>this.a</code>，所以<code></code>的值是不变的，是1。</p>
+<p>接着面试官又出了第二道题，此时又输出什么？（其实面试官人真的好好，他的表述是此时会输出么？他这么问的话我就会倾向于回答不会输出）</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span> @<span class="attr">click</span>=<span class="string">"b += 1"</span>&gt;</span>&#123;&#123;c&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="actionscript">      el: <span class="string">"#app"</span>,</span></span><br><span class="line">      data() &#123;</span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> &#123; a: <span class="number">1</span>, b: <span class="number">2</span> &#125;;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      computed: &#123;</span><br><span class="line">        c() &#123;</span><br><span class="line"><span class="actionscript">          <span class="keyword">if</span>(<span class="literal">false</span>)&#123;</span></span><br><span class="line"><span class="javascript">              <span class="built_in">console</span>.log(<span class="keyword">this</span>.b);</span></span><br><span class="line"><span class="actionscript">              <span class="keyword">return</span> <span class="keyword">this</span>.a;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>答案是不输出。此时c连渲染都不会发生。</p>
+<p>最后面试官又问了第三道题，此时会输出什么？</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span> @<span class="attr">click</span>=<span class="string">"b += 1"</span>&gt;</span>absdflj<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> vm = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="actionscript">      el: <span class="string">"#app"</span>,</span></span><br><span class="line">      data() &#123;</span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> &#123; a: <span class="number">1</span>, b: <span class="number">2</span> &#125;;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      computed: &#123;</span><br><span class="line">        c() &#123;</span><br><span class="line"><span class="javascript">          <span class="built_in">console</span>.log(<span class="keyword">this</span>.b);</span></span><br><span class="line"><span class="actionscript">          <span class="keyword">return</span> <span class="keyword">this</span>.a;</span></span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>此时这个计算属性并没有写在页面上，所以是不会监听c的值，此时控制台没有输出，页面显示的是：<code>absdflj</code>。</p>
+]]></content>
+      <categories>
+        <category>Vue</category>
+      </categories>
+      <tags>
+        <tag>Vue</tag>
       </tags>
   </entry>
   <entry>
@@ -1478,87 +1478,6 @@
       </tags>
   </entry>
   <entry>
-    <title>分析parseInt()</title>
-    <url>/2020/01/18/%E5%88%86%E6%9E%90parseInt/</url>
-    <content><![CDATA[<h3 id="parseInt-公式"><a href="#parseInt-公式" class="headerlink" title="parseInt()公式"></a><code>parseInt()公式</code></h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">parseInt(string, radix)</span><br></pre></td></tr></table></figure>
-
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>string</td>
-<td>必需。要被解析的字符串。</td>
-</tr>
-<tr>
-<td>radix</td>
-<td>可选。表示要解析的数字的基数。该值介于 2 ~ 36 之间。</td>
-</tr>
-</tbody></table>
-<br>
-
-
-
-<h3 id="parseInt-071-和parseInt-quot-071-quot-的区别"><a href="#parseInt-071-和parseInt-quot-071-quot-的区别" class="headerlink" title="parseInt(071)和parseInt(&quot;071&quot;)的区别"></a><code>parseInt(071)和parseInt(&quot;071&quot;)的区别</code></h3><p><code>parseInt(&quot;071&quot;)</code>就是简单将字符串转换为数字：</p>
-<img src="/images/loading.png" data-original="/2020/01/18/%E5%88%86%E6%9E%90parseInt/1.png" class>
-
-<ul>
-<li><p>如果 string 以 “0x” 开头，<code>parseInt()</code> 会把 string 的其余部分解析为十六进制的整数。</p>
-</li>
-<li><p>如果 string 以 1 ~ 9 的数字开头，<code>parseInt()</code> 将把它解析为十进制的整数。</p>
-</li>
-<li><p>以0开头也是转换为十进制。也有说转换为十六进制或者八进制，但是在chrome中实践是十进制。</p>
-</li>
-</ul>
-<img src="/images/loading.png" data-original="/2020/01/18/%E5%88%86%E6%9E%90parseInt/2.png" class>
-
-
-
-<p><code>parseInt(071)</code>就是将071用八进制进行转换：</p>
-<img src="/images/loading.png" data-original="/2020/01/18/%E5%88%86%E6%9E%90parseInt/3.png" class>
-
-<br>
-
-
-
-<h3 id="判断-‘1’-’2’-’3’-map-parseInt-的输出"><a href="#判断-‘1’-’2’-’3’-map-parseInt-的输出" class="headerlink" title="判断[‘1’,’2’,’3’].map(parseInt)的输出"></a>判断[‘1’,’2’,’3’].map(<code>parseInt</code>)的输出</h3><p>你可能觉得会是[1,2,3]，但实际上是[1,<code>NaN</code>,<code>NaN</code>]。我们来仔细分析一下：</p>
-<p><strong>map的函数格式</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">map((item, index, thisArr) &#x3D;&gt; ( newArr ))</span><br></pre></td></tr></table></figure>
-
-<p>参数解析：</p>
-<ul>
-<li>item: callback 的第一个参数，数组中正在处理的当前元素</li>
-<li>index: callback 的第二个参数，数组中正在处理的当前元素的索引</li>
-<li><code>thisArr</code>: callback 的第三个参数，map 方法被调用的数组</li>
-</ul>
-<p><strong><code>parseInt</code>的格式</strong></p>
-<p>上面讲到：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">parseInt(string, radix)</span><br></pre></td></tr></table></figure>
-
-
-
-<p>通过上述对 map 和 <code>parseInt</code> 函数的分析可以知道，执行方法时，map给<code>parseInt</code>传递了三个参数:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">parseInt(item, index, thisArr)</span><br></pre></td></tr></table></figure>
-
-<p>因此，索引<code>index</code>会传入<code>parseInt</code>函数当做基数<code>radix</code>。</p>
-<p>其中第三个参数会被 <code>parseInt</code> 忽略，因此会依次执行：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">parseInt</span>(<span class="string">'1'</span>, <span class="number">0</span>)</span><br><span class="line"><span class="comment">// radix 为 0，默认以十进制解析字符串，返回 1</span></span><br><span class="line"><span class="built_in">parseInt</span>(<span class="string">'2'</span>, <span class="number">1</span>)</span><br><span class="line"><span class="comment">// radix 为 1，不在 2 ~ 36 之间，返回 NaN</span></span><br><span class="line"><span class="built_in">parseInt</span>(<span class="string">'3'</span>, <span class="number">2</span>)</span><br><span class="line"><span class="comment">// radix 为 2， 字符串却为 3，超出二进制的表示范围，因此要解析的字符串和基数矛盾，返回 NaN</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>参考：<a href="https://www.cnblogs.com/wx1993/p/8417817.html" target="_blank" rel="noopener">https://www.cnblogs.com/wx1993/p/8417817.html</a></p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>函数柯里化</title>
     <url>/2020/01/14/%E5%87%BD%E6%95%B0%E6%9F%AF%E9%87%8C%E5%8C%96/</url>
     <content><![CDATA[<h1 id="函数柯里化"><a href="#函数柯里化" class="headerlink" title="函数柯里化"></a>函数柯里化</h1><p>柯里化的概念：只传递给函数一部分参数来调用它，让它返回一个函数去处理剩下的参数。</p>
@@ -1641,6 +1560,87 @@
 <p> <a href="https://www.jianshu.com/p/5e1899fe7d6b" target="_blank" rel="noopener">https://www.jianshu.com/p/5e1899fe7d6b</a> </p>
 <p><a href="https://www.cnblogs.com/hmchen/p/11564394.html" target="_blank" rel="noopener">https://www.cnblogs.com/hmchen/p/11564394.html</a></p>
 <p><a href="https://llh911001.gitbooks.io/mostly-adequate-guide-chinese/content/ch4.html#%E4%B8%8D%E4%BB%85%E4%BB%85%E6%98%AF%E5%8F%8C%E5%85%B3%E8%AF%AD%E5%92%96%E5%96%B1" target="_blank" rel="noopener">https://llh911001.gitbooks.io/mostly-adequate-guide-chinese/content/ch4.html#%E4%B8%8D%E4%BB%85%E4%BB%85%E6%98%AF%E5%8F%8C%E5%85%B3%E8%AF%AD%E5%92%96%E5%96%B1</a></p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>分析parseInt()</title>
+    <url>/2020/01/18/%E5%88%86%E6%9E%90parseInt/</url>
+    <content><![CDATA[<h3 id="parseInt-公式"><a href="#parseInt-公式" class="headerlink" title="parseInt()公式"></a><code>parseInt()公式</code></h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">parseInt(string, radix)</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>string</td>
+<td>必需。要被解析的字符串。</td>
+</tr>
+<tr>
+<td>radix</td>
+<td>可选。表示要解析的数字的基数。该值介于 2 ~ 36 之间。</td>
+</tr>
+</tbody></table>
+<br>
+
+
+
+<h3 id="parseInt-071-和parseInt-quot-071-quot-的区别"><a href="#parseInt-071-和parseInt-quot-071-quot-的区别" class="headerlink" title="parseInt(071)和parseInt(&quot;071&quot;)的区别"></a><code>parseInt(071)和parseInt(&quot;071&quot;)的区别</code></h3><p><code>parseInt(&quot;071&quot;)</code>就是简单将字符串转换为数字：</p>
+<img src="/images/loading.png" data-original="/2020/01/18/%E5%88%86%E6%9E%90parseInt/1.png" class>
+
+<ul>
+<li><p>如果 string 以 “0x” 开头，<code>parseInt()</code> 会把 string 的其余部分解析为十六进制的整数。</p>
+</li>
+<li><p>如果 string 以 1 ~ 9 的数字开头，<code>parseInt()</code> 将把它解析为十进制的整数。</p>
+</li>
+<li><p>以0开头也是转换为十进制。也有说转换为十六进制或者八进制，但是在chrome中实践是十进制。</p>
+</li>
+</ul>
+<img src="/images/loading.png" data-original="/2020/01/18/%E5%88%86%E6%9E%90parseInt/2.png" class>
+
+
+
+<p><code>parseInt(071)</code>就是将071用八进制进行转换：</p>
+<img src="/images/loading.png" data-original="/2020/01/18/%E5%88%86%E6%9E%90parseInt/3.png" class>
+
+<br>
+
+
+
+<h3 id="判断-‘1’-’2’-’3’-map-parseInt-的输出"><a href="#判断-‘1’-’2’-’3’-map-parseInt-的输出" class="headerlink" title="判断[‘1’,’2’,’3’].map(parseInt)的输出"></a>判断[‘1’,’2’,’3’].map(<code>parseInt</code>)的输出</h3><p>你可能觉得会是[1,2,3]，但实际上是[1,<code>NaN</code>,<code>NaN</code>]。我们来仔细分析一下：</p>
+<p><strong>map的函数格式</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">map((item, index, thisArr) &#x3D;&gt; ( newArr ))</span><br></pre></td></tr></table></figure>
+
+<p>参数解析：</p>
+<ul>
+<li>item: callback 的第一个参数，数组中正在处理的当前元素</li>
+<li>index: callback 的第二个参数，数组中正在处理的当前元素的索引</li>
+<li><code>thisArr</code>: callback 的第三个参数，map 方法被调用的数组</li>
+</ul>
+<p><strong><code>parseInt</code>的格式</strong></p>
+<p>上面讲到：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">parseInt(string, radix)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>通过上述对 map 和 <code>parseInt</code> 函数的分析可以知道，执行方法时，map给<code>parseInt</code>传递了三个参数:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">parseInt(item, index, thisArr)</span><br></pre></td></tr></table></figure>
+
+<p>因此，索引<code>index</code>会传入<code>parseInt</code>函数当做基数<code>radix</code>。</p>
+<p>其中第三个参数会被 <code>parseInt</code> 忽略，因此会依次执行：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">parseInt</span>(<span class="string">'1'</span>, <span class="number">0</span>)</span><br><span class="line"><span class="comment">// radix 为 0，默认以十进制解析字符串，返回 1</span></span><br><span class="line"><span class="built_in">parseInt</span>(<span class="string">'2'</span>, <span class="number">1</span>)</span><br><span class="line"><span class="comment">// radix 为 1，不在 2 ~ 36 之间，返回 NaN</span></span><br><span class="line"><span class="built_in">parseInt</span>(<span class="string">'3'</span>, <span class="number">2</span>)</span><br><span class="line"><span class="comment">// radix 为 2， 字符串却为 3，超出二进制的表示范围，因此要解析的字符串和基数矛盾，返回 NaN</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>参考：<a href="https://www.cnblogs.com/wx1993/p/8417817.html" target="_blank" rel="noopener">https://www.cnblogs.com/wx1993/p/8417817.html</a></p>
 ]]></content>
       <categories>
         <category>JavaScript</category>
@@ -1993,41 +1993,6 @@
       </tags>
   </entry>
   <entry>
-    <title>每日一题——岛屿的最大面积</title>
-    <url>/2020/03/15/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E5%B2%9B%E5%B1%BF%E7%9A%84%E6%9C%80%E5%A4%A7%E9%9D%A2%E7%A7%AF/</url>
-    <content><![CDATA[<h2 id="岛屿的最大面积"><a href="#岛屿的最大面积" class="headerlink" title="岛屿的最大面积"></a><a href="https://leetcode-cn.com/problems/max-area-of-island/" target="_blank" rel="noopener">岛屿的最大面积</a></h2><p>给定一个包含了一些 0 和 1的非空二维数组 grid , 一个 岛屿 是由四个方向 (水平或垂直) 的 1 (代表土地) 构成的组合。你可以假设二维矩阵的四个边缘都被水包围着。</p>
-<p>找到给定的二维数组中最大的岛屿面积。(如果没有岛屿，则返回面积为0。)</p>
-<p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[[0,0,1,0,0,0,0,1,0,0,0,0,0],</span><br><span class="line"> [0,0,0,0,0,0,0,1,1,1,0,0,0],</span><br><span class="line"> [0,1,1,0,1,0,0,0,0,0,0,0,0],</span><br><span class="line"> [0,1,0,0,1,1,0,0,1,0,1,0,0],</span><br><span class="line"> [0,1,0,0,1,1,0,0,1,1,1,0,0],</span><br><span class="line"> [0,0,0,0,0,0,0,0,0,0,1,0,0],</span><br><span class="line"> [0,0,0,0,0,0,0,1,1,1,0,0,0],</span><br><span class="line"> [0,0,0,0,0,0,0,1,1,0,0,0,0]]</span><br></pre></td></tr></table></figure>
-
-<p>对于上面这个给定矩阵应返回 6。注意答案不应该是11，因为岛屿只能包含水平或垂直的四个方向的‘1’。</p>
-<p>示例 2:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[[0,0,0,0,0,0,0,0]]</span><br></pre></td></tr></table></figure>
-
-<p>对于上面这个给定的矩阵, 返回 0。</p>
-<p>注意: 给定的矩阵grid 的长度和宽度都不超过 50。</p>
-<p>思路：<br>和腐烂的橘子的思想类似，使用广度优先遍历，然后queue来实现（JS中用普通数组，使用shift来获取列头元素，不要写错成pop()，c++中队列的pop()和JS中普通数组的shift()才是对应的）。而且要另外维护一个flag数组，用来记录每个数组中的元素是否已经判断过了，如果判断过了的话，就要将flag变为true，下一次不用再去判断。</p>
-<p>用JS声明二维数组的方式：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">3</span>;i++)&#123;        <span class="comment">//一维长度为3</span></span><br><span class="line">	a[i] = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">var</span> j=<span class="number">0</span>;j&lt;<span class="number">5</span>;j++)&#123;    <span class="comment">//二维长度为5</span></span><br><span class="line">		a[i][j] = i+j;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>题解：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number[][]&#125;</span> <span class="variable">grid</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> maxAreaOfIsland = <span class="function"><span class="keyword">function</span>(<span class="params">grid</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> q=[];</span><br><span class="line">    <span class="keyword">var</span> res=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">var</span> count=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">var</span> step=[[<span class="number">-1</span>,<span class="number">0</span>],[<span class="number">1</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">1</span>],[<span class="number">0</span>,<span class="number">-1</span>]]; <span class="comment">//用来进行广度遍历</span></span><br><span class="line">    <span class="keyword">var</span> flag=<span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> n=<span class="number">0</span>;n&lt;grid.length;++n)&#123;</span><br><span class="line">        flag[n]=<span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> m=<span class="number">0</span>;m&lt;grid[<span class="number">0</span>].length;++m)&#123;</span><br><span class="line">            flag[n][m]=<span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;grid.length;++i)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> j=<span class="number">0</span>;j&lt;grid[<span class="number">0</span>].length;++j)&#123;</span><br><span class="line">            <span class="keyword">if</span>(grid[i][j]==<span class="number">1</span>&amp;&amp;flag[i][j]==<span class="literal">false</span>)&#123;</span><br><span class="line">                count++;</span><br><span class="line">                q.push([i,j]);</span><br><span class="line">                flag[i][j]=<span class="literal">true</span>;</span><br><span class="line">                <span class="keyword">while</span>(q.length!==<span class="number">0</span>)&#123;</span><br><span class="line">                    <span class="keyword">var</span> temp=q.shift();</span><br><span class="line">                    <span class="keyword">for</span>(<span class="keyword">var</span> k=<span class="number">0</span>;k&lt;step.length;++k)&#123;</span><br><span class="line">                        <span class="keyword">var</span> x=temp[<span class="number">0</span>]+step[k][<span class="number">0</span>];</span><br><span class="line">                        <span class="keyword">var</span> y=temp[<span class="number">1</span>]+step[k][<span class="number">1</span>];</span><br><span class="line">                        <span class="keyword">if</span>(x&gt;=<span class="number">0</span>&amp;&amp;x&lt;grid.length&amp;&amp;y&gt;=<span class="number">0</span>&amp;&amp;y&lt;grid[<span class="number">0</span>].length)&#123;</span><br><span class="line">                            <span class="keyword">if</span>(grid[x][y]==<span class="number">1</span>&amp;&amp;flag[x][y]==<span class="literal">false</span>)&#123;</span><br><span class="line">                                q.push([x,y]);</span><br><span class="line">                                flag[x][y]=<span class="literal">true</span>;</span><br><span class="line">                                count++;</span><br><span class="line">                            &#125;  </span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; </span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(count&gt;res)&#123;</span><br><span class="line">                    res=count;</span><br><span class="line">                &#125;</span><br><span class="line">                count=<span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>每日一题</category>
-      </categories>
-      <tags>
-        <tag>每日一题</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>每日一题——按摩师</title>
     <url>/2020/03/24/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E6%8C%89%E6%91%A9%E5%B8%88/</url>
     <content><![CDATA[<h2 id="面试题-17-16-按摩师"><a href="#面试题-17-16-按摩师" class="headerlink" title="面试题 17.16. 按摩师"></a><a href="https://leetcode-cn.com/problems/the-masseuse-lcci/" target="_blank" rel="noopener">面试题 17.16. 按摩师</a></h2><p>一个有名的按摩师会收到源源不断的预约请求，每个预约都可以选择接或不接。在每次预约服务之间要有休息时间，因此她不能接受相邻的预约。给定一个预约请求序列，替按摩师找到最优的预约集合（总预约时间最长），返回总的分钟数。</p>
@@ -2055,6 +2020,41 @@
 <p>后来看评论优化的题解：</p>
 <p><code>dp</code>思想：<code>F[i]=Math.max(F[i-1],F[i-2]+nums[i]);</code></p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number[]&#125;</span> <span class="variable">nums</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> massage = <span class="function"><span class="keyword">function</span>(<span class="params">nums</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> F=[];</span><br><span class="line">    <span class="keyword">if</span>(nums.length==<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(nums.length==<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> nums[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> m=<span class="number">0</span>;m&lt;nums.length;++m)&#123;</span><br><span class="line">        F[m]=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    F[<span class="number">0</span>]=nums[<span class="number">0</span>];</span><br><span class="line">    F[<span class="number">1</span>]=<span class="built_in">Math</span>.max(nums[<span class="number">0</span>],nums[<span class="number">1</span>]);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">2</span>;i&lt;nums.length;++i)&#123;</span><br><span class="line">        F[i]=<span class="built_in">Math</span>.max(F[i<span class="number">-1</span>],F[i<span class="number">-2</span>]+nums[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> F[nums.length<span class="number">-1</span>];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>每日一题</category>
+      </categories>
+      <tags>
+        <tag>每日一题</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>每日一题——岛屿的最大面积</title>
+    <url>/2020/03/15/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E5%B2%9B%E5%B1%BF%E7%9A%84%E6%9C%80%E5%A4%A7%E9%9D%A2%E7%A7%AF/</url>
+    <content><![CDATA[<h2 id="岛屿的最大面积"><a href="#岛屿的最大面积" class="headerlink" title="岛屿的最大面积"></a><a href="https://leetcode-cn.com/problems/max-area-of-island/" target="_blank" rel="noopener">岛屿的最大面积</a></h2><p>给定一个包含了一些 0 和 1的非空二维数组 grid , 一个 岛屿 是由四个方向 (水平或垂直) 的 1 (代表土地) 构成的组合。你可以假设二维矩阵的四个边缘都被水包围着。</p>
+<p>找到给定的二维数组中最大的岛屿面积。(如果没有岛屿，则返回面积为0。)</p>
+<p>示例 1:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[[0,0,1,0,0,0,0,1,0,0,0,0,0],</span><br><span class="line"> [0,0,0,0,0,0,0,1,1,1,0,0,0],</span><br><span class="line"> [0,1,1,0,1,0,0,0,0,0,0,0,0],</span><br><span class="line"> [0,1,0,0,1,1,0,0,1,0,1,0,0],</span><br><span class="line"> [0,1,0,0,1,1,0,0,1,1,1,0,0],</span><br><span class="line"> [0,0,0,0,0,0,0,0,0,0,1,0,0],</span><br><span class="line"> [0,0,0,0,0,0,0,1,1,1,0,0,0],</span><br><span class="line"> [0,0,0,0,0,0,0,1,1,0,0,0,0]]</span><br></pre></td></tr></table></figure>
+
+<p>对于上面这个给定矩阵应返回 6。注意答案不应该是11，因为岛屿只能包含水平或垂直的四个方向的‘1’。</p>
+<p>示例 2:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[[0,0,0,0,0,0,0,0]]</span><br></pre></td></tr></table></figure>
+
+<p>对于上面这个给定的矩阵, 返回 0。</p>
+<p>注意: 给定的矩阵grid 的长度和宽度都不超过 50。</p>
+<p>思路：<br>和腐烂的橘子的思想类似，使用广度优先遍历，然后queue来实现（JS中用普通数组，使用shift来获取列头元素，不要写错成pop()，c++中队列的pop()和JS中普通数组的shift()才是对应的）。而且要另外维护一个flag数组，用来记录每个数组中的元素是否已经判断过了，如果判断过了的话，就要将flag变为true，下一次不用再去判断。</p>
+<p>用JS声明二维数组的方式：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">3</span>;i++)&#123;        <span class="comment">//一维长度为3</span></span><br><span class="line">	a[i] = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">var</span> j=<span class="number">0</span>;j&lt;<span class="number">5</span>;j++)&#123;    <span class="comment">//二维长度为5</span></span><br><span class="line">		a[i][j] = i+j;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>题解：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number[][]&#125;</span> <span class="variable">grid</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> maxAreaOfIsland = <span class="function"><span class="keyword">function</span>(<span class="params">grid</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> q=[];</span><br><span class="line">    <span class="keyword">var</span> res=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">var</span> count=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">var</span> step=[[<span class="number">-1</span>,<span class="number">0</span>],[<span class="number">1</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">1</span>],[<span class="number">0</span>,<span class="number">-1</span>]]; <span class="comment">//用来进行广度遍历</span></span><br><span class="line">    <span class="keyword">var</span> flag=<span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> n=<span class="number">0</span>;n&lt;grid.length;++n)&#123;</span><br><span class="line">        flag[n]=<span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> m=<span class="number">0</span>;m&lt;grid[<span class="number">0</span>].length;++m)&#123;</span><br><span class="line">            flag[n][m]=<span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;grid.length;++i)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> j=<span class="number">0</span>;j&lt;grid[<span class="number">0</span>].length;++j)&#123;</span><br><span class="line">            <span class="keyword">if</span>(grid[i][j]==<span class="number">1</span>&amp;&amp;flag[i][j]==<span class="literal">false</span>)&#123;</span><br><span class="line">                count++;</span><br><span class="line">                q.push([i,j]);</span><br><span class="line">                flag[i][j]=<span class="literal">true</span>;</span><br><span class="line">                <span class="keyword">while</span>(q.length!==<span class="number">0</span>)&#123;</span><br><span class="line">                    <span class="keyword">var</span> temp=q.shift();</span><br><span class="line">                    <span class="keyword">for</span>(<span class="keyword">var</span> k=<span class="number">0</span>;k&lt;step.length;++k)&#123;</span><br><span class="line">                        <span class="keyword">var</span> x=temp[<span class="number">0</span>]+step[k][<span class="number">0</span>];</span><br><span class="line">                        <span class="keyword">var</span> y=temp[<span class="number">1</span>]+step[k][<span class="number">1</span>];</span><br><span class="line">                        <span class="keyword">if</span>(x&gt;=<span class="number">0</span>&amp;&amp;x&lt;grid.length&amp;&amp;y&gt;=<span class="number">0</span>&amp;&amp;y&lt;grid[<span class="number">0</span>].length)&#123;</span><br><span class="line">                            <span class="keyword">if</span>(grid[x][y]==<span class="number">1</span>&amp;&amp;flag[x][y]==<span class="literal">false</span>)&#123;</span><br><span class="line">                                q.push([x,y]);</span><br><span class="line">                                flag[x][y]=<span class="literal">true</span>;</span><br><span class="line">                                count++;</span><br><span class="line">                            &#125;  </span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; </span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(count&gt;res)&#123;</span><br><span class="line">                    res=count;</span><br><span class="line">                &#125;</span><br><span class="line">                count=<span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
       <categories>
         <category>每日一题</category>
       </categories>
@@ -2961,195 +2961,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Node——Connect和Express</title>
-    <url>/2020/04/05/Node%E2%80%94%E2%80%94Connect%E5%92%8CExpress/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><code>Connect</code>和<code>Express</code>是两个热门的Node模块。<code>Express</code>就是在<code>Connect</code>的基础上，通过添加高层糖衣扩展和搭建出来的。</p>
-<h2 id="Connect"><a href="#Connect" class="headerlink" title="Connect"></a>Connect</h2><h3 id="创建简单的Connect程序"><a href="#创建简单的Connect程序" class="headerlink" title="创建简单的Connect程序"></a>创建简单的<code>Connect</code>程序</h3><p>指令：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install connect@3.4.0</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>在要安装的模块后加@可以指定版本号</p>
-</blockquote>
-<p>简单的<code>Connect</code>程序应该是这样的：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const app&#x3D;require(&#39;connect&#39;)();</span><br><span class="line">app.use((req,res,next)&#x3D;&gt;&#123;</span><br><span class="line">	res.end(&#39;Hello, world!&#39;);</span><br><span class="line">&#125;);</span><br><span class="line">app.listen(3000);</span><br></pre></td></tr></table></figure>
-
-<p>这个程序会用Hello, World!做出响应。也就是访问<code>http://localhost:3000</code>的时候，页面显示<code>Hello, world!</code>。传给<code>app.use</code>的函数是个中间件，它以文本<code>Hello, world!</code>作为响应结束了请求处理过程。中间件是所有<code>Connect</code>和<code>Express</code>程序的基础。</p>
-<h3 id="Connect中间件的工作机制"><a href="#Connect中间件的工作机制" class="headerlink" title="Connect中间件的工作机制"></a><code>Connect</code>中间件的工作机制</h3><p><code>Connect</code>中间件就是<code>JavaScript</code>函数。这个函数一般会有三个参数：请求对象、响应对象、以及一个名为next的回调函数。一个中间件完成自己的工作，要执行后续的中间件时，可以调用这个next回调函数。</p>
-<p>在中间件运行之前，<code>Connect</code>会用分派器接管请求对象，然后交给程序中的第一个中间件。</p>
-<p>借助中间件API，可以把一些小的构件块组合到一起，实现复杂的处理逻辑。</p>
-<h3 id="组合中间件"><a href="#组合中间件" class="headerlink" title="组合中间件"></a>组合中间件</h3><p>Connect中的use方法就是用来组合中间件的。我们先来定义两个中间件函数，然后把它们都添加到程序中。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> connect=<span class="built_in">require</span>(<span class="string">'connect'</span>);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">logger</span>(<span class="params">req,res,next</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'%s %s'</span>, req.method, req.url);</span><br><span class="line">	next();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hello</span>(<span class="params">req,res</span>)</span>&#123;</span><br><span class="line">	res.setHeader(<span class="string">'Content-Type'</span>, <span class="string">'text/plain'</span>);</span><br><span class="line">	res.end(<span class="string">'hello world'</span>);</span><br><span class="line">&#125;</span><br><span class="line">connect()</span><br><span class="line">	.use(logger)</span><br><span class="line">	.use(hello)</span><br><span class="line">	.listen(<span class="number">3000</span>);</span><br></pre></td></tr></table></figure>
-
-<p>这两个中间件的名称签名不一样：一个有next，一个没有。因为后面这个中间件完成了HTTP响应，再也不需要把控制权交还给分派器了。</p>
-<p>use()函数返回的是Connect程序的实例，支持方法链。也可以不写成链式调用的形式：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> app=connect();</span><br><span class="line">app.use(logger);</span><br><span class="line">app.use(hello);</span><br><span class="line">app.listen(<span class="number">3000</span>);</span><br></pre></td></tr></table></figure>
-
-<p>需要注意的是，如果某个中间件不调用<code>next()</code>，那链在它后面的中间件就不会被调用。所以如果logger和hello两个函数的调用顺序反过来，则logger是不会执行的。</p>
-<h3 id="使用错误处理中间件"><a href="#使用错误处理中间件" class="headerlink" title="使用错误处理中间件"></a>使用错误处理中间件</h3><p><code>Connect</code>中有一种用来处理错误的中间件变体。跟常规的中间件相比，除了请求和响应对象外，错误处理中间件的参数中还多了一个错误对象。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Connect中的错误处理中间件</span></span><br><span class="line"><span class="keyword">const</span> env=process.env.NODE_ENV||<span class="string">'development'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">errorHandler</span>(<span class="params">err,req,res,next</span>)</span>&#123;</span><br><span class="line">	res.statusCode=<span class="number">500</span>;</span><br><span class="line">	<span class="keyword">switch</span>(env)&#123;</span><br><span class="line">        <span class="comment">//开发模式和生产模式的响应不同</span></span><br><span class="line">		<span class="keyword">case</span> <span class="string">'development'</span>:</span><br><span class="line">			<span class="built_in">console</span>.error(<span class="string">'Error:'</span>);</span><br><span class="line">			<span class="built_in">console</span>.error(err);</span><br><span class="line">			res.setHeader(<span class="string">'Content-Type'</span>,<span class="string">'application/json'</span>);</span><br><span class="line">			res.end(<span class="built_in">JSON</span>.stringify(err));</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			res.end(<span class="string">'Server error'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports=errorHandler;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>开发环境（development）：开发同学开发时使用的环境，每位开发同学在自己的dev分支上工作，开发到一定程度后，各位同学会合并代码，进行联调。</p>
-<p>生产环境（production）：线上环境，用户使用的环境。由特定人员来维护。</p>
-</blockquote>
-<blockquote>
-<p>设置环境变量</p>
-<p>UNIX系统中设置环境变量的指令：<br>$ NODE_ENV=production node app</p>
-<p>Windows中用这个：</p>
-<p>$ set NODE_ENV=production</p>
-<p>$ node app</p>
-</blockquote>
-<p>产品在开发环境中运行时，你可能想要看到尽可能详细的日志；但在生产环境中，你可能想让日志尽量精简，可能还要用gzip进行压缩。</p>
-<p>用NODE_ENV设定程序的模式，Connect一般会根据环境变量<code>NODE_ENV(process.env.NODE_ENV)</code>来切换不同服务器环境（比如生产环境和开发环境）下的行为。</p>
-<p>当<code>Connect</code>遇到错误时，它会切换，只去调用错误处理中间件。</p>
-<p>假设有一个允许用户登录到管理区域的博客程序。如果负责用户路由的中间件引发了一个错误，则中间件<code>blog</code>和<code>admin</code>都会被跳过，因为它们不是错误处理中间件（只有三个参数）。然后<code>Connect</code>看到接受错误参数的<code>errorHandler</code>，就会调用它。中间件看起来像下面这样：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">connect()</span><br><span class="line">	.use(router(<span class="built_in">require</span>(<span class="string">'./routes/user'</span>)))</span><br><span class="line">	.use(router(<span class="built_in">require</span>(<span class="string">'./routes/blog'</span>))) <span class="comment">//跳过</span></span><br><span class="line">	.use(router(<span class="built_in">require</span>(<span class="string">'./routes/admin'</span>)))  <span class="comment">//跳过</span></span><br><span class="line">	.use(errorHandler);</span><br></pre></td></tr></table></figure>
-
-<br>
-
-
-
-<h2 id="Express"><a href="#Express" class="headerlink" title="Express"></a>Express</h2><p><code>Express</code>是非常流行的<code>Web</code>框架，以前是在<code>Connect</code>的基础上搭建的。尽管提供了一些基本的功能，比如静态文件服务、URL路由和程序配置等，但它依然是极简的Web框架。</p>
-<p>简单的<code>Express</code>程序</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> express=<span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"><span class="keyword">const</span> app=express();</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">'/'</span>,(req,res)=&gt;&#123;</span><br><span class="line">	res.send(<span class="string">'Hello'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">3000</span>);</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="生成程序框架"><a href="#生成程序框架" class="headerlink" title="生成程序框架"></a>生成程序框架</h3><p>安装指令：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install -g express-generator</span><br></pre></td></tr></table></figure>
-
-<p> 生成程序</p>
-<p>用<code>-e或（--ejs）</code>指定要使用的模板引擎是EJS（EJS是一个嵌入JavaScript模板引擎，通过编译生成HTML代码）。执行<code>express -e shoutbox</code>，<code>shoutbox</code>是文件名。一个功能完备的程序会出现在<code>shoutbox</code>目录中。其中会有描述项目和依赖项的<code>package.json</code>文件、程序主文件、<code>public</code>目录，以及一个放路由处理器的目录。</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200405154932.png" alt></p>
-<br>
-
-<h3 id="Express路由入门"><a href="#Express路由入门" class="headerlink" title="Express路由入门"></a>Express路由入门</h3><p>根据官网定义：</p>
-<blockquote>
-<p><em>Routing</em> refers to determining how an application responds to a client request to a particular endpoint, which is a URI (or path) and a specific HTTP request method (GET, POST, and so on).</p>
-</blockquote>
-<p>路由的定义：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">app.METHOD(PATH, HANDLER)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>app</code>是express的一个实例</li>
-<li><code>METHOD</code>是<code>HTTP</code>请求方法（小写）</li>
-<li><code>PATH</code>是服务器上的路径</li>
-<li><code>HANDLER</code>是在这个路径上发起<code>HTTP</code>请求时执行的回调函数</li>
-</ul>
-<p>Respond with <code>Hello World!</code> on the homepage:</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  res.send(<span class="string">'Hello World!'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>Respond to POST request on the root route (<code>/</code>), the application’s home page:</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">app.post(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  res.send(<span class="string">'Got a POST request'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>Respond to a PUT request to the <code>/user</code> route:</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">app.put(<span class="string">'/user'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  res.send(<span class="string">'Got a PUT request at /user'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>Respond to a DELETE request to the <code>/user</code> route:</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">app.delete(<span class="string">'/user'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  res.send(<span class="string">'Got a DELETE request at /user'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="做个简单的留言板程序"><a href="#做个简单的留言板程序" class="headerlink" title="做个简单的留言板程序"></a>做个简单的留言板程序</h4><p>效果：</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200405150802.png" alt></p>
-<p>步骤：</p>
-<ul>
-<li>创建消息模型</li>
-<li>添加与消息相关的路由</li>
-<li>创建消息表单</li>
-<li>添加业务逻辑，用提交上来的表单数据创建消息</li>
-</ul>
-<h5 id="创建消息模型"><a href="#创建消息模型" class="headerlink" title="创建消息模型"></a>创建消息模型</h5><p>在创建消息模型之前，需要先安装<code>Node redis</code>模块。执行命令<code>npm install --save redis</code>。而且要安装<code>Redis</code>，Windows系统可以使用<code>Redis Chocolately</code>。</p>
-<blockquote>
-<p>安装教程：<a href="https://www.cnblogs.com/julyluo/p/6646155.html" target="_blank" rel="noopener">https://www.cnblogs.com/julyluo/p/6646155.html</a></p>
-<p>官网没有windows版本，github下载速度太慢。</p>
-<p>Redis就是一个数据库，可以将我们post的留言存储起来。</p>
-</blockquote>
-<ol>
-<li><p>创建保存在线留言板消息条目的模型。</p>
-<p>创建<code>models/entry.js</code>文件：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"><span class="keyword">const</span> redis = <span class="built_in">require</span>(<span class="string">'redis'</span>);</span><br><span class="line"><span class="keyword">const</span> db = redis.createClient();</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Entry</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(obj) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> obj) &#123;</span><br><span class="line">      <span class="keyword">this</span>[key] = obj[key];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> getRange(<span class="keyword">from</span>, to, cb) &#123;</span><br><span class="line">    db.lrange(<span class="string">'entries'</span>, <span class="keyword">from</span>, to, (err, items) =&gt; &#123;</span><br><span class="line">      <span class="keyword">if</span> (err) <span class="keyword">return</span> cb(err);</span><br><span class="line">      <span class="keyword">let</span> entries = [];</span><br><span class="line">      items.forEach(<span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</span><br><span class="line">        entries.push(<span class="built_in">JSON</span>.parse(item));</span><br><span class="line">      &#125;);</span><br><span class="line">      cb(<span class="literal">null</span>, entries);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  save(cb) &#123;</span><br><span class="line">    <span class="keyword">const</span> entryJSON = <span class="built_in">JSON</span>.stringify(<span class="keyword">this</span>);</span><br><span class="line">    db.lpush(</span><br><span class="line">      <span class="string">'entries'</span>,</span><br><span class="line">      entryJSON,</span><br><span class="line">      (err) =&gt; &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) <span class="keyword">return</span> cb(err);</span><br><span class="line">        cb();</span><br><span class="line">      &#125;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> count(cb) &#123;</span><br><span class="line">    db.llen(<span class="string">'entries'</span>, cb);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = Entry;</span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ol>
-<ol start="2">
-<li><p>创建消息表单</p>
-<p>在<code>app.js</code>中添加如下路由部分</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.get(<span class="string">'/post'</span>, entries.form);</span><br><span class="line">app.post(<span class="string">'/post'</span>, entries.submit);</span><br></pre></td></tr></table></figure>
-
-<p>即：使用get向<code>/post</code>发起http请求时，执行<code>entries.form</code>回调函数。使用post向<code>/post</code>发起http请求时，执行<code>entries.submit</code>回调。</p>
-<hr>
-这个`entries`是从`routes`中导入的模块。看一下定义：
-
-</li>
-</ol>
-<p>表单模块部分：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//routes/entries.js</span></span><br><span class="line">exports.form = <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.render(<span class="string">'post'</span>, &#123; <span class="attr">title</span>: <span class="string">'Post'</span> &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>这里是用<code>views/post.ejs</code>，即表单，去渲染页面。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;views&#x2F;post.ejs</span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;title&gt;&lt;%&#x3D; title %&gt;&lt;&#x2F;title&gt;</span><br><span class="line">    &lt;link rel&#x3D;&#39;stylesheet&#39; href&#x3D;&#39;&#x2F;stylesheets&#x2F;style.css&#39; &#x2F;&gt;</span><br><span class="line">  &lt;&#x2F;head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">    &lt;% include menu %&gt; </span><br><span class="line">    &lt;h1&gt;&lt;%&#x3D; title %&gt;&lt;&#x2F;h1&gt;</span><br><span class="line">    &lt;p&gt;Fill in the form below to add a new post.&lt;&#x2F;p&gt; </span><br><span class="line">    &lt;form action&#x3D;&#39;&#x2F;post&#39; method&#x3D;&#39;post&#39;&gt;</span><br><span class="line">      &lt;p&gt;</span><br><span class="line">        &lt;input type&#x3D;&#39;text&#39; name&#x3D;&#39;entry[title]&#39; placeholder&#x3D;&#39;Title&#39; &#x2F;&gt;</span><br><span class="line">      &lt;&#x2F;p&gt;</span><br><span class="line">      &lt;p&gt;</span><br><span class="line">        &lt;textarea name&#x3D;&#39;entry[body]&#39; placeholder&#x3D;&#39;Body&#39;&gt;&lt;&#x2F;textarea&gt;</span><br><span class="line">      &lt;&#x2F;p&gt;</span><br><span class="line">      &lt;p&gt;</span><br><span class="line">        &lt;input type&#x3D;&#39;submit&#39; value&#x3D;&#39;Post&#39; &#x2F;&gt;</span><br><span class="line">      &lt;&#x2F;p&gt;</span><br><span class="line">    &lt;&#x2F;form&gt;</span><br><span class="line">  &lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
-
-<p>表单中用了形如<code>entry[title]</code>之类的输入控件名称，需要用扩展的消息体解析器来解析。找到<code>app.js</code>将</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.use(bodyParser.urlencoded(&#123; <span class="attr">extended</span>: <span class="literal">true</span> &#125;));</span><br></pre></td></tr></table></figure>
-
-<p>改为：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.use(bodyParser.urlencoded(&#123; <span class="attr">extended</span>: <span class="literal">true</span> &#125;));</span><br></pre></td></tr></table></figure>
-
-<hr>
-
-<ol start="3">
-<li><p>实现消息提交功能</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//将代码添加到文件routes/entries.js中，实现用表单提交上来的数据创建消息</span></span><br><span class="line">exports.submit = <span class="function">(<span class="params">req, res, next</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> data = req.body.entry;</span><br><span class="line">  <span class="keyword">const</span> user = res.locals.user;</span><br><span class="line">  <span class="keyword">const</span> username = user ? user.name : <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">const</span> entry = <span class="keyword">new</span> Entry(&#123;</span><br><span class="line">    username: username,</span><br><span class="line">    title: data.title,</span><br><span class="line">    body: data.body</span><br><span class="line">  &#125;);</span><br><span class="line">  entry.save(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) <span class="keyword">return</span> next(err);</span><br><span class="line">    res.redirect(<span class="string">'/'</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>这里使用了Common JS进行模块化开发</p>
-</blockquote>
-<hr>
-</li>
-<li><p>添加显示消息的首页</p>
-<p>在<code>routes/entries.js</code>中添加：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> Entry = <span class="built_in">require</span>(<span class="string">'../models/entry'</span>);</span><br><span class="line"></span><br><span class="line">exports.list = <span class="function">(<span class="params">req, res, next</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> page = req.page;</span><br><span class="line">  Entry.getRange(<span class="number">0</span>, <span class="number">-1</span>, (err, entries) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) <span class="keyword">return</span> next(err);</span><br><span class="line">    res.render(<span class="string">'entries'</span>, &#123;</span><br><span class="line">      title: <span class="string">'Entries'</span>,</span><br><span class="line">      entries: entries</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<hr>
-</li>
-<li><p>视图<code>entries.ejs</code></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;title&gt;&lt;%&#x3D; title %&gt;&lt;&#x2F;title&gt;</span><br><span class="line">    &lt;link rel&#x3D;&#39;stylesheet&#39; href&#x3D;&#39;&#x2F;stylesheets&#x2F;style.css&#39; &#x2F;&gt;</span><br><span class="line">  &lt;&#x2F;head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">    &lt;% include menu %&gt; </span><br><span class="line">    &lt;% entries.forEach((entry) &#x3D;&gt; &#123; %&gt;</span><br><span class="line">      &lt;div class&#x3D;&#39;entry&#39;&gt;</span><br><span class="line">        &lt;h3&gt;&lt;%&#x3D; entry.title %&gt;&lt;&#x2F;h3&gt;</span><br><span class="line">        &lt;p&gt;&lt;%&#x3D; entry.body %&gt;&lt;&#x2F;p&gt;</span><br><span class="line">        &lt;p&gt;Posted by &lt;%&#x3D; entry.username %&gt;&lt;&#x2F;p&gt;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">    &lt;% &#125;) %&gt;</span><br><span class="line">  &lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>在程序运行之前先在同一目录下创建menu.ejs创建菜单模板文件，后续会用到。目前空白着先。</p>
-</blockquote>
-<hr>
-</li>
-<li><p>添加与消息相关的路由</p>
-<p>在<code>app.js</code>中：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> entries = <span class="built_in">require</span>(<span class="string">'./routes/entries'</span>);</span><br></pre></td></tr></table></figure>
-
-<p>添加路由：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.get(<span class="string">'/'</span>, entries.list);</span><br></pre></td></tr></table></figure>
-
-<hr>
-</li>
-<li><p>运行程序</p>
-<p>先以管理员身份进入CMD，运行<code>redis-server</code>启用<code>Redis</code>。</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200405153803.png" alt></p>
-<p>在<code>terminal</code>中运行<code>npm start</code>，访问<code>http://localhost:3000/post</code></p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200405153923.png" alt></p>
-<p>点击post后跳转到首页：</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/image-20200405153955456.png" alt></p>
-</li>
-</ol>
-<p>完成。</p>
-<br>]]></content>
-      <categories>
-        <category>Node.js</category>
-      </categories>
-      <tags>
-        <tag>Node.js</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Node——事件循环</title>
     <url>/2020/04/07/Node%E2%80%94%E2%80%94%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/</url>
     <content><![CDATA[<h2 id="异步IO"><a href="#异步IO" class="headerlink" title="异步IO"></a>异步IO</h2><p>异步IO是指操作系统提供的IO（数据进出）能力，比如键盘输入，对应到显示器上会有专门的数据输出接口，这就是我们生活中可见的IO能力；这个接口在向下会进入到操作系统这个层面，在操作系统中，会提供诸多的能力，比如：磁盘的读写，DNS的查询，数据库的连接啊，网络请求的处理，等等。</p>
@@ -3353,6 +3164,195 @@
       </tags>
   </entry>
   <entry>
+    <title>Node——Connect和Express</title>
+    <url>/2020/04/05/Node%E2%80%94%E2%80%94Connect%E5%92%8CExpress/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><code>Connect</code>和<code>Express</code>是两个热门的Node模块。<code>Express</code>就是在<code>Connect</code>的基础上，通过添加高层糖衣扩展和搭建出来的。</p>
+<h2 id="Connect"><a href="#Connect" class="headerlink" title="Connect"></a>Connect</h2><h3 id="创建简单的Connect程序"><a href="#创建简单的Connect程序" class="headerlink" title="创建简单的Connect程序"></a>创建简单的<code>Connect</code>程序</h3><p>指令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install connect@3.4.0</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在要安装的模块后加@可以指定版本号</p>
+</blockquote>
+<p>简单的<code>Connect</code>程序应该是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const app&#x3D;require(&#39;connect&#39;)();</span><br><span class="line">app.use((req,res,next)&#x3D;&gt;&#123;</span><br><span class="line">	res.end(&#39;Hello, world!&#39;);</span><br><span class="line">&#125;);</span><br><span class="line">app.listen(3000);</span><br></pre></td></tr></table></figure>
+
+<p>这个程序会用Hello, World!做出响应。也就是访问<code>http://localhost:3000</code>的时候，页面显示<code>Hello, world!</code>。传给<code>app.use</code>的函数是个中间件，它以文本<code>Hello, world!</code>作为响应结束了请求处理过程。中间件是所有<code>Connect</code>和<code>Express</code>程序的基础。</p>
+<h3 id="Connect中间件的工作机制"><a href="#Connect中间件的工作机制" class="headerlink" title="Connect中间件的工作机制"></a><code>Connect</code>中间件的工作机制</h3><p><code>Connect</code>中间件就是<code>JavaScript</code>函数。这个函数一般会有三个参数：请求对象、响应对象、以及一个名为next的回调函数。一个中间件完成自己的工作，要执行后续的中间件时，可以调用这个next回调函数。</p>
+<p>在中间件运行之前，<code>Connect</code>会用分派器接管请求对象，然后交给程序中的第一个中间件。</p>
+<p>借助中间件API，可以把一些小的构件块组合到一起，实现复杂的处理逻辑。</p>
+<h3 id="组合中间件"><a href="#组合中间件" class="headerlink" title="组合中间件"></a>组合中间件</h3><p>Connect中的use方法就是用来组合中间件的。我们先来定义两个中间件函数，然后把它们都添加到程序中。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> connect=<span class="built_in">require</span>(<span class="string">'connect'</span>);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">logger</span>(<span class="params">req,res,next</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'%s %s'</span>, req.method, req.url);</span><br><span class="line">	next();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hello</span>(<span class="params">req,res</span>)</span>&#123;</span><br><span class="line">	res.setHeader(<span class="string">'Content-Type'</span>, <span class="string">'text/plain'</span>);</span><br><span class="line">	res.end(<span class="string">'hello world'</span>);</span><br><span class="line">&#125;</span><br><span class="line">connect()</span><br><span class="line">	.use(logger)</span><br><span class="line">	.use(hello)</span><br><span class="line">	.listen(<span class="number">3000</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这两个中间件的名称签名不一样：一个有next，一个没有。因为后面这个中间件完成了HTTP响应，再也不需要把控制权交还给分派器了。</p>
+<p>use()函数返回的是Connect程序的实例，支持方法链。也可以不写成链式调用的形式：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> app=connect();</span><br><span class="line">app.use(logger);</span><br><span class="line">app.use(hello);</span><br><span class="line">app.listen(<span class="number">3000</span>);</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，如果某个中间件不调用<code>next()</code>，那链在它后面的中间件就不会被调用。所以如果logger和hello两个函数的调用顺序反过来，则logger是不会执行的。</p>
+<h3 id="使用错误处理中间件"><a href="#使用错误处理中间件" class="headerlink" title="使用错误处理中间件"></a>使用错误处理中间件</h3><p><code>Connect</code>中有一种用来处理错误的中间件变体。跟常规的中间件相比，除了请求和响应对象外，错误处理中间件的参数中还多了一个错误对象。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Connect中的错误处理中间件</span></span><br><span class="line"><span class="keyword">const</span> env=process.env.NODE_ENV||<span class="string">'development'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">errorHandler</span>(<span class="params">err,req,res,next</span>)</span>&#123;</span><br><span class="line">	res.statusCode=<span class="number">500</span>;</span><br><span class="line">	<span class="keyword">switch</span>(env)&#123;</span><br><span class="line">        <span class="comment">//开发模式和生产模式的响应不同</span></span><br><span class="line">		<span class="keyword">case</span> <span class="string">'development'</span>:</span><br><span class="line">			<span class="built_in">console</span>.error(<span class="string">'Error:'</span>);</span><br><span class="line">			<span class="built_in">console</span>.error(err);</span><br><span class="line">			res.setHeader(<span class="string">'Content-Type'</span>,<span class="string">'application/json'</span>);</span><br><span class="line">			res.end(<span class="built_in">JSON</span>.stringify(err));</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			res.end(<span class="string">'Server error'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports=errorHandler;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>开发环境（development）：开发同学开发时使用的环境，每位开发同学在自己的dev分支上工作，开发到一定程度后，各位同学会合并代码，进行联调。</p>
+<p>生产环境（production）：线上环境，用户使用的环境。由特定人员来维护。</p>
+</blockquote>
+<blockquote>
+<p>设置环境变量</p>
+<p>UNIX系统中设置环境变量的指令：<br>$ NODE_ENV=production node app</p>
+<p>Windows中用这个：</p>
+<p>$ set NODE_ENV=production</p>
+<p>$ node app</p>
+</blockquote>
+<p>产品在开发环境中运行时，你可能想要看到尽可能详细的日志；但在生产环境中，你可能想让日志尽量精简，可能还要用gzip进行压缩。</p>
+<p>用NODE_ENV设定程序的模式，Connect一般会根据环境变量<code>NODE_ENV(process.env.NODE_ENV)</code>来切换不同服务器环境（比如生产环境和开发环境）下的行为。</p>
+<p>当<code>Connect</code>遇到错误时，它会切换，只去调用错误处理中间件。</p>
+<p>假设有一个允许用户登录到管理区域的博客程序。如果负责用户路由的中间件引发了一个错误，则中间件<code>blog</code>和<code>admin</code>都会被跳过，因为它们不是错误处理中间件（只有三个参数）。然后<code>Connect</code>看到接受错误参数的<code>errorHandler</code>，就会调用它。中间件看起来像下面这样：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">connect()</span><br><span class="line">	.use(router(<span class="built_in">require</span>(<span class="string">'./routes/user'</span>)))</span><br><span class="line">	.use(router(<span class="built_in">require</span>(<span class="string">'./routes/blog'</span>))) <span class="comment">//跳过</span></span><br><span class="line">	.use(router(<span class="built_in">require</span>(<span class="string">'./routes/admin'</span>)))  <span class="comment">//跳过</span></span><br><span class="line">	.use(errorHandler);</span><br></pre></td></tr></table></figure>
+
+<br>
+
+
+
+<h2 id="Express"><a href="#Express" class="headerlink" title="Express"></a>Express</h2><p><code>Express</code>是非常流行的<code>Web</code>框架，以前是在<code>Connect</code>的基础上搭建的。尽管提供了一些基本的功能，比如静态文件服务、URL路由和程序配置等，但它依然是极简的Web框架。</p>
+<p>简单的<code>Express</code>程序</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> express=<span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"><span class="keyword">const</span> app=express();</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">'/'</span>,(req,res)=&gt;&#123;</span><br><span class="line">	res.send(<span class="string">'Hello'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">3000</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="生成程序框架"><a href="#生成程序框架" class="headerlink" title="生成程序框架"></a>生成程序框架</h3><p>安装指令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install -g express-generator</span><br></pre></td></tr></table></figure>
+
+<p> 生成程序</p>
+<p>用<code>-e或（--ejs）</code>指定要使用的模板引擎是EJS（EJS是一个嵌入JavaScript模板引擎，通过编译生成HTML代码）。执行<code>express -e shoutbox</code>，<code>shoutbox</code>是文件名。一个功能完备的程序会出现在<code>shoutbox</code>目录中。其中会有描述项目和依赖项的<code>package.json</code>文件、程序主文件、<code>public</code>目录，以及一个放路由处理器的目录。</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200405154932.png" alt></p>
+<br>
+
+<h3 id="Express路由入门"><a href="#Express路由入门" class="headerlink" title="Express路由入门"></a>Express路由入门</h3><p>根据官网定义：</p>
+<blockquote>
+<p><em>Routing</em> refers to determining how an application responds to a client request to a particular endpoint, which is a URI (or path) and a specific HTTP request method (GET, POST, and so on).</p>
+</blockquote>
+<p>路由的定义：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">app.METHOD(PATH, HANDLER)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>app</code>是express的一个实例</li>
+<li><code>METHOD</code>是<code>HTTP</code>请求方法（小写）</li>
+<li><code>PATH</code>是服务器上的路径</li>
+<li><code>HANDLER</code>是在这个路径上发起<code>HTTP</code>请求时执行的回调函数</li>
+</ul>
+<p>Respond with <code>Hello World!</code> on the homepage:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  res.send(<span class="string">'Hello World!'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>Respond to POST request on the root route (<code>/</code>), the application’s home page:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">app.post(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  res.send(<span class="string">'Got a POST request'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>Respond to a PUT request to the <code>/user</code> route:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">app.put(<span class="string">'/user'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  res.send(<span class="string">'Got a PUT request at /user'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>Respond to a DELETE request to the <code>/user</code> route:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">app.delete(<span class="string">'/user'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  res.send(<span class="string">'Got a DELETE request at /user'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="做个简单的留言板程序"><a href="#做个简单的留言板程序" class="headerlink" title="做个简单的留言板程序"></a>做个简单的留言板程序</h4><p>效果：</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200405150802.png" alt></p>
+<p>步骤：</p>
+<ul>
+<li>创建消息模型</li>
+<li>添加与消息相关的路由</li>
+<li>创建消息表单</li>
+<li>添加业务逻辑，用提交上来的表单数据创建消息</li>
+</ul>
+<h5 id="创建消息模型"><a href="#创建消息模型" class="headerlink" title="创建消息模型"></a>创建消息模型</h5><p>在创建消息模型之前，需要先安装<code>Node redis</code>模块。执行命令<code>npm install --save redis</code>。而且要安装<code>Redis</code>，Windows系统可以使用<code>Redis Chocolately</code>。</p>
+<blockquote>
+<p>安装教程：<a href="https://www.cnblogs.com/julyluo/p/6646155.html" target="_blank" rel="noopener">https://www.cnblogs.com/julyluo/p/6646155.html</a></p>
+<p>官网没有windows版本，github下载速度太慢。</p>
+<p>Redis就是一个数据库，可以将我们post的留言存储起来。</p>
+</blockquote>
+<ol>
+<li><p>创建保存在线留言板消息条目的模型。</p>
+<p>创建<code>models/entry.js</code>文件：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"><span class="keyword">const</span> redis = <span class="built_in">require</span>(<span class="string">'redis'</span>);</span><br><span class="line"><span class="keyword">const</span> db = redis.createClient();</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Entry</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(obj) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> obj) &#123;</span><br><span class="line">      <span class="keyword">this</span>[key] = obj[key];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> getRange(<span class="keyword">from</span>, to, cb) &#123;</span><br><span class="line">    db.lrange(<span class="string">'entries'</span>, <span class="keyword">from</span>, to, (err, items) =&gt; &#123;</span><br><span class="line">      <span class="keyword">if</span> (err) <span class="keyword">return</span> cb(err);</span><br><span class="line">      <span class="keyword">let</span> entries = [];</span><br><span class="line">      items.forEach(<span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</span><br><span class="line">        entries.push(<span class="built_in">JSON</span>.parse(item));</span><br><span class="line">      &#125;);</span><br><span class="line">      cb(<span class="literal">null</span>, entries);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  save(cb) &#123;</span><br><span class="line">    <span class="keyword">const</span> entryJSON = <span class="built_in">JSON</span>.stringify(<span class="keyword">this</span>);</span><br><span class="line">    db.lpush(</span><br><span class="line">      <span class="string">'entries'</span>,</span><br><span class="line">      entryJSON,</span><br><span class="line">      (err) =&gt; &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) <span class="keyword">return</span> cb(err);</span><br><span class="line">        cb();</span><br><span class="line">      &#125;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> count(cb) &#123;</span><br><span class="line">    db.llen(<span class="string">'entries'</span>, cb);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = Entry;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="2">
+<li><p>创建消息表单</p>
+<p>在<code>app.js</code>中添加如下路由部分</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.get(<span class="string">'/post'</span>, entries.form);</span><br><span class="line">app.post(<span class="string">'/post'</span>, entries.submit);</span><br></pre></td></tr></table></figure>
+
+<p>即：使用get向<code>/post</code>发起http请求时，执行<code>entries.form</code>回调函数。使用post向<code>/post</code>发起http请求时，执行<code>entries.submit</code>回调。</p>
+<hr>
+这个`entries`是从`routes`中导入的模块。看一下定义：
+
+</li>
+</ol>
+<p>表单模块部分：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//routes/entries.js</span></span><br><span class="line">exports.form = <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.render(<span class="string">'post'</span>, &#123; <span class="attr">title</span>: <span class="string">'Post'</span> &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这里是用<code>views/post.ejs</code>，即表单，去渲染页面。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;views&#x2F;post.ejs</span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;title&gt;&lt;%&#x3D; title %&gt;&lt;&#x2F;title&gt;</span><br><span class="line">    &lt;link rel&#x3D;&#39;stylesheet&#39; href&#x3D;&#39;&#x2F;stylesheets&#x2F;style.css&#39; &#x2F;&gt;</span><br><span class="line">  &lt;&#x2F;head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">    &lt;% include menu %&gt; </span><br><span class="line">    &lt;h1&gt;&lt;%&#x3D; title %&gt;&lt;&#x2F;h1&gt;</span><br><span class="line">    &lt;p&gt;Fill in the form below to add a new post.&lt;&#x2F;p&gt; </span><br><span class="line">    &lt;form action&#x3D;&#39;&#x2F;post&#39; method&#x3D;&#39;post&#39;&gt;</span><br><span class="line">      &lt;p&gt;</span><br><span class="line">        &lt;input type&#x3D;&#39;text&#39; name&#x3D;&#39;entry[title]&#39; placeholder&#x3D;&#39;Title&#39; &#x2F;&gt;</span><br><span class="line">      &lt;&#x2F;p&gt;</span><br><span class="line">      &lt;p&gt;</span><br><span class="line">        &lt;textarea name&#x3D;&#39;entry[body]&#39; placeholder&#x3D;&#39;Body&#39;&gt;&lt;&#x2F;textarea&gt;</span><br><span class="line">      &lt;&#x2F;p&gt;</span><br><span class="line">      &lt;p&gt;</span><br><span class="line">        &lt;input type&#x3D;&#39;submit&#39; value&#x3D;&#39;Post&#39; &#x2F;&gt;</span><br><span class="line">      &lt;&#x2F;p&gt;</span><br><span class="line">    &lt;&#x2F;form&gt;</span><br><span class="line">  &lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>表单中用了形如<code>entry[title]</code>之类的输入控件名称，需要用扩展的消息体解析器来解析。找到<code>app.js</code>将</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.use(bodyParser.urlencoded(&#123; <span class="attr">extended</span>: <span class="literal">true</span> &#125;));</span><br></pre></td></tr></table></figure>
+
+<p>改为：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.use(bodyParser.urlencoded(&#123; <span class="attr">extended</span>: <span class="literal">true</span> &#125;));</span><br></pre></td></tr></table></figure>
+
+<hr>
+
+<ol start="3">
+<li><p>实现消息提交功能</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//将代码添加到文件routes/entries.js中，实现用表单提交上来的数据创建消息</span></span><br><span class="line">exports.submit = <span class="function">(<span class="params">req, res, next</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> data = req.body.entry;</span><br><span class="line">  <span class="keyword">const</span> user = res.locals.user;</span><br><span class="line">  <span class="keyword">const</span> username = user ? user.name : <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">const</span> entry = <span class="keyword">new</span> Entry(&#123;</span><br><span class="line">    username: username,</span><br><span class="line">    title: data.title,</span><br><span class="line">    body: data.body</span><br><span class="line">  &#125;);</span><br><span class="line">  entry.save(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) <span class="keyword">return</span> next(err);</span><br><span class="line">    res.redirect(<span class="string">'/'</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这里使用了Common JS进行模块化开发</p>
+</blockquote>
+<hr>
+</li>
+<li><p>添加显示消息的首页</p>
+<p>在<code>routes/entries.js</code>中添加：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> Entry = <span class="built_in">require</span>(<span class="string">'../models/entry'</span>);</span><br><span class="line"></span><br><span class="line">exports.list = <span class="function">(<span class="params">req, res, next</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> page = req.page;</span><br><span class="line">  Entry.getRange(<span class="number">0</span>, <span class="number">-1</span>, (err, entries) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) <span class="keyword">return</span> next(err);</span><br><span class="line">    res.render(<span class="string">'entries'</span>, &#123;</span><br><span class="line">      title: <span class="string">'Entries'</span>,</span><br><span class="line">      entries: entries</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<hr>
+</li>
+<li><p>视图<code>entries.ejs</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;title&gt;&lt;%&#x3D; title %&gt;&lt;&#x2F;title&gt;</span><br><span class="line">    &lt;link rel&#x3D;&#39;stylesheet&#39; href&#x3D;&#39;&#x2F;stylesheets&#x2F;style.css&#39; &#x2F;&gt;</span><br><span class="line">  &lt;&#x2F;head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">    &lt;% include menu %&gt; </span><br><span class="line">    &lt;% entries.forEach((entry) &#x3D;&gt; &#123; %&gt;</span><br><span class="line">      &lt;div class&#x3D;&#39;entry&#39;&gt;</span><br><span class="line">        &lt;h3&gt;&lt;%&#x3D; entry.title %&gt;&lt;&#x2F;h3&gt;</span><br><span class="line">        &lt;p&gt;&lt;%&#x3D; entry.body %&gt;&lt;&#x2F;p&gt;</span><br><span class="line">        &lt;p&gt;Posted by &lt;%&#x3D; entry.username %&gt;&lt;&#x2F;p&gt;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">    &lt;% &#125;) %&gt;</span><br><span class="line">  &lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在程序运行之前先在同一目录下创建menu.ejs创建菜单模板文件，后续会用到。目前空白着先。</p>
+</blockquote>
+<hr>
+</li>
+<li><p>添加与消息相关的路由</p>
+<p>在<code>app.js</code>中：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> entries = <span class="built_in">require</span>(<span class="string">'./routes/entries'</span>);</span><br></pre></td></tr></table></figure>
+
+<p>添加路由：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">app.get(<span class="string">'/'</span>, entries.list);</span><br></pre></td></tr></table></figure>
+
+<hr>
+</li>
+<li><p>运行程序</p>
+<p>先以管理员身份进入CMD，运行<code>redis-server</code>启用<code>Redis</code>。</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200405153803.png" alt></p>
+<p>在<code>terminal</code>中运行<code>npm start</code>，访问<code>http://localhost:3000/post</code></p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200405153923.png" alt></p>
+<p>点击post后跳转到首页：</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/image-20200405153955456.png" alt></p>
+</li>
+</ol>
+<p>完成。</p>
+<br>]]></content>
+      <categories>
+        <category>Node.js</category>
+      </categories>
+      <tags>
+        <tag>Node.js</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>React+Redux 通过axios向接口获取数据的流程</title>
     <url>/2020/04/17/React-Redux-%E9%80%9A%E8%BF%87axios%E5%90%91%E6%8E%A5%E5%8F%A3%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E7%9A%84%E6%B5%81%E7%A8%8B/</url>
     <content><![CDATA[<p>最近在学习《React Hooks与Immutable数据流实战》小书，想把在React+Redux项目中用axios发起请求的配置流程记录下来，做个总结，加深一些印象。</p>
@@ -3497,6 +3497,116 @@
 <p>所以当两者在做深比较的时候，如果内容一致，<code>isDeepEqual</code>会返回<code>true</code>，<code>teamRef.current</code>会继续指向原本<code>team</code>对象的内存地址。那依赖数组里的元素<code>teamRef.current</code>就没有发生变化，<code>useEffect</code>也不会再执行。如果<code>isDeepEqual</code>返回<code>false</code>，<code>teamRef.current</code>就会被赋予新的<code>team</code>值，<code>effect</code>就会执行。</p>
 <p>如果你发现自己遇到了Option4这样的情况，我建议安装<code>react-use</code>npm包，使用其中的<code>useDeepCompareEffect</code> Hook来解决问题，还能够避免<code>react-hooks/exhaustive-deps</code>lint rule报错。</p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>大多数情况下，我能用Option1来解决问题。如果Option1无法解决，我就会使用<code>react-use</code>包里的helper Hook来解决问题。</p>
+]]></content>
+      <categories>
+        <category>React</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Redux源码解析</title>
+    <url>/2021/01/09/Redux%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</url>
+    <content><![CDATA[<h1 id="Redux源码解析"><a href="#Redux源码解析" class="headerlink" title="Redux源码解析"></a><strong>Redux源码解析</strong></h1><p>在使用Redux的时候，我们会觉得很方便，因为很多事情Redux会帮我们完成，在内部运作，不需要我们手动去做，比如我们调用dispatch方法的时候，Redux自动就会帮我们执行reduce方法，更新state。所以本文就来拆解一些Redux在背后为我们做的事情，主要分为以下几部分：</p>
+<ul>
+<li>createStore发生了什么?</li>
+<li>dispatch执行后在内部怎么运行的？</li>
+<li>compose函数做了什么事情？</li>
+<li>combineReducers是如何合并不同的reducer的？</li>
+<li>applyMiddleware是如何组织中间件的？</li>
+</ul>
+<br>
+
+<h1 id="createStore"><a href="#createStore" class="headerlink" title="createStore"></a><strong>createStore</strong></h1><p>createStore是要见一个store仓库，是redux的核心所在，它最后要返回四个非常重要的属性，分别是：</p>
+<ul>
+<li>getState</li>
+<li>subscribe</li>
+<li>dispatch</li>
+<li>replaceReducer</li>
+</ul>
+<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">createStore</span> (<span class="params">reducer, preloadedState, enhancer</span>) </span>&#123;</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line"><span class="keyword">return</span> &#123;</span><br><span class="line">    getState,<span class="comment">// 获取到 state</span></span><br><span class="line">    subscribe,<span class="comment">// 采用发布订阅模式，这个方法进行观察者的订阅</span></span><br><span class="line">    dispatch,<span class="comment">// 派发 action</span></span><br><span class="line">    replaceReducer<span class="comment">// 用新的 reducer 替换现在的</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>首先第一步是检查参数，一共可以接受3个参数，分别是reducer（改变store的纯函数），preloadedState（初始状态），enhancer（中间件相关）。</p>
+<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">createStore</span> (<span class="params">reducer, preloadedState, enhancer</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//reducer 必须是函数</span></span><br><span class="line">    <span class="comment">// 当前 reducer</span></span><br><span class="line">    <span class="keyword">let</span> currentReducer = reducer</span><br><span class="line">    <span class="comment">//state 数据，redux 的根本</span></span><br><span class="line">    <span class="keyword">let</span> currentState = preloadedState</span><br><span class="line">    <span class="comment">// 订阅者集合</span></span><br><span class="line">    <span class="keyword">let</span> currentListeners = []</span><br><span class="line">    <span class="comment">// 虽然不起眼，但是是一个关键的设计</span></span><br><span class="line">    <span class="keyword">let</span> nextListeners = currentListeners</span><br><span class="line">    <span class="comment">// 是否正在有 dispatch 在运行</span></span><br><span class="line">    <span class="keyword">let</span> isDispatching = <span class="literal">false</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="comment">//return 代码</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>createStore的getState方法：</p>
+<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getState</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 如果有 dispatch 正在执行则报错</span></span><br><span class="line">    <span class="keyword">if</span> (isDispatching) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span> (<span class="string">"xxxx 具体信息省略"</span>)</span><br><span class="line">    <span class="keyword">return</span> currentState</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>createStore的subscribe方法：</p>
+<p>为了避免发生问题，我们会缓存最开始的数组currentListeners，在调用订阅者的时候，一切关于currentListeners的改变都不允许，但是可以拷贝一份同样的数组，让它来承担订阅者对数组的改变，这个数组就是nextListeners。</p>
+<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ensureCanMutateNextListeners</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 如果 next 和 current 数组是一个引用，那这种情况是危险的，原因上面已经谈到，我们需要 next 和 current 保持各自独立</span></span><br><span class="line">    <span class="keyword">if</span> (nextListeners === currentListeners) &#123;</span><br><span class="line">    nextListeners = currentListeners.slice ()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">subscribe</span> (<span class="params">listener</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> listener !== <span class="string">'function'</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span> (<span class="string">'Expected the listener to be a function.'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 如果正在有 dispatch 执行则报错</span></span><br><span class="line">    <span class="keyword">if</span> (isDispatching) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span> (<span class="string">"xxx"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> isSubscribed = <span class="literal">true</span></span><br><span class="line">    ensureCanMutateNextListeners ()</span><br><span class="line">    nextListeners.push (listener)</span><br><span class="line">    <span class="comment">// 返回的是一个退订的方法，将特定的 listener 从订阅者集合中删除</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">unsubscribe</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 已经退订了就不管了</span></span><br><span class="line">        <span class="keyword">if</span> (!isSubscribed) <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">if</span> (isDispatching) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span> (<span class="string">"xxx 具体信息省略"</span>)</span><br><span class="line"></span><br><span class="line">        isSubscribed = <span class="literal">false</span></span><br><span class="line">        ensureCanMutateNextListeners ()</span><br><span class="line">        <span class="keyword">const</span> index = nextListeners.indexOf (listener)</span><br><span class="line">        nextListeners.splice (index, <span class="number">1</span>)</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>subscribe方法用于添加订阅者Listener，返回的函数unsubscirbe方法用于退订某个订阅者。</p>
+<p><strong>每次调用这个subscribe函数时，都会产生一个闭包，里面存储着isSubscribed的值，调用n次就会产生n个这样的闭包，用来存储n个不同的订阅情况。</strong></p>
+<p>createStore的dispatch函数：</p>
+<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dispatch</span> (<span class="params">action</span>) </span>&#123;</span><br><span class="line"><span class="comment">//action 必须是一个对象</span></span><br><span class="line"><span class="comment">//action.type 不能为 undefined</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (isDispatching) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span> (<span class="string">'Reducers may not dispatch actions.'</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    isDispatching = <span class="literal">true</span></span><br><span class="line">    <span class="comment">// 看到没有？执行 reducer 后返回的状态直接成为 currentState 了</span></span><br><span class="line">    currentState = currentReducer (currentState, action)</span><br><span class="line">  &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    isDispatching = <span class="literal">false</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将nextListeners赋值给currentListeners</span></span><br><span class="line"><span class="keyword">const</span> listeners = (currentListeners = nextListeners)</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; listeners.length; i++) &#123;</span><br><span class="line">    <span class="comment">// store发生变化则调用每个订阅者</span></span><br><span class="line">    <span class="keyword">const</span> listener = listeners [i]</span><br><span class="line">    listener ()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> action</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>createStore的replaceReducer函数：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function replaceReducer (nextReducer) &#123;</span><br><span class="line">    if (typeof nextReducer !&#x3D;&#x3D; &#39;function&#39;) &#123;</span><br><span class="line">        throw new Error (&#39;Expected the nextReducer to be a function.&#39;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    currentReducer &#x3D; nextReducer</span><br><span class="line">    &#x2F;&#x2F; 此时无法匹配任何的 action，但是返回的状态可以将 currentState 给更新</span><br><span class="line">    &#x2F;&#x2F; 也就是更新当前的 state，因为 reducer 更新了，老的 state 该换了！</span><br><span class="line">    dispatch (&#123; type: ActionTypes.REPLACE &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h1 id="combineReducer"><a href="#combineReducer" class="headerlink" title="combineReducer"></a><strong>combineReducer</strong></h1><p>在之前的Redux及其中间件解析文章中也有提到，combineReducers方法的作用将所有子reducer合并为一个大reducer，根据action的不同返回新的state：</p>
+<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> reducer = combineReducers(&#123;</span><br><span class="line">  a: doSomethingWithA,</span><br><span class="line">  b: processB,</span><br><span class="line">  c: c</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 等同于</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">reducer</span>(<span class="params">state = &#123;&#125;, action</span>) </span>&#123;</span><br><span class="line"><span class="keyword">return</span> &#123;</span><br><span class="line">    a: doSomethingWithA(state.a, action),</span><br><span class="line">    b: processB(state.b, action),</span><br><span class="line">    c: c(state.c, action)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>其源码如下：</p>
+<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">combineReducers</span> (<span class="params">reducers</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 以项目中的例子来讲，reducerKeys 就是 ['recommend', 'singers']</span></span><br><span class="line">  <span class="keyword">const</span> reducerKeys = <span class="built_in">Object</span>.keys (reducers)</span><br><span class="line">  <span class="comment">//finalReducers 是 reducers 过滤后的结果</span></span><br><span class="line">  <span class="comment">// 确保 finalReducers 里面每一个键对应的值都是函数</span></span><br><span class="line">  <span class="keyword">const</span> finalReducers = &#123;&#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; reducerKeys.length; i++) &#123;</span><br><span class="line">    <span class="keyword">const</span> key = reducerKeys [i]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> reducers [key] === <span class="string">'function'</span>) &#123;</span><br><span class="line">    finalReducers [key] = reducers [key]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> finalReducerKeys = <span class="built_in">Object</span>.keys (finalReducers)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 最后依然返回一个纯函数</span></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">combination</span> (<span class="params">state = &#123;&#125;, action</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 这个标志位记录初始的 state 是否和经过 reducer 后是一个引用，如果不是则 state 被改变了</span></span><br><span class="line">    <span class="keyword">let</span> hasChanged = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">const</span> nextState = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; finalReducerKeys.length; i++) &#123;</span><br><span class="line">        <span class="keyword">const</span> key = finalReducerKeys [i]</span><br><span class="line">        <span class="keyword">const</span> reducer = finalReducers [key]</span><br><span class="line">        <span class="comment">// 原来的状态树中 key 对应的值</span></span><br><span class="line">        <span class="keyword">const</span> previousStateForKey = state [key]</span><br><span class="line">        <span class="comment">// 调用 reducer 函数，获得该 key 值对应的新状态</span></span><br><span class="line">        <span class="keyword">const</span> nextStateForKey = reducer (previousStateForKey, action)</span><br><span class="line">        nextState [key] = nextStateForKey</span><br><span class="line">        hasChanged = hasChanged || nextStateForKey !== previousStateForKey</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 这个很简单理解吧？如果没改变直接把原始的 state 返回即可</span></span><br><span class="line">    <span class="keyword">return</span> hasChanged ? nextState : state</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="compose函数"><a href="#compose函数" class="headerlink" title="compose函数"></a><strong>compose函数</strong></h1><p>compose是一个工具，充分体现高阶函数的技巧。源码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">compose</span> (<span class="params">...funcs</span>) </span>&#123;</span><br><span class="line"><span class="keyword">if</span> (funcs.length === <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">arg</span> =&gt;</span> arg</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (funcs.length === <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> funcs [<span class="number">0</span>]</span><br><span class="line">&#125;</span><br><span class="line">    <span class="keyword">return</span> funcs.reduce (<span class="function">(<span class="params">a, b</span>) =&gt;</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> a (b (...args)))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>比如：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> f0 = <span class="function">(<span class="params">x</span>) =&gt;</span> &#123; <span class="built_in">console</span>.log (x) &#125;</span><br><span class="line"><span class="keyword">const</span> f1 = <span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="built_in">console</span>.log (<span class="number">1</span>) &#125;</span><br><span class="line"><span class="keyword">const</span> f2 = <span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="built_in">console</span>.log (<span class="number">2</span>) &#125;</span><br><span class="line"><span class="keyword">let</span> fArr = [f2, f1, f0];</span><br><span class="line"><span class="built_in">console</span>.log (compose (...fArr)(<span class="number">100</span>)) <span class="comment">// 执行 f2 (f1 (f0 (100))) 输出 100 1 2</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>compose函数一般用于组合所有的enhancer，作为第三个参数传入createStore方法。createStore方法的结构如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">createStore(reducer, [preloadedState], [enhancer])</span><br></pre></td></tr></table></figure>
+
+<p>第三个可选参数enhancer指的是store enhancer，也就是store的增强器，用于增强store的功能。一个store enhancer，实际上是一个高阶函数（compose也是一个高阶函数），它的参数是创建store的函数（store creator），返回值是一个可以创建功能更强大的store的函数（enhanced store creator），这和React中的高阶组件的概念很相似。</p>
+<p>store enhancer函数的结构一般如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">enhancerCreator</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">createStore</span> =&gt;</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// do something based on old store</span></span><br><span class="line">        <span class="comment">// return a new enhanced store</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，enhancerCreator是用于创建store enhancer的函数，也就是说，enhancerCreator的调用结果才是一个store enhancer。(…args)参数代表穿件store所需要的参数，也就是createStore接收的参数，实际上就是(reducer, [preloadedState], [enhancer])。</p>
+<p>可以这么理解，因为要创建一个功能更加强大的store，所以需要传入创建store所需要的参数。</p>
+<p>比如，现在我们想创建一个store enhancer，用于输出发送的action的信息和state的变化：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// autoLogger.js</span></span><br><span class="line"><span class="comment">// store enhancer</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">autoLogger</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="params">createStore</span> =&gt;</span> <span class="function">(<span class="params">reducer, initialState, enhancer</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> store = createStore(reducer, initialState, enhancer)</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">dispatch</span>(<span class="params">action</span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">`dispatch an action: <span class="subst">$&#123;<span class="built_in">JSON</span>.stringify(action)&#125;</span>`</span>);</span><br><span class="line">      <span class="keyword">const</span> res = store.dispatch(action);</span><br><span class="line">      <span class="keyword">const</span> newState = store.getState();</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">`current state: <span class="subst">$&#123;<span class="built_in">JSON</span>.stringify(newState)&#125;</span>`</span>);</span><br><span class="line">      <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> &#123;...store, dispatch&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>autoLogger声明了一个新的dispatch方法，在原本的store.dispatch方法基础上添加了两个输出日志，然后返回一个新的store（{…store, dispatch}）。当我们调用dispatch方法时，实际是调用了autoLogger方法中新声明的dispatch，因为上面对象最后一个dispatch覆盖了store中的dispatch。</p>
+<p>其中createStore的部分源码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">createStore</span> (<span class="params">reducer, preloadedState, enhancer</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 第二个参数为函数，但是第三个参数没传</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> preloadedState === <span class="string">'function'</span> &amp;&amp; <span class="keyword">typeof</span> enhancer === <span class="string">'undefined'</span>) &#123;</span><br><span class="line">        enhancer = preloadedState<span class="comment">// 将第二个参数当做 enhancer </span></span><br><span class="line">        preloadedState = <span class="literal">undefined</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 确保 enhancer 为函数</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> enhancer !== <span class="string">'undefined'</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> enhancer !== <span class="string">'function'</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span> (<span class="string">'Expected the enhancer to be a function.'</span>)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> enhancer (createStore)(reducer, preloadedState)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如何使用这个store enhancer？</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// configureStore.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; createStore, applyMiddleware &#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</span><br><span class="line"><span class="keyword">import</span> rootReducer <span class="keyword">from</span> <span class="string">'path/to/reducers'</span>;</span><br><span class="line"><span class="keyword">import</span> autLogger <span class="keyword">from</span> <span class="string">'path/to/autoLogger'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> store = createStore(</span><br><span class="line">  reducer，</span><br><span class="line">  autoLogger()</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h1 id="applyMiddleware"><a href="#applyMiddleware" class="headerlink" title="applyMiddleware"></a><strong>applyMiddleware</strong></h1><p>applyMiddleware本身就是一个store enhancer，结构和上面的autoLogger很像，applyMiddleware的源码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">applyMiddleware</span> (<span class="params">...middlewares</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">createStore</span> =&gt;</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> store = createStore (...args)</span><br><span class="line">        <span class="keyword">let</span> dispatch = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span> (</span><br><span class="line">                <span class="string">'Dispatching while constructing your middleware is not allowed. '</span> +</span><br><span class="line">                <span class="string">'Other middleware would not be applied to this dispatch.'</span></span><br><span class="line">            )</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="comment">//middlewareAPI 其实就是拿到 store 的信息</span></span><br><span class="line">    <span class="keyword">const</span> middlewareAPI = &#123;</span><br><span class="line">        getState: store.getState,</span><br><span class="line">        dispatch: <span class="function">(<span class="params">...args</span>) =&gt;</span> dispatch (...args)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 参考上面的 thunk，其实就是传入 store 参数，剩下的部分为 next =&gt; action =&gt; &#123; ... &#125;;</span></span><br><span class="line">    <span class="comment">// 传入这个参数是必须的，因为需要拿到 store 的相关属性，如 thunk 拿了 getState</span></span><br><span class="line">    <span class="comment">// 这里的意思就是每个中间件都能拿到 store 的数据</span></span><br><span class="line">    <span class="keyword">const</span> chain = middlewares.map (<span class="function"><span class="params">middleware</span> =&gt;</span> middleware (middlewareAPI))</span><br><span class="line">    dispatch = compose (...chain)(store.dispatch)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        ...store,</span><br><span class="line">        dispatch</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>比如我们在调用applyMiddleware(thunk, logger)，走到compose逻辑的时候，相当于调用thunk(logger(store.dispatch))。</p>
+<p>无论是applyMiddleware中使用compose组合所有中间件还是使用compose来组合所有的enhancer，在经过compose组合之后，所有的middleware或store enhancer都会形成一个洋葱模型。compose中的第一个enhancer（或middleware）处于洋葱模型的最外层，最后一个enhancer处于洋葱模型的最里层，经过层层调用形成一个更强大的store：</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210109164428.png" alt></p>
+<p>applyMiddleware(…middlewares)将middleware限制为只可以增强store dispatch的功能，但这只是它自身的规范限制，对于其他store enhancer，你可以增强store中包含的任意方法的功能，如dispatch、subscribe、getState、replaceReducer等。毕竟，store只是一个包含一些函数的普通JavaScript对象，可以很容易的复制其中的方法，并增加新的功能。</p>
+<br>
+
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a><strong>参考</strong></h1><p><a href="https://juejin.cn/book/6844733816460804104/section/6844733816599216141" target="_blank" rel="noopener">Redux及中间件原理解析</a></p>
+<p><a href="https://segmentfault.com/a/1190000012653724" target="_blank" rel="noopener">浅析Redux的store enhancer</a></p>
 ]]></content>
       <categories>
         <category>React</category>
@@ -3800,116 +3910,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Redux源码解析</title>
-    <url>/2021/01/09/Redux%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</url>
-    <content><![CDATA[<h1 id="Redux源码解析"><a href="#Redux源码解析" class="headerlink" title="Redux源码解析"></a><strong>Redux源码解析</strong></h1><p>在使用Redux的时候，我们会觉得很方便，因为很多事情Redux会帮我们完成，在内部运作，不需要我们手动去做，比如我们调用dispatch方法的时候，Redux自动就会帮我们执行reduce方法，更新state。所以本文就来拆解一些Redux在背后为我们做的事情，主要分为以下几部分：</p>
-<ul>
-<li>createStore发生了什么?</li>
-<li>dispatch执行后在内部怎么运行的？</li>
-<li>compose函数做了什么事情？</li>
-<li>combineReducers是如何合并不同的reducer的？</li>
-<li>applyMiddleware是如何组织中间件的？</li>
-</ul>
-<br>
-
-<h1 id="createStore"><a href="#createStore" class="headerlink" title="createStore"></a><strong>createStore</strong></h1><p>createStore是要见一个store仓库，是redux的核心所在，它最后要返回四个非常重要的属性，分别是：</p>
-<ul>
-<li>getState</li>
-<li>subscribe</li>
-<li>dispatch</li>
-<li>replaceReducer</li>
-</ul>
-<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">createStore</span> (<span class="params">reducer, preloadedState, enhancer</span>) </span>&#123;</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line"><span class="keyword">return</span> &#123;</span><br><span class="line">    getState,<span class="comment">// 获取到 state</span></span><br><span class="line">    subscribe,<span class="comment">// 采用发布订阅模式，这个方法进行观察者的订阅</span></span><br><span class="line">    dispatch,<span class="comment">// 派发 action</span></span><br><span class="line">    replaceReducer<span class="comment">// 用新的 reducer 替换现在的</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>首先第一步是检查参数，一共可以接受3个参数，分别是reducer（改变store的纯函数），preloadedState（初始状态），enhancer（中间件相关）。</p>
-<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">createStore</span> (<span class="params">reducer, preloadedState, enhancer</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//reducer 必须是函数</span></span><br><span class="line">    <span class="comment">// 当前 reducer</span></span><br><span class="line">    <span class="keyword">let</span> currentReducer = reducer</span><br><span class="line">    <span class="comment">//state 数据，redux 的根本</span></span><br><span class="line">    <span class="keyword">let</span> currentState = preloadedState</span><br><span class="line">    <span class="comment">// 订阅者集合</span></span><br><span class="line">    <span class="keyword">let</span> currentListeners = []</span><br><span class="line">    <span class="comment">// 虽然不起眼，但是是一个关键的设计</span></span><br><span class="line">    <span class="keyword">let</span> nextListeners = currentListeners</span><br><span class="line">    <span class="comment">// 是否正在有 dispatch 在运行</span></span><br><span class="line">    <span class="keyword">let</span> isDispatching = <span class="literal">false</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="comment">//return 代码</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>createStore的getState方法：</p>
-<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getState</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 如果有 dispatch 正在执行则报错</span></span><br><span class="line">    <span class="keyword">if</span> (isDispatching) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span> (<span class="string">"xxxx 具体信息省略"</span>)</span><br><span class="line">    <span class="keyword">return</span> currentState</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>createStore的subscribe方法：</p>
-<p>为了避免发生问题，我们会缓存最开始的数组currentListeners，在调用订阅者的时候，一切关于currentListeners的改变都不允许，但是可以拷贝一份同样的数组，让它来承担订阅者对数组的改变，这个数组就是nextListeners。</p>
-<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ensureCanMutateNextListeners</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 如果 next 和 current 数组是一个引用，那这种情况是危险的，原因上面已经谈到，我们需要 next 和 current 保持各自独立</span></span><br><span class="line">    <span class="keyword">if</span> (nextListeners === currentListeners) &#123;</span><br><span class="line">    nextListeners = currentListeners.slice ()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">subscribe</span> (<span class="params">listener</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> listener !== <span class="string">'function'</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span> (<span class="string">'Expected the listener to be a function.'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 如果正在有 dispatch 执行则报错</span></span><br><span class="line">    <span class="keyword">if</span> (isDispatching) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span> (<span class="string">"xxx"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> isSubscribed = <span class="literal">true</span></span><br><span class="line">    ensureCanMutateNextListeners ()</span><br><span class="line">    nextListeners.push (listener)</span><br><span class="line">    <span class="comment">// 返回的是一个退订的方法，将特定的 listener 从订阅者集合中删除</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">unsubscribe</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 已经退订了就不管了</span></span><br><span class="line">        <span class="keyword">if</span> (!isSubscribed) <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">if</span> (isDispatching) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span> (<span class="string">"xxx 具体信息省略"</span>)</span><br><span class="line"></span><br><span class="line">        isSubscribed = <span class="literal">false</span></span><br><span class="line">        ensureCanMutateNextListeners ()</span><br><span class="line">        <span class="keyword">const</span> index = nextListeners.indexOf (listener)</span><br><span class="line">        nextListeners.splice (index, <span class="number">1</span>)</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>subscribe方法用于添加订阅者Listener，返回的函数unsubscirbe方法用于退订某个订阅者。</p>
-<p><strong>每次调用这个subscribe函数时，都会产生一个闭包，里面存储着isSubscribed的值，调用n次就会产生n个这样的闭包，用来存储n个不同的订阅情况。</strong></p>
-<p>createStore的dispatch函数：</p>
-<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dispatch</span> (<span class="params">action</span>) </span>&#123;</span><br><span class="line"><span class="comment">//action 必须是一个对象</span></span><br><span class="line"><span class="comment">//action.type 不能为 undefined</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (isDispatching) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span> (<span class="string">'Reducers may not dispatch actions.'</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    isDispatching = <span class="literal">true</span></span><br><span class="line">    <span class="comment">// 看到没有？执行 reducer 后返回的状态直接成为 currentState 了</span></span><br><span class="line">    currentState = currentReducer (currentState, action)</span><br><span class="line">  &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    isDispatching = <span class="literal">false</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将nextListeners赋值给currentListeners</span></span><br><span class="line"><span class="keyword">const</span> listeners = (currentListeners = nextListeners)</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; listeners.length; i++) &#123;</span><br><span class="line">    <span class="comment">// store发生变化则调用每个订阅者</span></span><br><span class="line">    <span class="keyword">const</span> listener = listeners [i]</span><br><span class="line">    listener ()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> action</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>createStore的replaceReducer函数：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function replaceReducer (nextReducer) &#123;</span><br><span class="line">    if (typeof nextReducer !&#x3D;&#x3D; &#39;function&#39;) &#123;</span><br><span class="line">        throw new Error (&#39;Expected the nextReducer to be a function.&#39;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    currentReducer &#x3D; nextReducer</span><br><span class="line">    &#x2F;&#x2F; 此时无法匹配任何的 action，但是返回的状态可以将 currentState 给更新</span><br><span class="line">    &#x2F;&#x2F; 也就是更新当前的 state，因为 reducer 更新了，老的 state 该换了！</span><br><span class="line">    dispatch (&#123; type: ActionTypes.REPLACE &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<br>
-
-<h1 id="combineReducer"><a href="#combineReducer" class="headerlink" title="combineReducer"></a><strong>combineReducer</strong></h1><p>在之前的Redux及其中间件解析文章中也有提到，combineReducers方法的作用将所有子reducer合并为一个大reducer，根据action的不同返回新的state：</p>
-<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> reducer = combineReducers(&#123;</span><br><span class="line">  a: doSomethingWithA,</span><br><span class="line">  b: processB,</span><br><span class="line">  c: c</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 等同于</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">reducer</span>(<span class="params">state = &#123;&#125;, action</span>) </span>&#123;</span><br><span class="line"><span class="keyword">return</span> &#123;</span><br><span class="line">    a: doSomethingWithA(state.a, action),</span><br><span class="line">    b: processB(state.b, action),</span><br><span class="line">    c: c(state.c, action)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>其源码如下：</p>
-<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">combineReducers</span> (<span class="params">reducers</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 以项目中的例子来讲，reducerKeys 就是 ['recommend', 'singers']</span></span><br><span class="line">  <span class="keyword">const</span> reducerKeys = <span class="built_in">Object</span>.keys (reducers)</span><br><span class="line">  <span class="comment">//finalReducers 是 reducers 过滤后的结果</span></span><br><span class="line">  <span class="comment">// 确保 finalReducers 里面每一个键对应的值都是函数</span></span><br><span class="line">  <span class="keyword">const</span> finalReducers = &#123;&#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; reducerKeys.length; i++) &#123;</span><br><span class="line">    <span class="keyword">const</span> key = reducerKeys [i]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> reducers [key] === <span class="string">'function'</span>) &#123;</span><br><span class="line">    finalReducers [key] = reducers [key]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> finalReducerKeys = <span class="built_in">Object</span>.keys (finalReducers)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 最后依然返回一个纯函数</span></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">combination</span> (<span class="params">state = &#123;&#125;, action</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 这个标志位记录初始的 state 是否和经过 reducer 后是一个引用，如果不是则 state 被改变了</span></span><br><span class="line">    <span class="keyword">let</span> hasChanged = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">const</span> nextState = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; finalReducerKeys.length; i++) &#123;</span><br><span class="line">        <span class="keyword">const</span> key = finalReducerKeys [i]</span><br><span class="line">        <span class="keyword">const</span> reducer = finalReducers [key]</span><br><span class="line">        <span class="comment">// 原来的状态树中 key 对应的值</span></span><br><span class="line">        <span class="keyword">const</span> previousStateForKey = state [key]</span><br><span class="line">        <span class="comment">// 调用 reducer 函数，获得该 key 值对应的新状态</span></span><br><span class="line">        <span class="keyword">const</span> nextStateForKey = reducer (previousStateForKey, action)</span><br><span class="line">        nextState [key] = nextStateForKey</span><br><span class="line">        hasChanged = hasChanged || nextStateForKey !== previousStateForKey</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 这个很简单理解吧？如果没改变直接把原始的 state 返回即可</span></span><br><span class="line">    <span class="keyword">return</span> hasChanged ? nextState : state</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="compose函数"><a href="#compose函数" class="headerlink" title="compose函数"></a><strong>compose函数</strong></h1><p>compose是一个工具，充分体现高阶函数的技巧。源码如下：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">compose</span> (<span class="params">...funcs</span>) </span>&#123;</span><br><span class="line"><span class="keyword">if</span> (funcs.length === <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">arg</span> =&gt;</span> arg</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (funcs.length === <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> funcs [<span class="number">0</span>]</span><br><span class="line">&#125;</span><br><span class="line">    <span class="keyword">return</span> funcs.reduce (<span class="function">(<span class="params">a, b</span>) =&gt;</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> a (b (...args)))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>比如：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> f0 = <span class="function">(<span class="params">x</span>) =&gt;</span> &#123; <span class="built_in">console</span>.log (x) &#125;</span><br><span class="line"><span class="keyword">const</span> f1 = <span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="built_in">console</span>.log (<span class="number">1</span>) &#125;</span><br><span class="line"><span class="keyword">const</span> f2 = <span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="built_in">console</span>.log (<span class="number">2</span>) &#125;</span><br><span class="line"><span class="keyword">let</span> fArr = [f2, f1, f0];</span><br><span class="line"><span class="built_in">console</span>.log (compose (...fArr)(<span class="number">100</span>)) <span class="comment">// 执行 f2 (f1 (f0 (100))) 输出 100 1 2</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>compose函数一般用于组合所有的enhancer，作为第三个参数传入createStore方法。createStore方法的结构如下：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">createStore(reducer, [preloadedState], [enhancer])</span><br></pre></td></tr></table></figure>
-
-<p>第三个可选参数enhancer指的是store enhancer，也就是store的增强器，用于增强store的功能。一个store enhancer，实际上是一个高阶函数（compose也是一个高阶函数），它的参数是创建store的函数（store creator），返回值是一个可以创建功能更强大的store的函数（enhanced store creator），这和React中的高阶组件的概念很相似。</p>
-<p>store enhancer函数的结构一般如下：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">enhancerCreator</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">createStore</span> =&gt;</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// do something based on old store</span></span><br><span class="line">        <span class="comment">// return a new enhanced store</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>需要注意的是，enhancerCreator是用于创建store enhancer的函数，也就是说，enhancerCreator的调用结果才是一个store enhancer。(…args)参数代表穿件store所需要的参数，也就是createStore接收的参数，实际上就是(reducer, [preloadedState], [enhancer])。</p>
-<p>可以这么理解，因为要创建一个功能更加强大的store，所以需要传入创建store所需要的参数。</p>
-<p>比如，现在我们想创建一个store enhancer，用于输出发送的action的信息和state的变化：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// autoLogger.js</span></span><br><span class="line"><span class="comment">// store enhancer</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">autoLogger</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="params">createStore</span> =&gt;</span> <span class="function">(<span class="params">reducer, initialState, enhancer</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> store = createStore(reducer, initialState, enhancer)</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">dispatch</span>(<span class="params">action</span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">`dispatch an action: <span class="subst">$&#123;<span class="built_in">JSON</span>.stringify(action)&#125;</span>`</span>);</span><br><span class="line">      <span class="keyword">const</span> res = store.dispatch(action);</span><br><span class="line">      <span class="keyword">const</span> newState = store.getState();</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">`current state: <span class="subst">$&#123;<span class="built_in">JSON</span>.stringify(newState)&#125;</span>`</span>);</span><br><span class="line">      <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> &#123;...store, dispatch&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>autoLogger声明了一个新的dispatch方法，在原本的store.dispatch方法基础上添加了两个输出日志，然后返回一个新的store（{…store, dispatch}）。当我们调用dispatch方法时，实际是调用了autoLogger方法中新声明的dispatch，因为上面对象最后一个dispatch覆盖了store中的dispatch。</p>
-<p>其中createStore的部分源码如下：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">createStore</span> (<span class="params">reducer, preloadedState, enhancer</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 第二个参数为函数，但是第三个参数没传</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> preloadedState === <span class="string">'function'</span> &amp;&amp; <span class="keyword">typeof</span> enhancer === <span class="string">'undefined'</span>) &#123;</span><br><span class="line">        enhancer = preloadedState<span class="comment">// 将第二个参数当做 enhancer </span></span><br><span class="line">        preloadedState = <span class="literal">undefined</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 确保 enhancer 为函数</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> enhancer !== <span class="string">'undefined'</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> enhancer !== <span class="string">'function'</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span> (<span class="string">'Expected the enhancer to be a function.'</span>)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> enhancer (createStore)(reducer, preloadedState)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>如何使用这个store enhancer？</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// configureStore.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; createStore, applyMiddleware &#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</span><br><span class="line"><span class="keyword">import</span> rootReducer <span class="keyword">from</span> <span class="string">'path/to/reducers'</span>;</span><br><span class="line"><span class="keyword">import</span> autLogger <span class="keyword">from</span> <span class="string">'path/to/autoLogger'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> store = createStore(</span><br><span class="line">  reducer，</span><br><span class="line">  autoLogger()</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-
-<br>
-
-<h1 id="applyMiddleware"><a href="#applyMiddleware" class="headerlink" title="applyMiddleware"></a><strong>applyMiddleware</strong></h1><p>applyMiddleware本身就是一个store enhancer，结构和上面的autoLogger很像，applyMiddleware的源码如下：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">applyMiddleware</span> (<span class="params">...middlewares</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">createStore</span> =&gt;</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> store = createStore (...args)</span><br><span class="line">        <span class="keyword">let</span> dispatch = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span> (</span><br><span class="line">                <span class="string">'Dispatching while constructing your middleware is not allowed. '</span> +</span><br><span class="line">                <span class="string">'Other middleware would not be applied to this dispatch.'</span></span><br><span class="line">            )</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="comment">//middlewareAPI 其实就是拿到 store 的信息</span></span><br><span class="line">    <span class="keyword">const</span> middlewareAPI = &#123;</span><br><span class="line">        getState: store.getState,</span><br><span class="line">        dispatch: <span class="function">(<span class="params">...args</span>) =&gt;</span> dispatch (...args)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 参考上面的 thunk，其实就是传入 store 参数，剩下的部分为 next =&gt; action =&gt; &#123; ... &#125;;</span></span><br><span class="line">    <span class="comment">// 传入这个参数是必须的，因为需要拿到 store 的相关属性，如 thunk 拿了 getState</span></span><br><span class="line">    <span class="comment">// 这里的意思就是每个中间件都能拿到 store 的数据</span></span><br><span class="line">    <span class="keyword">const</span> chain = middlewares.map (<span class="function"><span class="params">middleware</span> =&gt;</span> middleware (middlewareAPI))</span><br><span class="line">    dispatch = compose (...chain)(store.dispatch)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        ...store,</span><br><span class="line">        dispatch</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>比如我们在调用applyMiddleware(thunk, logger)，走到compose逻辑的时候，相当于调用thunk(logger(store.dispatch))。</p>
-<p>无论是applyMiddleware中使用compose组合所有中间件还是使用compose来组合所有的enhancer，在经过compose组合之后，所有的middleware或store enhancer都会形成一个洋葱模型。compose中的第一个enhancer（或middleware）处于洋葱模型的最外层，最后一个enhancer处于洋葱模型的最里层，经过层层调用形成一个更强大的store：</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210109164428.png" alt></p>
-<p>applyMiddleware(…middlewares)将middleware限制为只可以增强store dispatch的功能，但这只是它自身的规范限制，对于其他store enhancer，你可以增强store中包含的任意方法的功能，如dispatch、subscribe、getState、replaceReducer等。毕竟，store只是一个包含一些函数的普通JavaScript对象，可以很容易的复制其中的方法，并增加新的功能。</p>
-<br>
-
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a><strong>参考</strong></h1><p><a href="https://juejin.cn/book/6844733816460804104/section/6844733816599216141" target="_blank" rel="noopener">Redux及中间件原理解析</a></p>
-<p><a href="https://segmentfault.com/a/1190000012653724" target="_blank" rel="noopener">浅析Redux的store enhancer</a></p>
-]]></content>
-      <categories>
-        <category>React</category>
-      </categories>
-      <tags>
-        <tag>React</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>stroke学习之stroke-dasharray和stroke-dashoffset</title>
     <url>/2020/12/26/stroke%E5%AD%A6%E4%B9%A0%E4%B9%8Bstroke-dasharray%E5%92%8Cstroke-dashoffset/</url>
     <content><![CDATA[<p>今天在做音乐APP的进度条功能的时候，使用到了svg的stroke-dasharray和stoke-dashoffset两个之前没有用到过的属性，借此机会总结一下。</p>
@@ -4132,7 +4132,31 @@
 
 
 <h3 id="云服务器防火墙开放7001端口"><a href="#云服务器防火墙开放7001端口" class="headerlink" title="云服务器防火墙开放7001端口"></a>云服务器防火墙开放7001端口</h3><p>此步骤很关键，否则无法访问服务端接口。在腾讯云轻量云服务器防火墙处添加规则，开放7001端口：<br><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/img_convert/194f2977aa307742921ab084fcbb7922.png" alt></p>
-<p>因为目前域名还未备案成功，所以不能通过域名进行访问。此时只需启动mysql和服务端项目，不需要启动nginx来测试服务端接口：<br><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/img_convert/37fb83a790e7d07678175c1286b75b77.png" alt><br><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/img_convert/0c9e660c76d51628d13d130eaea26583.png" alt><br>到此为止完成整个后端的服务器部署，后续域名备案成功后会再更新文章。</p>
+<p>因为目前域名还未备案成功，所以不能通过域名进行访问。此时只需启动mysql和服务端项目，不需要启动nginx来测试服务端接口：<br><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/img_convert/37fb83a790e7d07678175c1286b75b77.png" alt><br><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/img_convert/0c9e660c76d51628d13d130eaea26583.png" alt></p>
+<h2 id="域名备案"><a href="#域名备案" class="headerlink" title="域名备案"></a>域名备案</h2><p>因为微信小程序官方文档中表明，服务器域名只支持https，且不能使用ip地址，所以我们需要注册域名的同时，还需要进行域名备案，这样才能正常访问服务端的接口。<br>域名备案流程大概是十多天左右，在此期间需要将域名解析暂停。我是在腾讯云上进行备案的，还挺顺利。</p>
+<p>备案完成后，进入云服务器，启动MySQL、nginx、项目，然后就可以顺利访问了：<br><img src="/images/loading.png" data-original="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d30db18f261e45e18f734aece2b3d3dd~tplv-k3u1fbpfcp-watermark.image" alt></p>
+<p>有几点需要注意：</p>
+<ul>
+<li>此时不需要像用ip访问后台一样输入端口号了，域名前是http或https均可，因为nginx会将http重定向为https</li>
+</ul>
+<h2 id="后续踩坑"><a href="#后续踩坑" class="headerlink" title="后续踩坑"></a>后续踩坑</h2><h3 id="部分接口无法访问"><a href="#部分接口无法访问" class="headerlink" title="部分接口无法访问"></a>部分接口无法访问</h3><p>在访问接口过程中发现，有些接口能够正常访问，有些接口却不能，导致我一度怀疑是不是egg的问题。</p>
+<p>后来发现是远程数据库的数据没有更新！当我们在本地开发的时候，通常是连接本地的数据库，但是我们向后台请求数据时，后台是在云服务器上的，它请求的是云服务器上的MySQL数据库。因此，我们需要再一次将本地数据库导出成sql文件，导入云服务器的数据库中。</p>
+<p>egg项目更新后也要重新上传至云服务器。</p>
+<h3 id="debeaver连接远程数据库报错"><a href="#debeaver连接远程数据库报错" class="headerlink" title="debeaver连接远程数据库报错"></a><code>debeaver</code>连接远程数据库报错</h3><p>如果每次数据有变更都要将本地数据库的sql导出再导入远程数据库，就十分麻烦，但直接在<code>XShell</code>中操作远程数据库，在非可视化的界面输入各种数据库操作执行也十分繁琐，所以我们可以用<code>debeaver</code>连接远程数据库（<code>debeaver</code>既可以连接本地数据库也可以连接远程数据库进行操作）。</p>
+<p>但是按照本地数据库的链接方式来连接远程数据库时，会出现以下报错：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">message from server: &quot;Host &#39;221.4.34.96&#39; is not allowed to connect to this MySQL server&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这是权限问题导致的，我们可以在远程数据库中修改对<code>Host &#39;221.4.34.96&#39;</code>的权限来解决：</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/image-20210309112048949.png" alt></p>
+<p>将其中的<code>123.123.123.123</code>改为你的<code>debeaver</code>ip：<code>221.4.34.96</code>。</p>
+<p>在这个过程中可能涉及密码不符合要求的问题，可以修改密码强度：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 查看当前安全变量值</span><br><span class="line">mysql&gt; SHOW VARIABLES LIKE &#39;validate_password%&#39;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 设置</span><br><span class="line">set global validate_password_policy&#x3D;0;</span><br><span class="line">set global validate_password_length&#x3D;4;</span><br></pre></td></tr></table></figure>
+
+<p>这样就能够将123456作为你的密码。</p>
 ]]></content>
       <categories>
         <category>小程序</category>
