@@ -1,6 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CSS 圣杯布局和双飞翼布局</title>
+    <url>/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/</url>
+    <content><![CDATA[<h1 id="CSS-圣杯布局和双飞翼布局"><a href="#CSS-圣杯布局和双飞翼布局" class="headerlink" title="CSS 圣杯布局和双飞翼布局"></a>CSS 圣杯布局和双飞翼布局</h1><p>两个常见的前端布局。圣杯布局和双飞翼布局作为经典的三栏式布局是面试中的常客。两种布局达到效果上基本相同，都是<strong>两边两栏宽度固定，中间栏宽度自适应</strong>。在HTML结构上<strong>中间栏在最前面</strong>保证了最先渲染中间提升性能（因为这两种布局都比较老，我认为在现代浏览器中这点儿性能优化效果并不是很大），并且兼容性良好。两种布局的实现方法前半部分相同，后半部分的实现各有利弊，下面会简单介绍两者的区别。</p>
+<h2 id="圣杯布局"><a href="#圣杯布局" class="headerlink" title="圣杯布局"></a>圣杯布局</h2><p>代码实现：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">        *&#123;</span><br><span class="line"><span class="css">            <span class="selector-tag">margin</span><span class="selector-pseudo">:0</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">padding</span><span class="selector-pseudo">:0</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">text-align</span><span class="selector-pseudo">:center</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.header</span>, <span class="selector-class">.footer</span>&#123;</span></span><br><span class="line">            background-color: skyblue;</span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:60px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:60px</span>;  <span class="comment">/*文字水平垂直居中*/</span></span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.container</span>&#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">overflow</span><span class="selector-pseudo">:hidden</span>;  <span class="comment">/*因为内部都是浮动元素，所以要设置overflow来撑起父元素*/</span></span></span><br><span class="line"><span class="css">            <span class="selector-tag">padding</span><span class="selector-pseudo">:0</span> 100<span class="selector-tag">px</span>;  <span class="comment">/*左右内边距为100px*/</span></span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.main</span>&#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">width</span><span class="selector-pseudo">:100</span>%;</span></span><br><span class="line">            background-color: peachpuff; </span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line">            line-height: 100px;</span><br><span class="line"><span class="css">            <span class="selector-tag">float</span><span class="selector-pseudo">:left</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.left</span>&#123;</span></span><br><span class="line">            background-color: lightgreen;</span><br><span class="line"><span class="css">            <span class="selector-tag">width</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">float</span><span class="selector-pseudo">:left</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">margin-left</span><span class="selector-pseudo">:-100</span>%;  <span class="comment">/*让left前移一行*/</span></span></span><br><span class="line"></span><br><span class="line"><span class="css">            <span class="selector-tag">position</span><span class="selector-pseudo">:relative</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">left</span><span class="selector-pseudo">:-100px</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.right</span>&#123;</span></span><br><span class="line">            background-color: pink;</span><br><span class="line"><span class="css">            <span class="selector-tag">width</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">float</span><span class="selector-pseudo">:left</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">margin-left</span><span class="selector-pseudo">:-100px</span>; <span class="comment">/*right只需要前移right的宽度即可*/</span></span></span><br><span class="line"></span><br><span class="line"><span class="css">            <span class="selector-tag">position</span><span class="selector-pseudo">:relative</span>;  <span class="comment">/*container设置了padding,所以要相对定位移动才能将left和right移动到对应的位置*/</span></span></span><br><span class="line"><span class="css">            <span class="selector-tag">right</span><span class="selector-pseudo">:-100px</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"header"</span>&gt;</span>header<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span>main<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span>left<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span>right<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"footer"</span>&gt;</span>footer<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>效果图：</p>
+<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/1.png" class>
+
+
+
+<p>实现原理：</p>
+<ol>
+<li><p>设置父元素<code>container</code>为<code>overflow:hidden</code>，撑起父元素，子元素<code>main</code>、<code>left</code>、<code>right</code>均设为<code>float:left</code>，浮动起来。效果如下：</p>
+<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/2.png" class>
+</li>
+<li><p>为了让<code>main</code>模块自适应，将其设为100%</p>
+<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/3.png" class>
+</li>
+<li><p>为了让<code>left</code>和<code>right</code>模块跑上去，设置<code>left</code>模块的<code>margin:-100%</code>，可以理解为：负的话就是向上前进，正值的话就是直接的间隔；<code>right</code>模块就设置为<code>margin:-100px</code>，大小为<code>right</code>模块的宽度</p>
+<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/4.png" class>
+</li>
+<li><p>为了使<code>main</code>模块往里收，设置<code>.container{ padding: 0 100px}</code>，即设置左右内边距。</p>
+<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/5.png" class>
+
+
+
+</li>
+</ol>
+<ol start="5">
+<li><p>利用相对定位移动left和right</p>
+<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/6.png" class>
+
+
+
+
+
+</li>
+</ol>
+<h2 id="双飞翼布局"><a href="#双飞翼布局" class="headerlink" title="双飞翼布局"></a>双飞翼布局</h2><p>代码实现：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">        *&#123;</span><br><span class="line"><span class="css">            <span class="selector-tag">margin</span><span class="selector-pseudo">:0</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">padding</span><span class="selector-pseudo">:0</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">text-align</span><span class="selector-pseudo">:center</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.header</span>, <span class="selector-class">.footer</span>&#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:60px</span>;</span></span><br><span class="line">            background-color: skyblue;</span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:60px</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.container</span>&#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">overflow</span><span class="selector-pseudo">:hidden</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.main</span>&#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">width</span><span class="selector-pseudo">:100</span>%;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">float</span><span class="selector-pseudo">:left</span>;</span></span><br><span class="line">            background-color: peachpuff;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.inner-main</span>&#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">margin-left</span><span class="selector-pseudo">:100px</span>;  <span class="comment">/*通过在main内部再设置一个div来进行左右模块的间隔布局*/</span></span></span><br><span class="line"><span class="css">            <span class="selector-tag">margin-right</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.left</span>&#123;</span></span><br><span class="line">            background-color: lightgreen;</span><br><span class="line"><span class="css">            <span class="selector-tag">width</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">margin-left</span><span class="selector-pseudo">:-100</span>%;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">float</span><span class="selector-pseudo">:left</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.right</span>&#123;</span></span><br><span class="line">            background-color: yellow;</span><br><span class="line"><span class="css">            <span class="selector-tag">width</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">margin-left</span><span class="selector-pseudo">:-100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">float</span><span class="selector-pseudo">:left</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"header"</span>&gt;</span>header<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inner-main"</span>&gt;</span>main<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span>left<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span>right<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"footer"</span>&gt;</span>footer<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>效果图：</p>
+<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/7.png" class>
+
+<p>实现原理：</p>
+<p>双飞翼布局则不设置<code>container</code>里的<code>padding</code>属性，而是通过在<code>main</code>模块中添加<code>inner-main</code>模块，然后对这个<code>div</code>进行<code>margin-left</code>和<code>margin-right</code>计算。</p>
+<h2 id="圣杯布局和双飞翼布局的主要区别："><a href="#圣杯布局和双飞翼布局的主要区别：" class="headerlink" title="圣杯布局和双飞翼布局的主要区别："></a>圣杯布局和双飞翼布局的主要区别：</h2><ul>
+<li>圣杯布局是设置<code>container</code>的<code>padding</code>属性以及<code>left</code>和<code>right</code>模块的<code>position:relative</code>，<code>left:-100px</code>或<code>right:-100px</code></li>
+<li>双飞翼布局则不设置<code>container</code>里的<code>padding</code>属性，而是通过在<code>main</code>模块中添加<code>inner-main</code>模块，然后对这个<code>div</code>进行<code>margin-left</code>和<code>margin-right</code>计算</li>
+</ul>
+<p>参考：<a href="https://segmentfault.com/a/1190000004579886" target="_blank" rel="noopener">https://segmentfault.com/a/1190000004579886</a></p>
+]]></content>
+      <categories>
+        <category>CSS</category>
+      </categories>
+      <tags>
+        <tag>CSS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ES11新增属性解析</title>
     <url>/2020/11/25/ES11%E6%96%B0%E5%A2%9E%E5%B1%9E%E6%80%A7%E8%A7%A3%E6%9E%90/</url>
     <content><![CDATA[<h1 id="ES11新增属性解析"><a href="#ES11新增属性解析" class="headerlink" title="ES11新增属性解析"></a>ES11新增属性解析</h1><p>ES2020(ES11)引入了以下新特性（个人觉得比较实用的以粗体形式展示）：</p>
@@ -102,67 +163,6 @@
       </tags>
   </entry>
   <entry>
-    <title>CSS 圣杯布局和双飞翼布局</title>
-    <url>/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/</url>
-    <content><![CDATA[<h1 id="CSS-圣杯布局和双飞翼布局"><a href="#CSS-圣杯布局和双飞翼布局" class="headerlink" title="CSS 圣杯布局和双飞翼布局"></a>CSS 圣杯布局和双飞翼布局</h1><p>两个常见的前端布局。圣杯布局和双飞翼布局作为经典的三栏式布局是面试中的常客。两种布局达到效果上基本相同，都是<strong>两边两栏宽度固定，中间栏宽度自适应</strong>。在HTML结构上<strong>中间栏在最前面</strong>保证了最先渲染中间提升性能（因为这两种布局都比较老，我认为在现代浏览器中这点儿性能优化效果并不是很大），并且兼容性良好。两种布局的实现方法前半部分相同，后半部分的实现各有利弊，下面会简单介绍两者的区别。</p>
-<h2 id="圣杯布局"><a href="#圣杯布局" class="headerlink" title="圣杯布局"></a>圣杯布局</h2><p>代码实现：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">        *&#123;</span><br><span class="line"><span class="css">            <span class="selector-tag">margin</span><span class="selector-pseudo">:0</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">padding</span><span class="selector-pseudo">:0</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">text-align</span><span class="selector-pseudo">:center</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.header</span>, <span class="selector-class">.footer</span>&#123;</span></span><br><span class="line">            background-color: skyblue;</span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:60px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:60px</span>;  <span class="comment">/*文字水平垂直居中*/</span></span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.container</span>&#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">overflow</span><span class="selector-pseudo">:hidden</span>;  <span class="comment">/*因为内部都是浮动元素，所以要设置overflow来撑起父元素*/</span></span></span><br><span class="line"><span class="css">            <span class="selector-tag">padding</span><span class="selector-pseudo">:0</span> 100<span class="selector-tag">px</span>;  <span class="comment">/*左右内边距为100px*/</span></span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.main</span>&#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">width</span><span class="selector-pseudo">:100</span>%;</span></span><br><span class="line">            background-color: peachpuff; </span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line">            line-height: 100px;</span><br><span class="line"><span class="css">            <span class="selector-tag">float</span><span class="selector-pseudo">:left</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.left</span>&#123;</span></span><br><span class="line">            background-color: lightgreen;</span><br><span class="line"><span class="css">            <span class="selector-tag">width</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">float</span><span class="selector-pseudo">:left</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">margin-left</span><span class="selector-pseudo">:-100</span>%;  <span class="comment">/*让left前移一行*/</span></span></span><br><span class="line"></span><br><span class="line"><span class="css">            <span class="selector-tag">position</span><span class="selector-pseudo">:relative</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">left</span><span class="selector-pseudo">:-100px</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.right</span>&#123;</span></span><br><span class="line">            background-color: pink;</span><br><span class="line"><span class="css">            <span class="selector-tag">width</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">float</span><span class="selector-pseudo">:left</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">margin-left</span><span class="selector-pseudo">:-100px</span>; <span class="comment">/*right只需要前移right的宽度即可*/</span></span></span><br><span class="line"></span><br><span class="line"><span class="css">            <span class="selector-tag">position</span><span class="selector-pseudo">:relative</span>;  <span class="comment">/*container设置了padding,所以要相对定位移动才能将left和right移动到对应的位置*/</span></span></span><br><span class="line"><span class="css">            <span class="selector-tag">right</span><span class="selector-pseudo">:-100px</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"header"</span>&gt;</span>header<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span>main<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span>left<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span>right<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"footer"</span>&gt;</span>footer<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>效果图：</p>
-<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/1.png" class>
-
-
-
-<p>实现原理：</p>
-<ol>
-<li><p>设置父元素<code>container</code>为<code>overflow:hidden</code>，撑起父元素，子元素<code>main</code>、<code>left</code>、<code>right</code>均设为<code>float:left</code>，浮动起来。效果如下：</p>
-<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/2.png" class>
-</li>
-<li><p>为了让<code>main</code>模块自适应，将其设为100%</p>
-<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/3.png" class>
-</li>
-<li><p>为了让<code>left</code>和<code>right</code>模块跑上去，设置<code>left</code>模块的<code>margin:-100%</code>，可以理解为：负的话就是向上前进，正值的话就是直接的间隔；<code>right</code>模块就设置为<code>margin:-100px</code>，大小为<code>right</code>模块的宽度</p>
-<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/4.png" class>
-</li>
-<li><p>为了使<code>main</code>模块往里收，设置<code>.container{ padding: 0 100px}</code>，即设置左右内边距。</p>
-<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/5.png" class>
-
-
-
-</li>
-</ol>
-<ol start="5">
-<li><p>利用相对定位移动left和right</p>
-<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/6.png" class>
-
-
-
-
-
-</li>
-</ol>
-<h2 id="双飞翼布局"><a href="#双飞翼布局" class="headerlink" title="双飞翼布局"></a>双飞翼布局</h2><p>代码实现：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">        *&#123;</span><br><span class="line"><span class="css">            <span class="selector-tag">margin</span><span class="selector-pseudo">:0</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">padding</span><span class="selector-pseudo">:0</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">text-align</span><span class="selector-pseudo">:center</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.header</span>, <span class="selector-class">.footer</span>&#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:60px</span>;</span></span><br><span class="line">            background-color: skyblue;</span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:60px</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.container</span>&#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">overflow</span><span class="selector-pseudo">:hidden</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.main</span>&#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">width</span><span class="selector-pseudo">:100</span>%;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">float</span><span class="selector-pseudo">:left</span>;</span></span><br><span class="line">            background-color: peachpuff;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.inner-main</span>&#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">margin-left</span><span class="selector-pseudo">:100px</span>;  <span class="comment">/*通过在main内部再设置一个div来进行左右模块的间隔布局*/</span></span></span><br><span class="line"><span class="css">            <span class="selector-tag">margin-right</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.left</span>&#123;</span></span><br><span class="line">            background-color: lightgreen;</span><br><span class="line"><span class="css">            <span class="selector-tag">width</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">margin-left</span><span class="selector-pseudo">:-100</span>%;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">float</span><span class="selector-pseudo">:left</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.right</span>&#123;</span></span><br><span class="line">            background-color: yellow;</span><br><span class="line"><span class="css">            <span class="selector-tag">width</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">margin-left</span><span class="selector-pseudo">:-100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">float</span><span class="selector-pseudo">:left</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"header"</span>&gt;</span>header<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inner-main"</span>&gt;</span>main<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span>left<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span>right<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"footer"</span>&gt;</span>footer<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>效果图：</p>
-<img src="/images/loading.png" data-original="/2020/01/15/CSS-%E5%9C%A3%E6%9D%AF%E5%B8%83%E5%B1%80%E5%92%8C%E5%8F%8C%E9%A3%9E%E7%BF%BC%E5%B8%83%E5%B1%80/7.png" class>
-
-<p>实现原理：</p>
-<p>双飞翼布局则不设置<code>container</code>里的<code>padding</code>属性，而是通过在<code>main</code>模块中添加<code>inner-main</code>模块，然后对这个<code>div</code>进行<code>margin-left</code>和<code>margin-right</code>计算。</p>
-<h2 id="圣杯布局和双飞翼布局的主要区别："><a href="#圣杯布局和双飞翼布局的主要区别：" class="headerlink" title="圣杯布局和双飞翼布局的主要区别："></a>圣杯布局和双飞翼布局的主要区别：</h2><ul>
-<li>圣杯布局是设置<code>container</code>的<code>padding</code>属性以及<code>left</code>和<code>right</code>模块的<code>position:relative</code>，<code>left:-100px</code>或<code>right:-100px</code></li>
-<li>双飞翼布局则不设置<code>container</code>里的<code>padding</code>属性，而是通过在<code>main</code>模块中添加<code>inner-main</code>模块，然后对这个<code>div</code>进行<code>margin-left</code>和<code>margin-right</code>计算</li>
-</ul>
-<p>参考：<a href="https://segmentfault.com/a/1190000004579886" target="_blank" rel="noopener">https://segmentfault.com/a/1190000004579886</a></p>
-]]></content>
-      <categories>
-        <category>CSS</category>
-      </categories>
-      <tags>
-        <tag>CSS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JavaScript this解析</title>
     <url>/2020/01/13/JavaScript-this%E5%85%A8%E9%9D%A2%E8%A7%A3%E6%9E%90/</url>
     <content><![CDATA[<h4 id="为什么要使用this"><a href="#为什么要使用this" class="headerlink" title="为什么要使用this"></a>为什么要使用this</h4><p><code>this</code>提供了一种更优雅的方式来隐式“传递”一个对象引用。</p>
@@ -252,6 +252,95 @@
       </categories>
       <tags>
         <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaScript模块化编程</title>
+    <url>/2020/01/14/JavaScript%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BC%96%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="模块化编程"><a href="#模块化编程" class="headerlink" title="模块化编程"></a>模块化编程</h1><p>目录：</p>
+<ul>
+<li>AMD</li>
+<li>CMD</li>
+<li><code>commom.js</code></li>
+<li>ES6 Module</li>
+</ul>
+<h2 id="AMD"><a href="#AMD" class="headerlink" title="AMD"></a>AMD</h2><p>AMD是<strong>依赖前置，提前执行</strong>。AMD一开始是<code>CommonJS</code>规范中的一个草案，即异步模块加载机制。后来由该草案的作者以<code>RequireJS</code>实现了AMD规范，所以一般说AMD也是指<code>RequireJS</code>。</p>
+<h4 id="AMD的基本语法"><a href="#AMD的基本语法" class="headerlink" title="AMD的基本语法"></a><code>AMD</code>的基本语法</h4><p>通过<code>define</code>来定义一个模块，使用<code>require</code>可以导入定义的模块。</p>
+<p>用<code>define</code>定义无依赖的模块：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//a.js</span></span><br><span class="line"><span class="comment">//define可以传入三个参数，分别是字符串-模块名、数组-依赖模块、函数-回调函数</span></span><br><span class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>用<code>define</code>定义有依赖的模块：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">define([<span class="string">"alpha"</span>], <span class="function"><span class="keyword">function</span>(<span class="params"> alpha </span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        verb : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> alpha.verb() + <span class="number">1</span> ;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<p>用<code>require</code>进行模块加载：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">require</span>([<span class="string">'math'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">math</span>) </span>&#123;</span><br><span class="line">　math.add(<span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="AMD的特点"><a href="#AMD的特点" class="headerlink" title="AMD的特点"></a><code>AMD的特点</code></h4><p>对于依赖的模块，AMD推崇<strong>依赖前置，提前执行。</strong>也就是定义模块和加载模块都要在一开始就把依赖写好。例如<code>define</code>函数当中的<code>[&quot;alpha&quot;]</code>，就是定义模块当中的依赖；<code>require</code>函数当中的<code>[&quot;math&quot;]</code>是加载模块当中的依赖。</p>
+<h2 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h2><p>CMD是<strong>依赖就近，延迟执行</strong>。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//AMD</span></span><br><span class="line">define([<span class="string">'./a'</span>,<span class="string">'./b'</span>], <span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">//依赖一开始就写好</span></span><br><span class="line">    a.test();</span><br><span class="line">    b.test();</span><br><span class="line">&#125;);</span><br><span class="line"> </span><br><span class="line"><span class="comment">//CMD</span></span><br><span class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params">requie, exports, module</span>) </span>&#123;</span><br><span class="line">     </span><br><span class="line">    <span class="comment">//依赖可以就近书写</span></span><br><span class="line">    <span class="keyword">var</span> a = <span class="built_in">require</span>(<span class="string">'./a'</span>);</span><br><span class="line">    a.test();</span><br><span class="line">     </span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">//软依赖</span></span><br><span class="line">    <span class="keyword">if</span> (status) &#123;</span><br><span class="line">     </span><br><span class="line">        <span class="keyword">var</span> b = requie(<span class="string">'./b'</span>);</span><br><span class="line">        b.test();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><code>CMD</code>是在用到了某个模块的时候再去<code>require</code>，类似按需加载。</p>
+<h4 id="CMD的特点"><a href="#CMD的特点" class="headerlink" title="CMD的特点"></a><code>CMD的特点</code></h4><p>对于依赖的模块，CMD推崇<strong>依赖就近，延迟执行</strong>。也就是说，只有到<code>require</code>时依赖模块才执行。</p>
+<p>摘自：<a href="https://segmentfault.com/a/1190000004873947" target="_blank" rel="noopener">https://segmentfault.com/a/1190000004873947</a></p>
+<h2 id="CommonJS"><a href="#CommonJS" class="headerlink" title="CommonJS"></a><code>CommonJS</code></h2><h4 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h4><ul>
+<li>通过<code>module.exports</code>或者<code>exports</code>来输出模块</li>
+<li>通过<code>require</code>来导入模块</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//a.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"hello world"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//b.js</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="built_in">require</span>(<span class="string">'./a'</span>);</span><br><span class="line"></span><br><span class="line">a();<span class="comment">//"hello world"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//或者</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//a2.js</span></span><br><span class="line">exports.num = <span class="number">1</span>;</span><br><span class="line">exports.obj = &#123;<span class="attr">xx</span>: <span class="number">2</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//b2.js</span></span><br><span class="line"><span class="keyword">var</span> a2 = <span class="built_in">require</span>(<span class="string">'./a2'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(a2);<span class="comment">//&#123; num: 1, obj: &#123; xx: 2 &#125; &#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="CommonJS的特点"><a href="#CommonJS的特点" class="headerlink" title="CommonJS的特点"></a><code>CommonJS</code>的特点</h4><ul>
+<li>所有代码都运行在模块作用域，不会污染全局作用域</li>
+<li>模块都是同步加载的，即只有加载完成，才能执行后面的操作</li>
+<li>模块在首次执行后就会缓存，再次加载只返回缓存结果。如果想要再次执行，可清楚缓存</li>
+<li><code>require</code>返回的值是被输出的值的拷贝，模块内部的变化不会影响这个值</li>
+</ul>
+<h2 id="ES6-Module"><a href="#ES6-Module" class="headerlink" title="ES6 Module"></a>ES6 Module</h2><h4 id="基本用法："><a href="#基本用法：" class="headerlink" title="基本用法："></a>基本用法：</h4><ul>
+<li><code>export</code>或<code>export default</code>来输出模块</li>
+<li><code>import</code>来导入模块</li>
+</ul>
+<p>（<code>export default</code>就是能够为导入的模块自定义名称，这样就不用知道模块在原本的<code>js</code>文件当中的名字，按名字导入了）</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//a.js</span></span><br><span class="line"><span class="keyword">var</span> name = <span class="string">'lin'</span>;</span><br><span class="line"><span class="keyword">var</span> age = <span class="number">13</span>;</span><br><span class="line"><span class="keyword">var</span> job = <span class="string">'ninja'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123; name, age, job&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//b.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; name, age, job&#125; <span class="keyword">from</span> <span class="string">'./a.js'</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(name, age, job);<span class="comment">// lin 13 ninja</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//a2.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'default '</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//b2.js</span></span><br><span class="line"><span class="keyword">import</span> customName <span class="keyword">from</span> <span class="string">'./a2.js'</span>;</span><br><span class="line">customName(); <span class="comment">// 'default'</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="ES6-Module的特点（对比CommonJS）"><a href="#ES6-Module的特点（对比CommonJS）" class="headerlink" title="ES6 Module的特点（对比CommonJS）"></a>ES6 Module的特点（对比<code>CommonJS</code>）</h4><ul>
+<li><code>CommonJS</code>模块是运行时加载，ES6 Module是编译时输出接口；</li>
+<li><code>CommonJS</code>加载的是整个模块，将所有的接口全部加载进来，ES6 Module可以单独加载其中的某个接口（对应名字单独加载，加载这个模块想=需要的）；</li>
+<li><code>CommonJS</code>输出是值的拷贝，ES6 Module输出的是值的引用，被输出模块的内部的改变会影响引用的改变；</li>
+<li><code>CommonJS</code> <code>this</code>指向当前模块，ES6 Module <code>this</code>指向<code>undefined</code>;</li>
+</ul>
+<p>参考：<a href="https://juejin.im/post/5db95e3a6fb9a020704bcd8d" target="_blank" rel="noopener">https://juejin.im/post/5db95e3a6fb9a020704bcd8d</a></p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Node.js——Express和koa框架对比</title>
+    <url>/2020/04/07/Node-js%E2%80%94%E2%80%94Express%E5%92%8Ckoa%E6%A1%86%E6%9E%B6%E5%AF%B9%E6%AF%94/</url>
+    <content><![CDATA[<blockquote>
+<p>此文参考：阿里技术协会《Node.js框架之<code>express</code>与<code>koa</code>对比分析》</p>
+<p><a href="https://yq.aliyun.com/articles/3062" target="_blank" rel="noopener">https://yq.aliyun.com/articles/3062</a></p>
+</blockquote>
+<img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407140734.png" style="zoom:200%;">
+
+]]></content>
+      <categories>
+        <category>Node.js</category>
+      </categories>
+      <tags>
+        <tag>Node.js</tag>
       </tags>
   </entry>
   <entry>
@@ -360,95 +449,6 @@
 <p>参考：<a href="https://blog.csdn.net/qq_39712029/article/details/80951958" target="_blank" rel="noopener">https://blog.csdn.net/qq_39712029/article/details/80951958</a></p>
 <p>​            <a href="https://blog.csdn.net/Demo_18/article/details/78493489" target="_blank" rel="noopener">https://blog.csdn.net/Demo_18/article/details/78493489</a></p>
 <br>]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Node.js——Express和koa框架对比</title>
-    <url>/2020/04/07/Node-js%E2%80%94%E2%80%94Express%E5%92%8Ckoa%E6%A1%86%E6%9E%B6%E5%AF%B9%E6%AF%94/</url>
-    <content><![CDATA[<blockquote>
-<p>此文参考：阿里技术协会《Node.js框架之<code>express</code>与<code>koa</code>对比分析》</p>
-<p><a href="https://yq.aliyun.com/articles/3062" target="_blank" rel="noopener">https://yq.aliyun.com/articles/3062</a></p>
-</blockquote>
-<img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407140734.png" style="zoom:200%;">
-
-]]></content>
-      <categories>
-        <category>Node.js</category>
-      </categories>
-      <tags>
-        <tag>Node.js</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JavaScript模块化编程</title>
-    <url>/2020/01/14/JavaScript%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BC%96%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="模块化编程"><a href="#模块化编程" class="headerlink" title="模块化编程"></a>模块化编程</h1><p>目录：</p>
-<ul>
-<li>AMD</li>
-<li>CMD</li>
-<li><code>commom.js</code></li>
-<li>ES6 Module</li>
-</ul>
-<h2 id="AMD"><a href="#AMD" class="headerlink" title="AMD"></a>AMD</h2><p>AMD是<strong>依赖前置，提前执行</strong>。AMD一开始是<code>CommonJS</code>规范中的一个草案，即异步模块加载机制。后来由该草案的作者以<code>RequireJS</code>实现了AMD规范，所以一般说AMD也是指<code>RequireJS</code>。</p>
-<h4 id="AMD的基本语法"><a href="#AMD的基本语法" class="headerlink" title="AMD的基本语法"></a><code>AMD</code>的基本语法</h4><p>通过<code>define</code>来定义一个模块，使用<code>require</code>可以导入定义的模块。</p>
-<p>用<code>define</code>定义无依赖的模块：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//a.js</span></span><br><span class="line"><span class="comment">//define可以传入三个参数，分别是字符串-模块名、数组-依赖模块、函数-回调函数</span></span><br><span class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>用<code>define</code>定义有依赖的模块：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">define([<span class="string">"alpha"</span>], <span class="function"><span class="keyword">function</span>(<span class="params"> alpha </span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        verb : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> alpha.verb() + <span class="number">1</span> ;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-
-
-<p>用<code>require</code>进行模块加载：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">require</span>([<span class="string">'math'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">math</span>) </span>&#123;</span><br><span class="line">　math.add(<span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="AMD的特点"><a href="#AMD的特点" class="headerlink" title="AMD的特点"></a><code>AMD的特点</code></h4><p>对于依赖的模块，AMD推崇<strong>依赖前置，提前执行。</strong>也就是定义模块和加载模块都要在一开始就把依赖写好。例如<code>define</code>函数当中的<code>[&quot;alpha&quot;]</code>，就是定义模块当中的依赖；<code>require</code>函数当中的<code>[&quot;math&quot;]</code>是加载模块当中的依赖。</p>
-<h2 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h2><p>CMD是<strong>依赖就近，延迟执行</strong>。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//AMD</span></span><br><span class="line">define([<span class="string">'./a'</span>,<span class="string">'./b'</span>], <span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">//依赖一开始就写好</span></span><br><span class="line">    a.test();</span><br><span class="line">    b.test();</span><br><span class="line">&#125;);</span><br><span class="line"> </span><br><span class="line"><span class="comment">//CMD</span></span><br><span class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params">requie, exports, module</span>) </span>&#123;</span><br><span class="line">     </span><br><span class="line">    <span class="comment">//依赖可以就近书写</span></span><br><span class="line">    <span class="keyword">var</span> a = <span class="built_in">require</span>(<span class="string">'./a'</span>);</span><br><span class="line">    a.test();</span><br><span class="line">     </span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">//软依赖</span></span><br><span class="line">    <span class="keyword">if</span> (status) &#123;</span><br><span class="line">     </span><br><span class="line">        <span class="keyword">var</span> b = requie(<span class="string">'./b'</span>);</span><br><span class="line">        b.test();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p><code>CMD</code>是在用到了某个模块的时候再去<code>require</code>，类似按需加载。</p>
-<h4 id="CMD的特点"><a href="#CMD的特点" class="headerlink" title="CMD的特点"></a><code>CMD的特点</code></h4><p>对于依赖的模块，CMD推崇<strong>依赖就近，延迟执行</strong>。也就是说，只有到<code>require</code>时依赖模块才执行。</p>
-<p>摘自：<a href="https://segmentfault.com/a/1190000004873947" target="_blank" rel="noopener">https://segmentfault.com/a/1190000004873947</a></p>
-<h2 id="CommonJS"><a href="#CommonJS" class="headerlink" title="CommonJS"></a><code>CommonJS</code></h2><h4 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h4><ul>
-<li>通过<code>module.exports</code>或者<code>exports</code>来输出模块</li>
-<li>通过<code>require</code>来导入模块</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//a.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"hello world"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//b.js</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="built_in">require</span>(<span class="string">'./a'</span>);</span><br><span class="line"></span><br><span class="line">a();<span class="comment">//"hello world"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//或者</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//a2.js</span></span><br><span class="line">exports.num = <span class="number">1</span>;</span><br><span class="line">exports.obj = &#123;<span class="attr">xx</span>: <span class="number">2</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//b2.js</span></span><br><span class="line"><span class="keyword">var</span> a2 = <span class="built_in">require</span>(<span class="string">'./a2'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(a2);<span class="comment">//&#123; num: 1, obj: &#123; xx: 2 &#125; &#125;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="CommonJS的特点"><a href="#CommonJS的特点" class="headerlink" title="CommonJS的特点"></a><code>CommonJS</code>的特点</h4><ul>
-<li>所有代码都运行在模块作用域，不会污染全局作用域</li>
-<li>模块都是同步加载的，即只有加载完成，才能执行后面的操作</li>
-<li>模块在首次执行后就会缓存，再次加载只返回缓存结果。如果想要再次执行，可清楚缓存</li>
-<li><code>require</code>返回的值是被输出的值的拷贝，模块内部的变化不会影响这个值</li>
-</ul>
-<h2 id="ES6-Module"><a href="#ES6-Module" class="headerlink" title="ES6 Module"></a>ES6 Module</h2><h4 id="基本用法："><a href="#基本用法：" class="headerlink" title="基本用法："></a>基本用法：</h4><ul>
-<li><code>export</code>或<code>export default</code>来输出模块</li>
-<li><code>import</code>来导入模块</li>
-</ul>
-<p>（<code>export default</code>就是能够为导入的模块自定义名称，这样就不用知道模块在原本的<code>js</code>文件当中的名字，按名字导入了）</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//a.js</span></span><br><span class="line"><span class="keyword">var</span> name = <span class="string">'lin'</span>;</span><br><span class="line"><span class="keyword">var</span> age = <span class="number">13</span>;</span><br><span class="line"><span class="keyword">var</span> job = <span class="string">'ninja'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123; name, age, job&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//b.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; name, age, job&#125; <span class="keyword">from</span> <span class="string">'./a.js'</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(name, age, job);<span class="comment">// lin 13 ninja</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//a2.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'default '</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//b2.js</span></span><br><span class="line"><span class="keyword">import</span> customName <span class="keyword">from</span> <span class="string">'./a2.js'</span>;</span><br><span class="line">customName(); <span class="comment">// 'default'</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="ES6-Module的特点（对比CommonJS）"><a href="#ES6-Module的特点（对比CommonJS）" class="headerlink" title="ES6 Module的特点（对比CommonJS）"></a>ES6 Module的特点（对比<code>CommonJS</code>）</h4><ul>
-<li><code>CommonJS</code>模块是运行时加载，ES6 Module是编译时输出接口；</li>
-<li><code>CommonJS</code>加载的是整个模块，将所有的接口全部加载进来，ES6 Module可以单独加载其中的某个接口（对应名字单独加载，加载这个模块想=需要的）；</li>
-<li><code>CommonJS</code>输出是值的拷贝，ES6 Module输出的是值的引用，被输出模块的内部的改变会影响引用的改变；</li>
-<li><code>CommonJS</code> <code>this</code>指向当前模块，ES6 Module <code>this</code>指向<code>undefined</code>;</li>
-</ul>
-<p>参考：<a href="https://juejin.im/post/5db95e3a6fb9a020704bcd8d" target="_blank" rel="noopener">https://juejin.im/post/5db95e3a6fb9a020704bcd8d</a></p>
-]]></content>
       <categories>
         <category>JavaScript</category>
       </categories>
@@ -828,34 +828,6 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo categories和tags页面不显示解决办法</title>
-    <url>/2019/12/25/hexo-categories%E5%92%8Ctags%E9%A1%B5%E9%9D%A2%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
-    <content><![CDATA[<p>﻿官网也有给出具体步骤，但是有坑<a href="http://theme-next.iissnan.com/theme-settings.html" target="_blank" rel="noopener">Hexo官网教程</a></p>
-<h4 id="第一步-在终端窗口下，定位到-Hexo-站点目录下。使用-hexo-new-page指令新建一个页面，命名为-categories-："><a href="#第一步-在终端窗口下，定位到-Hexo-站点目录下。使用-hexo-new-page指令新建一个页面，命名为-categories-：" class="headerlink" title="第一步 在终端窗口下，定位到 Hexo 站点目录下。使用 hexo new page指令新建一个页面，命名为 categories ："></a>第一步 在终端窗口下，定位到 Hexo 站点目录下。使用 hexo new page指令新建一个页面，命名为 categories ：</h4><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">cd hexo <span class="comment">//根目录</span></span><br><span class="line">hexo <span class="keyword">new</span> page categories <span class="comment">//tags和这个操作一致</span></span><br></pre></td></tr></table></figure>
-
-<br>
-
-<h4 id="第二步-找到新建的页面，添加type"><a href="#第二步-找到新建的页面，添加type" class="headerlink" title="第二步 找到新建的页面，添加type"></a>第二步 找到新建的页面，添加type</h4><p>新建的页面一般在source/categories/index.md中，添加以下内容：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">title: categories</span><br><span class="line">date: <span class="number">2019</span><span class="number">-12</span><span class="number">-25</span> <span class="number">09</span>:<span class="number">15</span>:<span class="number">45</span></span><br><span class="line">type: <span class="string">"categories"</span></span><br><span class="line">layout: <span class="string">"categories"</span></span><br></pre></td></tr></table></figure>
-
-<br>
-
-<h4 id="第三步-给你的页面添加分类"><a href="#第三步-给你的页面添加分类" class="headerlink" title="第三步 给你的页面添加分类"></a>第三步 给你的页面添加分类</h4><p>找到你的页面，在页面上方添加如下内容</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">title: 利用gitpages+hexo搭建自己的博客</span><br><span class="line">date: <span class="number">2019</span><span class="number">-12</span><span class="number">-25</span> <span class="number">09</span>:<span class="number">12</span>:<span class="number">55</span></span><br><span class="line">categories:</span><br><span class="line">- Hexo</span><br><span class="line">tags:</span><br><span class="line">- 前端</span><br></pre></td></tr></table></figure>
-
-<p>但此时部署到github上后，打开网页点击分类和标签页面还是出现404！</p>
-<br>
-
-<h4 id="第四步-解决方案"><a href="#第四步-解决方案" class="headerlink" title="第四步 解决方案"></a>第四步 解决方案</h4><p>实属官方坑人系列！！<br>主题配置文件_config.yml中的menu：<br>把 / 后面的空格全部去掉（刚开始的时候默认后面是加了空格导致点击页面出现404）<br><img src="/images/loading.png" data-original="hexo-categories%E5%92%8Ctags%E9%A1%B5%E9%9D%A2%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/1.png" alt></p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Vue之计算属性的应用</title>
     <url>/2020/02/17/Vue%E4%B9%8B%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7%E7%9A%84%E5%BA%94%E7%94%A8/</url>
     <content><![CDATA[<p>昨天面试的时候被问到了Vue计算属性相关的代码题，又是一脸懵逼呀…赶紧来总结一下。</p>
@@ -884,6 +856,34 @@
       </categories>
       <tags>
         <tag>Vue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo categories和tags页面不显示解决办法</title>
+    <url>/2019/12/25/hexo-categories%E5%92%8Ctags%E9%A1%B5%E9%9D%A2%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
+    <content><![CDATA[<p>﻿官网也有给出具体步骤，但是有坑<a href="http://theme-next.iissnan.com/theme-settings.html" target="_blank" rel="noopener">Hexo官网教程</a></p>
+<h4 id="第一步-在终端窗口下，定位到-Hexo-站点目录下。使用-hexo-new-page指令新建一个页面，命名为-categories-："><a href="#第一步-在终端窗口下，定位到-Hexo-站点目录下。使用-hexo-new-page指令新建一个页面，命名为-categories-：" class="headerlink" title="第一步 在终端窗口下，定位到 Hexo 站点目录下。使用 hexo new page指令新建一个页面，命名为 categories ："></a>第一步 在终端窗口下，定位到 Hexo 站点目录下。使用 hexo new page指令新建一个页面，命名为 categories ：</h4><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">cd hexo <span class="comment">//根目录</span></span><br><span class="line">hexo <span class="keyword">new</span> page categories <span class="comment">//tags和这个操作一致</span></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h4 id="第二步-找到新建的页面，添加type"><a href="#第二步-找到新建的页面，添加type" class="headerlink" title="第二步 找到新建的页面，添加type"></a>第二步 找到新建的页面，添加type</h4><p>新建的页面一般在source/categories/index.md中，添加以下内容：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">title: categories</span><br><span class="line">date: <span class="number">2019</span><span class="number">-12</span><span class="number">-25</span> <span class="number">09</span>:<span class="number">15</span>:<span class="number">45</span></span><br><span class="line">type: <span class="string">"categories"</span></span><br><span class="line">layout: <span class="string">"categories"</span></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h4 id="第三步-给你的页面添加分类"><a href="#第三步-给你的页面添加分类" class="headerlink" title="第三步 给你的页面添加分类"></a>第三步 给你的页面添加分类</h4><p>找到你的页面，在页面上方添加如下内容</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">title: 利用gitpages+hexo搭建自己的博客</span><br><span class="line">date: <span class="number">2019</span><span class="number">-12</span><span class="number">-25</span> <span class="number">09</span>:<span class="number">12</span>:<span class="number">55</span></span><br><span class="line">categories:</span><br><span class="line">- Hexo</span><br><span class="line">tags:</span><br><span class="line">- 前端</span><br></pre></td></tr></table></figure>
+
+<p>但此时部署到github上后，打开网页点击分类和标签页面还是出现404！</p>
+<br>
+
+<h4 id="第四步-解决方案"><a href="#第四步-解决方案" class="headerlink" title="第四步 解决方案"></a>第四步 解决方案</h4><p>实属官方坑人系列！！<br>主题配置文件_config.yml中的menu：<br>把 / 后面的空格全部去掉（刚开始的时候默认后面是加了空格导致点击页面出现404）<br><img src="/images/loading.png" data-original="hexo-categories%E5%92%8Ctags%E9%A1%B5%E9%9D%A2%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/1.png" alt></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -1863,6 +1863,29 @@
       </tags>
   </entry>
   <entry>
+    <title>数据量大导致传输速度慢解决方案——请求分片</title>
+    <url>/2021/03/14/%E6%95%B0%E6%8D%AE%E9%87%8F%E5%A4%A7%E5%AF%BC%E8%87%B4%E4%BC%A0%E8%BE%93%E9%80%9F%E5%BA%A6%E6%85%A2%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E2%80%94%E2%80%94%E8%AF%B7%E6%B1%82%E5%88%86%E7%89%87/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在开发过程中，遇到要请求几千行数据的需求，因为前端部分已经使用了<code>VirtualList</code>虚拟列表只渲染当前可视区域的视图，非可视区域的视图在用户滚动到可视区域再渲染：<br><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/20210314082757203.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTk3MzQxMA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>但仍不能解决数据加载缓慢问题。原因是数据量本身太大，导致传输的速度过慢，所以渲染到页面上的速度也很慢。</p>
+<br>
+
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>用<strong>请求分片</strong>的方式，先加载前50条数据，监听滑动到底部的事件，当列表下拉到底部的时候，再去请求后一百条数据。这么做每次只请求50条数据，传输速度就会很快。</p>
+<p>前端具体实现如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">PoemList</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="comment">// 设置请求偏移量</span></span><br><span class="line">  <span class="keyword">const</span> [offset, setOffset] = useState&lt;number&gt;(<span class="number">0</span>); </span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">	 ...</span><br><span class="line">	 <span class="comment">// 第一次请求</span></span><br><span class="line">      getPoemList(category, offset)</span><br><span class="line">        .then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">          setList(res);</span><br><span class="line">        &#125;)</span><br><span class="line">        .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="built_in">console</span>.error(err);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, []);</span><br><span class="line">	</span><br><span class="line">  <span class="comment">// 监听滑动到底部的事件</span></span><br><span class="line">  <span class="keyword">const</span> handleScrollToLower = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'scroll to lower!!'</span>);</span><br><span class="line">    <span class="keyword">const</span> curOffset = offset + <span class="number">1</span>;</span><br><span class="line">    setOffset(curOffset);</span><br><span class="line">	<span class="comment">// 后续请求，每次请求100条数据，这个100条是在后端根据offset控制的</span></span><br><span class="line">    getPoemList(category, curOffset)</span><br><span class="line">      .then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">        setList(list.concat(res));</span><br><span class="line">      &#125;)</span><br><span class="line">      .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.error(err);</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line">  </span><br><span class="line">  ......</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;View className=<span class="string">"poemList-container"</span>&gt;</span><br><span class="line">      &lt;View className=<span class="string">"top"</span>&gt;</span><br><span class="line">        &lt;View className=<span class="string">"title"</span>&gt;&#123;title&#125;&lt;<span class="regexp">/View&gt;</span></span><br><span class="line"><span class="regexp">        &lt;View className="desc"&gt;&#123;desc&#125;&lt;/</span>View&gt;</span><br><span class="line">      &lt;<span class="regexp">/View&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">      &#123;list.length &gt; 0 &amp;&amp; (</span></span><br><span class="line"><span class="regexp">        &lt;VirtualList</span></span><br><span class="line"><span class="regexp">          height=&#123;800&#125; /</span>* 列表的高度 *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">          width="100%" /</span>* 列表的宽度 *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">          itemData=&#123;list&#125; /</span>* 渲染列表的数据 *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">          itemCount=&#123;list.length&#125; /</span>*  渲染列表的长度 *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">          itemSize=&#123;80&#125; /</span>* 列表单项的高度  *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">          onScrollToLower=&#123;handleScrollToLower&#125;&gt;</span></span><br><span class="line"><span class="regexp">          &#123;listItem&#125;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>VirtualList&gt;</span><br><span class="line">      )&#125;</span><br><span class="line">    &lt;<span class="regexp">/View&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">export default React.memo(PoemList);</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>后端具体实现：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> Service = <span class="built_in">require</span>(<span class="string">'egg'</span>).Service;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PoemListService</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line">  <span class="keyword">async</span> getPoemList(category, offset) &#123;</span><br><span class="line">    <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="keyword">this</span>.findPoemList(category, offset*<span class="number">50</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">async</span> findPoemList(category, offset) &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; ctx &#125; = <span class="keyword">this</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 分片获取数据</span></span><br><span class="line">    <span class="keyword">switch</span> (category) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">0</span>: &#123;</span><br><span class="line">        <span class="keyword">const</span> res = <span class="keyword">await</span> ctx.model.Poems.findAll(&#123;</span><br><span class="line">          offset: offset,</span><br><span class="line">          limit: <span class="number">50</span>,</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>: &#123;</span><br><span class="line">        <span class="keyword">const</span> res = <span class="keyword">await</span> ctx.model.Poetry.findAll(&#123;</span><br><span class="line">          offset: offset,</span><br><span class="line">          limit: <span class="number">50</span>,</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2</span>: &#123;</span><br><span class="line">        <span class="keyword">const</span> res = <span class="keyword">await</span> ctx.model.Lunyu.findAll(&#123;</span><br><span class="line">          offset: offset,</span><br><span class="line">          limit: <span class="number">50</span>,</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">3</span>: &#123;</span><br><span class="line">        <span class="keyword">const</span> res = <span class="keyword">await</span> ctx.model.Shijing.findAll(&#123;</span><br><span class="line">          offset: offset,</span><br><span class="line">          limit: <span class="number">50</span>,</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports = PoemListService;</span><br></pre></td></tr></table></figure>
+<p>这里用到<code>sequelize</code>ORM。offset用于设置开始请求的偏移量（比如，如果offset为50，表示跳过前面49条数据，从第50条数据开始获取），<code>limit</code>表示数量。</p>
+]]></content>
+      <categories>
+        <category>小程序</category>
+      </categories>
+      <tags>
+        <tag>小程序</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>易混淆JS题目——this指向 闭包</title>
     <url>/2020/02/18/%E6%98%93%E6%B7%B7%E6%B7%86JS%E9%A2%98%E7%9B%AE%E2%80%94%E2%80%94this%E6%8C%87%E5%90%91-%E9%97%AD%E5%8C%85/</url>
     <content><![CDATA[<p>Q：代码运行结果</p>
@@ -1993,41 +2016,6 @@
       </tags>
   </entry>
   <entry>
-    <title>每日一题——按摩师</title>
-    <url>/2020/03/24/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E6%8C%89%E6%91%A9%E5%B8%88/</url>
-    <content><![CDATA[<h2 id="面试题-17-16-按摩师"><a href="#面试题-17-16-按摩师" class="headerlink" title="面试题 17.16. 按摩师"></a><a href="https://leetcode-cn.com/problems/the-masseuse-lcci/" target="_blank" rel="noopener">面试题 17.16. 按摩师</a></h2><p>一个有名的按摩师会收到源源不断的预约请求，每个预约都可以选择接或不接。在每次预约服务之间要有休息时间，因此她不能接受相邻的预约。给定一个预约请求序列，替按摩师找到最优的预约集合（总预约时间最长），返回总的分钟数。</p>
-<p>注意：本题相对原题稍作改动</p>
-<p>示例 1：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入： [1,2,3,1]</span><br><span class="line">输出： 4</span><br><span class="line">解释： 选择 1 号预约和 3 号预约，总时长 &#x3D; 1 + 3 &#x3D; 4。</span><br></pre></td></tr></table></figure>
-
-<p>示例 2：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入： [2,7,9,3,1]</span><br><span class="line">输出： 12</span><br><span class="line">解释： 选择 1 号预约、 3 号预约和 5 号预约，总时长 &#x3D; 2 + 9 + 1 &#x3D; 12。</span><br></pre></td></tr></table></figure>
-
-<p>示例 3：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入： [2,1,4,5,3,1,1,3]</span><br><span class="line">输出： 12</span><br><span class="line">解释： 选择 1 号预约、 3 号预约、 5 号预约和 8 号预约，总时长 &#x3D; 2 + 4 + 3 + 3 &#x3D; 12。</span><br></pre></td></tr></table></figure>
-
-
-
-<p>思路：</p>
-<p>动态规划的思想。但是这题和最大上升子序列的动态规划思想不同。这题与背包问题都是要求一个对于整体来说最大的和，但是最大上升子序列是求一个最长的上升子序列，之前的数要比当前的数小才能做一次计算，和是否相邻无关，所以最大上升子序列还需要在内层加多一层循环。</p>
-<p>题解：</p>
-<p>最初想的方案：</p>
-<p>内层多了一个循环。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number[]&#125;</span> <span class="variable">nums</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> massage = <span class="function"><span class="keyword">function</span>(<span class="params">nums</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> F=[];</span><br><span class="line">    <span class="keyword">if</span>(nums.length==<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> nums[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> m=<span class="number">0</span>;m&lt;nums.length;++m)&#123;</span><br><span class="line">        F[m]=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    F[<span class="number">0</span>]=nums[<span class="number">0</span>];</span><br><span class="line">    F[<span class="number">1</span>]=nums[<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">2</span>;i&lt;nums.length;++i)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> j=<span class="number">0</span>;j&lt;=i<span class="number">-2</span>;++j)&#123;</span><br><span class="line">            F[i]=<span class="built_in">Math</span>.max(F[j]+nums[i],F[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> max=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> t=<span class="number">0</span>;t&lt;F.length;++t)&#123;</span><br><span class="line">        <span class="keyword">if</span>(F[t]&gt;max)&#123;</span><br><span class="line">            max=F[t];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> max;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>后来看评论优化的题解：</p>
-<p><code>dp</code>思想：<code>F[i]=Math.max(F[i-1],F[i-2]+nums[i]);</code></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number[]&#125;</span> <span class="variable">nums</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> massage = <span class="function"><span class="keyword">function</span>(<span class="params">nums</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> F=[];</span><br><span class="line">    <span class="keyword">if</span>(nums.length==<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(nums.length==<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> nums[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> m=<span class="number">0</span>;m&lt;nums.length;++m)&#123;</span><br><span class="line">        F[m]=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    F[<span class="number">0</span>]=nums[<span class="number">0</span>];</span><br><span class="line">    F[<span class="number">1</span>]=<span class="built_in">Math</span>.max(nums[<span class="number">0</span>],nums[<span class="number">1</span>]);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">2</span>;i&lt;nums.length;++i)&#123;</span><br><span class="line">        F[i]=<span class="built_in">Math</span>.max(F[i<span class="number">-1</span>],F[i<span class="number">-2</span>]+nums[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> F[nums.length<span class="number">-1</span>];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>每日一题</category>
-      </categories>
-      <tags>
-        <tag>每日一题</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>每日一题——岛屿的最大面积</title>
     <url>/2020/03/15/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E5%B2%9B%E5%B1%BF%E7%9A%84%E6%9C%80%E5%A4%A7%E9%9D%A2%E7%A7%AF/</url>
     <content><![CDATA[<h2 id="岛屿的最大面积"><a href="#岛屿的最大面积" class="headerlink" title="岛屿的最大面积"></a><a href="https://leetcode-cn.com/problems/max-area-of-island/" target="_blank" rel="noopener">岛屿的最大面积</a></h2><p>给定一个包含了一些 0 和 1的非空二维数组 grid , 一个 岛屿 是由四个方向 (水平或垂直) 的 1 (代表土地) 构成的组合。你可以假设二维矩阵的四个边缘都被水包围着。</p>
@@ -2055,6 +2043,41 @@
 
 
 ]]></content>
+      <categories>
+        <category>每日一题</category>
+      </categories>
+      <tags>
+        <tag>每日一题</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>每日一题——按摩师</title>
+    <url>/2020/03/24/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E6%8C%89%E6%91%A9%E5%B8%88/</url>
+    <content><![CDATA[<h2 id="面试题-17-16-按摩师"><a href="#面试题-17-16-按摩师" class="headerlink" title="面试题 17.16. 按摩师"></a><a href="https://leetcode-cn.com/problems/the-masseuse-lcci/" target="_blank" rel="noopener">面试题 17.16. 按摩师</a></h2><p>一个有名的按摩师会收到源源不断的预约请求，每个预约都可以选择接或不接。在每次预约服务之间要有休息时间，因此她不能接受相邻的预约。给定一个预约请求序列，替按摩师找到最优的预约集合（总预约时间最长），返回总的分钟数。</p>
+<p>注意：本题相对原题稍作改动</p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入： [1,2,3,1]</span><br><span class="line">输出： 4</span><br><span class="line">解释： 选择 1 号预约和 3 号预约，总时长 &#x3D; 1 + 3 &#x3D; 4。</span><br></pre></td></tr></table></figure>
+
+<p>示例 2：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入： [2,7,9,3,1]</span><br><span class="line">输出： 12</span><br><span class="line">解释： 选择 1 号预约、 3 号预约和 5 号预约，总时长 &#x3D; 2 + 9 + 1 &#x3D; 12。</span><br></pre></td></tr></table></figure>
+
+<p>示例 3：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入： [2,1,4,5,3,1,1,3]</span><br><span class="line">输出： 12</span><br><span class="line">解释： 选择 1 号预约、 3 号预约、 5 号预约和 8 号预约，总时长 &#x3D; 2 + 4 + 3 + 3 &#x3D; 12。</span><br></pre></td></tr></table></figure>
+
+
+
+<p>思路：</p>
+<p>动态规划的思想。但是这题和最大上升子序列的动态规划思想不同。这题与背包问题都是要求一个对于整体来说最大的和，但是最大上升子序列是求一个最长的上升子序列，之前的数要比当前的数小才能做一次计算，和是否相邻无关，所以最大上升子序列还需要在内层加多一层循环。</p>
+<p>题解：</p>
+<p>最初想的方案：</p>
+<p>内层多了一个循环。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number[]&#125;</span> <span class="variable">nums</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> massage = <span class="function"><span class="keyword">function</span>(<span class="params">nums</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> F=[];</span><br><span class="line">    <span class="keyword">if</span>(nums.length==<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> nums[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> m=<span class="number">0</span>;m&lt;nums.length;++m)&#123;</span><br><span class="line">        F[m]=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    F[<span class="number">0</span>]=nums[<span class="number">0</span>];</span><br><span class="line">    F[<span class="number">1</span>]=nums[<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">2</span>;i&lt;nums.length;++i)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> j=<span class="number">0</span>;j&lt;=i<span class="number">-2</span>;++j)&#123;</span><br><span class="line">            F[i]=<span class="built_in">Math</span>.max(F[j]+nums[i],F[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> max=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> t=<span class="number">0</span>;t&lt;F.length;++t)&#123;</span><br><span class="line">        <span class="keyword">if</span>(F[t]&gt;max)&#123;</span><br><span class="line">            max=F[t];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> max;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>后来看评论优化的题解：</p>
+<p><code>dp</code>思想：<code>F[i]=Math.max(F[i-1],F[i-2]+nums[i]);</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number[]&#125;</span> <span class="variable">nums</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> massage = <span class="function"><span class="keyword">function</span>(<span class="params">nums</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> F=[];</span><br><span class="line">    <span class="keyword">if</span>(nums.length==<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(nums.length==<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> nums[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> m=<span class="number">0</span>;m&lt;nums.length;++m)&#123;</span><br><span class="line">        F[m]=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    F[<span class="number">0</span>]=nums[<span class="number">0</span>];</span><br><span class="line">    F[<span class="number">1</span>]=<span class="built_in">Math</span>.max(nums[<span class="number">0</span>],nums[<span class="number">1</span>]);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">2</span>;i&lt;nums.length;++i)&#123;</span><br><span class="line">        F[i]=<span class="built_in">Math</span>.max(F[i<span class="number">-1</span>],F[i<span class="number">-2</span>]+nums[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> F[nums.length<span class="number">-1</span>];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>每日一题</category>
       </categories>
@@ -2961,209 +2984,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Node——事件循环</title>
-    <url>/2020/04/07/Node%E2%80%94%E2%80%94%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/</url>
-    <content><![CDATA[<h2 id="异步IO"><a href="#异步IO" class="headerlink" title="异步IO"></a>异步IO</h2><p>异步IO是指操作系统提供的IO（数据进出）能力，比如键盘输入，对应到显示器上会有专门的数据输出接口，这就是我们生活中可见的IO能力；这个接口在向下会进入到操作系统这个层面，在操作系统中，会提供诸多的能力，比如：磁盘的读写，DNS的查询，数据库的连接啊，网络请求的处理，等等。</p>
-<p>在不同的操作系统层面，表现的不一致。有的是异步非阻塞的；有的是同步的阻塞的，无论如何，我们都可以看做是上层应用于下层系统之间的数据交互；上层依赖于下层，但是反过来，上层也可以对下层提供的这些能力进行改造。<strong>如果这种操作是异步的，非阻塞的，那么这种就是异步非阻塞的异步IO模型</strong>；<strong>如果是同步的阻塞的，那么就是同步IO模型</strong>。</p>
-<p><code>koa</code>就是一个上层的web服务框架，全部由JavaScript实现，他有操作系统之间的交互，全部通过<code>nodejs</code>来实现；如<code>nodejs</code>的 <code>readFile</code>就是一个异步非阻塞的接口，<code>readFileSync</code>就是一个同步阻塞接口。</p>
-<br>
-
-
-
-<h2 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h2><p>事件循环是指<code>Node.js</code>执行非阻塞I/O操作，尽管JavaScript是单线程的,但由于大多数内核都是多线程的，node.js会尽可能将操作装载到系统内核。因此它们可以处理在后台执行的多个操作。当其中一个操作完成时，内核会告诉Node.js，以便node.js可以将相应的回调添加到轮询队列中以最终执行。</p>
-<p><code>Node.js</code>是单线程执行的，同时它又是基于<strong>事件驱动</strong>和<strong>非阻塞IO</strong>编程模型。这就使得我们不用等待异步操作结果返回，就可以继续往下执行代码。当异步事件触发之后，就会通知主线程，主线程执行相应事件的回调。</p>
-<br>
-
-
-
-<h2 id="Node-js架构分析"><a href="#Node-js架构分析" class="headerlink" title="Node.js架构分析"></a>Node.js架构分析</h2><p>说道 Nodejs 架构, 首先要知道<code>Nodejs</code> 与 <code>V8</code> 和 <code>libUV</code> 的关系和作用:</p>
-<ul>
-<li><strong>V8:</strong> 执行 JS 的引擎. 也就是翻译 JS. 包括我们熟悉的编译优化, 垃圾回收等等.</li>
-<li><strong><code>libUV</code>:</strong> 提供 <code>async I/O</code>, 提供消息循环. 可见, 是操作系统 API 层的一个抽象层.</li>
-</ul>
-<blockquote>
-<p>JavaScript引擎是一种专门处理JavaScript脚本的虚拟机，一般会附带在网页浏览器中。</p>
-<p>V8：是Google开发的JavaScript引擎，用于Google Chrome和Chromium。V8能够即时编译JavaScript，使得JavaScript代码能够高效运行。</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092819.png" alt></p>
-<p>以往我们在执行c++的时候，会先进行编译工作，变为可执行文件后，再执行这个可执行文件。这个编译工作是由编译器完成的。</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092540.png" alt></p>
-<p>解释器就提供了一种边编译边运行的动态运行方法，而也正因为通过解释器运行的代码是边编译边运行的，所以运行的速度比静态编译的那种慢很多。</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092653.png" alt></p>
-<p>所以程序运行的方式分为<strong>静态编译</strong>和<strong>动态编译</strong>。</p>
-</blockquote>
-<p>回到<code>Node.js</code>架构，<code>Node.js</code>如何组织它们呢？</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092915.png" alt></p>
-<p><code>Node.js</code>通过一层C++ Binding，把JavaScript传给V8，V8解析后交给<code>libUV</code>发起异步IO，并等待消息循环调度。所以，<code>Node.js</code>实现异步机制的核心便是<code>libUV</code>。</p>
-<p><code>Node.js</code>启动过程可以分为以下步骤：</p>
-<p>1、调用platformInit方法 ，初始化 nodejs 的运行环境。</p>
-<p>2、调用 performance_node_start 方法，对 nodejs 进行性能统计。</p>
-<p>3、openssl设置的判断。</p>
-<p>4、调用v8_platform.Initialize，初始化 libuv 线程池。</p>
-<p>5、调用 V8::Initialize，初始化 V8 环境。</p>
-<p>6、创建一个nodejs运行实例。</p>
-<p>7、启动上一步创建好的实例。</p>
-<p>8、开始执行js文件，同步代码执行完毕后，进入事件循环。</p>
-<p>9、在没有任何可监听的事件时，销毁 nodejs 实例，程序执行完毕。</p>
-<p>以上是<code>Node.js</code>执行一个<code>JavaScript</code>文件的全过程，事件循环是在第八个步骤中。</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407093630.png" alt></p>
-<p>Nodejs 完全是单线程的. 从进程启动后, 由主线程加载我们的 js 文件(下图中 main.js), 然后进入消息循环. 可见对于 js 程序而言, 完整运行在单线程之中。</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407093708.png" alt></p>
-<h2 id="事件循环-1"><a href="#事件循环-1" class="headerlink" title="事件循环"></a>事件循环</h2><p><code>Node.js</code>中事件循环分为6个阶段：</p>
-<ul>
-<li><code>timers</code>：执行<code>setTimeout()</code> 和 <code>setInterval()</code>中到期的回调。</li>
-<li><code>I/O callbacks</code>：上一轮循环中有少数的<code>I/Ocallback</code>会被延迟到这一轮的这一阶段执行</li>
-<li><code>idle, prepare</code>：仅内部使用</li>
-<li><code>poll</code>：最为重要的阶段，执行I/O 回调，在适当的条件下会阻塞在这个阶段</li>
-<li><code>check</code>：执行<code>setImmediate</code>的回调</li>
-<li><code>close callbacks</code>：执行close事件的回调，例如<code>socket.on(&quot;close&quot;,func)</code></li>
-</ul>
-<blockquote>
-<p>重点关注<code>timers</code>、<code>poll</code>、<code>check</code>三个阶段</p>
-</blockquote>
-<img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407093930.png" style="zoom: 50%;">
-
-
-
-<h3 id="步骤："><a href="#步骤：" class="headerlink" title="步骤："></a>步骤：</h3><ul>
-<li><p><code>node</code>的初始化</p>
-<ul>
-<li>初始化node环境</li>
-<li>执行同步任务（例如<code>console.log</code>）</li>
-<li>执行<code>process.nextTick</code>回调</li>
-<li>执行<code>microtasks</code>（<code>Promise.then</code>）</li>
-</ul>
-</li>
-<li><p>进入<code>event-loop</code></p>
-<ol>
-<li><p>进入<code>timers</code>阶段</p>
-<ul>
-<li>检查timer队列是否有到期的timer回调，如果有，将到期的timer回调按照<code>timerID</code>升序执行</li>
-<li>检查是否有<code>process.nextTick</code>任务，如果有，全部执行</li>
-<li>检查是否有<code>microtask</code>，如果有，全部执行</li>
-<li>退出该阶段</li>
-</ul>
-</li>
-<li><p>进入<code>IO callback</code>阶段</p>
-<ul>
-<li>检查是否有 pending 的 I/O 回调。如果有，执行回调。如果没有，退出该阶段。</li>
-<li>检查是否有 <code>process.nextTick</code> 任务，如果有，全部执行。</li>
-<li>检查是否有microtask，如果有，全部执行。</li>
-<li>退出该阶段。</li>
-</ul>
-</li>
-<li><p>进入<code>idle</code>、<code>prepare</code>阶段：</p>
-<p>这两个阶段与我们编程关系不大，暂且按下不表。</p>
-</li>
-<li><p>进入<code>poll</code>阶段</p>
-<p>首先检查是否存在尚未完成的回调，如果存在，分两种情况：</p>
-<ul>
-<li><p>如果有可用回调（可用回调包含：<strong>到期的定时器</strong>、一些<strong>IO事件</strong>等），执行所有可用回调。</p>
-<ul>
-<li><p>检查是否有<code>process.nextTick</code>回调，如果有，全部执行</p>
-</li>
-<li><p>检查是否有 <code>microtaks</code>，如果有，全部执行。</p>
-</li>
-<li><p>退出该阶段。</p>
-</li>
-</ul>
-</li>
-<li><p>如果没有可用回调</p>
-<ul>
-<li>检查是否有<code>setImmediate</code>回调，如果有，退出<code>poll</code>阶段。如果没有，阻塞在此阶段，等待新的事件通知。</li>
-<li>如果不存在尚未完成的回调，退出<code>poll</code>。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>进入<code>check</code>阶段</p>
-<ul>
-<li>如果有immediate回调，则执行所有immediate回调。</li>
-<li>检查是否有 process.nextTick 回调，如果有，全部执行。</li>
-<li>检查是否有 microtaks，如果有，全部执行。</li>
-<li>退出 check 阶段</li>
-</ul>
-</li>
-<li><p>进入<code>closing</code>阶段</p>
-<ul>
-<li>如果有immediate回调，则执行所有immediate回调。</li>
-<li>检查是否有 process.nextTick 回调，如果有，全部执行。</li>
-<li>检查是否有 microtaks，如果有，全部执行。</li>
-<li>退出 closing 阶段</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-<blockquote>
-<p>在事件循环的每个子阶段退出之前都会按顺序执行如下过程：</p>
-<ul>
-<li>检查是否有 process.nextTick 回调，如果有，全部执行。</li>
-<li>检查是否有 microtaks，如果有，全部执行。</li>
-<li>退出当前阶段。</li>
-</ul>
-</blockquote>
-<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="process-nextTick和Promise"><a href="#process-nextTick和Promise" class="headerlink" title="process.nextTick和Promise"></a><code>process.nextTick</code>和<code>Promise</code></h3><p>这个队列先保证所有的 <code>process.nextTick</code> 回调, 然后将所有的 <code>Promise</code> 回调追加在后面. 最终在每个 Phase 结束的时候一次性拿出来执行。</p>
-<h3 id="setTimeout-0-vs-setImmediate-到底谁快"><a href="#setTimeout-0-vs-setImmediate-到底谁快" class="headerlink" title="setTimeout(..., 0)vs. setImmediate 到底谁快?"></a><code>setTimeout(..., 0)</code>vs. <code>setImmediate</code> 到底谁快?</h3><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// index.js</span></span><br><span class="line"></span><br><span class="line">setImmediate(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="number">2</span>))</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="number">1</span>),<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-
-<p>答案：可能是1 2，也可能是2 1。</p>
-<p>首先我们在初始化阶段会将<code>setImmediate</code>添加到<code>check phase</code>中，将<code>setTimeout</code>添加到<code>timer phase</code>中。</p>
-<ul>
-<li>如果进入<code>timer phase</code>的时间 &gt; 消息循环保存的时间（即将以上两个回调添加到它们各自的<code>phase</code>的时间）<ul>
-<li>那在进入<code>timer phase</code>的时候<code>setTimeout</code>的回调已经在里面了，就可以立即执行，然后到<code>check phase</code>的时候再执行<code>setImmediate</code>的回调。此时输出1 2。</li>
-</ul>
-</li>
-<li>如果进入<code>timer phase</code>的时间 &lt; 消息循环保存的时间（即将以上两个回调添加到它们各自的<code>phase</code>的时间）<ul>
-<li>那在进入<code>timer phase</code>的时候<code>setTimeout</code>的回调还不在里面，那就会先执行<code>check phase</code>中的<code>setImmediate</code>，然后在下一轮循环中再执行<code>timer phase</code>中的<code>setTimeout</code>。此时输出2 1。</li>
-</ul>
-</li>
-</ul>
-<p>如果把代码改为如下，则一定会得到稳定输出：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">'fs'</span>).readFile(<span class="string">'my-file-path.txt'</span>, () =&gt; &#123;</span><br><span class="line"> setImmediate(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="number">2</span>))</span><br><span class="line"> setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="number">1</span>))</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 2 1</span></span><br></pre></td></tr></table></figure>
-
-<p>因为消息在<code>poll phase</code>才会将<code>setImmediate</code>进入<code>check phase</code>，将<code>setTimeout</code>进入<code>timer phase</code>，那<code>poll</code>阶段后就回到<code>check</code>阶段，所以会输出2 1。</p>
-<h3 id="判断输出顺序"><a href="#判断输出顺序" class="headerlink" title="判断输出顺序"></a>判断输出顺序</h3><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">setImmediate(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'setImmediate1'</span>);</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'setTimeout1'</span>)</span><br><span class="line">    &#125;, <span class="number">0</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'then'</span>);</span><br><span class="line">&#125;)</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    process.nextTick(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'nextTick'</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'setTimeout2'</span>);</span><br><span class="line">    setImmediate(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'setImmediate2'</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"><span class="comment">//then setTimeout2  nextTick  setImmediate1 setImmediate2 setTimeout1</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p><code>step1</code>：初始化阶段</p>
-<ul>
-<li><code>setImmediate</code>进入<code>check phase</code>、<code>Promise.resolve().then</code>进入微任务<code>event queue</code>、<code>setTimeout</code>进入<code>timer phase</code>。</li>
-<li>没有<code>process.nextTick</code></li>
-<li>执行<code>microtask</code>，输出<code>then</code></li>
-<li>结束该阶段</li>
-</ul>
-<p><code>step2</code>：进入<code>Timer phase</code>（或者<code>poll phase</code>？）</p>
-<ul>
-<li>执行<code>setTimeout</code></li>
-<li>执行<code>console.log(&#39;setTimeout2&#39;)</code>，输出<code>setTimeout2</code></li>
-<li><code>setImmediate</code>进入<code>check phase</code></li>
-<li>有<code>process.nextTick</code>，输出<code>nextTick</code></li>
-</ul>
-<p><code>step3</code>：进入<code>check phase</code></p>
-<ul>
-<li>执行第一个<code>setImmediate</code>，输出<code>setImmediate1</code>，将<code>setTimeout</code>进入<code>Timer phase</code></li>
-<li>执行第二个<code>setImmediate</code>，输出<code>setImmediate2</code></li>
-</ul>
-<p><code>step4</code>：下一个循环，进入<code>Timer phase</code></p>
-<ul>
-<li>执行<code>setTimeout</code>，输出<code>setTimeout1</code></li>
-</ul>
-<br>
-
-<p>参考：</p>
-<p><a href="https://juejin.im/post/5b61d8e3e51d45191d7a28a8" target="_blank" rel="noopener">https://juejin.im/post/5b61d8e3e51d45191d7a28a8</a></p>
-<p><a href="https://www.jianshu.com/p/906eafb41ea6" target="_blank" rel="noopener">https://www.jianshu.com/p/906eafb41ea6</a></p>
-<br>
-
-]]></content>
-      <categories>
-        <category>Node.js</category>
-      </categories>
-      <tags>
-        <tag>Node.js</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Node——Connect和Express</title>
     <url>/2020/04/05/Node%E2%80%94%E2%80%94Connect%E5%92%8CExpress/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><code>Connect</code>和<code>Express</code>是两个热门的Node模块。<code>Express</code>就是在<code>Connect</code>的基础上，通过添加高层糖衣扩展和搭建出来的。</p>
@@ -3456,53 +3276,206 @@
       </tags>
   </entry>
   <entry>
-    <title>React useEffect Hook的对象 &amp; 数组依赖</title>
-    <url>/2021/03/13/React-useEffect-Hook%E7%9A%84%E5%AF%B9%E8%B1%A1-%E6%95%B0%E7%BB%84%E4%BE%9D%E8%B5%96/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><code>useEffect</code>可以说是使用<code>React</code> <code>Hook</code>时最常用的hook，可以用于实现一些生命周期操作和对变量的监听。</p>
-<p>本文是对<a href="https://www.benmvp.com/blog/object-array-dependencies-react-useEffect-hook/" target="_blank" rel="noopener">Object &amp; array dependencies in the React useEffect Hook</a>的翻译，帮助自己更好地理解<code>useEffect</code>的同时，也希望帮助到大家。</p>
-<h1 id="useEffect"><a href="#useEffect" class="headerlink" title="useEffect"></a><code>useEffect</code></h1><p><code>useEffect</code>在没有设置第二个参数的时候，会在每次渲染的时候执行其回调：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> Example = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [count, setCount] = useState(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">document</span>.title = <span class="string">`You clicked <span class="subst">$&#123;count&#125;</span> times`</span></span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;p&gt;You clicked &#123;count&#125; times&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;() =&gt; setCount(count + 1)&#125;&gt;Click me&lt;/</span>button&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
-<p>然而，我们一般很少这么用，因为通常我们并不需要在每次渲染的时候都执行回调，这样会执行不必要次数导致性能下降。</p>
-<p><code>useEffect</code>有第二个参数，称为依赖数组，只有当依赖数组内的元素发生变化的时候，才会执行<code>useEffect</code>的回调。这么做就能够优化<code>effect</code>执行的次数。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> Example = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [count, setCount] = useState(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">document</span>.title = <span class="string">`You clicked <span class="subst">$&#123;count&#125;</span> times`</span></span><br><span class="line">  &#125;, [count]) <span class="comment">// Only re-run the effect if count changes</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;p&gt;You clicked &#123;count&#125; times&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;() =&gt; setCount(count + 1)&#125;&gt;Click me&lt;/</span>button&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
-<p>这种做法在数组元素类型为基本数据类型时可以起到作用。但对于复杂数据类型如：对象，数组和函数来说，<code>React</code>会使用<code>referential equality</code>来对比前后是否有不同。</p>
-<p><code>React</code>会检查当前渲染下的这个对象和上一次渲染下的对象的内存地址是否一致。两个对象必须是同一个对象<code>useEffect</code>才会跳过执行<code>effect</code>。所以，即使内容完全相同，内存地址不同的话，<code>useEffect</code>还是会执行<code>effect</code>。</p>
-<h2 id="Option-1-依赖于对象属性"><a href="#Option-1-依赖于对象属性" class="headerlink" title="Option 1 - 依赖于对象属性"></a>Option 1 - 依赖于对象属性</h2><p>在这个例子中，当前组件会从<code>props</code>获取一个对象，并在<code>useEffect</code>的依赖数组中使用这个对象：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> &#123; getPlayers &#125; <span class="keyword">from</span> <span class="string">'../api'</span></span><br><span class="line"><span class="keyword">import</span> Players <span class="keyword">from</span> <span class="string">'../components/Players'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Team = <span class="function">(<span class="params">&#123; team &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [players, setPlayers] = useState([])</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (team.active) &#123;</span><br><span class="line">      getPlayers(team.id).then(setPlayers)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, [team])</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">Players</span> <span class="attr">team</span>=<span class="string">&#123;team&#125;</span> <span class="attr">players</span>=<span class="string">&#123;players&#125;</span> /&gt;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>理想情况下，<code>props</code>传入的<code>team</code>的内容是一样的话，其内存地址也会相同。但这其实是无法保证的。</p>
-<p>所以，为了解决这个问题，我们可以只使用<code>team</code>对象里的一些属性，而不是使用整个对象。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> &#123; getPlayers &#125; <span class="keyword">from</span> <span class="string">'../api'</span></span><br><span class="line"><span class="keyword">import</span> Players <span class="keyword">from</span> <span class="string">'../components/Players'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Team = <span class="function">(<span class="params">&#123; team &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [players, setPlayers] = useState([])</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (team.active) &#123;</span><br><span class="line">      getPlayers(team.id).then(setPlayers)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, [team.id, team.active])</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">Players</span> <span class="attr">team</span>=<span class="string">&#123;team&#125;</span> <span class="attr">players</span>=<span class="string">&#123;players&#125;</span> /&gt;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>假设<code>team</code>对象中的<code>id</code>和<code>active</code>属性都是基本数据类型，<code>effect</code>就只会在<code>id</code>或者<code>active</code>属性发生变化的时候执行（注意是或，不是且）。</p>
-<p><code>team</code>对象如果是在组件内被创建的话也能够起到作用：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> &#123; getPlayers &#125; <span class="keyword">from</span> <span class="string">'../api'</span></span><br><span class="line"><span class="keyword">import</span> Players <span class="keyword">from</span> <span class="string">'../components/Players'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Team = <span class="function">(<span class="params">&#123; id, name, active &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// construct the object from props and/or state</span></span><br><span class="line">  <span class="keyword">const</span> team = &#123; id, name, active &#125;</span><br><span class="line">  <span class="keyword">const</span> [players, setPlayers] = useState([])</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (team.active) &#123;</span><br><span class="line">      getPlayers(team.id).then(setPlayers)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, [team.id, team.active])</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">Players</span> <span class="attr">team</span>=<span class="string">&#123;team&#125;</span> <span class="attr">players</span>=<span class="string">&#123;players&#125;</span> /&gt;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>所以，即使<code>team</code>对象在每次渲染过程中都重新被创建，也不会导致<code>effect</code>每次渲染都会执行，因为<code>useEffect</code>只依赖于<code>id</code>和<code>active</code>属性。</p>
-<p>需要注意的是，这个方案不适用于依赖元素为数组的情况。</p>
-<h2 id="Option2-在内部创建对象"><a href="#Option2-在内部创建对象" class="headerlink" title="Option2 - 在内部创建对象"></a>Option2 - 在内部创建对象</h2><p>在上一个例子中，如果<code>effect</code>不是使用对象里的元素，而是以整个对象作为依赖会发生什么呢？</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> &#123; getPlayers &#125; <span class="keyword">from</span> <span class="string">'../api'</span></span><br><span class="line"><span class="keyword">import</span> Players <span class="keyword">from</span> <span class="string">'../components/Players'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Team = <span class="function">(<span class="params">&#123; id, name, active &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// construct the object from props/state</span></span><br><span class="line">  <span class="keyword">const</span> team = &#123; id, name, active &#125;</span><br><span class="line">  <span class="keyword">const</span> [players, setPlayers] = useState([])</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (team.active) &#123;</span><br><span class="line">      getPlayers(team).then(setPlayers)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, [team])</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">Players</span> <span class="attr">team</span>=<span class="string">&#123;team&#125;</span> <span class="attr">players</span>=<span class="string">&#123;players&#125;</span> /&gt;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>team</code>对象是在每次渲染下重新创建的，所以<code>useEffect</code>在每次重新渲染时都会执行。</p>
-<p>幸运的是，<code>react-hooks/exhaustive-deps</code>ESLint rule提示道：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">The &#39;team&#39; object makes the dependencies of useEffect Hook</span><br><span class="line">change on every render. To fix this, wrap the initialization</span><br><span class="line">of &#39;team&#39; in its own useMemo() Hook.</span><br></pre></td></tr></table></figure>
+    <title>Node——事件循环</title>
+    <url>/2020/04/07/Node%E2%80%94%E2%80%94%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/</url>
+    <content><![CDATA[<h2 id="异步IO"><a href="#异步IO" class="headerlink" title="异步IO"></a>异步IO</h2><p>异步IO是指操作系统提供的IO（数据进出）能力，比如键盘输入，对应到显示器上会有专门的数据输出接口，这就是我们生活中可见的IO能力；这个接口在向下会进入到操作系统这个层面，在操作系统中，会提供诸多的能力，比如：磁盘的读写，DNS的查询，数据库的连接啊，网络请求的处理，等等。</p>
+<p>在不同的操作系统层面，表现的不一致。有的是异步非阻塞的；有的是同步的阻塞的，无论如何，我们都可以看做是上层应用于下层系统之间的数据交互；上层依赖于下层，但是反过来，上层也可以对下层提供的这些能力进行改造。<strong>如果这种操作是异步的，非阻塞的，那么这种就是异步非阻塞的异步IO模型</strong>；<strong>如果是同步的阻塞的，那么就是同步IO模型</strong>。</p>
+<p><code>koa</code>就是一个上层的web服务框架，全部由JavaScript实现，他有操作系统之间的交互，全部通过<code>nodejs</code>来实现；如<code>nodejs</code>的 <code>readFile</code>就是一个异步非阻塞的接口，<code>readFileSync</code>就是一个同步阻塞接口。</p>
+<br>
 
-<p>在我们使用ESLint推荐的使用<code>useMemo</code> Hook之前，我们可以尝试更加简单的操作。我们可以尝试两次创建<code>team</code>对象，一个用于传递给<code>Player</code>子组件，一个用于<code>useEffect</code>内部。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> &#123; getPlayers &#125; <span class="keyword">from</span> <span class="string">'../api'</span></span><br><span class="line"><span class="keyword">import</span> Players <span class="keyword">from</span> <span class="string">'../components/Players'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Team = <span class="function">(<span class="params">&#123; id, name, active &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [players, setPlayers] = useState([])</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// recreate the `team` object within `useEffect`</span></span><br><span class="line">    <span class="comment">// from props/state</span></span><br><span class="line">    <span class="keyword">const</span> team = &#123; id, name, active &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (team.active) &#123;</span><br><span class="line">      getPlayers(team).then(setPlayers)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, [id, name, active])</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> team = &#123; id, name, active &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">Players</span> <span class="attr">team</span>=<span class="string">&#123;team&#125;</span> <span class="attr">players</span>=<span class="string">&#123;players&#125;</span> /&gt;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>现在<code>team</code>对象是在<code>useEffect</code>内部被创建，并且只在<code>effect</code>要被执行的时候被创建。<code>id</code>、<code>name</code>、<code>active</code>作为依赖，只有当这些值发生变化的时候<code>effect</code>才会执行。</p>
-<p><strong>创建对象相对来说开销是比较小的，所以在useEffect中重新创建一个<code>team</code>对象是可以接受的。</strong><br>优化<code>useEffect</code>所带来的性能提升远远大于创建两个对象所带来的性能损耗。</p>
-<h2 id="Option3-记忆对象"><a href="#Option3-记忆对象" class="headerlink" title="Option3 - 记忆对象"></a>Option3 - 记忆对象</h2><p>然而，如果创建对象或数组的开销是昂贵的，那重复创建对象就会比执行多次<code>effect</code>更糟糕。在这种情况下，我们需要“缓存”创建的对象或数组，这样当其中的数据没有发生变化时，这个对象或数组就不会在渲染过程中发生变化。这个过程称为“记忆”（memoization），我们通过<code>useMemo</code>来实现。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useState, useEffect, useMemo &#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> &#123; createTeam &#125; <span class="keyword">from</span> <span class="string">'../utils'</span></span><br><span class="line"><span class="keyword">import</span> &#123; getPlayers &#125; <span class="keyword">from</span> <span class="string">'../api'</span></span><br><span class="line"><span class="keyword">import</span> Players <span class="keyword">from</span> <span class="string">'../components/Players'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Team = <span class="function">(<span class="params">&#123; id, name, active &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// memoize calling `createTeam` because it's</span></span><br><span class="line">  <span class="comment">// an expensive operation</span></span><br><span class="line">  <span class="keyword">const</span> team = useMemo(<span class="function"><span class="params">()</span> =&gt;</span> createTeam(&#123; id, name, active &#125;), [</span><br><span class="line">    id,</span><br><span class="line">    name,</span><br><span class="line">    active,</span><br><span class="line">  ])</span><br><span class="line">  <span class="keyword">const</span> [players, setPlayers] = useState([])</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (team.active) &#123;</span><br><span class="line">      getPlayers(team).then(setPlayers)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, [team])</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">Players</span> <span class="attr">team</span>=<span class="string">&#123;team&#125;</span> <span class="attr">players</span>=<span class="string">&#123;players&#125;</span> /&gt;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>假设这个<code>createTeam()</code>方法开销昂贵，那我们自然会希望它执行的次数越少越好。<code>useMemo</code> Hook可以实现只有在<code>id</code>、<code>name</code>或者<code>active</code>在渲染过程中发生变化时，才会再次创建<code>team</code>。但如果在<code>Team</code>组件重新渲染过程中，以上属性没有一个发生变化，<code>team</code>对象就会是同一个对象。因为是同一个对象，我们就可以放心地使用<code>useEffect</code>，不用担心会执行不必要的次数。</p>
-<h2 id="Option-4-自己创建"><a href="#Option-4-自己创建" class="headerlink" title="Option 4 - 自己创建"></a>Option 4 - 自己创建</h2><p>如果以上方案都无法解决问题怎么办？比如从<code>props</code>中传入了对象或者数组，这个对象或数组会成为<code>useEffect</code>的依赖数组元素，而且我们并不知道创建一个新的<code>team</code>对象所需的属性。但我们还是想要实现在组件渲染过程中“缓存”这个对象的值。</p>
-<p>在这种情况下，我们可以使用<code>useRef</code> Hook替代<code>useMemo</code> Hook。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useState, useEffect, useRef &#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> isDeepEqual <span class="keyword">from</span> <span class="string">'fast-deep-equal/react'</span></span><br><span class="line"><span class="keyword">import</span> &#123; getPlayers &#125; <span class="keyword">from</span> <span class="string">'../api'</span></span><br><span class="line"><span class="keyword">import</span> Players <span class="keyword">from</span> <span class="string">'../components/Players'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Team = <span class="function">(<span class="params">&#123; team &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [players, setPlayers] = useState([])</span><br><span class="line">  <span class="keyword">const</span> teamRef = useRef(team)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (!isDeepEqual(teamRef.current, team)) &#123;</span><br><span class="line">    teamRef.current = team</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (team.active) &#123;</span><br><span class="line">      getPlayers(team).then(setPlayers)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, [teamRef.current])</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">Players</span> <span class="attr">team</span>=<span class="string">&#123;team&#125;</span> <span class="attr">players</span>=<span class="string">&#123;players&#125;</span> /&gt;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里使用了<code>isDeepEqual</code>来判断<code>teamRef.current</code>和<code>team</code>的值是否一致，而不是比较两者的内存地址。所以，即使在每次渲染过程中<code>team</code>对象是一个新的对象，如果它的内容是一致的，<code>isDeepEqual()</code>也会返回<code>true</code>。</p>
-<p>所以当两者在做深比较的时候，如果内容一致，<code>isDeepEqual</code>会返回<code>true</code>，<code>teamRef.current</code>会继续指向原本<code>team</code>对象的内存地址。那依赖数组里的元素<code>teamRef.current</code>就没有发生变化，<code>useEffect</code>也不会再执行。如果<code>isDeepEqual</code>返回<code>false</code>，<code>teamRef.current</code>就会被赋予新的<code>team</code>值，<code>effect</code>就会执行。</p>
-<p>如果你发现自己遇到了Option4这样的情况，我建议安装<code>react-use</code>npm包，使用其中的<code>useDeepCompareEffect</code> Hook来解决问题，还能够避免<code>react-hooks/exhaustive-deps</code>lint rule报错。</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>大多数情况下，我能用Option1来解决问题。如果Option1无法解决，我就会使用<code>react-use</code>包里的helper Hook来解决问题。</p>
+
+
+<h2 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h2><p>事件循环是指<code>Node.js</code>执行非阻塞I/O操作，尽管JavaScript是单线程的,但由于大多数内核都是多线程的，node.js会尽可能将操作装载到系统内核。因此它们可以处理在后台执行的多个操作。当其中一个操作完成时，内核会告诉Node.js，以便node.js可以将相应的回调添加到轮询队列中以最终执行。</p>
+<p><code>Node.js</code>是单线程执行的，同时它又是基于<strong>事件驱动</strong>和<strong>非阻塞IO</strong>编程模型。这就使得我们不用等待异步操作结果返回，就可以继续往下执行代码。当异步事件触发之后，就会通知主线程，主线程执行相应事件的回调。</p>
+<br>
+
+
+
+<h2 id="Node-js架构分析"><a href="#Node-js架构分析" class="headerlink" title="Node.js架构分析"></a>Node.js架构分析</h2><p>说道 Nodejs 架构, 首先要知道<code>Nodejs</code> 与 <code>V8</code> 和 <code>libUV</code> 的关系和作用:</p>
+<ul>
+<li><strong>V8:</strong> 执行 JS 的引擎. 也就是翻译 JS. 包括我们熟悉的编译优化, 垃圾回收等等.</li>
+<li><strong><code>libUV</code>:</strong> 提供 <code>async I/O</code>, 提供消息循环. 可见, 是操作系统 API 层的一个抽象层.</li>
+</ul>
+<blockquote>
+<p>JavaScript引擎是一种专门处理JavaScript脚本的虚拟机，一般会附带在网页浏览器中。</p>
+<p>V8：是Google开发的JavaScript引擎，用于Google Chrome和Chromium。V8能够即时编译JavaScript，使得JavaScript代码能够高效运行。</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092819.png" alt></p>
+<p>以往我们在执行c++的时候，会先进行编译工作，变为可执行文件后，再执行这个可执行文件。这个编译工作是由编译器完成的。</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092540.png" alt></p>
+<p>解释器就提供了一种边编译边运行的动态运行方法，而也正因为通过解释器运行的代码是边编译边运行的，所以运行的速度比静态编译的那种慢很多。</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092653.png" alt></p>
+<p>所以程序运行的方式分为<strong>静态编译</strong>和<strong>动态编译</strong>。</p>
+</blockquote>
+<p>回到<code>Node.js</code>架构，<code>Node.js</code>如何组织它们呢？</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092915.png" alt></p>
+<p><code>Node.js</code>通过一层C++ Binding，把JavaScript传给V8，V8解析后交给<code>libUV</code>发起异步IO，并等待消息循环调度。所以，<code>Node.js</code>实现异步机制的核心便是<code>libUV</code>。</p>
+<p><code>Node.js</code>启动过程可以分为以下步骤：</p>
+<p>1、调用platformInit方法 ，初始化 nodejs 的运行环境。</p>
+<p>2、调用 performance_node_start 方法，对 nodejs 进行性能统计。</p>
+<p>3、openssl设置的判断。</p>
+<p>4、调用v8_platform.Initialize，初始化 libuv 线程池。</p>
+<p>5、调用 V8::Initialize，初始化 V8 环境。</p>
+<p>6、创建一个nodejs运行实例。</p>
+<p>7、启动上一步创建好的实例。</p>
+<p>8、开始执行js文件，同步代码执行完毕后，进入事件循环。</p>
+<p>9、在没有任何可监听的事件时，销毁 nodejs 实例，程序执行完毕。</p>
+<p>以上是<code>Node.js</code>执行一个<code>JavaScript</code>文件的全过程，事件循环是在第八个步骤中。</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407093630.png" alt></p>
+<p>Nodejs 完全是单线程的. 从进程启动后, 由主线程加载我们的 js 文件(下图中 main.js), 然后进入消息循环. 可见对于 js 程序而言, 完整运行在单线程之中。</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407093708.png" alt></p>
+<h2 id="事件循环-1"><a href="#事件循环-1" class="headerlink" title="事件循环"></a>事件循环</h2><p><code>Node.js</code>中事件循环分为6个阶段：</p>
+<ul>
+<li><code>timers</code>：执行<code>setTimeout()</code> 和 <code>setInterval()</code>中到期的回调。</li>
+<li><code>I/O callbacks</code>：上一轮循环中有少数的<code>I/Ocallback</code>会被延迟到这一轮的这一阶段执行</li>
+<li><code>idle, prepare</code>：仅内部使用</li>
+<li><code>poll</code>：最为重要的阶段，执行I/O 回调，在适当的条件下会阻塞在这个阶段</li>
+<li><code>check</code>：执行<code>setImmediate</code>的回调</li>
+<li><code>close callbacks</code>：执行close事件的回调，例如<code>socket.on(&quot;close&quot;,func)</code></li>
+</ul>
+<blockquote>
+<p>重点关注<code>timers</code>、<code>poll</code>、<code>check</code>三个阶段</p>
+</blockquote>
+<img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407093930.png" style="zoom: 50%;">
+
+
+
+<h3 id="步骤："><a href="#步骤：" class="headerlink" title="步骤："></a>步骤：</h3><ul>
+<li><p><code>node</code>的初始化</p>
+<ul>
+<li>初始化node环境</li>
+<li>执行同步任务（例如<code>console.log</code>）</li>
+<li>执行<code>process.nextTick</code>回调</li>
+<li>执行<code>microtasks</code>（<code>Promise.then</code>）</li>
+</ul>
+</li>
+<li><p>进入<code>event-loop</code></p>
+<ol>
+<li><p>进入<code>timers</code>阶段</p>
+<ul>
+<li>检查timer队列是否有到期的timer回调，如果有，将到期的timer回调按照<code>timerID</code>升序执行</li>
+<li>检查是否有<code>process.nextTick</code>任务，如果有，全部执行</li>
+<li>检查是否有<code>microtask</code>，如果有，全部执行</li>
+<li>退出该阶段</li>
+</ul>
+</li>
+<li><p>进入<code>IO callback</code>阶段</p>
+<ul>
+<li>检查是否有 pending 的 I/O 回调。如果有，执行回调。如果没有，退出该阶段。</li>
+<li>检查是否有 <code>process.nextTick</code> 任务，如果有，全部执行。</li>
+<li>检查是否有microtask，如果有，全部执行。</li>
+<li>退出该阶段。</li>
+</ul>
+</li>
+<li><p>进入<code>idle</code>、<code>prepare</code>阶段：</p>
+<p>这两个阶段与我们编程关系不大，暂且按下不表。</p>
+</li>
+<li><p>进入<code>poll</code>阶段</p>
+<p>首先检查是否存在尚未完成的回调，如果存在，分两种情况：</p>
+<ul>
+<li><p>如果有可用回调（可用回调包含：<strong>到期的定时器</strong>、一些<strong>IO事件</strong>等），执行所有可用回调。</p>
+<ul>
+<li><p>检查是否有<code>process.nextTick</code>回调，如果有，全部执行</p>
+</li>
+<li><p>检查是否有 <code>microtaks</code>，如果有，全部执行。</p>
+</li>
+<li><p>退出该阶段。</p>
+</li>
+</ul>
+</li>
+<li><p>如果没有可用回调</p>
+<ul>
+<li>检查是否有<code>setImmediate</code>回调，如果有，退出<code>poll</code>阶段。如果没有，阻塞在此阶段，等待新的事件通知。</li>
+<li>如果不存在尚未完成的回调，退出<code>poll</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>进入<code>check</code>阶段</p>
+<ul>
+<li>如果有immediate回调，则执行所有immediate回调。</li>
+<li>检查是否有 process.nextTick 回调，如果有，全部执行。</li>
+<li>检查是否有 microtaks，如果有，全部执行。</li>
+<li>退出 check 阶段</li>
+</ul>
+</li>
+<li><p>进入<code>closing</code>阶段</p>
+<ul>
+<li>如果有immediate回调，则执行所有immediate回调。</li>
+<li>检查是否有 process.nextTick 回调，如果有，全部执行。</li>
+<li>检查是否有 microtaks，如果有，全部执行。</li>
+<li>退出 closing 阶段</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<blockquote>
+<p>在事件循环的每个子阶段退出之前都会按顺序执行如下过程：</p>
+<ul>
+<li>检查是否有 process.nextTick 回调，如果有，全部执行。</li>
+<li>检查是否有 microtaks，如果有，全部执行。</li>
+<li>退出当前阶段。</li>
+</ul>
+</blockquote>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="process-nextTick和Promise"><a href="#process-nextTick和Promise" class="headerlink" title="process.nextTick和Promise"></a><code>process.nextTick</code>和<code>Promise</code></h3><p>这个队列先保证所有的 <code>process.nextTick</code> 回调, 然后将所有的 <code>Promise</code> 回调追加在后面. 最终在每个 Phase 结束的时候一次性拿出来执行。</p>
+<h3 id="setTimeout-0-vs-setImmediate-到底谁快"><a href="#setTimeout-0-vs-setImmediate-到底谁快" class="headerlink" title="setTimeout(..., 0)vs. setImmediate 到底谁快?"></a><code>setTimeout(..., 0)</code>vs. <code>setImmediate</code> 到底谁快?</h3><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// index.js</span></span><br><span class="line"></span><br><span class="line">setImmediate(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="number">2</span>))</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="number">1</span>),<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>答案：可能是1 2，也可能是2 1。</p>
+<p>首先我们在初始化阶段会将<code>setImmediate</code>添加到<code>check phase</code>中，将<code>setTimeout</code>添加到<code>timer phase</code>中。</p>
+<ul>
+<li>如果进入<code>timer phase</code>的时间 &gt; 消息循环保存的时间（即将以上两个回调添加到它们各自的<code>phase</code>的时间）<ul>
+<li>那在进入<code>timer phase</code>的时候<code>setTimeout</code>的回调已经在里面了，就可以立即执行，然后到<code>check phase</code>的时候再执行<code>setImmediate</code>的回调。此时输出1 2。</li>
+</ul>
+</li>
+<li>如果进入<code>timer phase</code>的时间 &lt; 消息循环保存的时间（即将以上两个回调添加到它们各自的<code>phase</code>的时间）<ul>
+<li>那在进入<code>timer phase</code>的时候<code>setTimeout</code>的回调还不在里面，那就会先执行<code>check phase</code>中的<code>setImmediate</code>，然后在下一轮循环中再执行<code>timer phase</code>中的<code>setTimeout</code>。此时输出2 1。</li>
+</ul>
+</li>
+</ul>
+<p>如果把代码改为如下，则一定会得到稳定输出：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">'fs'</span>).readFile(<span class="string">'my-file-path.txt'</span>, () =&gt; &#123;</span><br><span class="line"> setImmediate(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="number">2</span>))</span><br><span class="line"> setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="number">1</span>))</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 2 1</span></span><br></pre></td></tr></table></figure>
+
+<p>因为消息在<code>poll phase</code>才会将<code>setImmediate</code>进入<code>check phase</code>，将<code>setTimeout</code>进入<code>timer phase</code>，那<code>poll</code>阶段后就回到<code>check</code>阶段，所以会输出2 1。</p>
+<h3 id="判断输出顺序"><a href="#判断输出顺序" class="headerlink" title="判断输出顺序"></a>判断输出顺序</h3><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">setImmediate(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'setImmediate1'</span>);</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'setTimeout1'</span>)</span><br><span class="line">    &#125;, <span class="number">0</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'then'</span>);</span><br><span class="line">&#125;)</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    process.nextTick(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'nextTick'</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'setTimeout2'</span>);</span><br><span class="line">    setImmediate(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'setImmediate2'</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"><span class="comment">//then setTimeout2  nextTick  setImmediate1 setImmediate2 setTimeout1</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>step1</code>：初始化阶段</p>
+<ul>
+<li><code>setImmediate</code>进入<code>check phase</code>、<code>Promise.resolve().then</code>进入微任务<code>event queue</code>、<code>setTimeout</code>进入<code>timer phase</code>。</li>
+<li>没有<code>process.nextTick</code></li>
+<li>执行<code>microtask</code>，输出<code>then</code></li>
+<li>结束该阶段</li>
+</ul>
+<p><code>step2</code>：进入<code>Timer phase</code>（或者<code>poll phase</code>？）</p>
+<ul>
+<li>执行<code>setTimeout</code></li>
+<li>执行<code>console.log(&#39;setTimeout2&#39;)</code>，输出<code>setTimeout2</code></li>
+<li><code>setImmediate</code>进入<code>check phase</code></li>
+<li>有<code>process.nextTick</code>，输出<code>nextTick</code></li>
+</ul>
+<p><code>step3</code>：进入<code>check phase</code></p>
+<ul>
+<li>执行第一个<code>setImmediate</code>，输出<code>setImmediate1</code>，将<code>setTimeout</code>进入<code>Timer phase</code></li>
+<li>执行第二个<code>setImmediate</code>，输出<code>setImmediate2</code></li>
+</ul>
+<p><code>step4</code>：下一个循环，进入<code>Timer phase</code></p>
+<ul>
+<li>执行<code>setTimeout</code>，输出<code>setTimeout1</code></li>
+</ul>
+<br>
+
+<p>参考：</p>
+<p><a href="https://juejin.im/post/5b61d8e3e51d45191d7a28a8" target="_blank" rel="noopener">https://juejin.im/post/5b61d8e3e51d45191d7a28a8</a></p>
+<p><a href="https://www.jianshu.com/p/906eafb41ea6" target="_blank" rel="noopener">https://www.jianshu.com/p/906eafb41ea6</a></p>
+<br>
+
 ]]></content>
       <categories>
-        <category>React</category>
+        <category>Node.js</category>
       </categories>
       <tags>
-        <tag>React</tag>
+        <tag>Node.js</tag>
       </tags>
   </entry>
   <entry>
@@ -3607,6 +3580,56 @@
 
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a><strong>参考</strong></h1><p><a href="https://juejin.cn/book/6844733816460804104/section/6844733816599216141" target="_blank" rel="noopener">Redux及中间件原理解析</a></p>
 <p><a href="https://segmentfault.com/a/1190000012653724" target="_blank" rel="noopener">浅析Redux的store enhancer</a></p>
+]]></content>
+      <categories>
+        <category>React</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>React useEffect Hook的对象 &amp; 数组依赖</title>
+    <url>/2021/03/13/React-useEffect-Hook%E7%9A%84%E5%AF%B9%E8%B1%A1-%E6%95%B0%E7%BB%84%E4%BE%9D%E8%B5%96/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><code>useEffect</code>可以说是使用<code>React</code> <code>Hook</code>时最常用的hook，可以用于实现一些生命周期操作和对变量的监听。</p>
+<p>本文是对<a href="https://www.benmvp.com/blog/object-array-dependencies-react-useEffect-hook/" target="_blank" rel="noopener">Object &amp; array dependencies in the React useEffect Hook</a>的翻译，帮助自己更好地理解<code>useEffect</code>的同时，也希望帮助到大家。</p>
+<h1 id="useEffect"><a href="#useEffect" class="headerlink" title="useEffect"></a><code>useEffect</code></h1><p><code>useEffect</code>在没有设置第二个参数的时候，会在每次渲染的时候执行其回调：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> Example = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [count, setCount] = useState(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">document</span>.title = <span class="string">`You clicked <span class="subst">$&#123;count&#125;</span> times`</span></span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;p&gt;You clicked &#123;count&#125; times&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;() =&gt; setCount(count + 1)&#125;&gt;Click me&lt;/</span>button&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>然而，我们一般很少这么用，因为通常我们并不需要在每次渲染的时候都执行回调，这样会执行不必要次数导致性能下降。</p>
+<p><code>useEffect</code>有第二个参数，称为依赖数组，只有当依赖数组内的元素发生变化的时候，才会执行<code>useEffect</code>的回调。这么做就能够优化<code>effect</code>执行的次数。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> Example = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [count, setCount] = useState(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">document</span>.title = <span class="string">`You clicked <span class="subst">$&#123;count&#125;</span> times`</span></span><br><span class="line">  &#125;, [count]) <span class="comment">// Only re-run the effect if count changes</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;p&gt;You clicked &#123;count&#125; times&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;() =&gt; setCount(count + 1)&#125;&gt;Click me&lt;/</span>button&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>这种做法在数组元素类型为基本数据类型时可以起到作用。但对于复杂数据类型如：对象，数组和函数来说，<code>React</code>会使用<code>referential equality</code>来对比前后是否有不同。</p>
+<p><code>React</code>会检查当前渲染下的这个对象和上一次渲染下的对象的内存地址是否一致。两个对象必须是同一个对象<code>useEffect</code>才会跳过执行<code>effect</code>。所以，即使内容完全相同，内存地址不同的话，<code>useEffect</code>还是会执行<code>effect</code>。</p>
+<h2 id="Option-1-依赖于对象属性"><a href="#Option-1-依赖于对象属性" class="headerlink" title="Option 1 - 依赖于对象属性"></a>Option 1 - 依赖于对象属性</h2><p>在这个例子中，当前组件会从<code>props</code>获取一个对象，并在<code>useEffect</code>的依赖数组中使用这个对象：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> &#123; getPlayers &#125; <span class="keyword">from</span> <span class="string">'../api'</span></span><br><span class="line"><span class="keyword">import</span> Players <span class="keyword">from</span> <span class="string">'../components/Players'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Team = <span class="function">(<span class="params">&#123; team &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [players, setPlayers] = useState([])</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (team.active) &#123;</span><br><span class="line">      getPlayers(team.id).then(setPlayers)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, [team])</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">Players</span> <span class="attr">team</span>=<span class="string">&#123;team&#125;</span> <span class="attr">players</span>=<span class="string">&#123;players&#125;</span> /&gt;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>理想情况下，<code>props</code>传入的<code>team</code>的内容是一样的话，其内存地址也会相同。但这其实是无法保证的。</p>
+<p>所以，为了解决这个问题，我们可以只使用<code>team</code>对象里的一些属性，而不是使用整个对象。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> &#123; getPlayers &#125; <span class="keyword">from</span> <span class="string">'../api'</span></span><br><span class="line"><span class="keyword">import</span> Players <span class="keyword">from</span> <span class="string">'../components/Players'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Team = <span class="function">(<span class="params">&#123; team &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [players, setPlayers] = useState([])</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (team.active) &#123;</span><br><span class="line">      getPlayers(team.id).then(setPlayers)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, [team.id, team.active])</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">Players</span> <span class="attr">team</span>=<span class="string">&#123;team&#125;</span> <span class="attr">players</span>=<span class="string">&#123;players&#125;</span> /&gt;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>假设<code>team</code>对象中的<code>id</code>和<code>active</code>属性都是基本数据类型，<code>effect</code>就只会在<code>id</code>或者<code>active</code>属性发生变化的时候执行（注意是或，不是且）。</p>
+<p><code>team</code>对象如果是在组件内被创建的话也能够起到作用：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> &#123; getPlayers &#125; <span class="keyword">from</span> <span class="string">'../api'</span></span><br><span class="line"><span class="keyword">import</span> Players <span class="keyword">from</span> <span class="string">'../components/Players'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Team = <span class="function">(<span class="params">&#123; id, name, active &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// construct the object from props and/or state</span></span><br><span class="line">  <span class="keyword">const</span> team = &#123; id, name, active &#125;</span><br><span class="line">  <span class="keyword">const</span> [players, setPlayers] = useState([])</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (team.active) &#123;</span><br><span class="line">      getPlayers(team.id).then(setPlayers)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, [team.id, team.active])</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">Players</span> <span class="attr">team</span>=<span class="string">&#123;team&#125;</span> <span class="attr">players</span>=<span class="string">&#123;players&#125;</span> /&gt;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所以，即使<code>team</code>对象在每次渲染过程中都重新被创建，也不会导致<code>effect</code>每次渲染都会执行，因为<code>useEffect</code>只依赖于<code>id</code>和<code>active</code>属性。</p>
+<p>需要注意的是，这个方案不适用于依赖元素为数组的情况。</p>
+<h2 id="Option2-在内部创建对象"><a href="#Option2-在内部创建对象" class="headerlink" title="Option2 - 在内部创建对象"></a>Option2 - 在内部创建对象</h2><p>在上一个例子中，如果<code>effect</code>不是使用对象里的元素，而是以整个对象作为依赖会发生什么呢？</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> &#123; getPlayers &#125; <span class="keyword">from</span> <span class="string">'../api'</span></span><br><span class="line"><span class="keyword">import</span> Players <span class="keyword">from</span> <span class="string">'../components/Players'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Team = <span class="function">(<span class="params">&#123; id, name, active &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// construct the object from props/state</span></span><br><span class="line">  <span class="keyword">const</span> team = &#123; id, name, active &#125;</span><br><span class="line">  <span class="keyword">const</span> [players, setPlayers] = useState([])</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (team.active) &#123;</span><br><span class="line">      getPlayers(team).then(setPlayers)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, [team])</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">Players</span> <span class="attr">team</span>=<span class="string">&#123;team&#125;</span> <span class="attr">players</span>=<span class="string">&#123;players&#125;</span> /&gt;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>team</code>对象是在每次渲染下重新创建的，所以<code>useEffect</code>在每次重新渲染时都会执行。</p>
+<p>幸运的是，<code>react-hooks/exhaustive-deps</code>ESLint rule提示道：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">The &#39;team&#39; object makes the dependencies of useEffect Hook</span><br><span class="line">change on every render. To fix this, wrap the initialization</span><br><span class="line">of &#39;team&#39; in its own useMemo() Hook.</span><br></pre></td></tr></table></figure>
+
+<p>在我们使用ESLint推荐的使用<code>useMemo</code> Hook之前，我们可以尝试更加简单的操作。我们可以尝试两次创建<code>team</code>对象，一个用于传递给<code>Player</code>子组件，一个用于<code>useEffect</code>内部。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> &#123; getPlayers &#125; <span class="keyword">from</span> <span class="string">'../api'</span></span><br><span class="line"><span class="keyword">import</span> Players <span class="keyword">from</span> <span class="string">'../components/Players'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Team = <span class="function">(<span class="params">&#123; id, name, active &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [players, setPlayers] = useState([])</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// recreate the `team` object within `useEffect`</span></span><br><span class="line">    <span class="comment">// from props/state</span></span><br><span class="line">    <span class="keyword">const</span> team = &#123; id, name, active &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (team.active) &#123;</span><br><span class="line">      getPlayers(team).then(setPlayers)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, [id, name, active])</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> team = &#123; id, name, active &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">Players</span> <span class="attr">team</span>=<span class="string">&#123;team&#125;</span> <span class="attr">players</span>=<span class="string">&#123;players&#125;</span> /&gt;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在<code>team</code>对象是在<code>useEffect</code>内部被创建，并且只在<code>effect</code>要被执行的时候被创建。<code>id</code>、<code>name</code>、<code>active</code>作为依赖，只有当这些值发生变化的时候<code>effect</code>才会执行。</p>
+<p><strong>创建对象相对来说开销是比较小的，所以在useEffect中重新创建一个<code>team</code>对象是可以接受的。</strong><br>优化<code>useEffect</code>所带来的性能提升远远大于创建两个对象所带来的性能损耗。</p>
+<h2 id="Option3-记忆对象"><a href="#Option3-记忆对象" class="headerlink" title="Option3 - 记忆对象"></a>Option3 - 记忆对象</h2><p>然而，如果创建对象或数组的开销是昂贵的，那重复创建对象就会比执行多次<code>effect</code>更糟糕。在这种情况下，我们需要“缓存”创建的对象或数组，这样当其中的数据没有发生变化时，这个对象或数组就不会在渲染过程中发生变化。这个过程称为“记忆”（memoization），我们通过<code>useMemo</code>来实现。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useState, useEffect, useMemo &#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> &#123; createTeam &#125; <span class="keyword">from</span> <span class="string">'../utils'</span></span><br><span class="line"><span class="keyword">import</span> &#123; getPlayers &#125; <span class="keyword">from</span> <span class="string">'../api'</span></span><br><span class="line"><span class="keyword">import</span> Players <span class="keyword">from</span> <span class="string">'../components/Players'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Team = <span class="function">(<span class="params">&#123; id, name, active &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// memoize calling `createTeam` because it's</span></span><br><span class="line">  <span class="comment">// an expensive operation</span></span><br><span class="line">  <span class="keyword">const</span> team = useMemo(<span class="function"><span class="params">()</span> =&gt;</span> createTeam(&#123; id, name, active &#125;), [</span><br><span class="line">    id,</span><br><span class="line">    name,</span><br><span class="line">    active,</span><br><span class="line">  ])</span><br><span class="line">  <span class="keyword">const</span> [players, setPlayers] = useState([])</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (team.active) &#123;</span><br><span class="line">      getPlayers(team).then(setPlayers)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, [team])</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">Players</span> <span class="attr">team</span>=<span class="string">&#123;team&#125;</span> <span class="attr">players</span>=<span class="string">&#123;players&#125;</span> /&gt;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>假设这个<code>createTeam()</code>方法开销昂贵，那我们自然会希望它执行的次数越少越好。<code>useMemo</code> Hook可以实现只有在<code>id</code>、<code>name</code>或者<code>active</code>在渲染过程中发生变化时，才会再次创建<code>team</code>。但如果在<code>Team</code>组件重新渲染过程中，以上属性没有一个发生变化，<code>team</code>对象就会是同一个对象。因为是同一个对象，我们就可以放心地使用<code>useEffect</code>，不用担心会执行不必要的次数。</p>
+<h2 id="Option-4-自己创建"><a href="#Option-4-自己创建" class="headerlink" title="Option 4 - 自己创建"></a>Option 4 - 自己创建</h2><p>如果以上方案都无法解决问题怎么办？比如从<code>props</code>中传入了对象或者数组，这个对象或数组会成为<code>useEffect</code>的依赖数组元素，而且我们并不知道创建一个新的<code>team</code>对象所需的属性。但我们还是想要实现在组件渲染过程中“缓存”这个对象的值。</p>
+<p>在这种情况下，我们可以使用<code>useRef</code> Hook替代<code>useMemo</code> Hook。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useState, useEffect, useRef &#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> isDeepEqual <span class="keyword">from</span> <span class="string">'fast-deep-equal/react'</span></span><br><span class="line"><span class="keyword">import</span> &#123; getPlayers &#125; <span class="keyword">from</span> <span class="string">'../api'</span></span><br><span class="line"><span class="keyword">import</span> Players <span class="keyword">from</span> <span class="string">'../components/Players'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Team = <span class="function">(<span class="params">&#123; team &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [players, setPlayers] = useState([])</span><br><span class="line">  <span class="keyword">const</span> teamRef = useRef(team)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (!isDeepEqual(teamRef.current, team)) &#123;</span><br><span class="line">    teamRef.current = team</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (team.active) &#123;</span><br><span class="line">      getPlayers(team).then(setPlayers)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, [teamRef.current])</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">Players</span> <span class="attr">team</span>=<span class="string">&#123;team&#125;</span> <span class="attr">players</span>=<span class="string">&#123;players&#125;</span> /&gt;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里使用了<code>isDeepEqual</code>来判断<code>teamRef.current</code>和<code>team</code>的值是否一致，而不是比较两者的内存地址。所以，即使在每次渲染过程中<code>team</code>对象是一个新的对象，如果它的内容是一致的，<code>isDeepEqual()</code>也会返回<code>true</code>。</p>
+<p>所以当两者在做深比较的时候，如果内容一致，<code>isDeepEqual</code>会返回<code>true</code>，<code>teamRef.current</code>会继续指向原本<code>team</code>对象的内存地址。那依赖数组里的元素<code>teamRef.current</code>就没有发生变化，<code>useEffect</code>也不会再执行。如果<code>isDeepEqual</code>返回<code>false</code>，<code>teamRef.current</code>就会被赋予新的<code>team</code>值，<code>effect</code>就会执行。</p>
+<p>如果你发现自己遇到了Option4这样的情况，我建议安装<code>react-use</code>npm包，使用其中的<code>useDeepCompareEffect</code> Hook来解决问题，还能够避免<code>react-hooks/exhaustive-deps</code>lint rule报错。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>大多数情况下，我能用Option1来解决问题。如果Option1无法解决，我就会使用<code>react-use</code>包里的helper Hook来解决问题。</p>
 ]]></content>
       <categories>
         <category>React</category>

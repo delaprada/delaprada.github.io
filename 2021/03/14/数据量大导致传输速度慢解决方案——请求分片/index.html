@@ -118,7 +118,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="小程序," />
 
 
 
@@ -129,14 +129,19 @@
 
 
 
-<meta name="description" content="Goals determine what you going to be!">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Alice&#39;s  wonderland">
-<meta property="og:url" content="http://delaprada.com/page/3/index.html">
+<meta name="description" content="前言在开发过程中，遇到要请求几千行数据的需求，因为前端部分已经使用了VirtualList虚拟列表只渲染当前可视区域的视图，非可视区域的视图在用户滚动到可视区域再渲染：但仍不能解决数据加载缓慢问题。原因是数据量本身太大，导致传输的速度过慢，所以渲染到页面上的速度也很慢。   解决方案用请求分片的方式，先加载前50条数据，监听滑动到底部的事件，当列表下拉到底部的时候，再去请求后一百条数据。这么做每次">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据量大导致传输速度慢解决方案——请求分片">
+<meta property="og:url" content="http://delaprada.com/2021/03/14/%E6%95%B0%E6%8D%AE%E9%87%8F%E5%A4%A7%E5%AF%BC%E8%87%B4%E4%BC%A0%E8%BE%93%E9%80%9F%E5%BA%A6%E6%85%A2%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E2%80%94%E2%80%94%E8%AF%B7%E6%B1%82%E5%88%86%E7%89%87/index.html">
 <meta property="og:site_name" content="Alice&#39;s  wonderland">
-<meta property="og:description" content="Goals determine what you going to be!">
+<meta property="og:description" content="前言在开发过程中，遇到要请求几千行数据的需求，因为前端部分已经使用了VirtualList虚拟列表只渲染当前可视区域的视图，非可视区域的视图在用户滚动到可视区域再渲染：但仍不能解决数据加载缓慢问题。原因是数据量本身太大，导致传输的速度过慢，所以渲染到页面上的速度也很慢。   解决方案用请求分片的方式，先加载前50条数据，监听滑动到底部的事件，当列表下拉到底部的时候，再去请求后一百条数据。这么做每次">
+<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="article:published_time" content="2021-03-14T00:55:27.000Z">
+<meta property="article:modified_time" content="2021-03-14T00:56:10.384Z">
 <meta property="article:author" content="Alice">
+<meta property="article:tag" content="小程序">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://delaprada.com/images/loading.png">
 
 
 
@@ -166,13 +171,13 @@
 
 
 
-  <link rel="canonical" href="http://delaprada.com/page/3/"/>
+  <link rel="canonical" href="http://delaprada.com/2021/03/14/数据量大导致传输速度慢解决方案——请求分片/"/>
 
 
 
 
 
-  <title>Alice's  wonderland</title>
+  <title>数据量大导致传输速度慢解决方案——请求分片 | Alice's  wonderland</title>
   
 
 
@@ -191,8 +196,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -329,9 +333,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -344,7 +348,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://delaprada.com/2020/04/17/React-Redux-%E9%80%9A%E8%BF%87axios%E5%90%91%E6%8E%A5%E5%8F%A3%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E7%9A%84%E6%B5%81%E7%A8%8B/">
+    <link itemprop="mainEntityOfPage" href="http://delaprada.com/2021/03/14/%E6%95%B0%E6%8D%AE%E9%87%8F%E5%A4%A7%E5%AF%BC%E8%87%B4%E4%BC%A0%E8%BE%93%E9%80%9F%E5%BA%A6%E6%85%A2%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E2%80%94%E2%80%94%E8%AF%B7%E6%B1%82%E5%88%86%E7%89%87/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Alice">
@@ -366,8 +370,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-17T19:45:34+08:00">
-                2020-04-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-14T08:55:27+08:00">
+                2021-03-14
               </time>
             
 
@@ -377,9 +381,7 @@
           </span>
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/04/17/React-Redux-%E9%80%9A%E8%BF%87axios%E5%90%91%E6%8E%A5%E5%8F%A3%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E7%9A%84%E6%B5%81%E7%A8%8B/" itemprop="url">React+Redux 通过axios向接口获取数据的流程</a></h1>
+          <h1 class="post-title" itemprop="name headline">数据量大导致传输速度慢解决方案——请求分片</h1>
         
 
         
@@ -396,7 +398,19 @@
       
 
       
-        
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在开发过程中，遇到要请求几千行数据的需求，因为前端部分已经使用了<code>VirtualList</code>虚拟列表只渲染当前可视区域的视图，非可视区域的视图在用户滚动到可视区域再渲染：<br><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/20210314082757203.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTk3MzQxMA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>但仍不能解决数据加载缓慢问题。原因是数据量本身太大，导致传输的速度过慢，所以渲染到页面上的速度也很慢。</p>
+<br>
+
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>用<strong>请求分片</strong>的方式，先加载前50条数据，监听滑动到底部的事件，当列表下拉到底部的时候，再去请求后一百条数据。这么做每次只请求50条数据，传输速度就会很快。</p>
+<p>前端具体实现如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">PoemList</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="comment">// 设置请求偏移量</span></span><br><span class="line">  <span class="keyword">const</span> [offset, setOffset] = useState&lt;number&gt;(<span class="number">0</span>); </span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">	 ...</span><br><span class="line">	 <span class="comment">// 第一次请求</span></span><br><span class="line">      getPoemList(category, offset)</span><br><span class="line">        .then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">          setList(res);</span><br><span class="line">        &#125;)</span><br><span class="line">        .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="built_in">console</span>.error(err);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, []);</span><br><span class="line">	</span><br><span class="line">  <span class="comment">// 监听滑动到底部的事件</span></span><br><span class="line">  <span class="keyword">const</span> handleScrollToLower = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'scroll to lower!!'</span>);</span><br><span class="line">    <span class="keyword">const</span> curOffset = offset + <span class="number">1</span>;</span><br><span class="line">    setOffset(curOffset);</span><br><span class="line">	<span class="comment">// 后续请求，每次请求100条数据，这个100条是在后端根据offset控制的</span></span><br><span class="line">    getPoemList(category, curOffset)</span><br><span class="line">      .then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">        setList(list.concat(res));</span><br><span class="line">      &#125;)</span><br><span class="line">      .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.error(err);</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line">  </span><br><span class="line">  ......</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;View className=<span class="string">"poemList-container"</span>&gt;</span><br><span class="line">      &lt;View className=<span class="string">"top"</span>&gt;</span><br><span class="line">        &lt;View className=<span class="string">"title"</span>&gt;&#123;title&#125;&lt;<span class="regexp">/View&gt;</span></span><br><span class="line"><span class="regexp">        &lt;View className="desc"&gt;&#123;desc&#125;&lt;/</span>View&gt;</span><br><span class="line">      &lt;<span class="regexp">/View&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">      &#123;list.length &gt; 0 &amp;&amp; (</span></span><br><span class="line"><span class="regexp">        &lt;VirtualList</span></span><br><span class="line"><span class="regexp">          height=&#123;800&#125; /</span>* 列表的高度 *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">          width="100%" /</span>* 列表的宽度 *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">          itemData=&#123;list&#125; /</span>* 渲染列表的数据 *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">          itemCount=&#123;list.length&#125; /</span>*  渲染列表的长度 *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">          itemSize=&#123;80&#125; /</span>* 列表单项的高度  *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">          onScrollToLower=&#123;handleScrollToLower&#125;&gt;</span></span><br><span class="line"><span class="regexp">          &#123;listItem&#125;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>VirtualList&gt;</span><br><span class="line">      )&#125;</span><br><span class="line">    &lt;<span class="regexp">/View&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">export default React.memo(PoemList);</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>后端具体实现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Service = <span class="built_in">require</span>(<span class="string">'egg'</span>).Service;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PoemListService</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line">  <span class="keyword">async</span> getPoemList(category, offset) &#123;</span><br><span class="line">    <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="keyword">this</span>.findPoemList(category, offset*<span class="number">50</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">async</span> findPoemList(category, offset) &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; ctx &#125; = <span class="keyword">this</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 分片获取数据</span></span><br><span class="line">    <span class="keyword">switch</span> (category) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">0</span>: &#123;</span><br><span class="line">        <span class="keyword">const</span> res = <span class="keyword">await</span> ctx.model.Poems.findAll(&#123;</span><br><span class="line">          offset: offset,</span><br><span class="line">          limit: <span class="number">50</span>,</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>: &#123;</span><br><span class="line">        <span class="keyword">const</span> res = <span class="keyword">await</span> ctx.model.Poetry.findAll(&#123;</span><br><span class="line">          offset: offset,</span><br><span class="line">          limit: <span class="number">50</span>,</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2</span>: &#123;</span><br><span class="line">        <span class="keyword">const</span> res = <span class="keyword">await</span> ctx.model.Lunyu.findAll(&#123;</span><br><span class="line">          offset: offset,</span><br><span class="line">          limit: <span class="number">50</span>,</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">3</span>: &#123;</span><br><span class="line">        <span class="keyword">const</span> res = <span class="keyword">await</span> ctx.model.Shijing.findAll(&#123;</span><br><span class="line">          offset: offset,</span><br><span class="line">          limit: <span class="number">50</span>,</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports = PoemListService;</span><br></pre></td></tr></table></figure>
+<p>这里用到<code>sequelize</code>ORM。offset用于设置开始请求的偏移量（比如，如果offset为50，表示跳过前面49条数据，从第50条数据开始获取），<code>limit</code>表示数量。</p>
+
       
     </div>
     
@@ -412,18 +426,46 @@
 
     <div>
       
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:15px;">-------本&nbsp;文&nbsp;结&nbsp;束&nbsp;&nbsp;<i class="fa fa-heart" aria-hidden="true"></i>&nbsp;&nbsp;感&nbsp;谢&nbsp;您&nbsp;的&nbsp;阅&nbsp;读-------</div>
+    
+</div>
+      
     </div>
 
     <footer class="post-footer">
       
-
+        <div class="post-tags">
+          
+            <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag"><i class="fa fa-tag"></i> 小程序</a>
+          
+        </div>
       
 
       
+      
+      
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/03/13/React-useEffect-Hook%E7%9A%84%E5%AF%B9%E8%B1%A1-%E6%95%B0%E7%BB%84%E4%BE%9D%E8%B5%96/" rel="next" title="React useEffect Hook的对象 & 数组依赖">
+                <i class="fa fa-chevron-left"></i> React useEffect Hook的对象 & 数组依赖
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
       
-        <div class="post-eof"></div>
+
+      
       
     </footer>
   </div>
@@ -433,941 +475,11 @@
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://delaprada.com/2020/04/07/Node-js%E2%80%94%E2%80%94Express%E5%92%8Ckoa%E6%A1%86%E6%9E%B6%E5%AF%B9%E6%AF%94/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Alice">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Alice's  wonderland">
-    </span>
-
-    
-      <header class="post-header">
-        <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-07T11:10:47+08:00">
-                2020-04-07
-              </time>
-            
-
-            
-
-            
-          </span>
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/04/07/Node-js%E2%80%94%E2%80%94Express%E5%92%8Ckoa%E6%A1%86%E6%9E%B6%E5%AF%B9%E6%AF%94/" itemprop="url">Node.js——Express和koa框架对比</a></h1>
-        
-
-        
-      </header>
-    
-
-    
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
+    <div class="post-spread">
       
     </div>
-    
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
   </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://delaprada.com/2020/04/07/Node%E2%80%94%E2%80%94%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Alice">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Alice's  wonderland">
-    </span>
-
-    
-      <header class="post-header">
-        <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-07T08:51:23+08:00">
-                2020-04-07
-              </time>
-            
-
-            
-
-            
-          </span>
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/04/07/Node%E2%80%94%E2%80%94%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/" itemprop="url">Node——事件循环</a></h1>
-        
-
-        
-      </header>
-    
-
-    
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-      
-    </div>
-    
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://delaprada.com/2020/04/06/Vue%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%A6%82%E4%BD%95%E7%94%A8Node%E4%BD%9C%E5%90%8E%E7%AB%AF%E4%BB%A3%E7%90%86%E8%8E%B7%E5%8F%96%E6%8E%A5%E5%8F%A3%E6%95%B0%E6%8D%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Alice">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Alice's  wonderland">
-    </span>
-
-    
-      <header class="post-header">
-        <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-06T10:12:17+08:00">
-                2020-04-06
-              </time>
-            
-
-            
-
-            
-          </span>
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/04/06/Vue%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%A6%82%E4%BD%95%E7%94%A8Node%E4%BD%9C%E5%90%8E%E7%AB%AF%E4%BB%A3%E7%90%86%E8%8E%B7%E5%8F%96%E6%8E%A5%E5%8F%A3%E6%95%B0%E6%8D%AE/" itemprop="url">Vue项目中如何用Node作后端代理获取接口数据</a></h1>
-        
-
-        
-      </header>
-    
-
-    
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-      
-    </div>
-    
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://delaprada.com/2020/04/05/Node%E2%80%94%E2%80%94Connect%E5%92%8CExpress/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Alice">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Alice's  wonderland">
-    </span>
-
-    
-      <header class="post-header">
-        <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-05T14:03:20+08:00">
-                2020-04-05
-              </time>
-            
-
-            
-
-            
-          </span>
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/04/05/Node%E2%80%94%E2%80%94Connect%E5%92%8CExpress/" itemprop="url">Node——Connect和Express</a></h1>
-        
-
-        
-      </header>
-    
-
-    
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-      
-    </div>
-    
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://delaprada.com/2020/04/03/Node%E2%80%94%E2%80%94Gulp%E5%9F%BA%E4%BA%8E%E6%B5%81%E7%9A%84%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Alice">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Alice's  wonderland">
-    </span>
-
-    
-      <header class="post-header">
-        <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-03T10:59:55+08:00">
-                2020-04-03
-              </time>
-            
-
-            
-
-            
-          </span>
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/04/03/Node%E2%80%94%E2%80%94Gulp%E5%9F%BA%E4%BA%8E%E6%B5%81%E7%9A%84%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/" itemprop="url">Node——Gulp基于流的自动化构建工具</a></h1>
-        
-
-        
-      </header>
-    
-
-    
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-      
-    </div>
-    
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://delaprada.com/2020/04/01/Node%E2%80%94%E2%80%94%E4%B8%B2%E8%A1%8C%E5%8C%96-%E5%B9%B6%E8%A1%8C%E5%8C%96%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Alice">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Alice's  wonderland">
-    </span>
-
-    
-      <header class="post-header">
-        <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-01T11:15:11+08:00">
-                2020-04-01
-              </time>
-            
-
-            
-
-            
-          </span>
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/04/01/Node%E2%80%94%E2%80%94%E4%B8%B2%E8%A1%8C%E5%8C%96-%E5%B9%B6%E8%A1%8C%E5%8C%96%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/" itemprop="url">Node——串行化/并行化流程控制</a></h1>
-        
-
-        
-      </header>
-    
-
-    
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-      
-    </div>
-    
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://delaprada.com/2020/03/31/%E8%99%9A%E6%8B%9FDOM/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Alice">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Alice's  wonderland">
-    </span>
-
-    
-      <header class="post-header">
-        <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-31T16:37:58+08:00">
-                2020-03-31
-              </time>
-            
-
-            
-
-            
-          </span>
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/31/%E8%99%9A%E6%8B%9FDOM/" itemprop="url">虚拟DOM</a></h1>
-        
-
-        
-      </header>
-    
-
-    
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-      
-    </div>
-    
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://delaprada.com/2020/03/29/%E4%BD%BF%E7%94%A8JSONP%E5%AE%9E%E7%8E%B0%E8%B7%A8%E5%9F%9F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Alice">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Alice's  wonderland">
-    </span>
-
-    
-      <header class="post-header">
-        <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-29T15:23:53+08:00">
-                2020-03-29
-              </time>
-            
-
-            
-
-            
-          </span>
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/29/%E4%BD%BF%E7%94%A8JSONP%E5%AE%9E%E7%8E%B0%E8%B7%A8%E5%9F%9F/" itemprop="url">使用JSONP实现跨域</a></h1>
-        
-
-        
-      </header>
-    
-
-    
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-      
-    </div>
-    
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://delaprada.com/2020/03/28/%E4%B9%B1%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Alice">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Alice's  wonderland">
-    </span>
-
-    
-      <header class="post-header">
-        <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-28T13:27:18+08:00">
-                2020-03-28
-              </time>
-            
-
-            
-
-            
-          </span>
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/28/%E4%B9%B1%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E6%B3%95/" itemprop="url">乱序数组的三种方法</a></h1>
-        
-
-        
-      </header>
-    
-
-    
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-      
-    </div>
-    
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/">&lt;</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/">&gt;</a>
-  </nav>
-
 
 
           </div>
@@ -1375,6 +487,13 @@
 
 
           
+
+  
+    <div id="gitalk-container">
+    </div>
+  
+
+
 
         </div>
         
@@ -1397,8 +516,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -1500,6 +628,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决方案"><span class="nav-number">2.</span> <span class="nav-text">解决方案</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1647,6 +791,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -1687,6 +835,23 @@
 
 
 
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="/js/src/md5.min.js"></script>
+  <script type="text/javascript">
+    var gitalk = new Gitalk({
+      clientID: '9b4dade3bf26b8fd0713',
+      clientSecret: '43302d4a47ac2c290d0d019c1929032f1f3f8ada',
+      repo: 'delaprada.github.io',
+      owner: 'delaprada',
+      admin: ['delaprada'],
+      id: location.pathname,
+      id: md5(location.pathname),
+      distractionFreeMode: 'true'
+    })
+    gitalk.render('gitalk-container')
+  </script>
 
 
   
