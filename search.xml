@@ -255,95 +255,6 @@
       </tags>
   </entry>
   <entry>
-    <title>JavaScript模块化编程</title>
-    <url>/2020/01/14/JavaScript%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BC%96%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="模块化编程"><a href="#模块化编程" class="headerlink" title="模块化编程"></a>模块化编程</h1><p>目录：</p>
-<ul>
-<li>AMD</li>
-<li>CMD</li>
-<li><code>commom.js</code></li>
-<li>ES6 Module</li>
-</ul>
-<h2 id="AMD"><a href="#AMD" class="headerlink" title="AMD"></a>AMD</h2><p>AMD是<strong>依赖前置，提前执行</strong>。AMD一开始是<code>CommonJS</code>规范中的一个草案，即异步模块加载机制。后来由该草案的作者以<code>RequireJS</code>实现了AMD规范，所以一般说AMD也是指<code>RequireJS</code>。</p>
-<h4 id="AMD的基本语法"><a href="#AMD的基本语法" class="headerlink" title="AMD的基本语法"></a><code>AMD</code>的基本语法</h4><p>通过<code>define</code>来定义一个模块，使用<code>require</code>可以导入定义的模块。</p>
-<p>用<code>define</code>定义无依赖的模块：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//a.js</span></span><br><span class="line"><span class="comment">//define可以传入三个参数，分别是字符串-模块名、数组-依赖模块、函数-回调函数</span></span><br><span class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>用<code>define</code>定义有依赖的模块：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">define([<span class="string">"alpha"</span>], <span class="function"><span class="keyword">function</span>(<span class="params"> alpha </span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        verb : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> alpha.verb() + <span class="number">1</span> ;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-
-
-<p>用<code>require</code>进行模块加载：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">require</span>([<span class="string">'math'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">math</span>) </span>&#123;</span><br><span class="line">　math.add(<span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="AMD的特点"><a href="#AMD的特点" class="headerlink" title="AMD的特点"></a><code>AMD的特点</code></h4><p>对于依赖的模块，AMD推崇<strong>依赖前置，提前执行。</strong>也就是定义模块和加载模块都要在一开始就把依赖写好。例如<code>define</code>函数当中的<code>[&quot;alpha&quot;]</code>，就是定义模块当中的依赖；<code>require</code>函数当中的<code>[&quot;math&quot;]</code>是加载模块当中的依赖。</p>
-<h2 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h2><p>CMD是<strong>依赖就近，延迟执行</strong>。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//AMD</span></span><br><span class="line">define([<span class="string">'./a'</span>,<span class="string">'./b'</span>], <span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">//依赖一开始就写好</span></span><br><span class="line">    a.test();</span><br><span class="line">    b.test();</span><br><span class="line">&#125;);</span><br><span class="line"> </span><br><span class="line"><span class="comment">//CMD</span></span><br><span class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params">requie, exports, module</span>) </span>&#123;</span><br><span class="line">     </span><br><span class="line">    <span class="comment">//依赖可以就近书写</span></span><br><span class="line">    <span class="keyword">var</span> a = <span class="built_in">require</span>(<span class="string">'./a'</span>);</span><br><span class="line">    a.test();</span><br><span class="line">     </span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">//软依赖</span></span><br><span class="line">    <span class="keyword">if</span> (status) &#123;</span><br><span class="line">     </span><br><span class="line">        <span class="keyword">var</span> b = requie(<span class="string">'./b'</span>);</span><br><span class="line">        b.test();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p><code>CMD</code>是在用到了某个模块的时候再去<code>require</code>，类似按需加载。</p>
-<h4 id="CMD的特点"><a href="#CMD的特点" class="headerlink" title="CMD的特点"></a><code>CMD的特点</code></h4><p>对于依赖的模块，CMD推崇<strong>依赖就近，延迟执行</strong>。也就是说，只有到<code>require</code>时依赖模块才执行。</p>
-<p>摘自：<a href="https://segmentfault.com/a/1190000004873947" target="_blank" rel="noopener">https://segmentfault.com/a/1190000004873947</a></p>
-<h2 id="CommonJS"><a href="#CommonJS" class="headerlink" title="CommonJS"></a><code>CommonJS</code></h2><h4 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h4><ul>
-<li>通过<code>module.exports</code>或者<code>exports</code>来输出模块</li>
-<li>通过<code>require</code>来导入模块</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//a.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"hello world"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//b.js</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="built_in">require</span>(<span class="string">'./a'</span>);</span><br><span class="line"></span><br><span class="line">a();<span class="comment">//"hello world"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//或者</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//a2.js</span></span><br><span class="line">exports.num = <span class="number">1</span>;</span><br><span class="line">exports.obj = &#123;<span class="attr">xx</span>: <span class="number">2</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//b2.js</span></span><br><span class="line"><span class="keyword">var</span> a2 = <span class="built_in">require</span>(<span class="string">'./a2'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(a2);<span class="comment">//&#123; num: 1, obj: &#123; xx: 2 &#125; &#125;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="CommonJS的特点"><a href="#CommonJS的特点" class="headerlink" title="CommonJS的特点"></a><code>CommonJS</code>的特点</h4><ul>
-<li>所有代码都运行在模块作用域，不会污染全局作用域</li>
-<li>模块都是同步加载的，即只有加载完成，才能执行后面的操作</li>
-<li>模块在首次执行后就会缓存，再次加载只返回缓存结果。如果想要再次执行，可清楚缓存</li>
-<li><code>require</code>返回的值是被输出的值的拷贝，模块内部的变化不会影响这个值</li>
-</ul>
-<h2 id="ES6-Module"><a href="#ES6-Module" class="headerlink" title="ES6 Module"></a>ES6 Module</h2><h4 id="基本用法："><a href="#基本用法：" class="headerlink" title="基本用法："></a>基本用法：</h4><ul>
-<li><code>export</code>或<code>export default</code>来输出模块</li>
-<li><code>import</code>来导入模块</li>
-</ul>
-<p>（<code>export default</code>就是能够为导入的模块自定义名称，这样就不用知道模块在原本的<code>js</code>文件当中的名字，按名字导入了）</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//a.js</span></span><br><span class="line"><span class="keyword">var</span> name = <span class="string">'lin'</span>;</span><br><span class="line"><span class="keyword">var</span> age = <span class="number">13</span>;</span><br><span class="line"><span class="keyword">var</span> job = <span class="string">'ninja'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123; name, age, job&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//b.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; name, age, job&#125; <span class="keyword">from</span> <span class="string">'./a.js'</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(name, age, job);<span class="comment">// lin 13 ninja</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//a2.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'default '</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//b2.js</span></span><br><span class="line"><span class="keyword">import</span> customName <span class="keyword">from</span> <span class="string">'./a2.js'</span>;</span><br><span class="line">customName(); <span class="comment">// 'default'</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="ES6-Module的特点（对比CommonJS）"><a href="#ES6-Module的特点（对比CommonJS）" class="headerlink" title="ES6 Module的特点（对比CommonJS）"></a>ES6 Module的特点（对比<code>CommonJS</code>）</h4><ul>
-<li><code>CommonJS</code>模块是运行时加载，ES6 Module是编译时输出接口；</li>
-<li><code>CommonJS</code>加载的是整个模块，将所有的接口全部加载进来，ES6 Module可以单独加载其中的某个接口（对应名字单独加载，加载这个模块想=需要的）；</li>
-<li><code>CommonJS</code>输出是值的拷贝，ES6 Module输出的是值的引用，被输出模块的内部的改变会影响引用的改变；</li>
-<li><code>CommonJS</code> <code>this</code>指向当前模块，ES6 Module <code>this</code>指向<code>undefined</code>;</li>
-</ul>
-<p>参考：<a href="https://juejin.im/post/5db95e3a6fb9a020704bcd8d" target="_blank" rel="noopener">https://juejin.im/post/5db95e3a6fb9a020704bcd8d</a></p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Node.js——Express和koa框架对比</title>
-    <url>/2020/04/07/Node-js%E2%80%94%E2%80%94Express%E5%92%8Ckoa%E6%A1%86%E6%9E%B6%E5%AF%B9%E6%AF%94/</url>
-    <content><![CDATA[<blockquote>
-<p>此文参考：阿里技术协会《Node.js框架之<code>express</code>与<code>koa</code>对比分析》</p>
-<p><a href="https://yq.aliyun.com/articles/3062" target="_blank" rel="noopener">https://yq.aliyun.com/articles/3062</a></p>
-</blockquote>
-<img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407140734.png" style="zoom:200%;">
-
-]]></content>
-      <categories>
-        <category>Node.js</category>
-      </categories>
-      <tags>
-        <tag>Node.js</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JavaScript之变量提升</title>
     <url>/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/</url>
     <content><![CDATA[<p>今天面试的时候被问到了变量提升的问题，一脸懵逼，掌握得不够熟练，写篇博客来总结一下。</p>
@@ -454,6 +365,95 @@
       </categories>
       <tags>
         <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaScript模块化编程</title>
+    <url>/2020/01/14/JavaScript%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BC%96%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="模块化编程"><a href="#模块化编程" class="headerlink" title="模块化编程"></a>模块化编程</h1><p>目录：</p>
+<ul>
+<li>AMD</li>
+<li>CMD</li>
+<li><code>commom.js</code></li>
+<li>ES6 Module</li>
+</ul>
+<h2 id="AMD"><a href="#AMD" class="headerlink" title="AMD"></a>AMD</h2><p>AMD是<strong>依赖前置，提前执行</strong>。AMD一开始是<code>CommonJS</code>规范中的一个草案，即异步模块加载机制。后来由该草案的作者以<code>RequireJS</code>实现了AMD规范，所以一般说AMD也是指<code>RequireJS</code>。</p>
+<h4 id="AMD的基本语法"><a href="#AMD的基本语法" class="headerlink" title="AMD的基本语法"></a><code>AMD</code>的基本语法</h4><p>通过<code>define</code>来定义一个模块，使用<code>require</code>可以导入定义的模块。</p>
+<p>用<code>define</code>定义无依赖的模块：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//a.js</span></span><br><span class="line"><span class="comment">//define可以传入三个参数，分别是字符串-模块名、数组-依赖模块、函数-回调函数</span></span><br><span class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>用<code>define</code>定义有依赖的模块：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">define([<span class="string">"alpha"</span>], <span class="function"><span class="keyword">function</span>(<span class="params"> alpha </span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        verb : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> alpha.verb() + <span class="number">1</span> ;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<p>用<code>require</code>进行模块加载：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">require</span>([<span class="string">'math'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">math</span>) </span>&#123;</span><br><span class="line">　math.add(<span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="AMD的特点"><a href="#AMD的特点" class="headerlink" title="AMD的特点"></a><code>AMD的特点</code></h4><p>对于依赖的模块，AMD推崇<strong>依赖前置，提前执行。</strong>也就是定义模块和加载模块都要在一开始就把依赖写好。例如<code>define</code>函数当中的<code>[&quot;alpha&quot;]</code>，就是定义模块当中的依赖；<code>require</code>函数当中的<code>[&quot;math&quot;]</code>是加载模块当中的依赖。</p>
+<h2 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h2><p>CMD是<strong>依赖就近，延迟执行</strong>。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//AMD</span></span><br><span class="line">define([<span class="string">'./a'</span>,<span class="string">'./b'</span>], <span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">//依赖一开始就写好</span></span><br><span class="line">    a.test();</span><br><span class="line">    b.test();</span><br><span class="line">&#125;);</span><br><span class="line"> </span><br><span class="line"><span class="comment">//CMD</span></span><br><span class="line">define(<span class="function"><span class="keyword">function</span> (<span class="params">requie, exports, module</span>) </span>&#123;</span><br><span class="line">     </span><br><span class="line">    <span class="comment">//依赖可以就近书写</span></span><br><span class="line">    <span class="keyword">var</span> a = <span class="built_in">require</span>(<span class="string">'./a'</span>);</span><br><span class="line">    a.test();</span><br><span class="line">     </span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">//软依赖</span></span><br><span class="line">    <span class="keyword">if</span> (status) &#123;</span><br><span class="line">     </span><br><span class="line">        <span class="keyword">var</span> b = requie(<span class="string">'./b'</span>);</span><br><span class="line">        b.test();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><code>CMD</code>是在用到了某个模块的时候再去<code>require</code>，类似按需加载。</p>
+<h4 id="CMD的特点"><a href="#CMD的特点" class="headerlink" title="CMD的特点"></a><code>CMD的特点</code></h4><p>对于依赖的模块，CMD推崇<strong>依赖就近，延迟执行</strong>。也就是说，只有到<code>require</code>时依赖模块才执行。</p>
+<p>摘自：<a href="https://segmentfault.com/a/1190000004873947" target="_blank" rel="noopener">https://segmentfault.com/a/1190000004873947</a></p>
+<h2 id="CommonJS"><a href="#CommonJS" class="headerlink" title="CommonJS"></a><code>CommonJS</code></h2><h4 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h4><ul>
+<li>通过<code>module.exports</code>或者<code>exports</code>来输出模块</li>
+<li>通过<code>require</code>来导入模块</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//a.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"hello world"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//b.js</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="built_in">require</span>(<span class="string">'./a'</span>);</span><br><span class="line"></span><br><span class="line">a();<span class="comment">//"hello world"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//或者</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//a2.js</span></span><br><span class="line">exports.num = <span class="number">1</span>;</span><br><span class="line">exports.obj = &#123;<span class="attr">xx</span>: <span class="number">2</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//b2.js</span></span><br><span class="line"><span class="keyword">var</span> a2 = <span class="built_in">require</span>(<span class="string">'./a2'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(a2);<span class="comment">//&#123; num: 1, obj: &#123; xx: 2 &#125; &#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="CommonJS的特点"><a href="#CommonJS的特点" class="headerlink" title="CommonJS的特点"></a><code>CommonJS</code>的特点</h4><ul>
+<li>所有代码都运行在模块作用域，不会污染全局作用域</li>
+<li>模块都是同步加载的，即只有加载完成，才能执行后面的操作</li>
+<li>模块在首次执行后就会缓存，再次加载只返回缓存结果。如果想要再次执行，可清楚缓存</li>
+<li><code>require</code>返回的值是被输出的值的拷贝，模块内部的变化不会影响这个值</li>
+</ul>
+<h2 id="ES6-Module"><a href="#ES6-Module" class="headerlink" title="ES6 Module"></a>ES6 Module</h2><h4 id="基本用法："><a href="#基本用法：" class="headerlink" title="基本用法："></a>基本用法：</h4><ul>
+<li><code>export</code>或<code>export default</code>来输出模块</li>
+<li><code>import</code>来导入模块</li>
+</ul>
+<p>（<code>export default</code>就是能够为导入的模块自定义名称，这样就不用知道模块在原本的<code>js</code>文件当中的名字，按名字导入了）</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//a.js</span></span><br><span class="line"><span class="keyword">var</span> name = <span class="string">'lin'</span>;</span><br><span class="line"><span class="keyword">var</span> age = <span class="number">13</span>;</span><br><span class="line"><span class="keyword">var</span> job = <span class="string">'ninja'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123; name, age, job&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//b.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; name, age, job&#125; <span class="keyword">from</span> <span class="string">'./a.js'</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(name, age, job);<span class="comment">// lin 13 ninja</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//a2.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'default '</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//b2.js</span></span><br><span class="line"><span class="keyword">import</span> customName <span class="keyword">from</span> <span class="string">'./a2.js'</span>;</span><br><span class="line">customName(); <span class="comment">// 'default'</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="ES6-Module的特点（对比CommonJS）"><a href="#ES6-Module的特点（对比CommonJS）" class="headerlink" title="ES6 Module的特点（对比CommonJS）"></a>ES6 Module的特点（对比<code>CommonJS</code>）</h4><ul>
+<li><code>CommonJS</code>模块是运行时加载，ES6 Module是编译时输出接口；</li>
+<li><code>CommonJS</code>加载的是整个模块，将所有的接口全部加载进来，ES6 Module可以单独加载其中的某个接口（对应名字单独加载，加载这个模块想=需要的）；</li>
+<li><code>CommonJS</code>输出是值的拷贝，ES6 Module输出的是值的引用，被输出模块的内部的改变会影响引用的改变；</li>
+<li><code>CommonJS</code> <code>this</code>指向当前模块，ES6 Module <code>this</code>指向<code>undefined</code>;</li>
+</ul>
+<p>参考：<a href="https://juejin.im/post/5db95e3a6fb9a020704bcd8d" target="_blank" rel="noopener">https://juejin.im/post/5db95e3a6fb9a020704bcd8d</a></p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Node.js——Express和koa框架对比</title>
+    <url>/2020/04/07/Node-js%E2%80%94%E2%80%94Express%E5%92%8Ckoa%E6%A1%86%E6%9E%B6%E5%AF%B9%E6%AF%94/</url>
+    <content><![CDATA[<blockquote>
+<p>此文参考：阿里技术协会《Node.js框架之<code>express</code>与<code>koa</code>对比分析》</p>
+<p><a href="https://yq.aliyun.com/articles/3062" target="_blank" rel="noopener">https://yq.aliyun.com/articles/3062</a></p>
+</blockquote>
+<img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407140734.png" style="zoom:200%;">
+
+]]></content>
+      <categories>
+        <category>Node.js</category>
+      </categories>
+      <tags>
+        <tag>Node.js</tag>
       </tags>
   </entry>
   <entry>
@@ -1807,6 +1807,29 @@
       </tags>
   </entry>
   <entry>
+    <title>数据量大导致传输速度慢解决方案——请求分片</title>
+    <url>/2021/03/14/%E6%95%B0%E6%8D%AE%E9%87%8F%E5%A4%A7%E5%AF%BC%E8%87%B4%E4%BC%A0%E8%BE%93%E9%80%9F%E5%BA%A6%E6%85%A2%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E2%80%94%E2%80%94%E8%AF%B7%E6%B1%82%E5%88%86%E7%89%87/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在开发过程中，遇到要请求几千行数据的需求，因为前端部分已经使用了<code>VirtualList</code>虚拟列表只渲染当前可视区域的视图，非可视区域的视图在用户滚动到可视区域再渲染：<br><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/20210314082757203.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTk3MzQxMA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>但仍不能解决数据加载缓慢问题。原因是数据量本身太大，导致传输的速度过慢，所以渲染到页面上的速度也很慢。</p>
+<br>
+
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>用<strong>请求分片</strong>的方式，先加载前50条数据，监听滑动到底部的事件，当列表下拉到底部的时候，再去请求后50条数据。这么做每次只请求50条数据，传输速度就会很快。</p>
+<p>前端具体实现如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">PoemList</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="comment">// 设置请求偏移量</span></span><br><span class="line">  <span class="keyword">const</span> [offset, setOffset] = useState&lt;number&gt;(<span class="number">0</span>); </span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">	 ...</span><br><span class="line">	 <span class="comment">// 第一次请求</span></span><br><span class="line">      getPoemList(category, offset)</span><br><span class="line">        .then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">          setList(res);</span><br><span class="line">        &#125;)</span><br><span class="line">        .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="built_in">console</span>.error(err);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, []);</span><br><span class="line">	</span><br><span class="line">  <span class="comment">// 监听滑动到底部的事件</span></span><br><span class="line">  <span class="keyword">const</span> handleScrollToLower = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'scroll to lower!!'</span>);</span><br><span class="line">    <span class="keyword">const</span> curOffset = offset + <span class="number">1</span>;</span><br><span class="line">    setOffset(curOffset);</span><br><span class="line">	<span class="comment">// 后续请求，每次请求50条数据，这个50条是在后端根据offset控制的</span></span><br><span class="line">    getPoemList(category, curOffset)</span><br><span class="line">      .then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">        setList(list.concat(res));</span><br><span class="line">      &#125;)</span><br><span class="line">      .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.error(err);</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line">  </span><br><span class="line">  ......</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;View className=<span class="string">"poemList-container"</span>&gt;</span><br><span class="line">      &lt;View className=<span class="string">"top"</span>&gt;</span><br><span class="line">        &lt;View className=<span class="string">"title"</span>&gt;&#123;title&#125;&lt;<span class="regexp">/View&gt;</span></span><br><span class="line"><span class="regexp">        &lt;View className="desc"&gt;&#123;desc&#125;&lt;/</span>View&gt;</span><br><span class="line">      &lt;<span class="regexp">/View&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">      &#123;list.length &gt; 0 &amp;&amp; (</span></span><br><span class="line"><span class="regexp">        &lt;VirtualList</span></span><br><span class="line"><span class="regexp">          height=&#123;800&#125; /</span>* 列表的高度 *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">          width="100%" /</span>* 列表的宽度 *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">          itemData=&#123;list&#125; /</span>* 渲染列表的数据 *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">          itemCount=&#123;list.length&#125; /</span>*  渲染列表的长度 *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">          itemSize=&#123;80&#125; /</span>* 列表单项的高度  *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">          onScrollToLower=&#123;handleScrollToLower&#125;&gt;</span></span><br><span class="line"><span class="regexp">          &#123;listItem&#125;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>VirtualList&gt;</span><br><span class="line">      )&#125;</span><br><span class="line">    &lt;<span class="regexp">/View&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">export default React.memo(PoemList);</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>后端具体实现：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> Service = <span class="built_in">require</span>(<span class="string">'egg'</span>).Service;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PoemListService</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line">  <span class="keyword">async</span> getPoemList(category, offset) &#123;</span><br><span class="line">    <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="keyword">this</span>.findPoemList(category, offset*<span class="number">50</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">async</span> findPoemList(category, offset) &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; ctx &#125; = <span class="keyword">this</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 分片获取数据</span></span><br><span class="line">    <span class="keyword">switch</span> (category) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">0</span>: &#123;</span><br><span class="line">        <span class="keyword">const</span> res = <span class="keyword">await</span> ctx.model.Poems.findAll(&#123;</span><br><span class="line">          offset: offset,</span><br><span class="line">          limit: <span class="number">50</span>,</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>: &#123;</span><br><span class="line">        <span class="keyword">const</span> res = <span class="keyword">await</span> ctx.model.Poetry.findAll(&#123;</span><br><span class="line">          offset: offset,</span><br><span class="line">          limit: <span class="number">50</span>,</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2</span>: &#123;</span><br><span class="line">        <span class="keyword">const</span> res = <span class="keyword">await</span> ctx.model.Lunyu.findAll(&#123;</span><br><span class="line">          offset: offset,</span><br><span class="line">          limit: <span class="number">50</span>,</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">3</span>: &#123;</span><br><span class="line">        <span class="keyword">const</span> res = <span class="keyword">await</span> ctx.model.Shijing.findAll(&#123;</span><br><span class="line">          offset: offset,</span><br><span class="line">          limit: <span class="number">50</span>,</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports = PoemListService;</span><br></pre></td></tr></table></figure>
+<p>这里用到<code>sequelize</code>ORM。offset用于设置开始请求的偏移量（比如，如果offset为50，表示跳过前面49条数据，从第50条数据开始获取），<code>limit</code>表示数量。</p>
+]]></content>
+      <categories>
+        <category>小程序</category>
+      </categories>
+      <tags>
+        <tag>小程序</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>小程序录音功能实现</title>
     <url>/2021/03/07/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BD%95%E9%9F%B3%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在开发小程序过程中，有一个实现录音功能并播放录音，将录音上传至服务器的需求。开发过程中使用了Taro框架，录音功能通过<code>Taro.getRecorderManager()</code>接口实现，上传录音至服务器通过<code>Taro.uploadFile</code>接口实现，播放录音使用<code>Taro.createInnerAudioContext()</code>接口实现。下面就详细介绍整个流程是如何实现的。</p>
@@ -1854,29 +1877,6 @@
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> playAudio = <span class="function">(<span class="params">url</span>) =&gt;</span> &#123;</span><br><span class="line">  innerAudioText.autoplay = <span class="literal">true</span>;</span><br><span class="line">  innerAudioText.src = url;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>在<code>src</code>被赋予值的时候，录音就会开始播放。</p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>以上就是整个录音功能和录音播放功能实现的整个流程，如有疑问欢迎大家一起交流。</p>
-]]></content>
-      <categories>
-        <category>小程序</category>
-      </categories>
-      <tags>
-        <tag>小程序</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>数据量大导致传输速度慢解决方案——请求分片</title>
-    <url>/2021/03/14/%E6%95%B0%E6%8D%AE%E9%87%8F%E5%A4%A7%E5%AF%BC%E8%87%B4%E4%BC%A0%E8%BE%93%E9%80%9F%E5%BA%A6%E6%85%A2%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E2%80%94%E2%80%94%E8%AF%B7%E6%B1%82%E5%88%86%E7%89%87/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在开发过程中，遇到要请求几千行数据的需求，因为前端部分已经使用了<code>VirtualList</code>虚拟列表只渲染当前可视区域的视图，非可视区域的视图在用户滚动到可视区域再渲染：<br><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/20210314082757203.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTk3MzQxMA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>但仍不能解决数据加载缓慢问题。原因是数据量本身太大，导致传输的速度过慢，所以渲染到页面上的速度也很慢。</p>
-<br>
-
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>用<strong>请求分片</strong>的方式，先加载前50条数据，监听滑动到底部的事件，当列表下拉到底部的时候，再去请求后一百条数据。这么做每次只请求50条数据，传输速度就会很快。</p>
-<p>前端具体实现如下：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">PoemList</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="comment">// 设置请求偏移量</span></span><br><span class="line">  <span class="keyword">const</span> [offset, setOffset] = useState&lt;number&gt;(<span class="number">0</span>); </span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">	 ...</span><br><span class="line">	 <span class="comment">// 第一次请求</span></span><br><span class="line">      getPoemList(category, offset)</span><br><span class="line">        .then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">          setList(res);</span><br><span class="line">        &#125;)</span><br><span class="line">        .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="built_in">console</span>.error(err);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, []);</span><br><span class="line">	</span><br><span class="line">  <span class="comment">// 监听滑动到底部的事件</span></span><br><span class="line">  <span class="keyword">const</span> handleScrollToLower = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'scroll to lower!!'</span>);</span><br><span class="line">    <span class="keyword">const</span> curOffset = offset + <span class="number">1</span>;</span><br><span class="line">    setOffset(curOffset);</span><br><span class="line">	<span class="comment">// 后续请求，每次请求100条数据，这个100条是在后端根据offset控制的</span></span><br><span class="line">    getPoemList(category, curOffset)</span><br><span class="line">      .then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">        setList(list.concat(res));</span><br><span class="line">      &#125;)</span><br><span class="line">      .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.error(err);</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line">  </span><br><span class="line">  ......</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;View className=<span class="string">"poemList-container"</span>&gt;</span><br><span class="line">      &lt;View className=<span class="string">"top"</span>&gt;</span><br><span class="line">        &lt;View className=<span class="string">"title"</span>&gt;&#123;title&#125;&lt;<span class="regexp">/View&gt;</span></span><br><span class="line"><span class="regexp">        &lt;View className="desc"&gt;&#123;desc&#125;&lt;/</span>View&gt;</span><br><span class="line">      &lt;<span class="regexp">/View&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">      &#123;list.length &gt; 0 &amp;&amp; (</span></span><br><span class="line"><span class="regexp">        &lt;VirtualList</span></span><br><span class="line"><span class="regexp">          height=&#123;800&#125; /</span>* 列表的高度 *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">          width="100%" /</span>* 列表的宽度 *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">          itemData=&#123;list&#125; /</span>* 渲染列表的数据 *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">          itemCount=&#123;list.length&#125; /</span>*  渲染列表的长度 *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">          itemSize=&#123;80&#125; /</span>* 列表单项的高度  *<span class="regexp">/</span></span><br><span class="line"><span class="regexp">          onScrollToLower=&#123;handleScrollToLower&#125;&gt;</span></span><br><span class="line"><span class="regexp">          &#123;listItem&#125;</span></span><br><span class="line"><span class="regexp">        &lt;/</span>VirtualList&gt;</span><br><span class="line">      )&#125;</span><br><span class="line">    &lt;<span class="regexp">/View&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">export default React.memo(PoemList);</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>后端具体实现：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> Service = <span class="built_in">require</span>(<span class="string">'egg'</span>).Service;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PoemListService</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line">  <span class="keyword">async</span> getPoemList(category, offset) &#123;</span><br><span class="line">    <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="keyword">this</span>.findPoemList(category, offset*<span class="number">50</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">async</span> findPoemList(category, offset) &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; ctx &#125; = <span class="keyword">this</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 分片获取数据</span></span><br><span class="line">    <span class="keyword">switch</span> (category) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">0</span>: &#123;</span><br><span class="line">        <span class="keyword">const</span> res = <span class="keyword">await</span> ctx.model.Poems.findAll(&#123;</span><br><span class="line">          offset: offset,</span><br><span class="line">          limit: <span class="number">50</span>,</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>: &#123;</span><br><span class="line">        <span class="keyword">const</span> res = <span class="keyword">await</span> ctx.model.Poetry.findAll(&#123;</span><br><span class="line">          offset: offset,</span><br><span class="line">          limit: <span class="number">50</span>,</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2</span>: &#123;</span><br><span class="line">        <span class="keyword">const</span> res = <span class="keyword">await</span> ctx.model.Lunyu.findAll(&#123;</span><br><span class="line">          offset: offset,</span><br><span class="line">          limit: <span class="number">50</span>,</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">3</span>: &#123;</span><br><span class="line">        <span class="keyword">const</span> res = <span class="keyword">await</span> ctx.model.Shijing.findAll(&#123;</span><br><span class="line">          offset: offset,</span><br><span class="line">          limit: <span class="number">50</span>,</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports = PoemListService;</span><br></pre></td></tr></table></figure>
-<p>这里用到<code>sequelize</code>ORM。offset用于设置开始请求的偏移量（比如，如果offset为50，表示跳过前面49条数据，从第50条数据开始获取），<code>limit</code>表示数量。</p>
 ]]></content>
       <categories>
         <category>小程序</category>
@@ -2159,32 +2159,6 @@
       </tags>
   </entry>
   <entry>
-    <title>每日一题——矩阵重叠</title>
-    <url>/2020/03/18/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E7%9F%A9%E9%98%B5%E9%87%8D%E5%8F%A0/</url>
-    <content><![CDATA[<h2 id="矩形重叠"><a href="#矩形重叠" class="headerlink" title="矩形重叠"></a><a href="https://leetcode-cn.com/problems/rectangle-overlap/" target="_blank" rel="noopener">矩形重叠</a></h2><p>矩形以列表 [x1, y1, x2, y2] 的形式表示，其中 (x1, y1) 为左下角的坐标，(x2, y2) 是右上角的坐标。</p>
-<p>如果相交的面积为正，则称两矩形重叠。需要明确的是，只在角或边接触的两个矩形不构成重叠。</p>
-<p>给出两个矩形，判断它们是否重叠并返回结果。</p>
-<p>示例 1：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：rec1 &#x3D; [0,0,2,2], rec2 &#x3D; [1,1,3,3]</span><br><span class="line">输出：true</span><br></pre></td></tr></table></figure>
-
-<p>示例 2：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：rec1 &#x3D; [0,0,1,1], rec2 &#x3D; [1,0,2,1]</span><br><span class="line">输出：false</span><br></pre></td></tr></table></figure>
-
-<p>说明：</p>
-<p>两个矩形 rec1 和 rec2 都以含有四个整数的列表的形式给出。<br>矩形中的所有坐标都处于 -10^9 和 10^9 之间。</p>
-<p>思路：</p>
-<p><img src="/images/loading.png" data-original="./%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E7%9F%A9%E9%98%B5%E9%87%8D%E5%8F%A0/1.jpg" alt="img"></p>
-<p>两个矩形，我们只需要关注它们离彼此最近的两个点。两个矩阵只要靠左边矩形的右上角的x比右边矩形左下角的x要小（小于等于）的话，就不会重叠；或者是，靠左边矩形的右下角的y比右边矩形右上角y要大（大于等于）的话，也不会重叠。因为rec1和rec2的顺序不一定就是rec1在左，rec2在右，所以要考虑反过来情况。</p>
-<p>题解：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number[]&#125;</span> <span class="variable">rec1</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number[]&#125;</span> <span class="variable">rec2</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;boolean&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> isRectangleOverlap = <span class="function"><span class="keyword">function</span>(<span class="params">rec1, rec2</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> !(rec1[<span class="number">2</span>]&lt;=rec2[<span class="number">0</span>]||rec2[<span class="number">2</span>]&lt;=rec1[<span class="number">0</span>]||rec1[<span class="number">1</span>]&gt;=rec2[<span class="number">3</span>]||rec2[<span class="number">1</span>]&gt;=rec1[<span class="number">3</span>]);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>每日一题</category>
-      </categories>
-      <tags>
-        <tag>每日一题</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>每日一题——编辑距离</title>
     <url>/2020/03/25/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E7%BC%96%E8%BE%91%E8%B7%9D%E7%A6%BB/</url>
     <content><![CDATA[<h2 id="编辑距离"><a href="#编辑距离" class="headerlink" title="编辑距离"></a><a href="https://leetcode-cn.com/problems/edit-distance/" target="_blank" rel="noopener">编辑距离</a></h2><p>给定两个单词 word1 和 word2，计算出将 word1 转换成 word2 所使用的最少操作数 。</p>
@@ -2246,6 +2220,32 @@
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number[][]&#125;</span> <span class="variable">grid</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> orangesRotting = <span class="function"><span class="keyword">function</span>(<span class="params">grid</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> row=grid.length;</span><br><span class="line">    <span class="keyword">var</span> col=grid[<span class="number">0</span>].length;</span><br><span class="line">    <span class="keyword">var</span> queue=[];</span><br><span class="line">    <span class="keyword">var</span> locs=[[<span class="number">0</span>,<span class="number">-1</span>],[<span class="number">0</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">0</span>],[<span class="number">-1</span>,<span class="number">0</span>]];</span><br><span class="line">    <span class="keyword">var</span> time=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">var</span> x,y;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;row;++i)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> j=<span class="number">0</span>;j&lt;col;++j)&#123;</span><br><span class="line">            <span class="keyword">if</span>(grid[i][j]==<span class="number">2</span>)&#123;</span><br><span class="line">                queue.push([i,j,time]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(queue.length!==<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="comment">//这是queue！！不要写成stack,先进先出是用shift</span></span><br><span class="line">        [x,y,time]=queue.shift();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> t=<span class="number">0</span>;t&lt;locs.length;++t)&#123;</span><br><span class="line">            <span class="keyword">var</span> new_x=x+locs[t][<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">var</span> new_y=y+locs[t][<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">if</span>(new_x&gt;=<span class="number">0</span>&amp;&amp;new_x&lt;row&amp;&amp;new_y&gt;=<span class="number">0</span>&amp;&amp;new_y&lt;col)&#123;</span><br><span class="line">                <span class="keyword">if</span>(grid[new_x][new_y]===<span class="number">1</span>)&#123;</span><br><span class="line">                    queue.push([new_x,new_y,time+<span class="number">1</span>]);</span><br><span class="line">                    grid[new_x][new_y]=<span class="number">2</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> p=<span class="number">0</span>;p&lt;row;++p)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> q=<span class="number">0</span>;q&lt;col;++q)&#123;</span><br><span class="line">            <span class="keyword">if</span>(grid[p][q]==<span class="number">1</span>)&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> time;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 ]]></content>
+      <categories>
+        <category>每日一题</category>
+      </categories>
+      <tags>
+        <tag>每日一题</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>每日一题——矩阵重叠</title>
+    <url>/2020/03/18/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E7%9F%A9%E9%98%B5%E9%87%8D%E5%8F%A0/</url>
+    <content><![CDATA[<h2 id="矩形重叠"><a href="#矩形重叠" class="headerlink" title="矩形重叠"></a><a href="https://leetcode-cn.com/problems/rectangle-overlap/" target="_blank" rel="noopener">矩形重叠</a></h2><p>矩形以列表 [x1, y1, x2, y2] 的形式表示，其中 (x1, y1) 为左下角的坐标，(x2, y2) 是右上角的坐标。</p>
+<p>如果相交的面积为正，则称两矩形重叠。需要明确的是，只在角或边接触的两个矩形不构成重叠。</p>
+<p>给出两个矩形，判断它们是否重叠并返回结果。</p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：rec1 &#x3D; [0,0,2,2], rec2 &#x3D; [1,1,3,3]</span><br><span class="line">输出：true</span><br></pre></td></tr></table></figure>
+
+<p>示例 2：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：rec1 &#x3D; [0,0,1,1], rec2 &#x3D; [1,0,2,1]</span><br><span class="line">输出：false</span><br></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<p>两个矩形 rec1 和 rec2 都以含有四个整数的列表的形式给出。<br>矩形中的所有坐标都处于 -10^9 和 10^9 之间。</p>
+<p>思路：</p>
+<p><img src="/images/loading.png" data-original="./%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E7%9F%A9%E9%98%B5%E9%87%8D%E5%8F%A0/1.jpg" alt="img"></p>
+<p>两个矩形，我们只需要关注它们离彼此最近的两个点。两个矩阵只要靠左边矩形的右上角的x比右边矩形左下角的x要小（小于等于）的话，就不会重叠；或者是，靠左边矩形的右下角的y比右边矩形右上角y要大（大于等于）的话，也不会重叠。因为rec1和rec2的顺序不一定就是rec1在左，rec2在右，所以要考虑反过来情况。</p>
+<p>题解：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number[]&#125;</span> <span class="variable">rec1</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number[]&#125;</span> <span class="variable">rec2</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;boolean&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> isRectangleOverlap = <span class="function"><span class="keyword">function</span>(<span class="params">rec1, rec2</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> !(rec1[<span class="number">2</span>]&lt;=rec2[<span class="number">0</span>]||rec2[<span class="number">2</span>]&lt;=rec1[<span class="number">0</span>]||rec1[<span class="number">1</span>]&gt;=rec2[<span class="number">3</span>]||rec2[<span class="number">1</span>]&gt;=rec1[<span class="number">3</span>]);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>每日一题</category>
       </categories>
@@ -2608,6 +2608,42 @@
       </tags>
   </entry>
   <entry>
+    <title>防抖与节流</title>
+    <url>/2020/01/17/%E9%98%B2%E6%8A%96%E4%B8%8E%E8%8A%82%E6%B5%81/</url>
+    <content><![CDATA[<h1 id="防抖和节流"><a href="#防抖和节流" class="headerlink" title="防抖和节流"></a>防抖和节流</h1><p>如果事件处理函数调用的频率无限制，会加重浏览器的负担，导致用户体验非常糟糕。此时我们可以采用防抖（debounce）和节流（throttle）的方式来减少调用频率，同时又不影响实际效果。</p>
+<h2 id="防抖"><a href="#防抖" class="headerlink" title="防抖"></a>防抖</h2><p>含义：当持续触发事件时，一定时间段内没有在触发事件，事件处理函数才会执行一次；如果设定的时间到来之前，又一次触发了事件，就重新开始延时。</p>
+<img src="/images/loading.png" data-original="/2020/01/17/%E9%98%B2%E6%8A%96%E4%B8%8E%E8%8A%82%E6%B5%81/1.jpg" class>
+
+
+
+<p>代码实现：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">fn, wait</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> timeout = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">//取消由 setTimeout() 方法设置的 timeout</span></span><br><span class="line">        <span class="keyword">if</span>(timeout!==<span class="literal">null</span>) </span><br><span class="line">            clearTimeout(timeout);</span><br><span class="line">        timeout = setTimeout(fn, wait);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 处理函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handle</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">Math</span>.random()); </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 滚动事件</span></span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'scroll'</span>, debounce(handle, <span class="number">1000</span>));</span><br></pre></td></tr></table></figure>
+
+<p>防抖是通过<strong>闭包</strong>实现的，所以timeout是会被缓存的。如果在频繁触发事件之后的一段时间内，又再次触发了事件，那就会使用<code>clearTimeout</code>清除<code>setTimout</code>设置的<code>timout</code>，重新计时。</p>
+<p>具体完整代码：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">        <span class="function"><span class="keyword">function</span> <span class="title">debounce</span><span class="params">(fn, wait)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> timeout = <span class="literal">null</span>;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">            <span class="comment">//取消由 setTimeout() 方法设置的 timeout</span></span></span><br><span class="line"><span class="actionscript">            <span class="keyword">if</span>(timeout!==<span class="literal">null</span>) </span></span><br><span class="line">                    clearTimeout(timeout);</span><br><span class="line">            timeout = setTimeout(fn, wait);</span><br><span class="line">        &#125;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="actionscript">        <span class="comment">// 处理函数</span></span></span><br><span class="line"><span class="actionscript">        <span class="function"><span class="keyword">function</span> <span class="title">handle</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">console</span>.log(<span class="built_in">Math</span>.random()); </span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="actionscript">        <span class="comment">// 滚动事件</span></span></span><br><span class="line"><span class="javascript">        <span class="built_in">window</span>.addEventListener(<span class="string">'scroll'</span>, debounce(handle, <span class="number">1000</span>));</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示1<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示2<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示3<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示4<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示5<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示6<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示7<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示8<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示9<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示10<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示11<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示12<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示13<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示14<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示15<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示16<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在网页运行的时候我们会看到，当在滚动页面操作停止后1s，控制台会有输出。这就是防抖。</p>
+<h2 id="节流"><a href="#节流" class="headerlink" title="节流"></a>节流</h2><p>当持续触发事件时，保证每隔一定时间段内只调用一次事件处理函数。</p>
+<img src="/images/loading.png" data-original="/2020/01/17/%E9%98%B2%E6%8A%96%E4%B8%8E%E8%8A%82%E6%B5%81/2.jpg" class>
+
+
+
+<p>用定时器实现节流：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> throttle=<span class="function"><span class="keyword">function</span>(<span class="params">func,delay</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> timer=<span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> context=<span class="keyword">this</span>;</span><br><span class="line">        <span class="keyword">var</span> args=<span class="built_in">arguments</span>;</span><br><span class="line">        <span class="keyword">if</span>(!timer)&#123;</span><br><span class="line">            timer=setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                func.apply(context,args);</span><br><span class="line">                timer=<span class="literal">null</span>;</span><br><span class="line">            &#125;,delay);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handle</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">Math</span>.random());</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'scroll'</span>,throttle(handle,<span class="number">1000</span>));</span><br></pre></td></tr></table></figure>
+
+<p>节流也是通过<strong>闭包</strong>实现的。所以会把timer缓存起来，但是由于每次执行<code>setTimeout</code>函数时都设置timer为null，所以每次调用都可以执行if语句当中的内容。同时，下一次滚动事件不会影响上一次的事件处理函数，所以不会重新计时。</p>
+<p>将节流代码放入上个例子的具体实现中会发现，执行滚动页面操作后，都会以同一频率在控制台中输出值。</p>
+<p>参考：<a href="https://mp.weixin.qq.com/s/Vkshf-nEDwo2ODUJhxgzVA" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/Vkshf-nEDwo2ODUJhxgzVA</a></p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>设置display:none对DOM树和渲染树的影响</title>
     <url>/2020/03/21/%E8%AE%BE%E7%BD%AEdisplay-none%E5%AF%B9DOM%E6%A0%91%E5%92%8C%E6%B8%B2%E6%9F%93%E6%A0%91%E7%9A%84%E5%BD%B1%E5%93%8D/</url>
     <content><![CDATA[<h2 id="原本的样式"><a href="#原本的样式" class="headerlink" title="原本的样式"></a>原本的样式</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">        <span class="selector-class">.main</span>&#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">width</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line">            background-color: lightyellow;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span></span><br><span class="line">        display属性testing</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -2657,154 +2693,6 @@
       </categories>
       <tags>
         <tag>CSS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>防抖与节流</title>
-    <url>/2020/01/17/%E9%98%B2%E6%8A%96%E4%B8%8E%E8%8A%82%E6%B5%81/</url>
-    <content><![CDATA[<h1 id="防抖和节流"><a href="#防抖和节流" class="headerlink" title="防抖和节流"></a>防抖和节流</h1><p>如果事件处理函数调用的频率无限制，会加重浏览器的负担，导致用户体验非常糟糕。此时我们可以采用防抖（debounce）和节流（throttle）的方式来减少调用频率，同时又不影响实际效果。</p>
-<h2 id="防抖"><a href="#防抖" class="headerlink" title="防抖"></a>防抖</h2><p>含义：当持续触发事件时，一定时间段内没有在触发事件，事件处理函数才会执行一次；如果设定的时间到来之前，又一次触发了事件，就重新开始延时。</p>
-<img src="/images/loading.png" data-original="/2020/01/17/%E9%98%B2%E6%8A%96%E4%B8%8E%E8%8A%82%E6%B5%81/1.jpg" class>
-
-
-
-<p>代码实现：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">fn, wait</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> timeout = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">//取消由 setTimeout() 方法设置的 timeout</span></span><br><span class="line">        <span class="keyword">if</span>(timeout!==<span class="literal">null</span>) </span><br><span class="line">            clearTimeout(timeout);</span><br><span class="line">        timeout = setTimeout(fn, wait);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 处理函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handle</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">Math</span>.random()); </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 滚动事件</span></span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'scroll'</span>, debounce(handle, <span class="number">1000</span>));</span><br></pre></td></tr></table></figure>
-
-<p>防抖是通过<strong>闭包</strong>实现的，所以timeout是会被缓存的。如果在频繁触发事件之后的一段时间内，又再次触发了事件，那就会使用<code>clearTimeout</code>清除<code>setTimout</code>设置的<code>timout</code>，重新计时。</p>
-<p>具体完整代码：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">        <span class="function"><span class="keyword">function</span> <span class="title">debounce</span><span class="params">(fn, wait)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> timeout = <span class="literal">null</span>;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">            <span class="comment">//取消由 setTimeout() 方法设置的 timeout</span></span></span><br><span class="line"><span class="actionscript">            <span class="keyword">if</span>(timeout!==<span class="literal">null</span>) </span></span><br><span class="line">                    clearTimeout(timeout);</span><br><span class="line">            timeout = setTimeout(fn, wait);</span><br><span class="line">        &#125;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="actionscript">        <span class="comment">// 处理函数</span></span></span><br><span class="line"><span class="actionscript">        <span class="function"><span class="keyword">function</span> <span class="title">handle</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">console</span>.log(<span class="built_in">Math</span>.random()); </span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="actionscript">        <span class="comment">// 滚动事件</span></span></span><br><span class="line"><span class="javascript">        <span class="built_in">window</span>.addEventListener(<span class="string">'scroll'</span>, debounce(handle, <span class="number">1000</span>));</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示1<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示2<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示3<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示4<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示5<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示6<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示7<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示8<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示9<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示10<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示11<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示12<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示13<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示14<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示15<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>防抖演示16<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>在网页运行的时候我们会看到，当在滚动页面操作停止后1s，控制台会有输出。这就是防抖。</p>
-<h2 id="节流"><a href="#节流" class="headerlink" title="节流"></a>节流</h2><p>当持续触发事件时，保证每隔一定时间段内只调用一次事件处理函数。</p>
-<img src="/images/loading.png" data-original="/2020/01/17/%E9%98%B2%E6%8A%96%E4%B8%8E%E8%8A%82%E6%B5%81/2.jpg" class>
-
-
-
-<p>用定时器实现节流：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> throttle=<span class="function"><span class="keyword">function</span>(<span class="params">func,delay</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> timer=<span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> context=<span class="keyword">this</span>;</span><br><span class="line">        <span class="keyword">var</span> args=<span class="built_in">arguments</span>;</span><br><span class="line">        <span class="keyword">if</span>(!timer)&#123;</span><br><span class="line">            timer=setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                func.apply(context,args);</span><br><span class="line">                timer=<span class="literal">null</span>;</span><br><span class="line">            &#125;,delay);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handle</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">Math</span>.random());</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'scroll'</span>,throttle(handle,<span class="number">1000</span>));</span><br></pre></td></tr></table></figure>
-
-<p>节流也是通过<strong>闭包</strong>实现的。所以会把timer缓存起来，但是由于每次执行<code>setTimeout</code>函数时都设置timer为null，所以每次调用都可以执行if语句当中的内容。同时，下一次滚动事件不会影响上一次的事件处理函数，所以不会重新计时。</p>
-<p>将节流代码放入上个例子的具体实现中会发现，执行滚动页面操作后，都会以同一频率在控制台中输出值。</p>
-<p>参考：<a href="https://mp.weixin.qq.com/s/Vkshf-nEDwo2ODUJhxgzVA" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/Vkshf-nEDwo2ODUJhxgzVA</a></p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Decorator用法与实践</title>
-    <url>/2020/12/01/Decorator%E7%94%A8%E6%B3%95%E4%B8%8E%E5%AE%9E%E8%B7%B5/</url>
-    <content><![CDATA[<blockquote>
-<p>今天看关注的公众号发了一篇关于Decorator在组件当中的应用，觉得比较新颖，因为之前看过的文章都是在类和类的方法里应用的。所以想趁此契机梳理一下Decorator知识。</p>
-<p>Decorator特性可能在将来会发生改变，需等到定案之后再对其内容进行更新。</p>
-</blockquote>
-<br>
-
-<h1 id="什么是Decorator装饰器"><a href="#什么是Decorator装饰器" class="headerlink" title="什么是Decorator装饰器"></a>什么是Decorator装饰器</h1><p>装饰器（<code>Decorator</code>）是一种与类（class）相关的语法，用来注释或修改类和类的方法。它体现了一种<strong>控制反转</strong>的设计思想，可以用来降低代码之间的耦合度，也称作<strong>依赖注入</strong>（常见的控制反转方法）。</p>
-<p>装饰器是一种函数，写成<code>@+函数名</code>。它可以放在类和类方法定义的前面。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">@frozen</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line">    @configurable(<span class="literal">false</span>)</span><br><span class="line">    @enumerable(<span class="literal">true</span>)</span><br><span class="line">    method() &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    @throttle(<span class="number">500</span>)</span><br><span class="line">    expensiveMethod() &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>代码中使用了四个装饰器，一个用在类本身，另外三个用在类方法。这是一种方便的手段来增加或修改类的功能。</p>
-<br>
-
-<h1 id="类的装饰"><a href="#类的装饰" class="headerlink" title="类的装饰"></a>类的装饰</h1><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">@testable</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyTestableClass</span> </span>&#123;</span><br><span class="line">	<span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">testable</span>(<span class="params">target</span>) </span>&#123;</span><br><span class="line">	target.isTestable = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line">MyTestableClass.isTestable <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
-
-<p><code>@testable</code>就是一个装饰器，它修改了<code>MyTestableClass</code>这个类的的行为，为它添加了静态属性<code>isTestable</code>。<code>testable</code>函数的参数<code>target</code>就是<code>MyTestableClass</code>类本身。</p>
-<p>装饰器函数的第一个参数就是所要修饰的目标类。如果觉得一个参数不够用，可以在装饰器外面再封装一层函数：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">testable</span>(<span class="params">isTestable</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">target</span>) </span>&#123;</span><br><span class="line">    target.isTestable = isTestable;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@testable(<span class="literal">true</span>)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyTestableClass</span> </span>&#123;&#125;</span><br><span class="line">MyTestableClass.isTestable <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line">@testable(<span class="literal">false</span>)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;&#125;</span><br><span class="line">MyClass.isTestable <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>注意：装饰器对类的行为的改变，是代码编译时发生的，而不是运行时。</p>
-</blockquote>
-<p>前面的例子只是为类添加一个静态属性，如果想添加实例属性，可以通过目标类的<code>prototype</code>对象操作：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">testable</span>(<span class="params">target</span>) </span>&#123;</span><br><span class="line">	target.prototype.isTestable = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@testable</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyTestableClass</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj = <span class="keyword">new</span> MyTestableClass();</span><br><span class="line">obj.isTestable <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
-
-<br>
-
-<h1 id="方法的装饰"><a href="#方法的装饰" class="headerlink" title="方法的装饰"></a>方法的装饰</h1><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">  @readonly</span><br><span class="line">  name() &#123; <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.first&#125;</span> <span class="subst">$&#123;<span class="keyword">this</span>.last&#125;</span>`</span> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">readonly</span>(<span class="params">target, name, descriptor</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// descriptor对象原来的值如下</span></span><br><span class="line">  <span class="comment">// &#123;</span></span><br><span class="line">  <span class="comment">//   value: specifiedFunction,</span></span><br><span class="line">  <span class="comment">//   enumerable: false,</span></span><br><span class="line">  <span class="comment">//   configurable: true,</span></span><br><span class="line">  <span class="comment">//   writable: true</span></span><br><span class="line">  <span class="comment">// &#125;;</span></span><br><span class="line">  descriptor.writable = <span class="literal">false</span>;</span><br><span class="line">  <span class="keyword">return</span> descriptor;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">readonly(Person.prototype, <span class="string">'name'</span>, descriptor);</span><br><span class="line"><span class="comment">// 类似于</span></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(Person.prototype, <span class="string">'name'</span>, descriptor);</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>装饰器第一个参数是类的原型对象，上例是<code>Person.prototype</code>，装饰器的本意是要“装饰”类的实例，但这个时候实例还没生成，所以只能去装饰原型（这不同于类的装饰，那种情况<code>target</code>参数指的是类本身）</li>
-<li>第二个参数是所要装饰的属性名</li>
-<li>第三个参数是该属性的描述对象</li>
-</ul>
-<p><code>@log</code>装饰器，可以起到输出日志的作用（这个常常会使用到）：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Math</span> </span>&#123;</span><br><span class="line">  @log</span><br><span class="line">  add(a, b) &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">log</span>(<span class="params">target, name, descriptor</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> oldValue = descriptor.value;</span><br><span class="line"></span><br><span class="line">  descriptor.value = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`Calling <span class="subst">$&#123;name&#125;</span> with`</span>, <span class="built_in">arguments</span>);</span><br><span class="line">    <span class="keyword">return</span> oldValue.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> descriptor;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> math = <span class="keyword">new</span> <span class="built_in">Math</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// passed parameters should get logged now</span></span><br><span class="line">math.add(<span class="number">2</span>, <span class="number">4</span>);</span><br></pre></td></tr></table></figure>
-
-
-
-<p>如果同一个方法有多个装饰器，会像剥洋葱一样，先从外到内进入，然后由内向外执行：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dec</span>(<span class="params">id</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'evaluated'</span>, id);</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">target, property, descriptor</span>) =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'executed'</span>, id);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Example</span> </span>&#123;</span><br><span class="line">    @dec(<span class="number">1</span>)</span><br><span class="line">    @dec(<span class="number">2</span>)</span><br><span class="line">    method()&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// evaluated 1</span></span><br><span class="line"><span class="comment">// evaluated 2</span></span><br><span class="line"><span class="comment">// executed 2</span></span><br><span class="line"><span class="comment">// executed 1</span></span><br></pre></td></tr></table></figure>
-
-<br>
-
-<h1 id="装饰器不能用于函数"><a href="#装饰器不能用于函数" class="headerlink" title="装饰器不能用于函数"></a>装饰器不能用于函数</h1><p>装饰器只能用于类和类的方法，不能用于函数，因为存在函数提升。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> counter = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  counter++;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">@add</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上面的代码，意图是执行后<code>counter</code>等于 1，但是实际上结果是<code>counter</code>等于 0。因为函数提升，使得实际执行的代码是下面这样：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> counter;</span><br><span class="line"><span class="keyword">var</span> add;</span><br><span class="line"></span><br><span class="line">@add</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">counter = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">add = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  counter++;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<br>
-
-<h1 id="Mixin"><a href="#Mixin" class="headerlink" title="Mixin"></a>Mixin</h1><p>在装饰器的基础上，可以实现<code>Mixin</code>模式。所谓<code>Mixin</code>模式，就是对象继承的一种替代方案，意在为一个对象之中混入另外一个对象的方法。</p>
-<p>一般是通过<code>Object.assign</code>方法实现。</p>
-<p>比如：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">mixins</span>(<span class="params">...list</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">target</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">Object</span>.assign(target.prototype, ...list);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用上面这个装饰器，为类”混入”各种方法：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; mixins &#125; <span class="keyword">from</span> <span class="string">'./mixins'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Foo = &#123;</span><br><span class="line">  foo() &#123; <span class="built_in">console</span>.log(<span class="string">'foo'</span>) &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">@mixins(Foo)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj = <span class="keyword">new</span> MyClass();</span><br><span class="line">obj.foo() <span class="comment">// "foo"</span></span><br></pre></td></tr></table></figure>
-
-<br>
-
-<h1 id="如何体现依赖注入"><a href="#如何体现依赖注入" class="headerlink" title="如何体现依赖注入"></a>如何体现依赖注入</h1><p>我们从代码中可以发现，如果我们想要为某个类添加一些方法，只需要在类的前面添加一个装饰器即可。在没有装饰器之前我们一般会怎么做呢？我们会定义一个抽象类，在其中定义继承这个抽象类的所有类共有的一些方法，这样的话子类和子类之间的耦合度会比较高。那装饰器这种模式就可以降低类与类之间的耦合度。</p>
-<br>
-
-<h1 id="Decorator装饰器在前端组件中的应用"><a href="#Decorator装饰器在前端组件中的应用" class="headerlink" title="Decorator装饰器在前端组件中的应用"></a>Decorator装饰器在前端组件中的应用</h1><p><code>Decorator</code>（装饰器模式）属于结构型模式，是一种拓展对象额外功能的设计模式，别名<code>wrapper</code>。</p>
-<blockquote>
-<p>意图：动态地给一个对象添加一些额外的职责。就增加功能来说，<code>Decorator</code>模式相比生成子类更加灵活。</p>
-</blockquote>
-<p><code>wrapper</code>经常在前端搭建场景中遇到，当搭建平台加载一个组件时，希望拓展其基础能力，一般会使用<code>wrapper</code>层对组件进行嵌套，<code>wrapper</code>层就是在不改变<code>API</code>的情况下，对第三方组件进行加强。</p>
-<p>不同于继承，组合可以在运行时进行，所以称之为“动态添加”，这里的“额外职责”泛指一切功能，比如在按钮点击时进行一些<code>log</code>日志的打印，在绘制<code>text</code>文本框时，额外绘制一个滚动条和边框等等。</p>
-<p>“就增加功能来说，<code>Decorator</code>模式相比生成子类更加灵活” 这句话的含义是，组合比继承更灵活，当可拓展的功能很多时，继承方案会产生大量的子类，而组合可以提前写好处理函数，在需要时动态构造，显然是更灵活的。</p>
-<h2 id="结构图"><a href="#结构图" class="headerlink" title="结构图"></a>结构图</h2><p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201201155903.png" alt></p>
-<p><code>ConcreteComponent</code>指的是需要被装饰的组件，可以看到，装饰器<code>Decorator</code>与他都继承同一个类，这样能保证<code>API</code>的一致，才保证无论装饰多少层，始终符合<code>Component</code>类型。</p>
-<p>装饰器如果有多种，就要将<code>Decorator</code>申明为抽象类，<code>ConcreteDecoratorA</code>、<code>ConcreteDecoratorB</code>分别实现它们，如果只有一种装饰器，可以退化到<code>Decorator</code>自身就是一种实现。</p>
-<h2 id="代码例子"><a href="#代码例子" class="headerlink" title="代码例子"></a>代码例子</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    public onClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Decorator</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    private _component</span><br><span class="line">    <span class="keyword">constructor</span>(component) &#123;</span><br><span class="line">        <span class="keyword">this</span>._component = component</span><br><span class="line">    &#125;</span><br><span class="line">    public onClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        log(<span class="string">'打点'</span>)</span><br><span class="line">        <span class="keyword">this</span>._component.onClick();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> component = <span class="keyword">new</span> Component()</span><br><span class="line"><span class="comment">// 一个普通的点击</span></span><br><span class="line">component.onClick()</span><br><span class="line"><span class="keyword">const</span> wrapperComponent = <span class="keyword">new</span> Decorator(component)</span><br><span class="line"><span class="comment">// 一个具有打点功能的点击</span></span><br><span class="line">wrapperComponent.onClick()</span><br></pre></td></tr></table></figure>
-
-<p>其实方法很简单，通过组合，我们得到一个能力更强的组件，而实现方式就是利用构造函数保存组件实例，并在复写函数时，增加一些增强实现。</p>
-<h2 id="弊端"><a href="#弊端" class="headerlink" title="弊端"></a>弊端</h2><p>装饰器的问题也是组合的问题，过多的组合会导致：</p>
-<ul>
-<li>组合过程的复杂，要生成过多的对象</li>
-<li>包装器层次增多，会增加调试成本，我们比较难追溯到一个bug是在哪一层包装导致的</li>
-</ul>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>装饰器模式是非常常用的模式，<code>Decorator</code>是一个透明的包装，只要保证包装的透明性，就可以最大限度发挥装饰器模式的优势。</p>
-<p>最后总结一个装饰器应用图：</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201201161148.png" alt></p>
-<br>
-
-<h1 id="关于兼容性"><a href="#关于兼容性" class="headerlink" title="关于兼容性"></a>关于兼容性</h1><p>由于是es7的新特性，需要配置babel才能支持装饰器。</p>
-<p>配置方法：</p>
-<ul>
-<li><p><code>babel</code>：7.X版本</p>
-</li>
-<li><p>依赖安装</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">npm install --save-dev @babel/plugin-proposal-decorators </span><br><span class="line">npm install --save-dev @babel/plugin-proposal-<span class="class"><span class="keyword">class</span>-<span class="title">properties</span></span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>配置（一般在<code>.babelrc</code>或<code>babel.config.js</code>中进行配置）</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"plugins"</span>: [</span><br><span class="line">    [<span class="string">"@babel/plugin-proposal-decorators"</span>, &#123; <span class="string">"legacy"</span>: <span class="literal">true</span> &#125;],</span><br><span class="line">    [<span class="string">"@babel/plugin-proposal-class-properties"</span>, &#123; <span class="string">"loose"</span> : <span class="literal">true</span> &#125;]</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
       </tags>
   </entry>
   <entry>
@@ -2975,6 +2863,118 @@
 
 <br>
 
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Decorator用法与实践</title>
+    <url>/2020/12/01/Decorator%E7%94%A8%E6%B3%95%E4%B8%8E%E5%AE%9E%E8%B7%B5/</url>
+    <content><![CDATA[<blockquote>
+<p>今天看关注的公众号发了一篇关于Decorator在组件当中的应用，觉得比较新颖，因为之前看过的文章都是在类和类的方法里应用的。所以想趁此契机梳理一下Decorator知识。</p>
+<p>Decorator特性可能在将来会发生改变，需等到定案之后再对其内容进行更新。</p>
+</blockquote>
+<br>
+
+<h1 id="什么是Decorator装饰器"><a href="#什么是Decorator装饰器" class="headerlink" title="什么是Decorator装饰器"></a>什么是Decorator装饰器</h1><p>装饰器（<code>Decorator</code>）是一种与类（class）相关的语法，用来注释或修改类和类的方法。它体现了一种<strong>控制反转</strong>的设计思想，可以用来降低代码之间的耦合度，也称作<strong>依赖注入</strong>（常见的控制反转方法）。</p>
+<p>装饰器是一种函数，写成<code>@+函数名</code>。它可以放在类和类方法定义的前面。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">@frozen</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line">    @configurable(<span class="literal">false</span>)</span><br><span class="line">    @enumerable(<span class="literal">true</span>)</span><br><span class="line">    method() &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    @throttle(<span class="number">500</span>)</span><br><span class="line">    expensiveMethod() &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>代码中使用了四个装饰器，一个用在类本身，另外三个用在类方法。这是一种方便的手段来增加或修改类的功能。</p>
+<br>
+
+<h1 id="类的装饰"><a href="#类的装饰" class="headerlink" title="类的装饰"></a>类的装饰</h1><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">@testable</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyTestableClass</span> </span>&#123;</span><br><span class="line">	<span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">testable</span>(<span class="params">target</span>) </span>&#123;</span><br><span class="line">	target.isTestable = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line">MyTestableClass.isTestable <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<p><code>@testable</code>就是一个装饰器，它修改了<code>MyTestableClass</code>这个类的的行为，为它添加了静态属性<code>isTestable</code>。<code>testable</code>函数的参数<code>target</code>就是<code>MyTestableClass</code>类本身。</p>
+<p>装饰器函数的第一个参数就是所要修饰的目标类。如果觉得一个参数不够用，可以在装饰器外面再封装一层函数：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">testable</span>(<span class="params">isTestable</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">target</span>) </span>&#123;</span><br><span class="line">    target.isTestable = isTestable;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@testable(<span class="literal">true</span>)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyTestableClass</span> </span>&#123;&#125;</span><br><span class="line">MyTestableClass.isTestable <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line">@testable(<span class="literal">false</span>)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;&#125;</span><br><span class="line">MyClass.isTestable <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：装饰器对类的行为的改变，是代码编译时发生的，而不是运行时。</p>
+</blockquote>
+<p>前面的例子只是为类添加一个静态属性，如果想添加实例属性，可以通过目标类的<code>prototype</code>对象操作：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">testable</span>(<span class="params">target</span>) </span>&#123;</span><br><span class="line">	target.prototype.isTestable = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@testable</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyTestableClass</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj = <span class="keyword">new</span> MyTestableClass();</span><br><span class="line">obj.isTestable <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h1 id="方法的装饰"><a href="#方法的装饰" class="headerlink" title="方法的装饰"></a>方法的装饰</h1><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">  @readonly</span><br><span class="line">  name() &#123; <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.first&#125;</span> <span class="subst">$&#123;<span class="keyword">this</span>.last&#125;</span>`</span> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">readonly</span>(<span class="params">target, name, descriptor</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// descriptor对象原来的值如下</span></span><br><span class="line">  <span class="comment">// &#123;</span></span><br><span class="line">  <span class="comment">//   value: specifiedFunction,</span></span><br><span class="line">  <span class="comment">//   enumerable: false,</span></span><br><span class="line">  <span class="comment">//   configurable: true,</span></span><br><span class="line">  <span class="comment">//   writable: true</span></span><br><span class="line">  <span class="comment">// &#125;;</span></span><br><span class="line">  descriptor.writable = <span class="literal">false</span>;</span><br><span class="line">  <span class="keyword">return</span> descriptor;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">readonly(Person.prototype, <span class="string">'name'</span>, descriptor);</span><br><span class="line"><span class="comment">// 类似于</span></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(Person.prototype, <span class="string">'name'</span>, descriptor);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>装饰器第一个参数是类的原型对象，上例是<code>Person.prototype</code>，装饰器的本意是要“装饰”类的实例，但这个时候实例还没生成，所以只能去装饰原型（这不同于类的装饰，那种情况<code>target</code>参数指的是类本身）</li>
+<li>第二个参数是所要装饰的属性名</li>
+<li>第三个参数是该属性的描述对象</li>
+</ul>
+<p><code>@log</code>装饰器，可以起到输出日志的作用（这个常常会使用到）：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Math</span> </span>&#123;</span><br><span class="line">  @log</span><br><span class="line">  add(a, b) &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">log</span>(<span class="params">target, name, descriptor</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> oldValue = descriptor.value;</span><br><span class="line"></span><br><span class="line">  descriptor.value = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`Calling <span class="subst">$&#123;name&#125;</span> with`</span>, <span class="built_in">arguments</span>);</span><br><span class="line">    <span class="keyword">return</span> oldValue.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> descriptor;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> math = <span class="keyword">new</span> <span class="built_in">Math</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// passed parameters should get logged now</span></span><br><span class="line">math.add(<span class="number">2</span>, <span class="number">4</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果同一个方法有多个装饰器，会像剥洋葱一样，先从外到内进入，然后由内向外执行：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dec</span>(<span class="params">id</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'evaluated'</span>, id);</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">target, property, descriptor</span>) =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'executed'</span>, id);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Example</span> </span>&#123;</span><br><span class="line">    @dec(<span class="number">1</span>)</span><br><span class="line">    @dec(<span class="number">2</span>)</span><br><span class="line">    method()&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// evaluated 1</span></span><br><span class="line"><span class="comment">// evaluated 2</span></span><br><span class="line"><span class="comment">// executed 2</span></span><br><span class="line"><span class="comment">// executed 1</span></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h1 id="装饰器不能用于函数"><a href="#装饰器不能用于函数" class="headerlink" title="装饰器不能用于函数"></a>装饰器不能用于函数</h1><p>装饰器只能用于类和类的方法，不能用于函数，因为存在函数提升。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> counter = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  counter++;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">@add</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码，意图是执行后<code>counter</code>等于 1，但是实际上结果是<code>counter</code>等于 0。因为函数提升，使得实际执行的代码是下面这样：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> counter;</span><br><span class="line"><span class="keyword">var</span> add;</span><br><span class="line"></span><br><span class="line">@add</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">counter = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">add = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  counter++;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h1 id="Mixin"><a href="#Mixin" class="headerlink" title="Mixin"></a>Mixin</h1><p>在装饰器的基础上，可以实现<code>Mixin</code>模式。所谓<code>Mixin</code>模式，就是对象继承的一种替代方案，意在为一个对象之中混入另外一个对象的方法。</p>
+<p>一般是通过<code>Object.assign</code>方法实现。</p>
+<p>比如：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">mixins</span>(<span class="params">...list</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">target</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">Object</span>.assign(target.prototype, ...list);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用上面这个装饰器，为类”混入”各种方法：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; mixins &#125; <span class="keyword">from</span> <span class="string">'./mixins'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Foo = &#123;</span><br><span class="line">  foo() &#123; <span class="built_in">console</span>.log(<span class="string">'foo'</span>) &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">@mixins(Foo)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj = <span class="keyword">new</span> MyClass();</span><br><span class="line">obj.foo() <span class="comment">// "foo"</span></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h1 id="如何体现依赖注入"><a href="#如何体现依赖注入" class="headerlink" title="如何体现依赖注入"></a>如何体现依赖注入</h1><p>我们从代码中可以发现，如果我们想要为某个类添加一些方法，只需要在类的前面添加一个装饰器即可。在没有装饰器之前我们一般会怎么做呢？我们会定义一个抽象类，在其中定义继承这个抽象类的所有类共有的一些方法，这样的话子类和子类之间的耦合度会比较高。那装饰器这种模式就可以降低类与类之间的耦合度。</p>
+<br>
+
+<h1 id="Decorator装饰器在前端组件中的应用"><a href="#Decorator装饰器在前端组件中的应用" class="headerlink" title="Decorator装饰器在前端组件中的应用"></a>Decorator装饰器在前端组件中的应用</h1><p><code>Decorator</code>（装饰器模式）属于结构型模式，是一种拓展对象额外功能的设计模式，别名<code>wrapper</code>。</p>
+<blockquote>
+<p>意图：动态地给一个对象添加一些额外的职责。就增加功能来说，<code>Decorator</code>模式相比生成子类更加灵活。</p>
+</blockquote>
+<p><code>wrapper</code>经常在前端搭建场景中遇到，当搭建平台加载一个组件时，希望拓展其基础能力，一般会使用<code>wrapper</code>层对组件进行嵌套，<code>wrapper</code>层就是在不改变<code>API</code>的情况下，对第三方组件进行加强。</p>
+<p>不同于继承，组合可以在运行时进行，所以称之为“动态添加”，这里的“额外职责”泛指一切功能，比如在按钮点击时进行一些<code>log</code>日志的打印，在绘制<code>text</code>文本框时，额外绘制一个滚动条和边框等等。</p>
+<p>“就增加功能来说，<code>Decorator</code>模式相比生成子类更加灵活” 这句话的含义是，组合比继承更灵活，当可拓展的功能很多时，继承方案会产生大量的子类，而组合可以提前写好处理函数，在需要时动态构造，显然是更灵活的。</p>
+<h2 id="结构图"><a href="#结构图" class="headerlink" title="结构图"></a>结构图</h2><p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201201155903.png" alt></p>
+<p><code>ConcreteComponent</code>指的是需要被装饰的组件，可以看到，装饰器<code>Decorator</code>与他都继承同一个类，这样能保证<code>API</code>的一致，才保证无论装饰多少层，始终符合<code>Component</code>类型。</p>
+<p>装饰器如果有多种，就要将<code>Decorator</code>申明为抽象类，<code>ConcreteDecoratorA</code>、<code>ConcreteDecoratorB</code>分别实现它们，如果只有一种装饰器，可以退化到<code>Decorator</code>自身就是一种实现。</p>
+<h2 id="代码例子"><a href="#代码例子" class="headerlink" title="代码例子"></a>代码例子</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    public onClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Decorator</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    private _component</span><br><span class="line">    <span class="keyword">constructor</span>(component) &#123;</span><br><span class="line">        <span class="keyword">this</span>._component = component</span><br><span class="line">    &#125;</span><br><span class="line">    public onClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        log(<span class="string">'打点'</span>)</span><br><span class="line">        <span class="keyword">this</span>._component.onClick();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> component = <span class="keyword">new</span> Component()</span><br><span class="line"><span class="comment">// 一个普通的点击</span></span><br><span class="line">component.onClick()</span><br><span class="line"><span class="keyword">const</span> wrapperComponent = <span class="keyword">new</span> Decorator(component)</span><br><span class="line"><span class="comment">// 一个具有打点功能的点击</span></span><br><span class="line">wrapperComponent.onClick()</span><br></pre></td></tr></table></figure>
+
+<p>其实方法很简单，通过组合，我们得到一个能力更强的组件，而实现方式就是利用构造函数保存组件实例，并在复写函数时，增加一些增强实现。</p>
+<h2 id="弊端"><a href="#弊端" class="headerlink" title="弊端"></a>弊端</h2><p>装饰器的问题也是组合的问题，过多的组合会导致：</p>
+<ul>
+<li>组合过程的复杂，要生成过多的对象</li>
+<li>包装器层次增多，会增加调试成本，我们比较难追溯到一个bug是在哪一层包装导致的</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>装饰器模式是非常常用的模式，<code>Decorator</code>是一个透明的包装，只要保证包装的透明性，就可以最大限度发挥装饰器模式的优势。</p>
+<p>最后总结一个装饰器应用图：</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201201161148.png" alt></p>
+<br>
+
+<h1 id="关于兼容性"><a href="#关于兼容性" class="headerlink" title="关于兼容性"></a>关于兼容性</h1><p>由于是es7的新特性，需要配置babel才能支持装饰器。</p>
+<p>配置方法：</p>
+<ul>
+<li><p><code>babel</code>：7.X版本</p>
+</li>
+<li><p>依赖安装</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">npm install --save-dev @babel/plugin-proposal-decorators </span><br><span class="line">npm install --save-dev @babel/plugin-proposal-<span class="class"><span class="keyword">class</span>-<span class="title">properties</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置（一般在<code>.babelrc</code>或<code>babel.config.js</code>中进行配置）</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"plugins"</span>: [</span><br><span class="line">    [<span class="string">"@babel/plugin-proposal-decorators"</span>, &#123; <span class="string">"legacy"</span>: <span class="literal">true</span> &#125;],</span><br><span class="line">    [<span class="string">"@babel/plugin-proposal-class-properties"</span>, &#123; <span class="string">"loose"</span> : <span class="literal">true</span> &#125;]</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
 ]]></content>
       <categories>
         <category>JavaScript</category>
@@ -3170,109 +3170,6 @@
       </categories>
       <tags>
         <tag>Node.js</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>React+Redux 通过axios向接口获取数据的流程</title>
-    <url>/2020/04/17/React-Redux-%E9%80%9A%E8%BF%87axios%E5%90%91%E6%8E%A5%E5%8F%A3%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E7%9A%84%E6%B5%81%E7%A8%8B/</url>
-    <content><![CDATA[<p>最近在学习《React Hooks与Immutable数据流实战》小书，想把在React+Redux项目中用axios发起请求的配置流程记录下来，做个总结，加深一些印象。</p>
-<h2 id="启动服务器"><a href="#启动服务器" class="headerlink" title="启动服务器"></a>启动服务器</h2><p>首先是将<code>github</code>上网易云音乐接口的<code>node.js</code>项目启动，在项目中都是向这个服务器去发起请求，获取接口数据。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;启动服务器指令</span><br><span class="line">node app.js</span><br></pre></td></tr></table></figure>
-
-<br>
-
-<h2 id="安装axios"><a href="#安装axios" class="headerlink" title="安装axios"></a>安装<code>axios</code></h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install axios --save</span><br></pre></td></tr></table></figure>
-
-
-
-<p>现在在 src/api 目录下新建 config.js 文件，里面编写 axios 的配置:</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">'axios'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> baseUrl = <span class="string">'http://xxx自己填'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//axios 的实例及拦截器配置</span></span><br><span class="line"><span class="keyword">const</span> axiosInstance = axios.create (&#123;</span><br><span class="line">  baseURL: baseUrl</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">axiosInstance.interceptors.response.use (</span><br><span class="line">  res =&gt; res.data,</span><br><span class="line">  err =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log (err, <span class="string">"网络错误"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">  axiosInstance</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p><code>baseUrl</code>的话就是服务器的基地址，比如<code>http://localhost:3000</code>，那请求的一些接口数据就会在这个<code>baseUrl</code>的不同路由下，比如<code>banner</code>数据会通过<code>http://localhost:3000/banner</code>接口获取。</p>
-</li>
-<li><p><code>axios.create</code>：创建一个axios实例，可以添加一些基本配置。</p>
-<blockquote>
-<p>官网解释：</p>
-<h5 id="axios-create-config"><a href="#axios-create-config" class="headerlink" title="axios.create([config])"></a>axios.create([config])</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const instance &#x3D; axios.create(&#123;  </span><br><span class="line">	baseURL: &#39;https:&#x2F;&#x2F;some-domain.com&#x2F;api&#x2F;&#39;,  </span><br><span class="line">	timeout: 1000,  </span><br><span class="line">	headers: &#123;&#39;X-Custom-Header&#39;: &#39;foobar&#39;&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-</blockquote>
-</li>
-<li><p><code>axiosInstance.interceptors.response.use</code></p>
-<p>用于将公共的业务逻辑抽离出来。</p>
-</li>
-</ul>
-<p>然后在同一个目录下新建 request.js 用来封装不同的网络请求，内容如下:</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; axiosInstance &#125; <span class="keyword">from</span> <span class="string">"./config"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> getBannerRequest = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> axiosInstance.get (<span class="string">'/banner'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> getRecommendListRequest = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> axiosInstance.get (<span class="string">'/personalized'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在<code>request.js</code>中封装一些向服务器发起请求的方法，注意返回的是<code>promise</code>对象。</p>
-<br>
-
-<h2 id="redux层开发"><a href="#redux层开发" class="headerlink" title="redux层开发"></a><code>redux</code>层开发</h2><p>在 Recommend 目录下，新建 store 文件夹，然后新建以下文件：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">actionCreators.js&#x2F;&#x2F; 执行一些request.js中封装好的方法，获取到接口数据，并通过dispatch更新store的内容</span><br><span class="line">constants.js      &#x2F;&#x2F; 常量集合，存放不同 action 的 type 值</span><br><span class="line">index.js          &#x2F;&#x2F; 用来导出 reducer，action</span><br><span class="line">reducer.js        &#x2F;&#x2F; 存放 initialState 和 reducer 函数</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="constants-js"><a href="#constants-js" class="headerlink" title="constants.js"></a><code>constants.js</code></h3><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//定义action类型</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> CHANGE_BANNER=<span class="string">'recommend/CHANGE_BANNER'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> CHANGE_RECOMMEND_LIST=<span class="string">'recommend/RECOMMEND_LIST'</span>;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="reducer-js"><a href="#reducer-js" class="headerlink" title="reducer.js"></a><code>reducer.js</code></h3><p>定义<code>reducer</code>函数，并初始化<code>state</code>:</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> actionTypes <span class="keyword">from</span> <span class="string">'./constants'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;fromJS&#125; <span class="keyword">from</span> <span class="string">'immutable'</span>; <span class="comment">// 这里用到 fromJS 把 JS 数据结构转化成 immutable 数据结构</span></span><br><span class="line"><span class="keyword">import</span> &#123;combineReducer&#125; <span class="keyword">from</span> <span class="string">'redux-immutable'</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> defaultState=fromJS(&#123;</span><br><span class="line">    bannerList: [],</span><br><span class="line">    recommendList: []</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义reducer函数</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> (state=defaultState, action)=&gt;&#123;</span><br><span class="line">    <span class="keyword">switch</span>(action.type)&#123;</span><br><span class="line">        <span class="keyword">case</span> actionTypes.CHANGE_BANNER:</span><br><span class="line">            <span class="keyword">return</span> state.set(<span class="string">'bannerList'</span>, action.data);</span><br><span class="line">        <span class="keyword">case</span> actionTypes.CHANGE_RECOMMEND_LIST:</span><br><span class="line">            <span class="keyword">return</span> state.set(<span class="string">'recommendList'</span>, action.data);</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">return</span> state;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="actionCreators-js"><a href="#actionCreators-js" class="headerlink" title="actionCreators.js"></a><code>actionCreators.js</code></h3><p>执行<code>request.js</code>中的方法，通过<code>axios</code>从接口获取数据，然后通过<code>dispatch</code>方法，使用获取到的新数据去更新state。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> actionTypes <span class="keyword">from</span> <span class="string">'./constants'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;fromJS&#125; <span class="keyword">from</span> <span class="string">'immutable'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;getBannerRequest, getRecommendListRequest&#125; <span class="keyword">from</span> <span class="string">'../../../api/request'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> changeBannerList=<span class="function">(<span class="params">data</span>)=&gt;</span>(&#123;</span><br><span class="line">    type: actionTypes.CHANGE_BANNER,</span><br><span class="line">    data: fromJS(data)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> changeRecommendList=<span class="function">(<span class="params">data</span>)=&gt;</span>(&#123;</span><br><span class="line">    type: actionTypes.CHANGE_RECOMMEND_LIST,</span><br><span class="line">    data: fromJS(data)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> getBannerList=<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function">(<span class="params">dispatch</span>)=&gt;</span>&#123;</span><br><span class="line">        getBannerRequest().then(<span class="function"><span class="params">data</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="comment">//返回的数据格式为：&#123;banners: Array(8), code:200&#125;</span></span><br><span class="line">            dispatch(changeBannerList(data.banners));</span><br><span class="line">        &#125;).catch(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"轮播图数据传输错误"</span>);</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> getRecommendList=<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function">(<span class="params">dispatch</span>)=&gt;</span>&#123;</span><br><span class="line">        getRecommendListRequest().then(<span class="function"><span class="params">data</span>=&gt;</span>&#123;</span><br><span class="line">            dispatch(changeRecommendList(data.result));</span><br><span class="line">        &#125;).catch(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"推荐歌单数据传输错误"</span>);</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="index-js"><a href="#index-js" class="headerlink" title="index.js"></a><code>index.js</code></h3><p>用于将相关变量导出：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="keyword">import</span> reducer <span class="keyword">from</span> <span class="string">'./reducer'</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> actionCreators <span class="keyword">from</span> <span class="string">'./actionCreators'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123; reducer, actionCreators &#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-<br>
-
-<h2 id="组件连接Redux"><a href="#组件连接Redux" class="headerlink" title="组件连接Redux"></a>组件连接<code>Redux</code></h2><p>首先，需要将 recommend 下的 reducer 注册到全局 store，在 store/reducer.js 中，内容如下:</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; combineReducers &#125; <span class="keyword">from</span> <span class="string">'redux-immutable'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; reducer <span class="keyword">as</span> recommendReducer &#125; <span class="keyword">from</span> <span class="string">'../application/Recommend/store/index'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> combineReducers (&#123;</span><br><span class="line">  recommend: recommendReducer,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>注册完成！</p>
-<p>现在在 Recommend/index.js 中，准备连接 Redux。组件代码更新如下:</p>
-<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useEffect &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> Slider <span class="keyword">from</span> <span class="string">'../../components/slider/'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; connect &#125; <span class="keyword">from</span> <span class="string">"react-redux"</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> actionTypes <span class="keyword">from</span> <span class="string">'./store/actionCreators'</span>;</span><br><span class="line"><span class="keyword">import</span> RecommendList <span class="keyword">from</span> <span class="string">'../../components/list/'</span>;</span><br><span class="line"><span class="keyword">import</span> Scroll <span class="keyword">from</span> <span class="string">'../../baseUI/scroll/index'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Content &#125; <span class="keyword">from</span> <span class="string">'./style'</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Recommend</span> (<span class="params">props</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; bannerList, recommendList &#125; = props;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> &#123; getBannerDataDispatch, getRecommendListDataDispatch &#125; = props;</span><br><span class="line"></span><br><span class="line">  useEffect (<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    getBannerDataDispatch ();</span><br><span class="line">    getRecommendListDataDispatch ();</span><br><span class="line">    <span class="comment">//eslint-disable-next-line</span></span><br><span class="line">  &#125;, []);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> bannerListJS = bannerList ? bannerList.toJS () : [];</span><br><span class="line">  <span class="keyword">const</span> recommendListJS = recommendList ? recommendList.toJS () :[];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;Content&gt;</span><br><span class="line">      &lt;Scroll&gt;</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">          &lt;Slider bannerList=&#123;bannerListJS&#125;&gt;&lt;<span class="regexp">/Slider&gt;</span></span><br><span class="line"><span class="regexp">          &lt;RecommendList recommendList=&#123;recommendListJS&#125;&gt;&lt;/</span>RecommendList&gt;</span><br><span class="line">        &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>Scroll&gt;</span><br><span class="line">    &lt;<span class="regexp">/Content&gt; </span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ 映射 Redux 全局的 state 到组件的 props 上</span></span><br><span class="line"><span class="regexp">const mapStateToProps = (state) =&gt; (&#123;</span></span><br><span class="line"><span class="regexp">  /</span><span class="regexp">/ 不要在这里将数据 toJS</span></span><br><span class="line"><span class="regexp">  /</span><span class="regexp">/ 不然每次 diff 比对 props 的时候都是不一样的引用，还是导致不必要的重渲染，属于滥用 immutable</span></span><br><span class="line"><span class="regexp">  bannerList: state.getIn (['recommend', 'bannerList']),</span></span><br><span class="line"><span class="regexp">  recommendList: state.getIn (['recommend', 'recommendList']),</span></span><br><span class="line"><span class="regexp">&#125;);</span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ 映射 dispatch 到 props 上</span></span><br><span class="line"><span class="regexp">const mapDispatchToProps = (dispatch) =&gt; &#123;</span></span><br><span class="line"><span class="regexp">  return &#123;</span></span><br><span class="line"><span class="regexp">    getBannerDataDispatch () &#123;</span></span><br><span class="line"><span class="regexp">      dispatch (actionTypes.getBannerList ());</span></span><br><span class="line"><span class="regexp">    &#125;,</span></span><br><span class="line"><span class="regexp">    getRecommendListDataDispatch () &#123;</span></span><br><span class="line"><span class="regexp">      dispatch (actionTypes.getRecommendList ());</span></span><br><span class="line"><span class="regexp">    &#125;,</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ 将 ui 组件包装成容器组件</span></span><br><span class="line"><span class="regexp">export default connect (mapStateToProps, mapDispatchToProps)(React.memo (Recommend));</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>通过<code>connect</code>高阶函数，将<code>mapStateToProps</code>、<code>mapDispatchToProps</code>的属性和方法整合起来，传入内嵌组件（<code>Recommend</code>），内嵌组件就可以通过<code>props</code>获取到数据。</p>
-<ul>
-<li><code>mapStateToProps</code>：获取<code>store</code>中的state，对数据进行初始化操作</li>
-<li><code>mapDispatchToProps</code>：声明一些数据更新、数据获取操作</li>
-</ul>
-<p>在<code>useEffect</code>阶段执行<code>getBannerDataDispatch ();</code> <code>getRecommendListDataDispatch ();</code>操作。<code>useEffect</code>是<code>Hook</code>的API，用于完成副作用操作。它相当于<code>class</code>中的一些声明周期，在特定时期执行响应的操作。此处<code>useEffect</code>的第二个参数为<code>[]</code>，表示只在第一次执行，用来请求异步数据；如果第二个参数不为空数组，比如数组内有一些属性的话，则在这些属性发生变化的时候，<code>useEffect</code>才会执行。</p>
-<blockquote>
-<p>Hook的API介绍详情：</p>
-<p>React官方文档</p>
-<p><a href="https://juejin.im/post/5e53d9116fb9a07c9070da44" target="_blank" rel="noopener">https://juejin.im/post/5e53d9116fb9a07c9070da44</a></p>
-</blockquote>
-<br>
-
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
-
-<p>看到结果：</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200417202719.png" alt></p>
-<br>
-
-<blockquote>
-<p>要注意的点：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> getBannerList=<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function">(<span class="params">dispatch</span>)=&gt;</span>&#123;</span><br><span class="line">        getBannerRequest().then(<span class="function"><span class="params">data</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="comment">//返回的数据格式为：&#123;banners: Array(8), code:200&#125;</span></span><br><span class="line">            dispatch(changeBannerList(data.banners));</span><br><span class="line">        &#125;).catch(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"轮播图数据传输错误"</span>);</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>要注意看接口返回的数据，比如getBannerRequest()获取到的数据是对象，那我们要使用data.banners才能获取到banner的内容，直接data是会出错的。</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>React</category>
-      </categories>
-      <tags>
-        <tag>React</tag>
       </tags>
   </entry>
   <entry>
@@ -3476,6 +3373,109 @@
       </categories>
       <tags>
         <tag>Node.js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>React+Redux 通过axios向接口获取数据的流程</title>
+    <url>/2020/04/17/React-Redux-%E9%80%9A%E8%BF%87axios%E5%90%91%E6%8E%A5%E5%8F%A3%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E7%9A%84%E6%B5%81%E7%A8%8B/</url>
+    <content><![CDATA[<p>最近在学习《React Hooks与Immutable数据流实战》小书，想把在React+Redux项目中用axios发起请求的配置流程记录下来，做个总结，加深一些印象。</p>
+<h2 id="启动服务器"><a href="#启动服务器" class="headerlink" title="启动服务器"></a>启动服务器</h2><p>首先是将<code>github</code>上网易云音乐接口的<code>node.js</code>项目启动，在项目中都是向这个服务器去发起请求，获取接口数据。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;启动服务器指令</span><br><span class="line">node app.js</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h2 id="安装axios"><a href="#安装axios" class="headerlink" title="安装axios"></a>安装<code>axios</code></h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install axios --save</span><br></pre></td></tr></table></figure>
+
+
+
+<p>现在在 src/api 目录下新建 config.js 文件，里面编写 axios 的配置:</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">'axios'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> baseUrl = <span class="string">'http://xxx自己填'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//axios 的实例及拦截器配置</span></span><br><span class="line"><span class="keyword">const</span> axiosInstance = axios.create (&#123;</span><br><span class="line">  baseURL: baseUrl</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">axiosInstance.interceptors.response.use (</span><br><span class="line">  res =&gt; res.data,</span><br><span class="line">  err =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log (err, <span class="string">"网络错误"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">  axiosInstance</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>baseUrl</code>的话就是服务器的基地址，比如<code>http://localhost:3000</code>，那请求的一些接口数据就会在这个<code>baseUrl</code>的不同路由下，比如<code>banner</code>数据会通过<code>http://localhost:3000/banner</code>接口获取。</p>
+</li>
+<li><p><code>axios.create</code>：创建一个axios实例，可以添加一些基本配置。</p>
+<blockquote>
+<p>官网解释：</p>
+<h5 id="axios-create-config"><a href="#axios-create-config" class="headerlink" title="axios.create([config])"></a>axios.create([config])</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const instance &#x3D; axios.create(&#123;  </span><br><span class="line">	baseURL: &#39;https:&#x2F;&#x2F;some-domain.com&#x2F;api&#x2F;&#39;,  </span><br><span class="line">	timeout: 1000,  </span><br><span class="line">	headers: &#123;&#39;X-Custom-Header&#39;: &#39;foobar&#39;&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><p><code>axiosInstance.interceptors.response.use</code></p>
+<p>用于将公共的业务逻辑抽离出来。</p>
+</li>
+</ul>
+<p>然后在同一个目录下新建 request.js 用来封装不同的网络请求，内容如下:</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; axiosInstance &#125; <span class="keyword">from</span> <span class="string">"./config"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> getBannerRequest = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> axiosInstance.get (<span class="string">'/banner'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> getRecommendListRequest = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> axiosInstance.get (<span class="string">'/personalized'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>request.js</code>中封装一些向服务器发起请求的方法，注意返回的是<code>promise</code>对象。</p>
+<br>
+
+<h2 id="redux层开发"><a href="#redux层开发" class="headerlink" title="redux层开发"></a><code>redux</code>层开发</h2><p>在 Recommend 目录下，新建 store 文件夹，然后新建以下文件：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">actionCreators.js&#x2F;&#x2F; 执行一些request.js中封装好的方法，获取到接口数据，并通过dispatch更新store的内容</span><br><span class="line">constants.js      &#x2F;&#x2F; 常量集合，存放不同 action 的 type 值</span><br><span class="line">index.js          &#x2F;&#x2F; 用来导出 reducer，action</span><br><span class="line">reducer.js        &#x2F;&#x2F; 存放 initialState 和 reducer 函数</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="constants-js"><a href="#constants-js" class="headerlink" title="constants.js"></a><code>constants.js</code></h3><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//定义action类型</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> CHANGE_BANNER=<span class="string">'recommend/CHANGE_BANNER'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> CHANGE_RECOMMEND_LIST=<span class="string">'recommend/RECOMMEND_LIST'</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="reducer-js"><a href="#reducer-js" class="headerlink" title="reducer.js"></a><code>reducer.js</code></h3><p>定义<code>reducer</code>函数，并初始化<code>state</code>:</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> actionTypes <span class="keyword">from</span> <span class="string">'./constants'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;fromJS&#125; <span class="keyword">from</span> <span class="string">'immutable'</span>; <span class="comment">// 这里用到 fromJS 把 JS 数据结构转化成 immutable 数据结构</span></span><br><span class="line"><span class="keyword">import</span> &#123;combineReducer&#125; <span class="keyword">from</span> <span class="string">'redux-immutable'</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> defaultState=fromJS(&#123;</span><br><span class="line">    bannerList: [],</span><br><span class="line">    recommendList: []</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义reducer函数</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> (state=defaultState, action)=&gt;&#123;</span><br><span class="line">    <span class="keyword">switch</span>(action.type)&#123;</span><br><span class="line">        <span class="keyword">case</span> actionTypes.CHANGE_BANNER:</span><br><span class="line">            <span class="keyword">return</span> state.set(<span class="string">'bannerList'</span>, action.data);</span><br><span class="line">        <span class="keyword">case</span> actionTypes.CHANGE_RECOMMEND_LIST:</span><br><span class="line">            <span class="keyword">return</span> state.set(<span class="string">'recommendList'</span>, action.data);</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">return</span> state;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="actionCreators-js"><a href="#actionCreators-js" class="headerlink" title="actionCreators.js"></a><code>actionCreators.js</code></h3><p>执行<code>request.js</code>中的方法，通过<code>axios</code>从接口获取数据，然后通过<code>dispatch</code>方法，使用获取到的新数据去更新state。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> actionTypes <span class="keyword">from</span> <span class="string">'./constants'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;fromJS&#125; <span class="keyword">from</span> <span class="string">'immutable'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;getBannerRequest, getRecommendListRequest&#125; <span class="keyword">from</span> <span class="string">'../../../api/request'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> changeBannerList=<span class="function">(<span class="params">data</span>)=&gt;</span>(&#123;</span><br><span class="line">    type: actionTypes.CHANGE_BANNER,</span><br><span class="line">    data: fromJS(data)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> changeRecommendList=<span class="function">(<span class="params">data</span>)=&gt;</span>(&#123;</span><br><span class="line">    type: actionTypes.CHANGE_RECOMMEND_LIST,</span><br><span class="line">    data: fromJS(data)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> getBannerList=<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function">(<span class="params">dispatch</span>)=&gt;</span>&#123;</span><br><span class="line">        getBannerRequest().then(<span class="function"><span class="params">data</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="comment">//返回的数据格式为：&#123;banners: Array(8), code:200&#125;</span></span><br><span class="line">            dispatch(changeBannerList(data.banners));</span><br><span class="line">        &#125;).catch(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"轮播图数据传输错误"</span>);</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> getRecommendList=<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function">(<span class="params">dispatch</span>)=&gt;</span>&#123;</span><br><span class="line">        getRecommendListRequest().then(<span class="function"><span class="params">data</span>=&gt;</span>&#123;</span><br><span class="line">            dispatch(changeRecommendList(data.result));</span><br><span class="line">        &#125;).catch(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"推荐歌单数据传输错误"</span>);</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="index-js"><a href="#index-js" class="headerlink" title="index.js"></a><code>index.js</code></h3><p>用于将相关变量导出：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//index.js</span></span><br><span class="line"><span class="keyword">import</span> reducer <span class="keyword">from</span> <span class="string">'./reducer'</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> actionCreators <span class="keyword">from</span> <span class="string">'./actionCreators'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123; reducer, actionCreators &#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<br>
+
+<h2 id="组件连接Redux"><a href="#组件连接Redux" class="headerlink" title="组件连接Redux"></a>组件连接<code>Redux</code></h2><p>首先，需要将 recommend 下的 reducer 注册到全局 store，在 store/reducer.js 中，内容如下:</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; combineReducers &#125; <span class="keyword">from</span> <span class="string">'redux-immutable'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; reducer <span class="keyword">as</span> recommendReducer &#125; <span class="keyword">from</span> <span class="string">'../application/Recommend/store/index'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> combineReducers (&#123;</span><br><span class="line">  recommend: recommendReducer,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>注册完成！</p>
+<p>现在在 Recommend/index.js 中，准备连接 Redux。组件代码更新如下:</p>
+<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useEffect &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> Slider <span class="keyword">from</span> <span class="string">'../../components/slider/'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; connect &#125; <span class="keyword">from</span> <span class="string">"react-redux"</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> actionTypes <span class="keyword">from</span> <span class="string">'./store/actionCreators'</span>;</span><br><span class="line"><span class="keyword">import</span> RecommendList <span class="keyword">from</span> <span class="string">'../../components/list/'</span>;</span><br><span class="line"><span class="keyword">import</span> Scroll <span class="keyword">from</span> <span class="string">'../../baseUI/scroll/index'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Content &#125; <span class="keyword">from</span> <span class="string">'./style'</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Recommend</span> (<span class="params">props</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; bannerList, recommendList &#125; = props;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> &#123; getBannerDataDispatch, getRecommendListDataDispatch &#125; = props;</span><br><span class="line"></span><br><span class="line">  useEffect (<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    getBannerDataDispatch ();</span><br><span class="line">    getRecommendListDataDispatch ();</span><br><span class="line">    <span class="comment">//eslint-disable-next-line</span></span><br><span class="line">  &#125;, []);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> bannerListJS = bannerList ? bannerList.toJS () : [];</span><br><span class="line">  <span class="keyword">const</span> recommendListJS = recommendList ? recommendList.toJS () :[];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;Content&gt;</span><br><span class="line">      &lt;Scroll&gt;</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">          &lt;Slider bannerList=&#123;bannerListJS&#125;&gt;&lt;<span class="regexp">/Slider&gt;</span></span><br><span class="line"><span class="regexp">          &lt;RecommendList recommendList=&#123;recommendListJS&#125;&gt;&lt;/</span>RecommendList&gt;</span><br><span class="line">        &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>Scroll&gt;</span><br><span class="line">    &lt;<span class="regexp">/Content&gt; </span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ 映射 Redux 全局的 state 到组件的 props 上</span></span><br><span class="line"><span class="regexp">const mapStateToProps = (state) =&gt; (&#123;</span></span><br><span class="line"><span class="regexp">  /</span><span class="regexp">/ 不要在这里将数据 toJS</span></span><br><span class="line"><span class="regexp">  /</span><span class="regexp">/ 不然每次 diff 比对 props 的时候都是不一样的引用，还是导致不必要的重渲染，属于滥用 immutable</span></span><br><span class="line"><span class="regexp">  bannerList: state.getIn (['recommend', 'bannerList']),</span></span><br><span class="line"><span class="regexp">  recommendList: state.getIn (['recommend', 'recommendList']),</span></span><br><span class="line"><span class="regexp">&#125;);</span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ 映射 dispatch 到 props 上</span></span><br><span class="line"><span class="regexp">const mapDispatchToProps = (dispatch) =&gt; &#123;</span></span><br><span class="line"><span class="regexp">  return &#123;</span></span><br><span class="line"><span class="regexp">    getBannerDataDispatch () &#123;</span></span><br><span class="line"><span class="regexp">      dispatch (actionTypes.getBannerList ());</span></span><br><span class="line"><span class="regexp">    &#125;,</span></span><br><span class="line"><span class="regexp">    getRecommendListDataDispatch () &#123;</span></span><br><span class="line"><span class="regexp">      dispatch (actionTypes.getRecommendList ());</span></span><br><span class="line"><span class="regexp">    &#125;,</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ 将 ui 组件包装成容器组件</span></span><br><span class="line"><span class="regexp">export default connect (mapStateToProps, mapDispatchToProps)(React.memo (Recommend));</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>通过<code>connect</code>高阶函数，将<code>mapStateToProps</code>、<code>mapDispatchToProps</code>的属性和方法整合起来，传入内嵌组件（<code>Recommend</code>），内嵌组件就可以通过<code>props</code>获取到数据。</p>
+<ul>
+<li><code>mapStateToProps</code>：获取<code>store</code>中的state，对数据进行初始化操作</li>
+<li><code>mapDispatchToProps</code>：声明一些数据更新、数据获取操作</li>
+</ul>
+<p>在<code>useEffect</code>阶段执行<code>getBannerDataDispatch ();</code> <code>getRecommendListDataDispatch ();</code>操作。<code>useEffect</code>是<code>Hook</code>的API，用于完成副作用操作。它相当于<code>class</code>中的一些声明周期，在特定时期执行响应的操作。此处<code>useEffect</code>的第二个参数为<code>[]</code>，表示只在第一次执行，用来请求异步数据；如果第二个参数不为空数组，比如数组内有一些属性的话，则在这些属性发生变化的时候，<code>useEffect</code>才会执行。</p>
+<blockquote>
+<p>Hook的API介绍详情：</p>
+<p>React官方文档</p>
+<p><a href="https://juejin.im/post/5e53d9116fb9a07c9070da44" target="_blank" rel="noopener">https://juejin.im/post/5e53d9116fb9a07c9070da44</a></p>
+</blockquote>
+<br>
+
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
+
+<p>看到结果：</p>
+<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200417202719.png" alt></p>
+<br>
+
+<blockquote>
+<p>要注意的点：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> getBannerList=<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function">(<span class="params">dispatch</span>)=&gt;</span>&#123;</span><br><span class="line">        getBannerRequest().then(<span class="function"><span class="params">data</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="comment">//返回的数据格式为：&#123;banners: Array(8), code:200&#125;</span></span><br><span class="line">            dispatch(changeBannerList(data.banners));</span><br><span class="line">        &#125;).catch(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"轮播图数据传输错误"</span>);</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>要注意看接口返回的数据，比如getBannerRequest()获取到的数据是对象，那我们要使用data.banners才能获取到banner的内容，直接data是会出错的。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>React</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
       </tags>
   </entry>
   <entry>
