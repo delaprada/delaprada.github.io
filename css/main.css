@@ -1563,6 +1563,10 @@ pre .javascript .function {
     display: none;
   }
 }
+.post-time {
+  font-size: 16px;
+  color: #999;
+}
 .post-button {
   margin-top: 40px;
 }
@@ -1835,7 +1839,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ffffdb;
+  background: #b944ba;
 }
 .links-of-blogroll {
   font-size: 13px;
