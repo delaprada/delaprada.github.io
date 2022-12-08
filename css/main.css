@@ -449,9 +449,9 @@ body {
   width: 700px;
 }
 @media (min-width: 1600px) {
-  .container .header-inner {
+  /* .container .header-inner {
     width: 900px;
-  }
+  } */
 }
 .main {
   padding-bottom: 150px;
