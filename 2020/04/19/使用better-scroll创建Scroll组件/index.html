@@ -137,7 +137,7 @@
 <meta property="og:description" content="在学习《React Hooks与Immutable数据流实战》这本书的时候，其中一章讲到了使用better scroll打造一个scroll组件，花了蛮长时间去理解里面使用到的各种的方法，比如：better scroll、forwardRef等，在此总结一下。 better-scroll better-scroll的基本原理：https:&#x2F;&#x2F;juejin.im&#x2F;post&#x2F;59300b2e2f301">
 <meta property="og:image" content="http://delaprada.com/images/loading.png">
 <meta property="article:published_time" content="2020-04-19T06:39:24.000Z">
-<meta property="article:modified_time" content="2020-12-16T02:20:58.432Z">
+<meta property="article:modified_time" content="2020-12-16T02:21:00.000Z">
 <meta property="article:author" content="Alice">
 <meta property="article:tag" content="React">
 <meta name="twitter:card" content="summary">
@@ -462,7 +462,7 @@
 
 
 <p>现在已经完成了滑动事件，上拉下拉事件的判断，现在需要给外界暴露组件方法，假设这样的一个情景：</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 上层组件代码</span></span><br><span class="line"><span class="keyword">const</span> scrollRef = useRef ();</span><br><span class="line">...</span><br><span class="line">&lt;Scroll ref=&#123;scrollRef&#125;&gt;&lt;<span class="regexp">/Scroll&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 上层组件代码</span></span><br><span class="line"><span class="keyword">const</span> scrollRef = useRef ();</span><br><span class="line">...</span><br><span class="line">&lt;Scroll ref=&#123;scrollRef&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Scroll</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
 
 <p>想要通过这种调用方法的方式刷新 scroll 组件：</p>
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrollRef.current.refresh ();</span><br></pre></td></tr></table></figure>
@@ -491,7 +491,7 @@
 
 
 <p>在<code>return</code>中应用：</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;Content&gt;</span><br><span class="line">  &lt;Scroll className=<span class="string">"list"</span>&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;Slider bannerList=&#123;bannerList&#125;&gt;&lt;<span class="regexp">/Slider&gt;</span></span><br><span class="line"><span class="regexp">      &lt;RecommendList recommendList=&#123;recommendList&#125;&gt;&lt;/</span>RecommendList&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  &lt;/</span>Scroll&gt;</span><br><span class="line">&lt;<span class="regexp">/Content&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;Content&gt;</span><br><span class="line">  &lt;Scroll className=<span class="string">"list"</span>&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;Slider bannerList=&#123;bannerList&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Slider</span>&gt;</span></span></span><br><span class="line">      &lt;RecommendList recommendList=&#123;recommendList&#125;&gt;<span class="xml"><span class="tag">&lt;/<span class="name">RecommendList</span>&gt;</span></span></span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  &lt;/</span>Scroll&gt;</span><br><span class="line">&lt;<span class="regexp">/Content&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>这里作者用了个<code>Content</code>，来去保证父组件高度固定，这里是我疑惑的一个点，按照<code>better-scroll</code>的官方文档的内容，我们执行</p>
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> BScroll (scrollContaninerRef.current, &#123;</span><br><span class="line">    scrollX: direction === <span class="string">"horizental"</span>,</span><br><span class="line">    scrollY: direction === <span class="string">"vertical"</span>,</span><br><span class="line">    probeType: <span class="number">3</span>,</span><br><span class="line">    click: click,</span><br><span class="line">    bounce:&#123;</span><br><span class="line">      top: bounceTop,</span><br><span class="line">      bottom: bounceBottom</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
@@ -641,7 +641,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">70</span>
+                  <span class="site-state-item-count">71</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -762,7 +762,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love" id="heart">
     <i class="fa fa-heart"></i>
   </span>
@@ -1311,5 +1311,5 @@
                 isSPA: false,
                 processImages: null,
             };
-        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=i;var e=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}i(),n.addEventListener("scroll",function(){var t,e;t=i,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var i=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var a=0;a<r.length;a++)t=r[a],0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}();var t,e}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
 </html>
