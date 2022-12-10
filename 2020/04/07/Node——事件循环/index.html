@@ -135,19 +135,19 @@
 <meta property="og:url" content="http://delaprada.com/2020/04/07/Node%E2%80%94%E2%80%94%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/index.html">
 <meta property="og:site_name" content="Alice&#39;s  wonderland">
 <meta property="og:description" content="异步IO异步IO是指操作系统提供的IO（数据进出）能力，比如键盘输入，对应到显示器上会有专门的数据输出接口，这就是我们生活中可见的IO能力；这个接口在向下会进入到操作系统这个层面，在操作系统中，会提供诸多的能力，比如：磁盘的读写，DNS的查询，数据库的连接啊，网络请求的处理，等等。 在不同的操作系统层面，表现的不一致。有的是异步非阻塞的；有的是同步的阻塞的，无论如何，我们都可以看做是上层应用于下层">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092819.png">
+<meta property="og:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092540.png">
+<meta property="og:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092653.png">
+<meta property="og:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092915.png">
+<meta property="og:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407093630.png">
+<meta property="og:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407093708.png">
+<meta property="og:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407093930.png">
 <meta property="article:published_time" content="2020-04-07T00:51:23.000Z">
 <meta property="article:modified_time" content="2020-04-07T02:23:08.000Z">
 <meta property="article:author" content="Alice">
 <meta property="article:tag" content="Node.js">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://delaprada.com/images/loading.png">
+<meta name="twitter:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092819.png">
 
 
 
@@ -409,15 +409,15 @@
 <blockquote>
 <p>JavaScript引擎是一种专门处理JavaScript脚本的虚拟机，一般会附带在网页浏览器中。</p>
 <p>V8：是Google开发的JavaScript引擎，用于Google Chrome和Chromium。V8能够即时编译JavaScript，使得JavaScript代码能够高效运行。</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092819.png" alt></p>
+<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092819.png" alt></p>
 <p>以往我们在执行c++的时候，会先进行编译工作，变为可执行文件后，再执行这个可执行文件。这个编译工作是由编译器完成的。</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092540.png" alt></p>
+<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092540.png" alt></p>
 <p>解释器就提供了一种边编译边运行的动态运行方法，而也正因为通过解释器运行的代码是边编译边运行的，所以运行的速度比静态编译的那种慢很多。</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092653.png" alt></p>
+<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092653.png" alt></p>
 <p>所以程序运行的方式分为<strong>静态编译</strong>和<strong>动态编译</strong>。</p>
 </blockquote>
 <p>回到<code>Node.js</code>架构，<code>Node.js</code>如何组织它们呢？</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092915.png" alt></p>
+<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407092915.png" alt></p>
 <p><code>Node.js</code>通过一层C++ Binding，把JavaScript传给V8，V8解析后交给<code>libUV</code>发起异步IO，并等待消息循环调度。所以，<code>Node.js</code>实现异步机制的核心便是<code>libUV</code>。</p>
 <p><code>Node.js</code>启动过程可以分为以下步骤：</p>
 <p>1、调用platformInit方法 ，初始化 nodejs 的运行环境。</p>
@@ -430,9 +430,9 @@
 <p>8、开始执行js文件，同步代码执行完毕后，进入事件循环。</p>
 <p>9、在没有任何可监听的事件时，销毁 nodejs 实例，程序执行完毕。</p>
 <p>以上是<code>Node.js</code>执行一个<code>JavaScript</code>文件的全过程，事件循环是在第八个步骤中。</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407093630.png" alt></p>
+<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407093630.png" alt></p>
 <p>Nodejs 完全是单线程的. 从进程启动后, 由主线程加载我们的 js 文件(下图中 main.js), 然后进入消息循环. 可见对于 js 程序而言, 完整运行在单线程之中。</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407093708.png" alt></p>
+<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407093708.png" alt></p>
 <h2 id="事件循环-1"><a href="#事件循环-1" class="headerlink" title="事件循环"></a>事件循环</h2><p><code>Node.js</code>中事件循环分为6个阶段：</p>
 <ul>
 <li><code>timers</code>：执行<code>setTimeout()</code> 和 <code>setInterval()</code>中到期的回调。</li>
@@ -445,7 +445,7 @@
 <blockquote>
 <p>重点关注<code>timers</code>、<code>poll</code>、<code>check</code>三个阶段</p>
 </blockquote>
-<img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407093930.png" style="zoom: 50%;">
+<img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407093930.png" style="zoom: 50%;">
 
 
 

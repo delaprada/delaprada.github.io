@@ -135,25 +135,25 @@
 <meta property="og:url" content="http://delaprada.com/2021/01/19/egg-js-react-SSR%E5%AE%9E%E8%B7%B5/index.html">
 <meta property="og:site_name" content="Alice&#39;s  wonderland">
 <meta property="og:description" content="前言最近在做毕设的调研，想学一下如何用node进行后台开发，选择的后台框架是阿里的egg.js，结合mysql数据库、DBeaver数据库管理工具和Sequelize实现CRUD操作。 基础功能首先介绍一下egg初始化生成的项目各个部分的功能。 一个egg项目目录组成大致如下： 123456789101112131415161718192021222324252627282930313233343">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210119222128.png">
+<meta property="og:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210119222534.png">
+<meta property="og:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210119222623.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200210142851618.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mjk1MTc2Mw==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200210144306572.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200210144556939.png">
+<meta property="og:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210120092815.png">
+<meta property="og:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210120093638.png">
+<meta property="og:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210120093758.png">
+<meta property="og:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210120093914.png">
+<meta property="og:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210120094048.png">
+<meta property="og:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210120094152.png">
+<meta property="og:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210120095655.png">
 <meta property="article:published_time" content="2021-01-19T13:06:48.000Z">
 <meta property="article:modified_time" content="2021-03-18T02:20:20.000Z">
 <meta property="article:author" content="Alice">
 <meta property="article:tag" content="Node.js">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://delaprada.com/images/loading.png">
+<meta name="twitter:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210119222128.png">
 
 
 
@@ -526,14 +526,14 @@
 <h1 id="简单的CRUD功能的实现"><a href="#简单的CRUD功能的实现" class="headerlink" title="简单的CRUD功能的实现"></a>简单的CRUD功能的实现</h1><p>通过下面这个例子，我们简单地实现一个前端通过事件向后台发起请求，后台进行处理，操作数据库，然后响应结果的过程。</p>
 <h2 id="MySQL下载"><a href="#MySQL下载" class="headerlink" title="MySQL下载"></a><code>MySQL</code>下载</h2><p>在编码之前，首先要在本机上安装好<code>MySQL</code>，下载地址：<a href="https://dev.mysql.com/downloads/installer/" target="_blank" rel="noopener">MySQL</a>。要下载大的<code>MSI</code>版本，不要下载zip，下载zip一直没成功。</p>
 <p>下载好<code>MySQL</code>之后，配置环境变量，使得直接在<code>cmd</code>的根目录下输入<code>mysql</code>指令可以被识别，否则每次都得进入<code>MySQL</code>安装包的<code>bin</code>文件夹下<code>cmd</code>。</p>
-<img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210119222128.png" style="zoom: 67%;">
+<img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210119222128.png" style="zoom: 67%;">
 
 
 
 <h2 id="DBeaver下载"><a href="#DBeaver下载" class="headerlink" title="DBeaver下载"></a><code>DBeaver</code>下载</h2><p>下载<code>DBeaver</code>客户端，对<code>MySQL</code>数据库进行管理。</p>
 <p>在<code>DBeaver</code>中可以通过指令创建表，查看表目前的情况：</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210119222534.png" alt></p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210119222623.png" alt></p>
+<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210119222534.png" alt></p>
+<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210119222623.png" alt></p>
 <p>关于<code>DBeaver</code>连接<code>MySQL</code>数据库可参考文章：<a href="https://blog.csdn.net/qq_38967136/article/details/87896109" target="_blank" rel="noopener">DBeaver连接MySQL</a>。</p>
 <p>在连接过程中会遇到这样的错误：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DBeaver连接mysql失败：Unable to load authentication plugin &#39;caching_sha2_password&#39;.</span><br></pre></td></tr></table></figure>
@@ -542,11 +542,11 @@
 <p>所以接下来要做的事情就是修改<code>MySQL</code>使用的密码加密规则。</p>
 <p>打开<code>cmd</code>对话框，输入<code>mysql -u root -p</code>后回车，然后会提示输入密码，输入密码后就会进入MySQL的操作管理界面。 </p>
 <p>使用 <code>use mysql</code>打开数据库 和 <code>select user,host,plugin from user;</code> 查看用户，主机，插件。</p>
-<p><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/20200210142851618.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mjk1MTc2Mw==,size_16,color_FFFFFF,t_70" alt="默认插件caching_sha2_password"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200210142851618.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mjk1MTc2Mw==,size_16,color_FFFFFF,t_70" alt="默认插件caching_sha2_password"></p>
 <p>接下来开始修改默认插件<code>alter user &#39;root&#39; @&#39;localhost&#39; identified with mysql_native_password by &#39;root&#39;;</code> by后面输入密码，可以通过该语句修改密码，若不需要修改密码则输入原来的密码。</p>
-<p><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/20200210144306572.png" alt="修改密码"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200210144306572.png" alt="修改密码"></p>
 <p>再次输入 <code>select user,host,plugin from user;</code> 查看用户，主机，插件。</p>
-<p><img src="/images/loading.png" data-original="https://img-blog.csdnimg.cn/20200210144556939.png" alt="查看修改后的密码插件"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200210144556939.png" alt="查看修改后的密码插件"></p>
 <p>到这里就可以正常连接<code>MySQL</code>了。</p>
 <h2 id="Sequelize安装及配置"><a href="#Sequelize安装及配置" class="headerlink" title="Sequelize安装及配置"></a><code>Sequelize</code>安装及配置</h2><p>安装并配置<code>egg-sequelize</code>插件（它会辅助我们将定义好的 Model 对象加载到 app 和 ctx 上）和 <code>mysql2</code>模块：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save egg-sequelize mysql2</span><br></pre></td></tr></table></figure>
@@ -570,7 +570,7 @@
 
 <p>然后我们就可以在<code>MySQL</code>和<code>DBeaver</code>中都看到这个新建的表了。</p>
 <h2 id="完成CRUD功能"><a href="#完成CRUD功能" class="headerlink" title="完成CRUD功能"></a>完成CRUD功能</h2><p>项目目录：</p>
-<img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210120092815.png" style="zoom:80%;">
+<img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210120092815.png" style="zoom:80%;">
 
 
 
@@ -605,15 +605,15 @@
 
 
 <p>查询所有用户：</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210120093638.png" alt></p>
+<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210120093638.png" alt></p>
 <p>根据<code>id</code>查找：</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210120093758.png" alt></p>
+<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210120093758.png" alt></p>
 <p>新增用户（注意请求体格式选择<code>x-www-form-urlencoded</code>）：</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210120093914.png" alt></p>
+<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210120093914.png" alt></p>
 <p>更新用户信息：</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210120094048.png" alt></p>
+<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210120094048.png" alt></p>
 <p>删除用户：</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210120094152.png" alt></p>
+<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210120094152.png" alt></p>
 <p>参考：<a href="https://www.cnblogs.com/xingguozhiming/p/12030268.html" target="_blank" rel="noopener">egg+sequelize+mysql实现CRUD操作</a></p>
 <h2 id="与前端对接"><a href="#与前端对接" class="headerlink" title="与前端对接"></a>与前端对接</h2><p>首先安装<code>axios</code>和<code>qs</code>：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cnpm install axios qs</span><br></pre></td></tr></table></figure>
@@ -635,7 +635,7 @@
 
 
 <p>在前端页面触发点击事件时，可以得到相应的结果：</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210120095655.png" alt></p>
+<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210120095655.png" alt></p>
 <p>在这里，另一个很关键的点是<code>webpack.config.js</code>的配置：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="keyword">const</span> rootPath = fs.realpathSync(process.cwd());</span><br><span class="line"><span class="keyword">const</span> resolve = <span class="function">(<span class="params">relativePath</span>) =&gt;</span> path.resolve(rootPath, relativePath);</span><br><span class="line"><span class="keyword">const</span> projectPath = resolve(<span class="string">'app/web'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  devtool: <span class="string">'source-map'</span>,</span><br><span class="line">  entry: &#123;</span><br><span class="line">    index: <span class="string">'app/web/page/home/index.jsx'</span>, <span class="comment">// 必须是jsx，否则客户端渲染有问题</span></span><br><span class="line">  &#125;,</span><br><span class="line">  resolve: &#123;</span><br><span class="line">    alias: &#123;</span><br><span class="line">      <span class="string">'@'</span>: projectPath, <span class="comment">// 子项目根目录</span></span><br><span class="line">      <span class="string">'@component'</span>: path.resolve(projectPath, <span class="string">'component'</span>),</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 

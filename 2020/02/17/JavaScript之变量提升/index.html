@@ -135,16 +135,16 @@
 <meta property="og:url" content="http://delaprada.com/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/index.html">
 <meta property="og:site_name" content="Alice&#39;s  wonderland">
 <meta property="og:description" content="今天面试的时候被问到了变量提升的问题，一脸懵逼，掌握得不够熟练，写篇博客来总结一下。 JS代码解析规则 第一步为解释：先扫描所有的JS代码，把所有声明提升到顶端。 第二步为执行：执行就是操作一类的。    变量提升例一： 12console.log(a);  &#x2F;&#x2F;undefinedvar a&#x3D;10;  因为有变量提升，上面的代码相当于： 123var a;console.log(a);a&#x3D;10;">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/1.png">
+<meta property="og:image" content="http://delaprada.com/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/2.png">
+<meta property="og:image" content="http://delaprada.com/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/3.png">
+<meta property="og:image" content="http://delaprada.com/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/4.png">
 <meta property="article:published_time" content="2020-02-17T01:58:59.000Z">
 <meta property="article:modified_time" content="2020-02-17T02:32:14.000Z">
 <meta property="article:author" content="Alice">
 <meta property="article:tag" content="JavaScript">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://delaprada.com/images/loading.png">
+<meta name="twitter:image" content="http://delaprada.com/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/1.png">
 
 
 
@@ -431,7 +431,7 @@
 <p>例三：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">foo(); <span class="comment">//foo is not a function</span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"aaa"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<img src="/images/loading.png" data-original="/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/1.png" class>
+<img src="/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/1.png" class>
 
 
 
@@ -445,7 +445,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(foo);</span><br><span class="line"><span class="keyword">var</span> foo=<span class="number">10</span>;</span><br><span class="line"><span class="built_in">console</span>.log(foo);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="number">10</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(foo);</span><br></pre></td></tr></table></figure>
 
 <p>输出：</p>
-<img src="/images/loading.png" data-original="/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/2.png" class>
+<img src="/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/2.png" class>
 
 
 
@@ -465,7 +465,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> v1;</span><br><span class="line"><span class="built_in">console</span>.log(v1); <span class="comment">//undefined</span></span><br><span class="line">v1=<span class="number">100</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> v1;</span><br><span class="line">	<span class="built_in">console</span>.log(v1);  <span class="comment">//undefined</span></span><br><span class="line">	v1=<span class="number">200</span>;</span><br><span class="line">	<span class="built_in">console</span>.log(v1);  <span class="comment">//200</span></span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br><span class="line"><span class="built_in">console</span>.log(v1);  <span class="comment">//100</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>注意，如果内部没有声明v1的时候，函数才会到全局作用域去查找变量的赋值。但是如果函数作用域内部定义了的话，就不会到全局作用域去找。参照作用域链的定义。</strong></p>
-<img src="/images/loading.png" data-original="/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/3.png" class>
+<img src="/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/3.png" class>
 
 <br>
 
@@ -479,7 +479,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> a;</span><br><span class="line">	<span class="keyword">if</span>(a===<span class="literal">undefined</span>)&#123;</span><br><span class="line">		a=<span class="string">'dance'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		a=<span class="string">'bytedance'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a;</span><br><span class="line">a=<span class="string">'byte'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(foo());</span><br><span class="line"><span class="built_in">console</span>.log(a);</span><br></pre></td></tr></table></figure>
 
 <p>在当前作用域有对变量进行声明的时候，是不会去上一级作用域去寻找变量的声明的。</p>
-<img src="/images/loading.png" data-original="/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/4.png" class>
+<img src="/2020/02/17/JavaScript%E4%B9%8B%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/4.png" class>
 
 <p>因为console.log(a)在当前函数作用域找到了<code>var a;</code>，即a的定义，所以它不会去全局作用域去找a的声明（及值）。</p>
 <p>上面的代码也是这个道理，<code>a===undefined</code>会找到当前函数作用域的<code>var a;</code>的定义，所以a的值为undefined。</p>

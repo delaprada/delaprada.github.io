@@ -135,13 +135,13 @@
 <meta property="og:url" content="http://delaprada.com/2021/01/09/Redux%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/index.html">
 <meta property="og:site_name" content="Alice&#39;s  wonderland">
 <meta property="og:description" content="Redux源码解析在使用Redux的时候，我们会觉得很方便，因为很多事情Redux会帮我们完成，在内部运作，不需要我们手动去做，比如我们调用dispatch方法的时候，Redux自动就会帮我们执行reduce方法，更新state。所以本文就来拆解一些Redux在背后为我们做的事情，主要分为以下几部分：  createStore发生了什么? dispatch执行后在内部怎么运行的？ compose函">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210109164428.png">
 <meta property="article:published_time" content="2021-01-09T08:39:54.000Z">
 <meta property="article:modified_time" content="2021-01-09T08:44:54.000Z">
 <meta property="article:author" content="Alice">
 <meta property="article:tag" content="React">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://delaprada.com/images/loading.png">
+<meta name="twitter:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210109164428.png">
 
 
 
@@ -475,7 +475,7 @@
 
 <p>比如我们在调用applyMiddleware(thunk, logger)，走到compose逻辑的时候，相当于调用thunk(logger(store.dispatch))。</p>
 <p>无论是applyMiddleware中使用compose组合所有中间件还是使用compose来组合所有的enhancer，在经过compose组合之后，所有的middleware或store enhancer都会形成一个洋葱模型。compose中的第一个enhancer（或middleware）处于洋葱模型的最外层，最后一个enhancer处于洋葱模型的最里层，经过层层调用形成一个更强大的store：</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210109164428.png" alt></p>
+<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210109164428.png" alt></p>
 <p>applyMiddleware(…middlewares)将middleware限制为只可以增强store dispatch的功能，但这只是它自身的规范限制，对于其他store enhancer，你可以增强store中包含的任意方法的功能，如dispatch、subscribe、getState、replaceReducer等。毕竟，store只是一个包含一些函数的普通JavaScript对象，可以很容易的复制其中的方法，并增加新的功能。</p>
 <br>
 

@@ -135,15 +135,15 @@
 <meta property="og:url" content="http://delaprada.com/2022/12/08/pytorch-%E8%AE%B0%E5%BD%95%E8%B7%91%E6%A8%A1%E5%9E%8B%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/index.html">
 <meta property="og:site_name" content="Alice&#39;s  wonderland">
 <meta property="og:description" content="如何使用多 gpu 跑模型单个 gpu 跑模型，batch size，模型参数都会一定程度受到限制，batch size 不能设置的太大，模型的参数也不能太多。一个解决方法就是，用多个 gpu 来跑。  设置 gpu 开始的编号gpu 开始的编号默认为 0，如果第 0 个 gpu 已经被占用了，我们需要先设置起始可用 gpu 编号，才能使用多个 gpu。例如，服务器中可用的 gpu 为 4 和 5">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="http://delaprada.com/2022/12/08/pytorch-%E8%AE%B0%E5%BD%95%E8%B7%91%E6%A8%A1%E5%9E%8B%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/1.jpg">
+<meta property="og:image" content="http://delaprada.com/2022/12/08/pytorch-%E8%AE%B0%E5%BD%95%E8%B7%91%E6%A8%A1%E5%9E%8B%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/2.jpg">
+<meta property="og:image" content="http://delaprada.com/2022/12/08/pytorch-%E8%AE%B0%E5%BD%95%E8%B7%91%E6%A8%A1%E5%9E%8B%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/3.jpg">
 <meta property="article:published_time" content="2022-12-08T02:24:59.000Z">
 <meta property="article:modified_time" content="2022-12-08T02:45:01.055Z">
 <meta property="article:author" content="Alice">
 <meta property="article:tag" content="Artificial Intelligence">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://delaprada.com/images/loading.png">
+<meta name="twitter:image" content="http://delaprada.com/2022/12/08/pytorch-%E8%AE%B0%E5%BD%95%E8%B7%91%E6%A8%A1%E5%9E%8B%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/1.jpg">
 
 
 
@@ -414,7 +414,7 @@
 <h2 id="GPU-内存占有率"><a href="#GPU-内存占有率" class="headerlink" title="GPU 内存占有率"></a>GPU 内存占有率</h2><p>GPU 内存占有率通常是由模型大小和 batch_size 大小决定。</p>
 <p>GPU 内存占有率主要由模型的大小决定，包括网络的深度、宽度、参数量以及中间的每一层缓存，都会在内存开辟空间来进行保存，所以模型本身会占据很大一部分内存。</p>
 <p>其次是 batch_size 的大小，batch_size 设置得越大，GPU 内存占有率越高。比如，batch_size 设置为 128 的内存占有率会是设置为 256 的一半。因此，如果跑模型的过程中报 “out of memory” 的错误，可以试着将 batch_size 设置得小一点。</p>
-<h2 id="GPU-利用率"><a href="#GPU-利用率" class="headerlink" title="GPU 利用率"></a>GPU 利用率</h2><img src="/images/loading.png" data-original="/2022/12/08/pytorch-%E8%AE%B0%E5%BD%95%E8%B7%91%E6%A8%A1%E5%9E%8B%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/1.jpg" class>
+<h2 id="GPU-利用率"><a href="#GPU-利用率" class="headerlink" title="GPU 利用率"></a>GPU 利用率</h2><img src="/2022/12/08/pytorch-%E8%AE%B0%E5%BD%95%E8%B7%91%E6%A8%A1%E5%9E%8B%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/1.jpg" class>
 
 <p>在命令行里执行 <code>watch -n 0.5 nvidia-smi</code> 能够展示当前服务器的 GPU 情况，其中 Memory-Usage 就是 GPU 内存占有率，而 Volatile GPU-Util 就是 GPU 利用率。</p>
 <p>当没有设置好CPU的线程数时，Volatile GPU-Util 参数是在反复的跳动的，0%，20%，70%，95%，0%。这样停息1-2秒然后又重复起来。其实是GPU在等待数据从CPU传输过来，当从总线传输到GPU之后，GPU逐渐起计算来，利用率会突然升高，但是GPU的算力很强大，0.5秒就基本能处理完数据，所以利用率接下来又会降下去，等待下一个batch的传入。因此，这个GPU利用率瓶颈在内存带宽和内存介质上以及CPU的性能上面。最好当然就是换更好的四代或者更强大的内存条，配合更好的CPU。</p>
@@ -435,9 +435,9 @@
 <p>因此导致了 GPU 利用率的闪动问题。（但这些可否避免？有待探索 ing）</p>
 <h1 id="RuntimeError-Attempting-to-deserialize-object-on-CUDA-device-3-but-torch-cuda-device-count-is-1-Please-use-torch-load-with-map-location-to-map-your-storages-to-an-existing-device"><a href="#RuntimeError-Attempting-to-deserialize-object-on-CUDA-device-3-but-torch-cuda-device-count-is-1-Please-use-torch-load-with-map-location-to-map-your-storages-to-an-existing-device" class="headerlink" title="RuntimeError: Attempting to deserialize object on CUDA device 3 but torch.cuda.device_count() is 1. Please use torch.load with map_location to map your storages to an existing device."></a><code>RuntimeError: Attempting to deserialize object on CUDA device 3 but torch.cuda.device_count() is 1. Please use torch.load with map_location to map your storages to an existing device</code>.</h1><p>出现这个报错的原因是，一开始设置了 <code>os.environ[&#39;CUDA_VISIBLE_DEVICES&#39;] = &#39;3&#39;</code> ，但是可用的 cuda device 只有 1 个。但后续将 <code>os.environ[&#39;CUDA_VISIBLE_DEVICES&#39;] 设置为 &#39;0&#39;</code>，但还是报同样的错误。这个是不合理的现象，猜测是更改没有生效。</p>
 <p>参考了这个问题的解答：<br><a href="https://discuss.pytorch.org/t/cuda-visible-device-is-of-no-use/10018/10" target="_blank" rel="noopener">https://discuss.pytorch.org/t/cuda-visible-device-is-of-no-use/10018/10</a></p>
-<img src="/images/loading.png" data-original="/2022/12/08/pytorch-%E8%AE%B0%E5%BD%95%E8%B7%91%E6%A8%A1%E5%9E%8B%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/2.jpg" class>
+<img src="/2022/12/08/pytorch-%E8%AE%B0%E5%BD%95%E8%B7%91%E6%A8%A1%E5%9E%8B%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/2.jpg" class>
 
-<img src="/images/loading.png" data-original="/2022/12/08/pytorch-%E8%AE%B0%E5%BD%95%E8%B7%91%E6%A8%A1%E5%9E%8B%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/3.jpg" class>
+<img src="/2022/12/08/pytorch-%E8%AE%B0%E5%BD%95%E8%B7%91%E6%A8%A1%E5%9E%8B%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/3.jpg" class>
 
 
 <p>简而言之就是：<code>os.environ[&#39;CUDA_VISIBLE_DEVICES&#39;]</code> 的设置要放在要执行的 program 之外，并且要放在 import torch 之前。<br>因此，我单独设置了一个 python 文件用于设置 <code>os.environ[&#39;CUDA_VISIBLE_DEVICES&#39;]</code>，然后切换一下 jupyter kernel，刷新 kernel，再执行 jupyter 文件，没有报错了。</p>

@@ -135,14 +135,14 @@
 <meta property="og:url" content="http://delaprada.com/2020/12/01/Decorator%E7%94%A8%E6%B3%95%E4%B8%8E%E5%AE%9E%E8%B7%B5/index.html">
 <meta property="og:site_name" content="Alice&#39;s  wonderland">
 <meta property="og:description" content="今天看关注的公众号发了一篇关于Decorator在组件当中的应用，觉得比较新颖，因为之前看过的文章都是在类和类的方法里应用的。所以想趁此契机梳理一下Decorator知识。 Decorator特性可能在将来会发生改变，需等到定案之后再对其内容进行更新。    什么是Decorator装饰器装饰器（Decorator）是一种与类（class）相关的语法，用来注释或修改类和类的方法。它体现了一种控制">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
-<meta property="og:image" content="http://delaprada.com/images/loading.png">
+<meta property="og:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201201155903.png">
+<meta property="og:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201201161148.png">
 <meta property="article:published_time" content="2020-12-01T06:19:07.000Z">
 <meta property="article:modified_time" content="2020-12-01T08:23:16.000Z">
 <meta property="article:author" content="Alice">
 <meta property="article:tag" content="JavaScript">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://delaprada.com/images/loading.png">
+<meta name="twitter:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201201155903.png">
 
 
 
@@ -455,7 +455,7 @@
 <p><code>wrapper</code>经常在前端搭建场景中遇到，当搭建平台加载一个组件时，希望拓展其基础能力，一般会使用<code>wrapper</code>层对组件进行嵌套，<code>wrapper</code>层就是在不改变<code>API</code>的情况下，对第三方组件进行加强。</p>
 <p>不同于继承，组合可以在运行时进行，所以称之为“动态添加”，这里的“额外职责”泛指一切功能，比如在按钮点击时进行一些<code>log</code>日志的打印，在绘制<code>text</code>文本框时，额外绘制一个滚动条和边框等等。</p>
 <p>“就增加功能来说，<code>Decorator</code>模式相比生成子类更加灵活” 这句话的含义是，组合比继承更灵活，当可拓展的功能很多时，继承方案会产生大量的子类，而组合可以提前写好处理函数，在需要时动态构造，显然是更灵活的。</p>
-<h2 id="结构图"><a href="#结构图" class="headerlink" title="结构图"></a>结构图</h2><p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201201155903.png" alt></p>
+<h2 id="结构图"><a href="#结构图" class="headerlink" title="结构图"></a>结构图</h2><p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201201155903.png" alt></p>
 <p><code>ConcreteComponent</code>指的是需要被装饰的组件，可以看到，装饰器<code>Decorator</code>与他都继承同一个类，这样能保证<code>API</code>的一致，才保证无论装饰多少层，始终符合<code>Component</code>类型。</p>
 <p>装饰器如果有多种，就要将<code>Decorator</code>申明为抽象类，<code>ConcreteDecoratorA</code>、<code>ConcreteDecoratorB</code>分别实现它们，如果只有一种装饰器，可以退化到<code>Decorator</code>自身就是一种实现。</p>
 <h2 id="代码例子"><a href="#代码例子" class="headerlink" title="代码例子"></a>代码例子</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    public onClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Decorator</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    private _component</span><br><span class="line">    <span class="keyword">constructor</span>(component) &#123;</span><br><span class="line">        <span class="keyword">this</span>._component = component</span><br><span class="line">    &#125;</span><br><span class="line">    public onClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        log(<span class="string">'打点'</span>)</span><br><span class="line">        <span class="keyword">this</span>._component.onClick();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> component = <span class="keyword">new</span> Component()</span><br><span class="line"><span class="comment">// 一个普通的点击</span></span><br><span class="line">component.onClick()</span><br><span class="line"><span class="keyword">const</span> wrapperComponent = <span class="keyword">new</span> Decorator(component)</span><br><span class="line"><span class="comment">// 一个具有打点功能的点击</span></span><br><span class="line">wrapperComponent.onClick()</span><br></pre></td></tr></table></figure>
@@ -468,7 +468,7 @@
 </ul>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>装饰器模式是非常常用的模式，<code>Decorator</code>是一个透明的包装，只要保证包装的透明性，就可以最大限度发挥装饰器模式的优势。</p>
 <p>最后总结一个装饰器应用图：</p>
-<p><img src="/images/loading.png" data-original="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201201161148.png" alt></p>
+<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201201161148.png" alt></p>
 <br>
 
 <h1 id="关于兼容性"><a href="#关于兼容性" class="headerlink" title="关于兼容性"></a>关于兼容性</h1><p>由于是es7的新特性，需要配置babel才能支持装饰器。</p>
