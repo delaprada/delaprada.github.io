@@ -450,7 +450,7 @@ body {
 }
 @media (min-width: 1600px) {
   .container .header-inner {
-    width: 900px;
+    /* width: 900px; */
   }
 }
 .main {
