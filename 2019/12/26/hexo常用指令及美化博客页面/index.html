@@ -394,7 +394,6 @@
 <p>如果要进行文件压缩，在<code>hexo generate</code>指令后，执行<code>gulp</code>指令。</p>
 <p>参考<a href="https://yfzhou.coding.me/2018/08/27/Hexo-Next%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%BB%E9%A2%98%E4%BC%98%E5%8C%96%EF%BC%89/" target="_blank" rel="noopener">https://yfzhou.coding.me/2018/08/27/Hexo-Next%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%BB%E9%A2%98%E4%BC%98%E5%8C%96%EF%BC%89/</a></p>
 <h2 id="hexo各种美化"><a href="#hexo各种美化" class="headerlink" title="hexo各种美化"></a>hexo各种美化</h2><h3 id="新建page"><a href="#新建page" class="headerlink" title="新建page"></a>新建page</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;文章名称&quot;</span><br></pre></td></tr></table></figure>
-
 <p>会在source文件夹下_post中新建文件夹和.md文件</p>
 <h3 id="侧栏增加标签和分类页面"><a href="#侧栏增加标签和分类页面" class="headerlink" title="侧栏增加标签和分类页面"></a>侧栏增加标签和分类页面</h3><h4 id="创建标签页面"><a href="#创建标签页面" class="headerlink" title="创建标签页面"></a>创建标签页面</h4><ul>
 <li><p>创建标签页面</p>
@@ -402,9 +401,6 @@
 </li>
 <li><p>基本设置</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">title: tags</span><br><span class="line">date: 2017-12-02 21:01:24</span><br><span class="line">type: &quot;tags&quot;</span><br></pre></td></tr></table></figure>
-
-
-
 </li>
 </ul>
 <h4 id="创建分类页面"><a href="#创建分类页面" class="headerlink" title="创建分类页面"></a>创建分类页面</h4><ul>
@@ -413,9 +409,6 @@
 </li>
 <li><p>基本设置</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">title: categories</span><br><span class="line">date: 2017-12-02 21:01:24</span><br><span class="line">type: &quot;categories&quot;</span><br></pre></td></tr></table></figure>
-
-
-
 </li>
 </ul>
 <h3 id="文章中插入图片"><a href="#文章中插入图片" class="headerlink" title="文章中插入图片"></a>文章中插入图片</h3><ol>
@@ -423,12 +416,6 @@
 </li>
 <li><p>在文章中引入：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_img 图片名称 %&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
 </li>
 </ol>
 <h3 id="设置站点图标"><a href="#设置站点图标" class="headerlink" title="设置站点图标"></a>设置站点图标</h3><ol>
@@ -436,7 +423,6 @@
 </li>
 <li><p>在主题配置页面_config.yml中搜索<code>favicon</code>，找到以下位置，并将路径修改为你的图标：</p>
 <img src="/2019/12/26/hexo%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E5%8F%8A%E7%BE%8E%E5%8C%96%E5%8D%9A%E5%AE%A2%E9%A1%B5%E9%9D%A2/1.png" class>
-
 </li>
 </ol>
 <p>部署之后就可以看到效果了，查看效果：<a href="http://delaprada.com">http://delaprada.com</a></p>
@@ -445,45 +431,17 @@
 <li>在主题配置页面中修改avatar为你的图片地址：</li>
 </ol>
 <img src="/2019/12/26/hexo%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E5%8F%8A%E7%BE%8E%E5%8C%96%E5%8D%9A%E5%AE%A2%E9%A1%B5%E9%9D%A2/2.png" class>
-
-
-
 <h3 id="首页文章不显示全文只显示摘要"><a href="#首页文章不显示全文只显示摘要" class="headerlink" title="首页文章不显示全文只显示摘要"></a>首页文章不显示全文只显示摘要</h3><p>修改<code>/themes/next/_config.yml</code>主题配置文件中：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">scroll_to_more: true        #如果文章有摘要,会自动滚动到摘要下面</span><br><span class="line">save_scroll: true           #通过cookies来缓存阅读进度</span><br><span class="line">excerpt_description: true   #自动摘录描述作为序言</span><br><span class="line">auto_excerpt:               #设置阅读全文</span><br><span class="line">  enable: true</span><br><span class="line">  length: 150                 #摘要次数</span><br><span class="line">read_more_btn: true         #阅读全文按钮</span><br></pre></td></tr></table></figure>
-
-
-
 <h3 id="修改文章底部的带-的标签"><a href="#修改文章底部的带-的标签" class="headerlink" title="修改文章底部的带#的标签"></a>修改文章底部的带#的标签</h3><p>修改模板<code>/themes/next/layout/_macro/post.swig</code>，搜索<code>rel=&quot;tag&quot;&gt;#</code>，将#改为<code>&lt;i class=&quot;fa fa-tag&quot;&gt;&lt;/i&gt;</code>（如果想换成其他图标可到font-awesome中文网查看）</p>
 <h3 id="在每篇文章末尾统一添加“本文结束”标记"><a href="#在每篇文章末尾统一添加“本文结束”标记" class="headerlink" title="在每篇文章末尾统一添加“本文结束”标记"></a>在每篇文章末尾统一添加“本文结束”标记</h3><p>在<code>\themes\next\layout\_macro</code>中新建<code>passage-end-tag.swig</code>，并加入以下内容：</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">    &#123;% <span class="keyword">if</span> <span class="keyword">not</span> is_index %&#125;</span><br><span class="line">        &lt;div style="text-align:center;color: #ccc;font-size:15px;"&gt;-------本&amp;nbsp;文&amp;nbsp;		结&amp;nbsp;束&amp;nbsp;&amp;nbsp;&lt;i class="fa fa-heart" aria-hidden="true"&gt;&lt;/i&gt;&amp;nbsp;&amp;nbsp;感			&amp;nbsp;谢&amp;nbsp;您&amp;nbsp;的&amp;nbsp;阅&amp;nbsp;读-------&lt;/div&gt;</span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
-
-
-
 <p>接着打开<code>\themes\next\layout\_macro\post.swig</code>文件，在post-body标签之后，post-footer标签之前，添加如下代码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">    &#123;% if not is_index %&#125;</span><br><span class="line">    	&#123;% include &#39;passage-end-tag.swig&#39; %&#125;</span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
-
-
-
 <h3 id="修改网页背景颜色和侧栏上方brand的颜色"><a href="#修改网页背景颜色和侧栏上方brand的颜色" class="headerlink" title="修改网页背景颜色和侧栏上方brand的颜色"></a>修改网页背景颜色和侧栏上方brand的颜色</h3><p>打开<code>themes/next/layout/source/css/_custom/custom.styl</code>，加入以下代码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;修改网页背景颜色</span><br><span class="line">body &#123;</span><br><span class="line">    background-color: #F0F8FF</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#footer a &#123;</span><br><span class="line">    color:#eee;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 修改网站头部颜色</span><br><span class="line">.headband &#123;</span><br><span class="line">    height: 3px;</span><br><span class="line">    background: #ADD8E6;</span><br><span class="line">&#125;</span><br><span class="line">.site-meta &#123;</span><br><span class="line">    padding: 20px 0;</span><br><span class="line">    color: #fff;</span><br><span class="line">    background: #ADD8E6;</span><br><span class="line">&#125;</span><br><span class="line">.site-title &#123;</span><br><span class="line">    color: #fff;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
 <h3 id="侧边栏社交设置和友情链接"><a href="#侧边栏社交设置和友情链接" class="headerlink" title="侧边栏社交设置和友情链接"></a>侧边栏社交设置和友情链接</h3><p>修改主题配置页面：<code>themes/next/_config.yml</code>：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">site_state: <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"># Social Links</span><br><span class="line"># Usage: `Key: permalink || icon`</span><br><span class="line"># Key is the link label showing to <span class="built_in">end</span> users.</span><br><span class="line"># Value before `||` delimeter is the target permalink.</span><br><span class="line"># Value after `||` delimeter is the name of FontAwesome icon. If icon (with or without delimeter) is not specified, globe icon will be loaded.</span><br><span class="line">social:</span><br><span class="line">  CSDN: https:<span class="comment">//blog.csdn.net/weixin_41973410 || copyright</span></span><br><span class="line">  GitHub: https:<span class="comment">//github.com/delaprada || github</span></span><br><span class="line"></span><br><span class="line">social_icons:  #这里是上面社交链接的对应图标</span><br><span class="line">  enable: <span class="literal">true</span></span><br><span class="line">  CSDN: copyright</span><br><span class="line">  Github: github</span><br><span class="line">  icons_only: <span class="literal">false</span></span><br><span class="line">  transition: <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"># Follow me on GitHub banner in right-top corner.</span><br><span class="line"># Usage: `permalink || title`</span><br><span class="line"># Value before `||` delimeter is the target permalink.</span><br><span class="line"># Value after `||` delimeter is the title <span class="keyword">and</span> aria-label name.</span><br><span class="line">#github_banner: https:<span class="comment">//github.com/Fitz1318 || Follow me on GitHub</span></span><br><span class="line"></span><br><span class="line"># Blog rolls  #这里时设置一些相关链接 我这里设置了一些推荐阅读的网站</span><br><span class="line">#links_icon: link</span><br><span class="line">links_title: 实用网站</span><br><span class="line">#links_layout: block</span><br><span class="line">links_layout: <span class="keyword">inline</span></span><br><span class="line">links:</span><br><span class="line">  W3Cschool: http:<span class="comment">//www.w3school.com.cn/</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
       
     </div>
@@ -1287,6 +1245,8 @@
   
 
   
+  
+
 
   
   <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>

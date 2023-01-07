@@ -391,38 +391,32 @@
 </blockquote>
 <p>http协议是明文传输，在安全性方面比较差。https协议使用了SSL/TLS协议来进行加密。SSL/TLS握手是为了安全地协商出一份<strong>对称加密</strong>的秘钥。</p>
 <img src="/2020/01/16/https-SSL-TLS%E6%8F%A1%E6%89%8B%E8%BF%87%E7%A8%8B/1.jpg" class>
-
-
-
 <h2 id="SSL-TLS握手过程"><a href="#SSL-TLS握手过程" class="headerlink" title="SSL/TLS握手过程"></a>SSL/TLS握手过程</h2><img src="/2020/01/16/https-SSL-TLS%E6%8F%A1%E6%89%8B%E8%BF%87%E7%A8%8B/2.jpg" class>
-
-
-
 <ol>
 <li>Client Hello</li>
 </ol>
 <p>握手第一步是客户端向服务端发送Client Hello消息。这个消息里包含了一个客户端生成的随机数<strong>Random1</strong>，客户端支持的加密套件（Support Ciphers）和SSL Version等信息。</p>
-<ol start="2">
+<ol>
 <li>Server Hello</li>
 </ol>
 <p>第二步是服务端想客户端发送Server Hello消息。此时会生成一份随机数Random2，同时这个消息会从Client Hello传来的Support Ciphers里确定一份加密套件，这个套件决定了后续加密和生成摘要时具体使用哪些算法。</p>
 <p>注意：至此客户端和服务端都拥有了两个随机数（Random1+Random2），这两个随机数会在后续生成对称秘钥时用到。</p>
-<ol start="3">
+<ol>
 <li>Certificate</li>
 </ol>
 <p>这一步是服务端将自己的证书下发给客户端，让客户端验证自己的身份，客户端验证通过后取出证书中的公钥。</p>
-<ol start="4">
+<ol>
 <li>Server Hello Done</li>
 </ol>
 <p>Server Hello Done通知客户端Server Hello过程结束。</p>
-<ol start="5">
+<ol>
 <li>Certificate Verify</li>
 </ol>
 <p>客户端收到服务端传来的证书后，先从CA验证该证书的合法性，验证通过后取出证书中的服务端公钥，再生成随机数Random3，再用服务端公钥非对称加密Random3生成PreMaster Key。</p>
 <blockquote>
 <p>https的服务端必须拥有一个CA认证合法授权的证书，没有这个证书，客户端在访问该服务器时会提醒用户这个网站是不受信任的</p>
 </blockquote>
-<ol start="6">
+<ol>
 <li>Client Key Exchange</li>
 </ol>
 <p>上一步中客户端根据服务器传来的公钥生成了PreMaster Key，Client Key Exchange就是将这个PreMaster Key传给服务端，服务端再用自己的私钥解出这个PreMaster Key得到客户端生成的Random3。</p>
@@ -432,19 +426,19 @@
 <blockquote>
 <p>最重要理解前六步</p>
 </blockquote>
-<ol start="7">
+<ol>
 <li>Change Cipher Spec（Client）</li>
 </ol>
 <p>这一步客户端通知服务端后面再发送的消息都会使用前面协商出来的秘钥加密了，这是一条事件消息。</p>
-<ol start="8">
+<ol>
 <li>Encrypted Handshake Message(Client)</li>
 </ol>
 <p>这一步对应的是Client Finish消息，客户端将前面的握手消息生成摘要再用协商好的秘钥加密，这是客户端发送的第一条加密消息。服务端接收后会用私钥解密，能解出来则说明前面的协商出来的秘钥是一致的。</p>
-<ol start="9">
+<ol>
 <li>Change Cipher Spec(Server)</li>
 </ol>
 <p>这一步是服务端通知客户端后面再发送的消息都会使用加密，也是一条事件消息。</p>
-<ol start="10">
+<ol>
 <li>Encrypted Handshake Message(Server)</li>
 </ol>
 <p>这一步对应的是Server Finish消息，服务端也会将握手过程的消息生成摘要再用秘钥加密，这是服务端发出的第一条加密消息。客户端接收后会用秘钥解密，能解出来说明协商的秘钥是一致的。</p>
@@ -1255,6 +1249,8 @@
   
 
   
+  
+
 
   
   <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>

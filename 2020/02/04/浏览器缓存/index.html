@@ -129,12 +129,12 @@
 
 
 
-<meta name="description" content="缓存过程分析： 浏览器每次发起请求，都会先在浏览器缓存中查找请求的结果以及缓存标识 如果没有该请求的缓存结果和缓存标识的话，浏览器会向服务器发起http请求，服务器返回该请求结果和缓存规则 浏览器每次拿到返回的请求结果都会将该结果和缓存标识存入浏览器缓存中      强缓存和协商缓存浏览器缓存分为：强缓存和协商缓存   强缓存：不会向服务器发送请求，直接从缓存中读取资源。可以通过设置两种http">
+<meta name="description" content="缓存过程分析： 浏览器每次发起请求，都会先在浏览器缓存中查找请求的结果以及缓存标识 如果没有该请求的缓存结果和缓存标识的话，浏览器会向服务器发起http请求，服务器返回该请求结果和缓存规则 浏览器每次拿到返回的请求结果都会将该结果和缓存标识存入浏览器缓存中    强缓存和协商缓存浏览器缓存分为：强缓存和协商缓存  强缓存：不会向服务器发送请求，直接从缓存中读取资源。可以通过设置两种http hea">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浏览器缓存">
 <meta property="og:url" content="http://delaprada.com/2020/02/04/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/index.html">
 <meta property="og:site_name" content="Alice&#39;s  wonderland">
-<meta property="og:description" content="缓存过程分析： 浏览器每次发起请求，都会先在浏览器缓存中查找请求的结果以及缓存标识 如果没有该请求的缓存结果和缓存标识的话，浏览器会向服务器发起http请求，服务器返回该请求结果和缓存规则 浏览器每次拿到返回的请求结果都会将该结果和缓存标识存入浏览器缓存中      强缓存和协商缓存浏览器缓存分为：强缓存和协商缓存   强缓存：不会向服务器发送请求，直接从缓存中读取资源。可以通过设置两种http">
+<meta property="og:description" content="缓存过程分析： 浏览器每次发起请求，都会先在浏览器缓存中查找请求的结果以及缓存标识 如果没有该请求的缓存结果和缓存标识的话，浏览器会向服务器发起http请求，服务器返回该请求结果和缓存规则 浏览器每次拿到返回的请求结果都会将该结果和缓存标识存入浏览器缓存中    强缓存和协商缓存浏览器缓存分为：强缓存和协商缓存  强缓存：不会向服务器发送请求，直接从缓存中读取资源。可以通过设置两种http hea">
 <meta property="og:image" content="http://delaprada.com/2020/02/04/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/1.png">
 <meta property="og:image" content="http://delaprada.com/2020/02/04/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/2.png">
 <meta property="article:published_time" content="2020-02-04T10:17:33.000Z">
@@ -389,17 +389,13 @@
 <li>浏览器每次拿到返回的请求结果都会将该结果和缓存标识存入浏览器缓存中</li>
 </ul>
 <img src="/2020/02/04/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/1.png" class>
-
-<br>
-
-<h2 id="强缓存和协商缓存"><a href="#强缓存和协商缓存" class="headerlink" title="强缓存和协商缓存"></a>强缓存和协商缓存</h2><h4 id="浏览器缓存分为：强缓存和协商缓存"><a href="#浏览器缓存分为：强缓存和协商缓存" class="headerlink" title="浏览器缓存分为：强缓存和协商缓存"></a>浏览器缓存分为：强缓存和协商缓存</h4><br>
-
+<p><br></p>
+<h2 id="强缓存和协商缓存"><a href="#强缓存和协商缓存" class="headerlink" title="强缓存和协商缓存"></a>强缓存和协商缓存</h2><h4 id="浏览器缓存分为：强缓存和协商缓存"><a href="#浏览器缓存分为：强缓存和协商缓存" class="headerlink" title="浏览器缓存分为：强缓存和协商缓存"></a>浏览器缓存分为：强缓存和协商缓存</h4><p><br></p>
 <ul>
 <li><p><strong>强缓存</strong>：不会向服务器发送请求，直接从缓存中读取资源。可以通过设置两种http header实现：Expires和Cache-Control。</p>
 <ul>
 <li><p>Expires是http/1的产物。它用来指定资源到期的时间，Expires是web服务器响应消息头字段，在响应http请求时<strong>告诉浏览器在过期时间之前浏览器可以直接从浏览器缓存取数据，而无需再次请求</strong>。</p>
 <figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Expires</span>: Thu, 10 Nov 2017 08:45:11 GMT</span><br></pre></td></tr></table></figure>
-
 <p>这个字段设置时有两个缺点：</p>
 <ol>
 <li>由于是<strong>绝对时间</strong>，用户可能会将客户端本地的时间修改，而导致浏览器判断缓存失效，重新请求该资源。</li>
@@ -412,12 +408,11 @@
 <ul>
 <li><p>Cache-control是http/1.1的产物。和Expires的差别在于，Expires是绝对时间，Cache-control表示的是相对时间</p>
 <figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Cache-control</span>: max-age=2592000</span><br></pre></td></tr></table></figure>
-
 <p><code>Cache-control</code>字段常用的值：</p>
 <ol>
 <li><code>max-age</code>：即最大有效时间</li>
 <li><code>must-revalidate</code>：如果超过了<code>max-age</code>的时间，浏览器必须向服务器发送请求，验证资源是否还有效</li>
-<li><code>no-cache</code>：<strong>不是不缓存的意思！</strong>表示可以在本地缓存，可以在代理服务器缓存，但是这个缓存要服务器验证才可以使用。<ol start="4">
+<li><code>no-cache</code>：<strong>不是不缓存的意思！</strong>表示可以在本地缓存，可以在代理服务器缓存，但是这个缓存要服务器验证才可以使用。<ol>
 <li><code>no-store</code>：彻底禁用缓存，本地和代理服务器都不缓存，每次都从服务器获取</li>
 </ol>
 </li>
@@ -428,10 +423,7 @@
 </li>
 </ul>
 <p>  强缓存判断是否缓存的依据来自于是否超出某个时间或者时间段，而不关心服务器端文件是否已经更新，这可能导致加载文件不是服务器端最新的内容。<strong>那我们如何获知服务器端内容是否已经发生了更新呢？</strong>此时我们需要用到协商缓存策略。</p>
-<br>
-
-
-
+<p><br></p>
 <ul>
 <li><p><strong>协商缓存</strong>：是由服务器来确定缓存资源是否可用，所以客户端与服务器端需要通过某种标识来进行通信，从而让服务器判断请求资源是否可以缓存访问。</p>
 <p>主要有以下两种标识：</p>
@@ -444,9 +436,6 @@
 </li>
 </ul>
 <img src="/2020/02/04/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/2.png" class>
-
-
-
 </li>
 </ul>
 <ul>
@@ -473,11 +462,11 @@
 <li><strong>协商缓存由服务器决定是否使用缓存，若协商缓存失效，那么代表该请求的缓存失效，返回200，重新返回资源和缓存标识，再存入浏览器缓存中；生效则返回304，继续使用缓存</strong>。</li>
 <li>Last-Modified/If-Modified-Since 和 <code>Etag</code>/If-None-Match的主要区别就是一个是<strong>通过时间判断资源是否已被更改</strong>，一个是<strong>通过<code>Etag</code>来判断</strong>。<code>Etag</code>/If-None-Match相比于Last-Modified/If-Modified-Since来说更好。</li>
 </ul>
-<br>
-
+<p><br></p>
 <p>  摘自：<a href="https://www.cnblogs.com/yayaxuping/p/9707471.html" target="_blank" rel="noopener">https://www.cnblogs.com/yayaxuping/p/9707471.html</a></p>
 <p>​             <a href="https://mp.weixin.qq.com/s?__biz=MjM5MTA1MjAxMQ==&amp;mid=2651229883&amp;idx=1&amp;sn=0a775144fc84fc16c0ce581b80ab2a6c&amp;chksm=bd49573f8a3ede2957d0074c8fe047bdeff7614e6439d9077e15d0864eb90b8ae7e25abf2a1b&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MjM5MTA1MjAxMQ==&amp;mid=2651229883&amp;idx=1&amp;sn=0a775144fc84fc16c0ce581b80ab2a6c&amp;chksm=bd49573f8a3ede2957d0074c8fe047bdeff7614e6439d9077e15d0864eb90b8ae7e25abf2a1b&amp;scene=21#wechat_redirect</a></p>
-<br>
+<p><br></p>
+
       
     </div>
     
@@ -1280,6 +1269,8 @@
   
 
   
+  
+
 
   
   <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>

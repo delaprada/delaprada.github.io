@@ -129,12 +129,12 @@
 
 
 
-<meta name="description" content="前几天面试的时候被问到instanceof的原生实现，当时对__proto__和prototype的区别理解不是很透彻，一直记得的是几个月前在网上的某篇博客上看到的结论：“__proto__：和prototype其实是一个东西，prototype是官方所定义的属性，__proto__是浏览器自己对prototype所做的实现。”后来仔细再查了些文章发现似乎并不是这样。   __proto__和pr">
+<meta name="description" content="前几天面试的时候被问到instanceof的原生实现，当时对__proto__和prototype的区别理解不是很透彻，一直记得的是几个月前在网上的某篇博客上看到的结论：“__proto__：和prototype其实是一个东西，prototype是官方所定义的属性，__proto__是浏览器自己对prototype所做的实现。”后来仔细再查了些文章发现似乎并不是这样。  __proto__和pro">
 <meta property="og:type" content="article">
 <meta property="og:title" content="由instanceof原生实现理解__proto__和prototype的区别">
 <meta property="og:url" content="http://delaprada.com/2020/03/24/%E7%94%B1instanceof%E5%8E%9F%E7%94%9F%E5%AE%9E%E7%8E%B0%E7%90%86%E8%A7%A3-proto-%E5%92%8Cprototype%E7%9A%84%E5%8C%BA%E5%88%AB/index.html">
 <meta property="og:site_name" content="Alice&#39;s  wonderland">
-<meta property="og:description" content="前几天面试的时候被问到instanceof的原生实现，当时对__proto__和prototype的区别理解不是很透彻，一直记得的是几个月前在网上的某篇博客上看到的结论：“__proto__：和prototype其实是一个东西，prototype是官方所定义的属性，__proto__是浏览器自己对prototype所做的实现。”后来仔细再查了些文章发现似乎并不是这样。   __proto__和pr">
+<meta property="og:description" content="前几天面试的时候被问到instanceof的原生实现，当时对__proto__和prototype的区别理解不是很透彻，一直记得的是几个月前在网上的某篇博客上看到的结论：“__proto__：和prototype其实是一个东西，prototype是官方所定义的属性，__proto__是浏览器自己对prototype所做的实现。”后来仔细再查了些文章发现似乎并不是这样。  __proto__和pro">
 <meta property="og:image" content="http://delaprada.com/2020/03/24/%E7%94%B1instanceof%E5%8E%9F%E7%94%9F%E5%AE%9E%E7%8E%B0%E7%90%86%E8%A7%A3-proto-%E5%92%8Cprototype%E7%9A%84%E5%8C%BA%E5%88%AB/1.png">
 <meta property="og:image" content="http://delaprada.com/2020/03/24/%E7%94%B1instanceof%E5%8E%9F%E7%94%9F%E5%AE%9E%E7%8E%B0%E7%90%86%E8%A7%A3-proto-%E5%92%8Cprototype%E7%9A%84%E5%8C%BA%E5%88%AB/4.png">
 <meta property="og:image" content="http://delaprada.com/2020/03/24/%E7%94%B1instanceof%E5%8E%9F%E7%94%9F%E5%AE%9E%E7%8E%B0%E7%90%86%E8%A7%A3-proto-%E5%92%8Cprototype%E7%9A%84%E5%8C%BA%E5%88%AB/2.png">
@@ -386,62 +386,39 @@
 
       
         <p>前几天面试的时候被问到<code>instanceof</code>的原生实现，当时对<code>__proto__</code>和<code>prototype</code>的区别理解不是很透彻，一直记得的是几个月前在网上的某篇博客上看到的结论：“<code>__proto__</code>：和prototype其实是一个东西，prototype是官方所定义的属性，<code>__proto__</code>是浏览器自己对prototype所做的实现。”后来仔细再查了些文章发现似乎并不是这样。</p>
-<br>
-
+<p><br></p>
 <h2 id="proto-和prototype的区别"><a href="#proto-和prototype的区别" class="headerlink" title="__proto__和prototype的区别"></a><code>__proto__</code>和<code>prototype</code>的区别</h2><h3 id="原型prototype"><a href="#原型prototype" class="headerlink" title="原型prototype"></a>原型prototype</h3><p>原型的定义：每个<code>js</code>对象（除了null）在创建的时候就会与之关联另一个对象，这个对象就是我们所说的原型，每一个对象都会从原型“继承”属性。</p>
 <p>比如我们定义一个构造函数<code>Person</code>：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.name=name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>这样我们就创建了一个对象（function也是对象），那这个Person构造函数是有它的<code>prototype</code>的。这个Person prototype的构造函数constructor就是这个Person构造函数。我们还可以在这个Person prototype上去定义一些共享的属性和方法。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.name=name;</span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.name=<span class="string">"Alice"</span>;</span><br><span class="line">Person.prototype.sayHello=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"Hello "</span>+<span class="keyword">this</span>.name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>这样写就在Person prototype上定义了公用的属性<code>name</code>和<code>sayHello</code>。</p>
 <p>现在创建两个对象实例：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person1=<span class="keyword">new</span> Person();</span><br><span class="line"><span class="keyword">var</span> person2=<span class="keyword">new</span> Person();</span><br><span class="line">person1.name=<span class="string">"Emma"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(person1.name); <span class="comment">//Emma</span></span><br><span class="line"><span class="built_in">console</span>.log(person2.name); <span class="comment">//Alice</span></span><br></pre></td></tr></table></figure>
-
 <p>我们为这个<code>person1</code>定义了它的实例属性name为”Emma”，那<code>person2</code>没有定义它的实例属性，所以它会沿着原型链去找它的原型去找是否有这个属性，因为<code>Person.prototype</code>里定义了<code>name</code>属性，所以输出<code>Alice</code>。</p>
 <p>如果<code>Person.prototype</code>中没有定义<code>name</code>属性，那<code>person2.name</code>输出的是<code>undefined</code>，构造函数里的<code>this.name</code>是不起作用的。</p>
 <img src="/2020/03/24/%E7%94%B1instanceof%E5%8E%9F%E7%94%9F%E5%AE%9E%E7%8E%B0%E7%90%86%E8%A7%A3-proto-%E5%92%8Cprototype%E7%9A%84%E5%8C%BA%E5%88%AB/1.png" class>
-
-<br>
-
-
-
+<p><br></p>
 <h2 id="proto"><a href="#proto" class="headerlink" title="__proto__"></a><code>__proto__</code></h2><img src="/2020/03/24/%E7%94%B1instanceof%E5%8E%9F%E7%94%9F%E5%AE%9E%E7%8E%B0%E7%90%86%E8%A7%A3-proto-%E5%92%8Cprototype%E7%9A%84%E5%8C%BA%E5%88%AB/4.png" class>
-
 <p>以上这幅图大致可以说明<code>__proto__</code>和<code>prototype</code>的关系。</p>
 <p>现在来说一下我们使用new去创建一个构造函数实例的时候做了些什么：</p>
 <p><code>new</code>的原生实现：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">new</span>(<span class="params">Parent,...args</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> obj=&#123;&#125;;</span><br><span class="line">	obj.__proto__=Parent.prototype;</span><br><span class="line">	<span class="keyword">var</span> res=Parent.apply(obj,args);</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">typeof</span> res==<span class="string">"object"</span>?res:obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>我们使用<code>new</code>创建一个实例的时候，我们将这个实例的<code>__proto__</code>指向构造函数的原型。</p>
 <img src="/2020/03/24/%E7%94%B1instanceof%E5%8E%9F%E7%94%9F%E5%AE%9E%E7%8E%B0%E7%90%86%E8%A7%A3-proto-%E5%92%8Cprototype%E7%9A%84%E5%8C%BA%E5%88%AB/2.png" class>
-
 <p><code>__proto__</code>和<code>prototype</code>并不是一样的：</p>
 <img src="/2020/03/24/%E7%94%B1instanceof%E5%8E%9F%E7%94%9F%E5%AE%9E%E7%8E%B0%E7%90%86%E8%A7%A3-proto-%E5%92%8Cprototype%E7%9A%84%E5%8C%BA%E5%88%AB/3.png" class>
-
-<br>
-
-
-
+<p><br></p>
 <h2 id="constructor-NaN"><a href="#constructor-NaN" class="headerlink" title="constructor"></a><code>constructor</code></h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.constructor===Person;  <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
-
 <p>这个由上图可以看出。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> person1=<span class="keyword">new</span> Person();</span><br><span class="line">person1.constructor===Person; <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
-
 <p>但是<code>person1</code>是没有<code>constructor</code>属性的，而是通过原型链去找到<code>Person.prototype</code>上的<code>constructor</code>属性。</p>
-<br>
-
+<p><br></p>
 <h2 id="Object-prototype"><a href="#Object-prototype" class="headerlink" title="Object.prototype"></a><code>Object.prototype</code></h2><p><code>Object.prototype</code>是没有原型的，<code>Object.prototype</code>就是尽头。</p>
-<br>
-
-
-
+<p><br></p>
 <h2 id="instanceof的原生实现"><a href="#instanceof的原生实现" class="headerlink" title="instanceof的原生实现"></a><code>instanceof</code>的原生实现</h2><p><code>instanceof</code>在MDN当中的定义就是<code>object instanceof constructor</code>，判断这个<code>constructor</code>的<code>prototype</code>是否在<code>object</code>的原型链上。<code>object</code>原型链上的原型我们可以通过<code>__proto__</code>来去获取。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myinstanceof</span>(<span class="params">left,right</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> leftval=left.__proto__;  <span class="comment">//实例用__proto__</span></span><br><span class="line">	<span class="keyword">var</span> rightval=right.prototype;  <span class="comment">//构造函数用prototype</span></span><br><span class="line">	<span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">		<span class="keyword">if</span>(leftval==<span class="literal">null</span>)&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;  <span class="comment">//Object.prototype.__proto__为null</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(leftval==rightval)&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		leftval=leftval.__proto__;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<br>
-
+<p><br></p>
 
       
     </div>
@@ -1245,6 +1222,8 @@
   
 
   
+  
+
 
   
   <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>

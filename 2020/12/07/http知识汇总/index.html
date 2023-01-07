@@ -400,8 +400,7 @@
 <p>Q：http协议为无状态协议，如何记住用户的状态？</p>
 <p>A：无状态协议的好处是快速，但是有时我想要记住用户的状态（比如：登录状态）。此时我们可以使用cookie或者session记录用户的浏览状态信息，用户身份信息。</p>
 </blockquote>
-<br>
-
+<p><br></p>
 <h1 id="http请求-响应报文"><a href="#http请求-响应报文" class="headerlink" title="http请求/响应报文"></a>http请求/响应报文</h1><h2 id="请求报文"><a href="#请求报文" class="headerlink" title="请求报文"></a>请求报文</h2><ul>
 <li>由4个部分组成：请求行、请求头、空行、请求体</li>
 <li>请求行由3个字段组成：请求方法、URL字段、HTTP协议版本字段<ul>
@@ -419,8 +418,7 @@
 <li>响应行：由协议版本、状态码、状态描述构成</li>
 </ul>
 <p><img src="http://www.2cto.com/uploadfile/Collfiles/20160921/20160921092902557.jpg" alt="这里写图片描述"></p>
-<br>
-
+<p><br></p>
 <h1 id="http状态码"><a href="#http状态码" class="headerlink" title="http状态码"></a>http状态码</h1><p>1XX 通知</p>
 <p>2XX 成功</p>
 <p>3XX 重定向</p>
@@ -430,7 +428,6 @@
 <p>例如：客户端有一个较大的文件需要上传并保存，但是客户端不知道服务器是否愿意接受这个文件，所以希望在消耗网络资源进行传输之前，先询问一下服务器的意愿。</p>
 <p>实际操作为客户端发送一条特殊的请求报文，报文的头部应包含：</p>
 <figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Expect</span>: 100-continue</span><br></pre></td></tr></table></figure>
-
 <p>如果服务器愿意接受，就会返回100 continue状态码。</p>
 <h3 id="200（”OK”）"><a href="#200（”OK”）" class="headerlink" title="200（”OK”）"></a>200（”OK”）</h3><p>一切正常</p>
 <h3 id="204-（无内容）"><a href="#204-（无内容）" class="headerlink" title="204 （无内容）"></a>204 （无内容）</h3><p>服务器成功处理了请求，但没有返回任何内容。</p>
@@ -453,9 +450,9 @@
 <p>也就是说：<strong>如果客户端发出非GET, HEAD请求后(比如POST请求)，收到302状态码，是不能够自动地向新的URL发送重复请求，除非得到用户的确认。</strong></p>
 <h3 id="303"><a href="#303" class="headerlink" title="303"></a>303</h3><p><strong>会直接将上述的POST请求重定向为GET请求</strong></p>
 <h3 id="307"><a href="#307" class="headerlink" title="307"></a>307</h3><p><strong>不会将POST转为GET，而是会询问用户是否应该在新的URL上发起POST请求</strong></p>
-<br>
-
-<h1 id="http方法"><a href="#http方法" class="headerlink" title="http方法"></a>http方法</h1><table>
+<p><br></p>
+<h1 id="http方法"><a href="#http方法" class="headerlink" title="http方法"></a>http方法</h1><div class="table-container">
+<table>
 <thead>
 <tr>
 <th></th>
@@ -463,7 +460,8 @@
 <th>描述</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>1</td>
 <td>GET</td>
 <td>请求指定的页面信息，并返回实体主体。</td>
@@ -503,14 +501,15 @@
 <td>patch</td>
 <td>对已知资源进行局部更新</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <h3 id="如何理解patch局部更新资源"><a href="#如何理解patch局部更新资源" class="headerlink" title="如何理解patch局部更新资源"></a><strong>如何理解<code>patch</code>局部更新资源</strong></h3><p>假设我们有一个<code>UserInfo</code>，里面有<code>userId</code>， <code>userName</code>， <code>userGender</code>等10个字段。可你的编辑功能因为需求，在某个特别的页面里只能修改<code>userName</code>，这时候的更新怎么做？</p>
 <p>人们通常(为徒省事)把一个包含了修改后<code>userName</code>的完整<code>userInfo</code>对象传给后端，做完整更新。但仔细想想，这种做法感觉有点二，而且真心浪费带宽(纯技术上讲，你不关心带宽那是你土豪)。</p>
 <p>于是<code>patch</code>诞生，只传一个<code>userName</code>到指定资源去，表示该请求是一个局部更新，后端仅更新接收到的字段。</p>
 <p>而<strong><code>put</code>虽然也是更新资源，但要求前端提供的一定是一个完整的资源对象</strong>，理论上说，如果你用了<code>put</code>，但却没有提供完整的<code>UserInfo</code>，那么缺了的那些字段应该被清空。</p>
 <p>参考：<a href="https://segmentfault.com/q/1010000005685904/" target="_blank" rel="noopener">https://segmentfault.com/q/1010000005685904/</a></p>
-<br>
-
+<p><br></p>
 <h1 id="http缺陷"><a href="#http缺陷" class="headerlink" title="http缺陷"></a>http缺陷</h1><ol>
 <li>通信使用明文（不加密），内容可能被窃听</li>
 <li>不验证通信方的身份，因此有可能遭遇伪装</li>
@@ -525,8 +524,7 @@
 </li>
 </ul>
 <p>摘自：<a href="https://blog.csdn.net/wangxp423/article/details/80033225" target="_blank" rel="noopener">https://blog.csdn.net/wangxp423/article/details/80033225</a></p>
-<br>
-
+<p><br></p>
 <h1 id="https"><a href="#https" class="headerlink" title="https"></a>https</h1><ul>
 <li>http协议传输的数据都是未加密的，也就是明文的，因此使用http协议传输隐私信息非常不安全。为了保证这些隐私数据能加密传输，设计了SSL（Secure Sockets Layer）/ TLS（Transport Layer Security）协议用于对http协议传输的数据进行加密，从而诞生了https。</li>
 <li>因此，https很安全。此外，https同时也一定程度上保护了服务端，使用恶意攻击和伪装数据的成本大大提高。</li>
@@ -536,27 +534,27 @@
 <li>Client Hello</li>
 </ol>
 <p>握手第一步是客户端向服务端发送Client Hello消息。这个消息里包含了一个客户端生成的随机数<strong>Random1</strong>，客户端支持的加密套件（Support Ciphers）和SSL Version等信息。</p>
-<ol start="2">
+<ol>
 <li>Server Hello</li>
 </ol>
 <p>第二步是服务端想客户端发送Server Hello消息。此时会生成一份随机数<strong>Random2</strong>，同时这个消息会从Client Hello传来的Support Ciphers里确定一份加密套件，这个套件决定了后续加密和生成摘要时具体使用哪些算法。</p>
 <p>注意：至此客户端和服务端都拥有了两个随机数（Random1+Random2），这两个随机数会在后续生成对称秘钥时用到。</p>
-<ol start="3">
+<ol>
 <li>Certificate</li>
 </ol>
 <p>这一步是服务端将自己的证书下发给客户端，让客户端验证自己的身份，客户端验证通过后取出证书中的公钥。</p>
-<ol start="4">
+<ol>
 <li>Server Hello Done</li>
 </ol>
 <p>Server Hello Done通知客户端Server Hello过程结束。</p>
-<ol start="5">
+<ol>
 <li>Certificate Verify</li>
 </ol>
 <p>客户端收到服务端传来的证书后，<strong>先从CA验证该证书的合法性</strong>，验证通过后取出证书中的服务端公钥，再生成随机数<strong>Random3</strong>，<strong>再用服务端公钥非对称加密Random3生成PreMaster Key</strong>。</p>
 <blockquote>
 <p>https的服务端必须拥有一个CA认证合法授权的证书，没有这个证书，客户端在访问该服务器时会提醒用户这个网站是不受信任的</p>
 </blockquote>
-<ol start="6">
+<ol>
 <li>Client Key Exchange</li>
 </ol>
 <p>上一步中客户端根据服务器传来的公钥生成了PreMaster Key，Client Key Exchange就是将这个PreMaster Key传给服务端，<strong>服务端再用自己的私钥解出这个PreMaster Key得到客户端生成的Random3</strong>。</p>
@@ -566,19 +564,19 @@
 <blockquote>
 <p>最重要理解前六步</p>
 </blockquote>
-<ol start="7">
+<ol>
 <li>Change Cipher Spec（Client）</li>
 </ol>
 <p>这一步客户端通知服务端后面再发送的消息都会使用前面协商出来的秘钥加密了，这是一条事件消息。</p>
-<ol start="8">
+<ol>
 <li>Encrypted Handshake Message(Client)</li>
 </ol>
 <p>这一步对应的是Client Finish消息，客户端将前面的握手消息生成摘要再用协商好的秘钥加密，这是客户端发送的第一条加密消息。服务端接收后会用私钥解密，能解出来则说明前面的协商出来的秘钥是一致的。</p>
-<ol start="9">
+<ol>
 <li>Change Cipher Spec(Server)</li>
 </ol>
 <p>这一步是服务端通知客户端后面再发送的消息都会使用加密，也是一条事件消息。</p>
-<ol start="10">
+<ol>
 <li>Encrypted Handshake Message(Server)</li>
 </ol>
 <p>这一步对应的是Server Finish消息，服务端也会将握手过程的消息生成摘要再用秘钥加密，这是服务端发出的第一条加密消息。客户端接收后会用秘钥解密，能解出来说明协商的秘钥是一致的。</p>
@@ -588,8 +586,7 @@
 <p> 参考：<a href="http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html</a></p>
 <p><a href="https://juejin.im/post/584b76d3a22b9d0058d5036f" target="_blank" rel="noopener">https://juejin.im/post/584b76d3a22b9d0058d5036f</a></p>
 </blockquote>
-<br>
-
+<p><br></p>
 <h1 id="http1-0-1-1-2-0的区别"><a href="#http1-0-1-1-2-0的区别" class="headerlink" title="http1.0/1.1/2.0的区别"></a>http1.0/1.1/2.0的区别</h1><h2 id="http1-0"><a href="#http1-0" class="headerlink" title="http1.0"></a>http1.0</h2><ul>
 <li>http协议老的标准是http1.0。为了提高系统的效率，http1.0规定浏览器与服务器只保持短暂的连接，浏览器的每次请求都需要与服务器建立一个tcp连接，服务器完成请求处理后立即断开tcp连接，服务器不跟踪每个客户也不记录过去的请求。连接无法复用。</li>
 <li>客户端和服务器端每次建立和关闭连接是一个相对比较费时的过程，并且会严重影响客户端和服务器的性能。</li>
@@ -645,16 +642,13 @@
 <p>我们使用了Nginx作为前端页面与后端接口的反向代理服务器(Reverse Proxy)，只需要修改一下Nginx配置文件就可以升级HTTP/2了，非常简单。</p>
 <p>注意，在 Nginx 上 开启 HTTP/2 需要 Nginx 1.9.5 以上版本（包括1.9.5），并且需要 OpenSSL 1.0.2 以上版本(包括1.0.2)。使用<code>nginx -V</code>命令可以查看Nginx的版本信息：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">nginx -V</span><br><span class="line">nginx version: nginx&#x2F;1.12.1</span><br><span class="line">built by gcc 6.3.0 20170516 (Debian 6.3.0-18)</span><br><span class="line">built with OpenSSL 1.1.0f  25 May 2017</span><br><span class="line">TLS SNI support enabled</span><br><span class="line">configure arguments: --prefix&#x3D;&#x2F;etc&#x2F;nginx --sbin3-path&#x3D;&#x2F;usr&#x2F;sbin&#x2F;nginx --modules-path&#x3D;&#x2F;usr&#x2F;lib&#x2F;nginx&#x2F;modules --conf-path&#x3D;&#x2F;etc&#x2F;nginx&#x2F;nginx.conf --error-log-path&#x3D;&#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log --http-log-path&#x3D;&#x2F;var&#x2F;log&#x2F;nginx&#x2F;access.log --pid-path&#x3D;&#x2F;var&#x2F;run&#x2F;nginx.pid --lock-path&#x3D;&#x2F;var&#x2F;run&#x2F;nginx.lock --http-client-body-temp-path&#x3D;&#x2F;var&#x2F;cache&#x2F;nginx&#x2F;client_temp --http-proxy-temp-path&#x3D;&#x2F;var&#x2F;cache&#x2F;nginx&#x2F;proxy_temp --http-fastcgi-temp-path&#x3D;&#x2F;var&#x2F;cache&#x2F;nginx&#x2F;fastcgi_temp --http-uwsgi-temp-path&#x3D;&#x2F;var&#x2F;cache&#x2F;nginx&#x2F;uwsgi_temp --http-scgi-temp-path&#x3D;&#x2F;var&#x2F;cache&#x2F;nginx&#x2F;scgi_temp --user&#x3D;nginx --group&#x3D;nginx --with-compat --with-file-aio --with-threads --with-http_addition_module --with-http_auth_request_module --with-http_dav_module --with-http_flv_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_mp4_module --with-http_random_index_module --with-http_realip_module --with-http_secure_link_module --with-http_slice_module --with-http_ssl_module --with-http_stub_status_module --with-http_sub_module --with-http_v2_module --with-mail --with-mail_ssl_module --with-stream --with-stream_realip_module --with-stream_ssl_module --with-stream_ssl_preread_module --with-cc-opt&#x3D;&#39;-g -O2 -fdebug-prefix-map&#x3D;&#x2F;data&#x2F;builder&#x2F;debuild&#x2F;nginx-1.12.1&#x2F;debian&#x2F;debuild-base&#x2F;nginx-1.12.1&#x3D;. -specs&#x3D;&#x2F;usr&#x2F;share&#x2F;dpkg&#x2F;no-pie-compile.specs -fstack-protector-strong -Wformat -Werror&#x3D;format-security -Wp,-D_FORTIFY_SOURCE&#x3D;2 -fPIC&#39; --with-ld-opt&#x3D;&#39;-specs&#x3D;&#x2F;usr&#x2F;share&#x2F;dpkg&#x2F;no-pie-link.specs -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -pie&#39;</span><br></pre></td></tr></table></figure>
-
 <p>可知，我们使用的Nginx版本为1.12.1，OpenSSL版本为1.1.0f，符合要求。</p>
 <p>还有一点，虽然HTTP/2标准并没有要求加密，但是所有浏览器都要求HTTP/2必须加密，这样的话，只有HTTPS才能升级HTTP/2。</p>
 <p>如果你还没用过HTTPS的话，不妨看看我的博客：<a href="https://blog.fundebug.com/2018/07/06/apply-lets-encrypt-certificate/" target="_blank" rel="noopener">教你快速撸一个免费HTTPS证书</a>，其实也很简单。</p>
 <p>一切前提没问题的话(Nginx&gt;=1.9.5，OpenSSL&gt;=1.0.2，HTTPS)，只需要修改1行配置，在listen指令后面添加http2：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">server</span><br><span class="line">&#123;</span><br><span class="line">    listen 443 ssl http2;</span><br><span class="line">    server_name www.fundebug.com;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>重启Nginx，升级HTTP/2就成功了，可以使用curl命令检查：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">curl -sI https:&#x2F;&#x2F;www.fundebug.com</span><br><span class="line">HTTP&#x2F;2 200</span><br><span class="line">server: nginx&#x2F;1.12.1</span><br><span class="line">date: Mon, 07 Oct 2019 00:12:53 GMT</span><br><span class="line">content-type: text&#x2F;html; charset&#x3D;UTF-8</span><br><span class="line">content-length: 4892</span><br><span class="line">x-powered-by: Express</span><br><span class="line">accept-ranges: bytes</span><br><span class="line">cache-control: public, max-age&#x3D;0</span><br><span class="line">last-modified: Sun, 06 Oct 2019 23:07:25 GMT</span><br><span class="line">etag: W&#x2F;&quot;131c-16da353dbc8&quot;</span><br><span class="line">vary: Accept-Encoding</span><br><span class="line">strict-transport-security: max-age&#x3D;15768001</span><br></pre></td></tr></table></figure>
-
 <blockquote>
 <p>curl指令：用来请求web服务器。它的名字就是客户端（client）的URL工具的意思。</p>
 <p>参考：<a href="https://www.ruanyifeng.com/blog/2019/09/curl-reference.html" target="_blank" rel="noopener">https://www.ruanyifeng.com/blog/2019/09/curl-reference.html</a></p>
@@ -1466,6 +1460,8 @@
   
 
   
+  
+
 
   
   <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>

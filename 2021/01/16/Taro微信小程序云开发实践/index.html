@@ -129,15 +129,15 @@
 
 
 
-<meta name="description" content="前言云开发简而言之就是：开发者无需搭建服务器，可免鉴权直接使用平台提供的API进行业务开发。 云开发提供云函数，云数据库和云存储，服务端的部署和托管都交由腾讯云来管理，开发者就无需在运维和管理上投入过多的精力。 小程序传统开发模式：  小程序云开发：    云函数：node.js 云数据库：MongoDB  传统开发 vs 云开发：  （serverless指的是：我们无需考虑硬件等基础设施，是无">
+<meta name="description" content="前言云开发简而言之就是：开发者无需搭建服务器，可免鉴权直接使用平台提供的API进行业务开发。 云开发提供云函数，云数据库和云存储，服务端的部署和托管都交由腾讯云来管理，开发者就无需在运维和管理上投入过多的精力。 小程序传统开发模式：  小程序云开发：   云函数：node.js 云数据库：MongoDB  传统开发 vs 云开发：  （serverless指的是：我们无需考虑硬件等基础设施，是无服">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Taro微信小程序云开发实践">
 <meta property="og:url" content="http://delaprada.com/2021/01/16/Taro%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E4%BA%91%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5/index.html">
 <meta property="og:site_name" content="Alice&#39;s  wonderland">
-<meta property="og:description" content="前言云开发简而言之就是：开发者无需搭建服务器，可免鉴权直接使用平台提供的API进行业务开发。 云开发提供云函数，云数据库和云存储，服务端的部署和托管都交由腾讯云来管理，开发者就无需在运维和管理上投入过多的精力。 小程序传统开发模式：  小程序云开发：    云函数：node.js 云数据库：MongoDB  传统开发 vs 云开发：  （serverless指的是：我们无需考虑硬件等基础设施，是无">
+<meta property="og:description" content="前言云开发简而言之就是：开发者无需搭建服务器，可免鉴权直接使用平台提供的API进行业务开发。 云开发提供云函数，云数据库和云存储，服务端的部署和托管都交由腾讯云来管理，开发者就无需在运维和管理上投入过多的精力。 小程序传统开发模式：  小程序云开发：   云函数：node.js 云数据库：MongoDB  传统开发 vs 云开发：  （serverless指的是：我们无需考虑硬件等基础设施，是无服">
 <meta property="og:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210116143909.png">
 <meta property="og:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210116143957.png">
-<meta property="og:image" content="http://delaprada.com/2021/01/16/Taro%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E4%BA%91%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5/C:%5CUsers%5Calice%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210116144312278.png">
+<meta property="og:image" content="http://delaprada.com/2021/01/16/Taro%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E4%BA%91%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5/Users/alice/AppData/Roaming/Typora/typora-user-images/image-20210116144312278.png">
 <meta property="og:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210116150121.png">
 <meta property="og:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210116151334.png">
 <meta property="og:image" content="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210116151919.png">
@@ -399,14 +399,13 @@
 <p>小程序传统开发模式：</p>
 <p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210116143909.png" alt></p>
 <p>小程序云开发：</p>
-<img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210116143957.png" style="zoom: 67%;">
-
+<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210116143957.png" style="zoom: 67%;"></p>
 <ul>
 <li>云函数：node.js</li>
 <li>云数据库：MongoDB</li>
 </ul>
 <p>传统开发 vs 云开发：</p>
-<p><img src="/2021/01/16/Taro%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E4%BA%91%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5/C:%5CUsers%5Calice%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210116144312278.png" alt="image-20210116144312278"></p>
+<p><img src="/2021/01/16/Taro%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E4%BA%91%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5/Users\alice\AppData\Roaming\Typora\typora-user-images\image-20210116144312278.png" alt="image-20210116144312278"></p>
 <p>（<code>serverless</code>指的是：我们无需考虑硬件等基础设施，是无服务的应用，我们依赖的是像腾讯云这样的云服务商提供的服务）</p>
 <h1 id="云开发"><a href="#云开发" class="headerlink" title="云开发"></a>云开发</h1><p>想要在小程序中实现云开发，首先在导入项目时要填入注册的<code>APPID</code>，必须填写，否则无法使用云开发功能。</p>
 <p>无论是使用微信创建一个云开发项目还是使用<code>taro cli</code>初始化一个云开发项目，根目录下都会有一个<code>project.config.json</code>文件，文件中的<code>cloudbaseRoot</code>用于指定存放云函数&amp;云托管的目录。</p>
@@ -417,21 +416,12 @@
 <p>在项目中，需要为项目配置开发的环境，否则默认都是指定<strong>第一个创建的环境</strong>。</p>
 <p>比如在<code>taro</code>云开发项目中，需在<code>app.js</code>中配置项目环境：</p>
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">componentDidMount () &#123;</span><br><span class="line">    <span class="keyword">if</span> (process.env.TARO_ENV === <span class="string">'weapp'</span>) &#123;</span><br><span class="line">        Taro.cloud.init(&#123;</span><br><span class="line">            env: <span class="string">'test-taro-1gs4sohn82c1ff34'</span> <span class="comment">// 环境id</span></span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
 <p>微信原生的云开发项目中，则在<code>onLaunch</code>方法中配置：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">onLaunch: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (!wx.cloud) &#123;</span><br><span class="line">		<span class="built_in">console</span>.error(<span class="string">'请使用 2.2.3 或以上的基础库以使用云能力'</span>)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		wx.cloud.init(&#123;</span><br><span class="line">            <span class="comment">// env 参数说明：</span></span><br><span class="line">            <span class="comment">//   env 参数决定接下来小程序发起的云开发调用（wx.cloud.xxx）会默认请求到哪个云环境的资源</span></span><br><span class="line">            <span class="comment">//   此处请填入环境 ID, 环境 ID 可打开云控制台查看</span></span><br><span class="line">            <span class="comment">//   如不填则使用默认环境（第一个创建的环境）</span></span><br><span class="line">            <span class="comment">// env: 'my-env-id',</span></span><br><span class="line">            traceUser: <span class="literal">true</span>,</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">this</span>.globalData = &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
 <p>云函数处可通过右键切换云函数的当前环境：</p>
 <p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210116151334.png" alt></p>
 <p><strong>注意</strong>：在小程序端配置<code>init</code>时的<code>env</code>只会决定小程序端API调用的云环境，并不会决定云函数中API调用的环境，云函数中需要通过<code>wx-server-sdk</code>的<code>init</code>方法重新设置环境（或者使用上面的方面）。</p>
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wx.cloud.init(&#123;</span><br><span class="line">  env: <span class="string">'test-x1dzi'</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-
-
 <h2 id="云数据库"><a href="#云数据库" class="headerlink" title="云数据库"></a>云数据库</h2><p>云数据库是一个JSON数据库，数据库中的每条记录都是一个JSON格式的对象。</p>
 <p>一个数据库可以有多个集合（相当于关系型数据库中的表），集合可以看作一个JSON数组，数组中的每个对象就是一条记录，记录的格式是JSON对象。</p>
 <p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210116151919.png" alt></p>
@@ -444,39 +434,20 @@
 </ul>
 <p>在微信原生项目中：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 小程序端操作数据库</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 云数据库</span></span><br><span class="line"><span class="keyword">const</span> db = wx.cloud.database();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 向user集合添加数据</span></span><br><span class="line">db.collection(<span class="string">'user'</span>).add(&#123;</span><br><span class="line">	data: &#123;</span><br><span class="line">		name: <span class="string">"jerry"</span>,</span><br><span class="line">		age: <span class="string">"22"</span></span><br><span class="line">	&#125;</span><br><span class="line">	&#125;).then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">		<span class="built_in">console</span>.log(res);</span><br><span class="line">	&#125;).catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">		<span class="built_in">console</span>.log(err);</span><br><span class="line">	&#125;)</span><br></pre></td></tr></table></figure>
-
-
-
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 服务端操作数据库</span></span><br><span class="line"><span class="keyword">const</span> cloud = <span class="built_in">require</span>(<span class="string">'wx-server-sdk'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> db = cloud.database();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 然后再进行数据库操作</span></span><br><span class="line"><span class="comment">// ...</span></span><br></pre></td></tr></table></figure>
-
-
-
 <p><code>taro</code>项目中：</p>
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 小程序端操作数据库</span></span><br><span class="line"><span class="keyword">const</span> db = Taro.cloud.database();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 向user集合添加数据</span></span><br><span class="line">db.collection(<span class="string">'user'</span>)</span><br><span class="line">    .add(&#123;</span><br><span class="line">    	data: &#123;</span><br><span class="line">    		name: <span class="string">'alice'</span>,</span><br><span class="line">    		age: <span class="string">'26'</span>,</span><br><span class="line">    	&#125;,</span><br><span class="line">    &#125;)</span><br><span class="line">    .then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">    	<span class="built_in">console</span>.log(res);</span><br><span class="line">    &#125;)</span><br><span class="line">    .catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">    	<span class="built_in">console</span>.error(err);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
-
-
-
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在云函数内</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 云函数入口文件</span></span><br><span class="line"><span class="keyword">const</span> cloud = <span class="built_in">require</span>(<span class="string">"wx-server-sdk"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> db = cloud.database();</span><br><span class="line"><span class="comment">// 然后再进行数据库操作</span></span><br><span class="line"><span class="comment">// ...</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-
 <h2 id="云函数"><a href="#云函数" class="headerlink" title="云函数"></a>云函数</h2><p>云函数是一段运行在云端的代码，相当于服务端的代码，我们可以在云函数中操作数据库、管理云文件、调用其他云函数等操作。</p>
 <p>云函数必须要进行部署才能生效，部署方式：</p>
 <p>右键点击函数文件夹，选择上传并部署（云端安装依赖，不上传<code>node_modules</code>）。</p>
 <p>如果遇到以下问题：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cloudTest.weapp.jsx:86 Error: errCode: -404011 cloud function execution error | errMsg: cloud.callFunction:fail requestID 7ac9328a-579d-11eb-9459-5254006d699d, cloud function service error code -504002, error message Error: errCode: -1 unknown error | err</span><br></pre></td></tr></table></figure>
-
 <p>尝试重新上传并部署，过一会便生效了。</p>
 <p>比如我们定义了一个<code>add</code>云函数：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// index.js 是入口文件，云函数被调用时会执行该文件导出的 main 方法</span></span><br><span class="line"><span class="comment">// event 包含了调用端（小程序端）调用该函数时传过来的参数，同时还包含了可以通过 getWXContext 方法获取的用户登录态 `openId` 和小程序 `appId` 信息</span></span><br><span class="line"><span class="keyword">const</span> cloud = <span class="built_in">require</span>(<span class="string">'wx-server-sdk'</span>)</span><br><span class="line">exports.main = <span class="keyword">async</span> (event, context) =&gt; &#123;</span><br><span class="line">  <span class="keyword">let</span> &#123; userInfo, a, b&#125; = event</span><br><span class="line">  <span class="keyword">let</span> &#123; OPENID, APPID &#125; = cloud.getWXContext() <span class="comment">// 这里获取到的 openId 和 appId 是可信的</span></span><br><span class="line">  <span class="keyword">let</span> sum = a + b</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    OPENID,</span><br><span class="line">    APPID,</span><br><span class="line">    sum</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>在开发者工具中上传并部署云函数后，我们在小程序中可以使用<code>callFunction</code>方法调用：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">wx.cloud.callFunction(&#123;</span><br><span class="line">  <span class="comment">// 需调用的云函数名</span></span><br><span class="line">  name: <span class="string">'add'</span>,</span><br><span class="line">  <span class="comment">// 传给云函数的参数</span></span><br><span class="line">  data: &#123;</span><br><span class="line">    a: <span class="number">12</span>,</span><br><span class="line">    b: <span class="number">19</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// 成功回调</span></span><br><span class="line">  complete: <span class="built_in">console</span>.log</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 当然 promise 方式也是支持的</span></span><br><span class="line">wx.cloud.callFunction(&#123;</span><br><span class="line">  name: <span class="string">'add'</span>,</span><br><span class="line">  data: &#123;</span><br><span class="line">    a: <span class="number">12</span>,</span><br><span class="line">    b: <span class="number">19</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;).then(<span class="built_in">console</span>.log)</span><br></pre></td></tr></table></figure>
-
-
-
 <h3 id="本地调试"><a href="#本地调试" class="headerlink" title="本地调试"></a>本地调试</h3><p>云开发提供了云函数本地调试的功能，开发者可以在本地对云函数进行断点调试。</p>
 <p>不使用本地调试和使用本地调试在调试流程上的区别：</p>
 <ul>
@@ -486,9 +457,6 @@
 <p>如何进行本地调试？</p>
 <p>进行本地调试的云函数首先要执行<code>cloud.init</code>步骤，在其中指定云函数的环境：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cloud.init(&#123;</span><br><span class="line">  env: <span class="string">'test-taro-1gs4sohn82c1ff34'</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-
-
 <p>如果云函数中有使用到<code>npm</code>模块，需在云函数本地目录安装相应依赖才可正常使用云函数本地调用功能。所以如果在开启本地调试的过程中，有相关的警告，则检查一下是否有安装依赖。</p>
 <p>云函数中一般都会用到<code>wx-server-sdk</code>这个<code>npm</code>包，所以应该都要在本地调试之前安装依赖，否则会报错。</p>
 <p><img src="https://res.wx.qq.com/wxdoc/dist/assets/img/local-debug-flow-simple.b4e7aa78.gif" alt="描述"></p>
@@ -500,8 +468,7 @@
 <li><code>source</code>目录下可以看到云函数对应的源代码，可以在代码里添加断点。</li>
 <li>比如当前我测试的函数是<code>batch</code>，当我在小程序页面点击批量删除按钮时，调试便开启。我们可以控制怎么执行下一步来看整个函数执行的过程。也可以在<code>console</code>页看到相应的输出结果</li>
 </ul>
-<img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210117100323.png" style="zoom:50%;">
-
+<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210117100323.png" style="zoom:50%;"></p>
 <p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210117100501.png" alt></p>
 <h3 id="云端测试"><a href="#云端测试" class="headerlink" title="云端测试"></a>云端测试</h3><p>除了本地调试以外，还能够执行云端测试，在云开发平台对云函数进行测试：</p>
 <p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210117100956.png" alt></p>
@@ -520,8 +487,7 @@
 <li><code>deleteFile</code></li>
 <li><code>getTempFileURL</code></li>
 </ul>
-<br>
-
+<p><br></p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>实践代码仓库地址：<a href="https://github.com/delaprada/wechat-miniprogram-cloud" target="_blank" rel="noopener">wechat-miniprogram-cloud</a></p>
 
       
@@ -1326,6 +1292,8 @@
   
 
   
+  
+
 
   
   <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>

@@ -396,8 +396,7 @@
 </li>
 <li><p>运行命令将<code>src</code>目录下的所有代码编译到<code>lib</code>目录</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./node_modules/.bin/babel src --out-dir lib</span><br></pre></td></tr></table></figure>
-
-<p>你可以利用 <a href="mailto:npm@5.2.0">npm@5.2.0</a> 所自带的 npm 包运行器将 <code>./node_modules/.bin/babel</code> 命令缩短为 <code>npx babel</code>。</p>
+<p>你可以利用 npm@5.2.0 所自带的 npm 包运行器将 <code>./node_modules/.bin/babel</code> 命令缩短为 <code>npx babel</code>。</p>
 </li>
 </ol>
 <ul>
@@ -409,10 +408,7 @@
 <h3 id="preset"><a href="#preset" class="headerlink" title="preset"></a>preset</h3><p>因为如果每次都要开发者一个个添加并安装插件，配置文件会很长，并且安装时间也会很长。</p>
 <p>preset是一组预先设定的插件。我们可以根据自己所需要的插件组合创建一个自己的preset并将其分享出去。</p>
 <p>preset包括：env、react、flow、minify等。这里最重要的是env。</p>
-<img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210505162507.png" style="zoom:80%;">
-
-
-
+<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210505162507.png" style="zoom:80%;"></p>
 <p>在执行顺序方面，原则是：</p>
 <ul>
 <li>plugin会在preset之前运行</li>
@@ -421,25 +417,19 @@
 </ul>
 <p>例如，在这里我们使用一个名称为<code>env</code>的preset：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev @babel/preset-env</span><br><span class="line"></span><br><span class="line">./node_modules/.bin/babel src --out-dir lib --presets=@babel/env</span><br></pre></td></tr></table></figure>
-
-
-
 <p>如果不进行任何配置，上述preset所包含的插件将支持所有最新的JS（ES2015、ES2016等）特性。</p>
 <p>但preset也是支持参数的，我们可以通过配置文件来传递参数。</p>
 <h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>例如下面这个<code>babel.config.json</code>：</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"presets"</span>: [</span><br><span class="line">    [</span><br><span class="line">      <span class="string">"@babel/env"</span>,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"targets"</span>: &#123;</span><br><span class="line">          <span class="attr">"edge"</span>: <span class="string">"17"</span>,</span><br><span class="line">          <span class="attr">"firefox"</span>: <span class="string">"60"</span>,</span><br><span class="line">          <span class="attr">"chrome"</span>: <span class="string">"67"</span>,</span><br><span class="line">          <span class="attr">"safari"</span>: <span class="string">"11.1"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>现在，名为 <code>env</code> 的 preset 只会为目标浏览器中没有的功能加载转换插件。</p>
 <h3 id="env"><a href="#env" class="headerlink" title="env"></a>env</h3><p>env是最为常用也是最重要的。env的核心目的是通过配置得知目标环境的特点，然后只做必要的转换。</p>
 <p>例如目标浏览器是支持ES2015的，那么就不需要ES2015这个preset，于是代码就可以小一点（一般转化后的代码总会更长），构建时间也可以缩短一些。</p>
 <p>如果不写任何配置项，env等价于latest，等价于ES2015 + ES2016 + ES2017 三个相加。</p>
 <p>比较常用的配置方法如下：</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"presets"</span>: [</span><br><span class="line">    [<span class="string">"env"</span>, &#123;</span><br><span class="line">      <span class="attr">"targets"</span>: &#123;</span><br><span class="line">        <span class="attr">"browsers"</span>: [<span class="string">"last 2 versions"</span>, <span class="string">"safari &gt;= 7"</span>]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;]</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>如上配置将考虑所有浏览器的最新2个版本(safari大于等于7.0的版本)的特性，将必要的代码进行转换。而这些版本已有的功能就不进行转化了。</p>
 <p>另一种配置如下：</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"presets"</span>: [</span><br><span class="line">    [<span class="string">"env"</span>, &#123;</span><br><span class="line">      <span class="attr">"targets"</span>: &#123;</span><br><span class="line">        <span class="attr">"node"</span>: <span class="string">"6.10"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;]</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>如上配置将目标设置为 nodejs，并且支持 6.10 及以上的版本。也可以使用 <code>node: &#39;current&#39;</code> 来支持最新稳定版本。例如箭头函数在 nodejs 6 及以上将不被转化，但如果是 nodejs 0.12 就会被转化了。</p>
 <h3 id="配套工具"><a href="#配套工具" class="headerlink" title="配套工具"></a>配套工具</h3><h4 id="babel-polyfill"><a href="#babel-polyfill" class="headerlink" title="babel-polyfill"></a>babel-polyfill</h4><p><strong>babel默认只转换js语法，而不转换新的API</strong>，比如Iterator、Generator、Set、Map、Proxy、Reflect、Symbol、Promise等全局对象，以及一些定义在全局对象上的方法（比如Object.assign）都不会转码。</p>
 <p>比如，ES2015在Array对象上新增了Array.from方法，babel不会转码这个方法。如果想让这个方法运行，必须使用<code>babel-polyfill</code>（内部集成了<code>core-js</code>和<code>regenerator</code>）。</p>
@@ -1270,6 +1260,8 @@
   
 
   
+  
+
 
   
   <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>

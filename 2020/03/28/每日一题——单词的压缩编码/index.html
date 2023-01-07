@@ -386,22 +386,15 @@
 <p>那么成功对给定单词列表进行编码的最小字符串长度是多少呢？</p>
 <p>示例：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: words &#x3D; [&quot;time&quot;, &quot;me&quot;, &quot;bell&quot;]</span><br><span class="line">输出: 10</span><br><span class="line">说明: S &#x3D; &quot;time#bell#&quot; ， indexes &#x3D; [0, 2, 5] 。</span><br></pre></td></tr></table></figure>
-
-
 <p>提示：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 &lt;&#x3D; words.length &lt;&#x3D; 2000</span><br><span class="line">1 &lt;&#x3D; words[i].length &lt;&#x3D; 7</span><br><span class="line">每个单词都是小写字母 。</span><br></pre></td></tr></table></figure>
-
-
-
 <p>思路：</p>
 <p>首先要先读懂题意，如果是单词之间的覆盖，只能是后缀覆盖，而不能是中间覆盖；其次，不一定是相邻的单词之间会出现覆盖，有可能像<code>[&quot;time&quot;, &quot;me&quot;, &quot;bell&quot;, &quot;atime&quot;]</code>跨着来覆盖。</p>
 <p>所以我们先按单词的长度进行降序排列，这样先将最大的添加到结果字符串中，后续判断较小的单词只需要使用<code>indexOf</code>方法，就能够判断是否在结果字符串中。</p>
 <p>需要注意的是，单词之间的覆盖只能是后缀覆盖，所以使用<code>indexOf</code>判断的时候要加上<code>“#”</code>。</p>
 <p>题解：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;string[]&#125;</span> <span class="variable">words</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> minimumLengthEncoding = <span class="function"><span class="keyword">function</span>(<span class="params">words</span>) </span>&#123;</span><br><span class="line">    words.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> b.length-a.length;</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">var</span> res=<span class="string">""</span>;</span><br><span class="line">    res+=words[<span class="number">0</span>]+<span class="string">"#"</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">1</span>;i&lt;words.length;++i)&#123;</span><br><span class="line">        <span class="comment">//加上#号就控制必须是后缀部分</span></span><br><span class="line">        <span class="keyword">if</span>(res.indexOf(words[i]+<span class="string">"#"</span>)===<span class="number">-1</span>)&#123;</span><br><span class="line">            res+=words[i]+<span class="string">"#"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res.length;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<br>
-
+<p><br></p>
 
       
     </div>
@@ -1205,6 +1198,8 @@
   
 
   
+  
+
 
   
   <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>

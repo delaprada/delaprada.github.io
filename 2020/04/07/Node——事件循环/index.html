@@ -391,16 +391,10 @@
         <h2 id="异步IO"><a href="#异步IO" class="headerlink" title="异步IO"></a>异步IO</h2><p>异步IO是指操作系统提供的IO（数据进出）能力，比如键盘输入，对应到显示器上会有专门的数据输出接口，这就是我们生活中可见的IO能力；这个接口在向下会进入到操作系统这个层面，在操作系统中，会提供诸多的能力，比如：磁盘的读写，DNS的查询，数据库的连接啊，网络请求的处理，等等。</p>
 <p>在不同的操作系统层面，表现的不一致。有的是异步非阻塞的；有的是同步的阻塞的，无论如何，我们都可以看做是上层应用于下层系统之间的数据交互；上层依赖于下层，但是反过来，上层也可以对下层提供的这些能力进行改造。<strong>如果这种操作是异步的，非阻塞的，那么这种就是异步非阻塞的异步IO模型</strong>；<strong>如果是同步的阻塞的，那么就是同步IO模型</strong>。</p>
 <p><code>koa</code>就是一个上层的web服务框架，全部由JavaScript实现，他有操作系统之间的交互，全部通过<code>nodejs</code>来实现；如<code>nodejs</code>的 <code>readFile</code>就是一个异步非阻塞的接口，<code>readFileSync</code>就是一个同步阻塞接口。</p>
-<br>
-
-
-
+<p><br></p>
 <h2 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h2><p>事件循环是指<code>Node.js</code>执行非阻塞I/O操作，尽管JavaScript是单线程的,但由于大多数内核都是多线程的，node.js会尽可能将操作装载到系统内核。因此它们可以处理在后台执行的多个操作。当其中一个操作完成时，内核会告诉Node.js，以便node.js可以将相应的回调添加到轮询队列中以最终执行。</p>
 <p><code>Node.js</code>是单线程执行的，同时它又是基于<strong>事件驱动</strong>和<strong>非阻塞IO</strong>编程模型。这就使得我们不用等待异步操作结果返回，就可以继续往下执行代码。当异步事件触发之后，就会通知主线程，主线程执行相应事件的回调。</p>
-<br>
-
-
-
+<p><br></p>
 <h2 id="Node-js架构分析"><a href="#Node-js架构分析" class="headerlink" title="Node.js架构分析"></a>Node.js架构分析</h2><p>说道 Nodejs 架构, 首先要知道<code>Nodejs</code> 与 <code>V8</code> 和 <code>libUV</code> 的关系和作用:</p>
 <ul>
 <li><strong>V8:</strong> 执行 JS 的引擎. 也就是翻译 JS. 包括我们熟悉的编译优化, 垃圾回收等等.</li>
@@ -445,10 +439,7 @@
 <blockquote>
 <p>重点关注<code>timers</code>、<code>poll</code>、<code>check</code>三个阶段</p>
 </blockquote>
-<img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407093930.png" style="zoom: 50%;">
-
-
-
+<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20200407093930.png" style="zoom: 50%;"></p>
 <h3 id="步骤："><a href="#步骤：" class="headerlink" title="步骤："></a>步骤：</h3><ul>
 <li><p><code>node</code>的初始化</p>
 <ul>
@@ -529,7 +520,6 @@
 </blockquote>
 <h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="process-nextTick和Promise"><a href="#process-nextTick和Promise" class="headerlink" title="process.nextTick和Promise"></a><code>process.nextTick</code>和<code>Promise</code></h3><p>这个队列先保证所有的 <code>process.nextTick</code> 回调, 然后将所有的 <code>Promise</code> 回调追加在后面. 最终在每个 Phase 结束的时候一次性拿出来执行。</p>
 <h3 id="setTimeout-0-vs-setImmediate-到底谁快"><a href="#setTimeout-0-vs-setImmediate-到底谁快" class="headerlink" title="setTimeout(..., 0)vs. setImmediate 到底谁快?"></a><code>setTimeout(..., 0)</code>vs. <code>setImmediate</code> 到底谁快?</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// index.js</span></span><br><span class="line"></span><br><span class="line">setImmediate(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="number">2</span>))</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="number">1</span>),<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-
 <p>答案：可能是1 2，也可能是2 1。</p>
 <p>首先我们在初始化阶段会将<code>setImmediate</code>添加到<code>check phase</code>中，将<code>setTimeout</code>添加到<code>timer phase</code>中。</p>
 <ul>
@@ -544,12 +534,8 @@
 </ul>
 <p>如果把代码改为如下，则一定会得到稳定输出：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">'fs'</span>).readFile(<span class="string">'my-file-path.txt'</span>, () =&gt; &#123;</span><br><span class="line"> setImmediate(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="number">2</span>))</span><br><span class="line"> setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="number">1</span>))</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 2 1</span></span><br></pre></td></tr></table></figure>
-
 <p>因为消息在<code>poll phase</code>才会将<code>setImmediate</code>进入<code>check phase</code>，将<code>setTimeout</code>进入<code>timer phase</code>，那<code>poll</code>阶段后就回到<code>check</code>阶段，所以会输出2 1。</p>
 <h3 id="判断输出顺序"><a href="#判断输出顺序" class="headerlink" title="判断输出顺序"></a>判断输出顺序</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">setImmediate(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'setImmediate1'</span>);</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'setTimeout1'</span>)</span><br><span class="line">    &#125;, <span class="number">0</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">Promise</span>.resolve().then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'then'</span>);</span><br><span class="line">&#125;)</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    process.nextTick(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'nextTick'</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'setTimeout2'</span>);</span><br><span class="line">    setImmediate(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'setImmediate2'</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"><span class="comment">//then setTimeout2  nextTick  setImmediate1 setImmediate2 setTimeout1</span></span><br></pre></td></tr></table></figure>
-
-
-
 <p><code>step1</code>：初始化阶段</p>
 <ul>
 <li><code>setImmediate</code>进入<code>check phase</code>、<code>Promise.resolve().then</code>进入微任务<code>event queue</code>、<code>setTimeout</code>进入<code>timer phase</code>。</li>
@@ -573,13 +559,11 @@
 <ul>
 <li>执行<code>setTimeout</code>，输出<code>setTimeout1</code></li>
 </ul>
-<br>
-
+<p><br></p>
 <p>参考：</p>
 <p><a href="https://juejin.im/post/5b61d8e3e51d45191d7a28a8" target="_blank" rel="noopener">https://juejin.im/post/5b61d8e3e51d45191d7a28a8</a></p>
 <p><a href="https://www.jianshu.com/p/906eafb41ea6" target="_blank" rel="noopener">https://www.jianshu.com/p/906eafb41ea6</a></p>
-<br>
-
+<p><br></p>
 
       
     </div>
@@ -1383,6 +1367,8 @@
   
 
   
+  
+
 
   
   <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
