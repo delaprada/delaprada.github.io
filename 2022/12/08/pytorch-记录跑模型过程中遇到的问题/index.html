@@ -394,15 +394,18 @@
 </li>
 <li><p>设置 device_ids</p>
  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model = torch.nn.DataParallel(model, device_ids=[<span class="number">4</span>, <span class="number">5</span>]).cuda()</span><br></pre></td></tr></table></figure>
+
 <p> 然后就可以顺利使用多个 gpu 来跑模型啦。如果不按照上述几步来做，会报以下错误：</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AssertionError: Invalid device id</span><br></pre></td></tr></table></figure>
-</li>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AssertionError: Invalid device id</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h1 id="如何-kill-掉-vscode-仍然在跑的程序进程"><a href="#如何-kill-掉-vscode-仍然在跑的程序进程" class="headerlink" title="如何 kill 掉 vscode 仍然在跑的程序进程"></a>如何 kill 掉 vscode 仍然在跑的程序进程</h1><p>今天跑模型的时候发现 vscode 突然 disconnect 服务器了，导致整个正在跑的模型需要 reload，reload 完后 vscode 的 terminal 相当于重启了，模型按道理来说应该 terminate 了才对，但发现 gpu 还是被占满，说明 vscode 程序仍在背地里跑。</p>
 <p>解决办法：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pgrep -lf python</span><br></pre></td></tr></table></figure>
+
+
 <p>查看正在跑的 python 进程，list 对应属性如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">UID     PID   PPID  C STIME TTY      TIME     BIN            CMD</span><br><span class="line">user    3985  3960  0 19:46 pts/4    00:00:07 path/to/python python foo.py</span><br></pre></td></tr></table></figure>
+
 <p>然后 kill 掉对应进程即可。</p>
 <h1 id="GPU-利用率始终在-0-50-之间闪动"><a href="#GPU-利用率始终在-0-50-之间闪动" class="headerlink" title="GPU 利用率始终在 0-50% 之间闪动"></a>GPU 利用率始终在 0-50% 之间闪动</h1><p>参考：<a href="https://lry89757.github.io/2021/08/12/shen-du-xue-xi-gpu-li-yong-lu-di-wen-ti-fen-xi-zhuan/" target="_blank" rel="noopener">深度学习GPU利用率低问题分析</a></p>
 <p>参考的文章里大佬写的很详细了，GPU 内存占有率和 GPU 利用率是两回事。</p>
@@ -410,29 +413,37 @@
 <p>GPU 内存占有率主要由模型的大小决定，包括网络的深度、宽度、参数量以及中间的每一层缓存，都会在内存开辟空间来进行保存，所以模型本身会占据很大一部分内存。</p>
 <p>其次是 batch_size 的大小，batch_size 设置得越大，GPU 内存占有率越高。比如，batch_size 设置为 128 的内存占有率会是设置为 256 的一半。因此，如果跑模型的过程中报 “out of memory” 的错误，可以试着将 batch_size 设置得小一点。</p>
 <h2 id="GPU-利用率"><a href="#GPU-利用率" class="headerlink" title="GPU 利用率"></a>GPU 利用率</h2><img src="/2022/12/08/pytorch-%E8%AE%B0%E5%BD%95%E8%B7%91%E6%A8%A1%E5%9E%8B%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/1.jpg" class>
+
 <p>在命令行里执行 <code>watch -n 0.5 nvidia-smi</code> 能够展示当前服务器的 GPU 情况，其中 Memory-Usage 就是 GPU 内存占有率，而 Volatile GPU-Util 就是 GPU 利用率。</p>
 <p>当没有设置好CPU的线程数时，Volatile GPU-Util 参数是在反复的跳动的，0%，20%，70%，95%，0%。这样停息1-2秒然后又重复起来。其实是GPU在等待数据从CPU传输过来，当从总线传输到GPU之后，GPU逐渐起计算来，利用率会突然升高，但是GPU的算力很强大，0.5秒就基本能处理完数据，所以利用率接下来又会降下去，等待下一个batch的传入。因此，这个GPU利用率瓶颈在内存带宽和内存介质上以及CPU的性能上面。最好当然就是换更好的四代或者更强大的内存条，配合更好的CPU。</p>
 <p>另外的一个方法是，在PyTorch这个框架里面，数据加载Dataloader上做更改和优化，包括num_workers（线程数），pin_memory，会提升速度。解决好数据传输的带宽瓶颈和 GPU 的运算效率低的问题。在TensorFlow下面，也有这个加载数据的设置。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">torch.utils.data.DataLoader(image_datasets[x],</span><br><span class="line">                            batch_size=batch_size, </span><br><span class="line">                            shuffle=<span class="literal">True</span>,</span><br><span class="line">                            num_workers=<span class="number">8</span>,</span><br><span class="line">                            pin_memory=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
 <p>为了提高利用率，首先要将num_workers（线程数）设置得体，4,8,16是几个常选的几个参数。本人测试过，将num_workers设置的非常大，例如，24，32,等，其效率反而降低，因为模型需要将数据平均分配到几个子线程去进行预处理，分发等数据操作，设高了反而影响效率。</p>
 <p>当然，线程数设置为1，是单个CPU来进行数据的预处理和传输给GPU，效率也会低。其次，当你的服务器或者电脑的内存较大，性能较好的时候，建议打开pin_memory打开，就省掉了将数据从CPU传入到缓存RAM里面，再给传输到GPU上；为True时是直接映射到GPU的相关内存块上，省掉了一点数据传输时间。</p>
 <h2 id="设置了-num-workers-和-pin-memory-之后-GPU-利用率仍然很低怎么办"><a href="#设置了-num-workers-和-pin-memory-之后-GPU-利用率仍然很低怎么办" class="headerlink" title="设置了 num_workers 和 pin_memory 之后 GPU 利用率仍然很低怎么办"></a>设置了 <code>num_workers</code> 和 <code>pin_memory</code> 之后 GPU 利用率仍然很低怎么办</h2><p>我在设置了 num_workers 为 8 或 16 以及将 pin_memory 为 True 之后，Volatile GPU-Util 仍然在 0 - 50% 之间闪动，不能够一直维持在一个很高的利用率。</p>
 <p>在看了这篇 <a href="https://github.com/mx-mark/VideoTransformer-pytorch" target="_blank" rel="noopener">VideoTransformer-pytorch README.md</a> 之后，我发现里面提到，如果要提高 GPU 利用率，要避免 CPU 到 GPU 的转换计算（比如：在 tensor 上执行 item(), cpu(), .numpy() 的操作），或者将 log 写入磁盘。</p>
 <p>回看了一下自己的代码之后，发现计算 loss 的时候执行了 .item() 操作：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">losses.update(loss.item(), input.size(<span class="number">0</span>))</span><br></pre></td></tr></table></figure>
+
 <p>计算 accuracy 的时候执行了 .cpu() 操作：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_, avg_acc, cnt, pred = accuracy(output.detach().cpu().numpy(), target.detach().cpu().numpy())</span><br></pre></td></tr></table></figure>
+
 <p>并且每轮 iteration 都会将 log写入磁盘。</p>
 <p>因此导致了 GPU 利用率的闪动问题。（但这些可否避免？有待探索 ing）</p>
 <h1 id="RuntimeError-Attempting-to-deserialize-object-on-CUDA-device-3-but-torch-cuda-device-count-is-1-Please-use-torch-load-with-map-location-to-map-your-storages-to-an-existing-device"><a href="#RuntimeError-Attempting-to-deserialize-object-on-CUDA-device-3-but-torch-cuda-device-count-is-1-Please-use-torch-load-with-map-location-to-map-your-storages-to-an-existing-device" class="headerlink" title="RuntimeError: Attempting to deserialize object on CUDA device 3 but torch.cuda.device_count() is 1. Please use torch.load with map_location to map your storages to an existing device."></a><code>RuntimeError: Attempting to deserialize object on CUDA device 3 but torch.cuda.device_count() is 1. Please use torch.load with map_location to map your storages to an existing device</code>.</h1><p>出现这个报错的原因是，一开始设置了 <code>os.environ[&#39;CUDA_VISIBLE_DEVICES&#39;] = &#39;3&#39;</code> ，但是可用的 cuda device 只有 1 个。但后续将 <code>os.environ[&#39;CUDA_VISIBLE_DEVICES&#39;] 设置为 &#39;0&#39;</code>，但还是报同样的错误。这个是不合理的现象，猜测是更改没有生效。</p>
 <p>参考了这个问题的解答：<br><a href="https://discuss.pytorch.org/t/cuda-visible-device-is-of-no-use/10018/10" target="_blank" rel="noopener">https://discuss.pytorch.org/t/cuda-visible-device-is-of-no-use/10018/10</a></p>
 <img src="/2022/12/08/pytorch-%E8%AE%B0%E5%BD%95%E8%B7%91%E6%A8%A1%E5%9E%8B%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/2.jpg" class>
+
 <img src="/2022/12/08/pytorch-%E8%AE%B0%E5%BD%95%E8%B7%91%E6%A8%A1%E5%9E%8B%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/3.jpg" class>
+
+
 <p>简而言之就是：<code>os.environ[&#39;CUDA_VISIBLE_DEVICES&#39;]</code> 的设置要放在要执行的 program 之外，并且要放在 import torch 之前。<br>因此，我单独设置了一个 python 文件用于设置 <code>os.environ[&#39;CUDA_VISIBLE_DEVICES&#39;]</code>，然后切换一下 jupyter kernel，刷新 kernel，再执行 jupyter 文件，没有报错了。</p>
-<p>————————————————2022.12.06 更新———————————————————</p>
+<p>——————————–2022.12.06 更新————————————–</p>
 <p>发现之前对这个问题的理解还是有不足的地方。如果你的模型使用 gpu 5 号训练出来的，而你在一个只有 1 个可用 gpu 的机器上跑时，大概率会出现 <code>RuntimeError: Attempting to deserialize object on CUDA device 5 but torch.cuda.device_count() is 1.</code> 的报错。</p>
 <p>解决办法就是通过 map_location 指定当前可用的 gpu 是哪一块：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.load_state_dict(torch.load(cfg.TEST.MODEL_FILE, map_location=<span class="string">'cuda:0'</span>), strict=True)</span><br></pre></td></tr></table></figure>
+
 <p>更换 kernel 是一个比较好的方式如果当前的 jupyter notebook 没有识别到最新的更改。</p>
 
       

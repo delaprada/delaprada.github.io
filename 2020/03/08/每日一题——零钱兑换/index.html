@@ -129,12 +129,12 @@
 
 
 
-<meta name="description" content="零钱兑换给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。 示例 1: 123输入: coins &#x3D; [1, 2, 5], amount &#x3D; 11输出: 3 解释: 11 &#x3D; 5 + 5 + 1 示例 2: 12输入: coins &#x3D; [2],">
+<meta name="description" content="零钱兑换给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。 示例 1: 123输入: coins &#x3D; [1, 2, 5], amount &#x3D; 11输出: 3 解释: 11 &#x3D; 5 + 5 + 1    示例 2: 12输入: coins &#x3D; [2">
 <meta property="og:type" content="article">
 <meta property="og:title" content="每日一题——零钱兑换">
 <meta property="og:url" content="http://delaprada.com/2020/03/08/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E2%80%94%E2%80%94%E9%9B%B6%E9%92%B1%E5%85%91%E6%8D%A2/index.html">
 <meta property="og:site_name" content="Alice&#39;s  wonderland">
-<meta property="og:description" content="零钱兑换给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。 示例 1: 123输入: coins &#x3D; [1, 2, 5], amount &#x3D; 11输出: 3 解释: 11 &#x3D; 5 + 5 + 1 示例 2: 12输入: coins &#x3D; [2],">
+<meta property="og:description" content="零钱兑换给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。 示例 1: 123输入: coins &#x3D; [1, 2, 5], amount &#x3D; 11输出: 3 解释: 11 &#x3D; 5 + 5 + 1    示例 2: 12输入: coins &#x3D; [2">
 <meta property="article:published_time" content="2020-03-08T00:33:18.000Z">
 <meta property="article:modified_time" content="2020-03-08T00:38:38.000Z">
 <meta property="article:author" content="Alice">
@@ -383,12 +383,25 @@
         <h4 id="零钱兑换"><a href="#零钱兑换" class="headerlink" title="零钱兑换"></a><a href="https://leetcode-cn.com/problems/coin-change/" target="_blank" rel="noopener">零钱兑换</a></h4><p>给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。</p>
 <p>示例 1:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: coins &#x3D; [1, 2, 5], amount &#x3D; 11</span><br><span class="line">输出: 3 </span><br><span class="line">解释: 11 &#x3D; 5 + 5 + 1</span><br></pre></td></tr></table></figure>
+
+
+
 <p>示例 2:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: coins &#x3D; [2], amount &#x3D; 3</span><br><span class="line">输出: -1</span><br></pre></td></tr></table></figure>
+
+
+
 <p>说明:<br>你可以认为每种硬币的数量是无限的。</p>
 <p>思路：<br>动态规划的思想，每种硬币都找到当前自身的最优解，从而求出结果为amount时的最优解。在初始化的时候，要为每种金额的硬币声明一个初始的解，这个解应该是个比amount要大的值（因为解最大为amount）。这样我们在做结果判断的时候就可以知道，如果当前解是amount+1就说明没有组合能组成总金额。</p>
 <p>题解：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number[]&#125;</span> <span class="variable">coins</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;number&#125;</span> <span class="variable">amount</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;number&#125;</span></span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> coinChange = <span class="function"><span class="keyword">function</span>(<span class="params">coins, amount</span>) </span>&#123;</span><br><span class="line">    coins.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a-b;</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="built_in">console</span>.log(coins);</span><br><span class="line">    <span class="keyword">var</span> F=[];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;=amount;++i)&#123;</span><br><span class="line">        F[i]=amount+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    F[<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> j=<span class="number">0</span>;j&lt;=amount;++j)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> k=<span class="number">0</span>;k&lt;coins.length;++k)&#123;</span><br><span class="line">            <span class="keyword">if</span>(j&lt;coins[k])&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                F[j]=<span class="built_in">Math</span>.min(F[j-coins[k]]+<span class="number">1</span>,F[j]);  <span class="comment">//注意此处是F[j]</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> F[amount]!==amount+<span class="number">1</span>?F[amount]:<span class="number">-1</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
 
       
     </div>

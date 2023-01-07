@@ -404,16 +404,16 @@
         <blockquote>
 <p>最近在做毕业设计，用egg+mysql+sequelize+taro写一个小程序，因为没有用到微信的云开发，是自己搭建的后台，所以需要将后台项目部署到云服务器上。整个过程踩了不少坑，于是想写个流程以防忘记。</p>
 </blockquote>
-<h2 id="云服务器准备"><a href="#云服务器准备" class="headerlink" title="云服务器准备"></a>云服务器准备</h2><h3 id="购买云服务器"><a href="#购买云服务器" class="headerlink" title="购买云服务器"></a>购买云服务器</h3><p>可在腾讯云购买轻量应用服务器，学生的话可以购买校园云服务器，规格是cpu1核，内存2GB，系统盘40GB，对于我的项目来说应该够用了：<br><a href="https://cloud.tencent.com/act/campus?fromSource=gwzcw.1110252.1110252.1110252&amp;gclid=Cj0KCQiA4L2BBhCvARIsAO0SBdb7oOpn-mxK3fRq6pa841xfw9l8An7-ViduP8BaQNyJHA6tNFlJ5BUaAhbMEALw_wcB" target="_blank" rel="noopener">腾讯云校园云服务器</a><br><img src="https://img-blog.csdnimg.cn/img_convert/c01c8d4516e1a750d549a4cc89722943.png" alt></p>
+<h2 id="云服务器准备"><a href="#云服务器准备" class="headerlink" title="云服务器准备"></a>云服务器准备</h2><h3 id="购买云服务器"><a href="#购买云服务器" class="headerlink" title="购买云服务器"></a>购买云服务器</h3><p>可在腾讯云购买轻量应用服务器，学生的话可以购买校园云服务器，规格是cpu1核，内存2GB，系统盘40GB，对于我的项目来说应该够用了：<br><a href="https://cloud.tencent.com/act/campus?fromSource=gwzcw.1110252.1110252.1110252&gclid=Cj0KCQiA4L2BBhCvARIsAO0SBdb7oOpn-mxK3fRq6pa841xfw9l8An7-ViduP8BaQNyJHA6tNFlJ5BUaAhbMEALw_wcB" target="_blank" rel="noopener">腾讯云校园云服务器</a><br><img src="https://img-blog.csdnimg.cn/img_convert/c01c8d4516e1a750d549a4cc89722943.png"></p>
 <h3 id="注册域名"><a href="#注册域名" class="headerlink" title="注册域名"></a>注册域名</h3><p>微信小程序官方文档中表明，服务器域名只支持https，且不能使用ip地址，所以我们需要注册域名。</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/688aea7d208a7aef956f1239d4e3abb2.png" alt></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/688aea7d208a7aef956f1239d4e3abb2.png"></p>
 <p>域名购买完成后，需要实名认证，实名认证完成后才能进行下一步解析。</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/c72801f7c37de45abd73663643986b91.png" alt></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/c72801f7c37de45abd73663643986b91.png"></p>
 <p>不和ip配套使用的域名是没有任何意义的，所以我们需要将域名绑定到我们需要对外提供服务的服务器ip上。因此我们点击域名的解析操作，添加解析到你之前购买的服务器的ip上：</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/b9ed96b9e6a9c630e919181ba4d7b286.png" alt></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/b9ed96b9e6a9c630e919181ba4d7b286.png"></p>
 <p>可以到轻量云服务器控制台查看之前购买的云服务器的公网ip：</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/7fa69db8860a51762fce954b135b46dd.png" alt></p>
-<h3 id="申请SSL证书"><a href="#申请SSL证书" class="headerlink" title="申请SSL证书"></a>申请SSL证书</h3><p>上面提到，微信小程序官方规定域名必须是https，所以我们需要申请ssl证书，腾讯云可以免费申请ssl证书，证书也要添加到域名解析记录中：<br><img src="https://img-blog.csdnimg.cn/img_convert/c3295fe949f13f8714f12ec7b765ce14.png" alt><br>证书申请成功后先下载下来，以备后续使用：<br><img src="https://img-blog.csdnimg.cn/img_convert/3fa785df4f7d08b7b864985a646142f8.png" alt><br>证书下载下来后会有多种，我们后续会使用到nginx的证书。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/7fa69db8860a51762fce954b135b46dd.png"></p>
+<h3 id="申请SSL证书"><a href="#申请SSL证书" class="headerlink" title="申请SSL证书"></a>申请SSL证书</h3><p>上面提到，微信小程序官方规定域名必须是https，所以我们需要申请ssl证书，腾讯云可以免费申请ssl证书，证书也要添加到域名解析记录中：<br><img src="https://img-blog.csdnimg.cn/img_convert/c3295fe949f13f8714f12ec7b765ce14.png"><br>证书申请成功后先下载下来，以备后续使用：<br><img src="https://img-blog.csdnimg.cn/img_convert/3fa785df4f7d08b7b864985a646142f8.png"><br>证书下载下来后会有多种，我们后续会使用到nginx的证书。</p>
 <p>以上就完成好云服务器的准备工作了。<br><br></p>
 <h2 id="云服务器环境部署"><a href="#云服务器环境部署" class="headerlink" title="云服务器环境部署"></a>云服务器环境部署</h2><p>根据项目需求，我们要在云服务器上安装node、MySQL、nginx。</p>
 <h3 id="连接远程服务器"><a href="#连接远程服务器" class="headerlink" title="连接远程服务器"></a>连接远程服务器</h3><p> 连接远程服务器的意义在于，我们能够在本地对远程服务器进行操作，比如文件上传、安装包。这里我们需要安装两个应用：XShell和Xftp，XShell一般用于对远程服务器进行操作，Xftp一般用于文件上传。</p>
@@ -431,7 +431,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm</span><br></pre></td></tr></table></figure>
 <p>然后进行repo的安装：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh mysql57-community-release-el7-9.noarch.rpm</span><br></pre></td></tr></table></figure>
-<p>执行完成后会在/etc/yum.repos.d/目录下生成两个repo文件mysql-community.repo mysql-community-source.repo。</p>
+<p>执行完成后会在&#x2F;etc&#x2F;yum.repos.d&#x2F;目录下生成两个repo文件mysql-community.repo mysql-community-source.repo。</p>
 <h5 id="使用yum命令完成MySQL安装"><a href="#使用yum命令完成MySQL安装" class="headerlink" title="使用yum命令完成MySQL安装"></a>使用yum命令完成MySQL安装</h5><p>必须进入<code>/etc/yum.repos.d/</code>目录后再执行以下脚本。</p>
 <ol>
 <li>安装命令：<code>yum install mysql-server</code></li>
@@ -455,7 +455,9 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use miniprogram;</span><br></pre></td></tr></table></figure>
 <p>设置数据库编码：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> names utf8;</span><br></pre></td></tr></table></figure>
-<p><strong>step3</strong>：<br>将miniprogram.sql文件通过Xftp上传到云服务器上。我是现在root文件夹下新建user文件夹，并将.sql文件传输过去：<br><img src="https://img-blog.csdnimg.cn/img_convert/a14a1b55acf8bf4b76b9d1e73f547185.png" alt></p>
+
+
+<p><strong>step3</strong>：<br>将miniprogram.sql文件通过Xftp上传到云服务器上。我是现在root文件夹下新建user文件夹，并将.sql文件传输过去：<br><img src="https://img-blog.csdnimg.cn/img_convert/a14a1b55acf8bf4b76b9d1e73f547185.png"></p>
 <p><strong>step4</strong>：<br>第二步已经登录数据库，此处只需执行：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> /root/user/miniprogram.sql;</span><br></pre></td></tr></table></figure>
 <p>即可导入成功。</p>
@@ -463,37 +465,41 @@
 <h4 id="nginx安装"><a href="#nginx安装" class="headerlink" title="nginx安装"></a>nginx安装</h4><p>执行命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install nginx</span><br></pre></td></tr></table></figure>
 <p>安装完后输入<code>nginx -v</code>，若显示nginx版本号则表示安装成功。<br><br></p>
-<h4 id="上传SSL证书"><a href="#上传SSL证书" class="headerlink" title="上传SSL证书"></a>上传SSL证书</h4><p>在服务器新建目录: /data/release/nginx（/data文件本身存在，只需在里面新建release文件夹和nginx文件夹即可）</p>
+<h4 id="上传SSL证书"><a href="#上传SSL证书" class="headerlink" title="上传SSL证书"></a>上传SSL证书</h4><p>在服务器新建目录: &#x2F;data&#x2F;release&#x2F;nginx（&#x2F;data文件本身存在，只需在里面新建release文件夹和nginx文件夹即可）</p>
 <p>使用xftp将证书上传到该文件夹下：</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/fdc295822acd923dea56e3fb536cd6c1.png" alt></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/fdc295822acd923dea56e3fb536cd6c1.png"></p>
 <p>上传后在服务器上查询：</p>
 <p><img src="https://img-blog.csdnimg.cn/20210221110315475.png" alt="在这里插入图片描述"></p>
-<p>上传完证书后就可以开始配置nginx。进入服务器的/etc/nginx/conf.d目录，新建一个weapp.conf文件，将文件拷贝到本地，打开编辑，写入如下配置：</p>
+<p>上传完证书后就可以开始配置nginx。进入服务器的&#x2F;etc&#x2F;nginx&#x2F;conf.d目录，新建一个weapp.conf文件，将文件拷贝到本地，打开编辑，写入如下配置：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">upstream app_weapp &#123;</span><br><span class="line">    server localhost:7001; // 你的项目服务端启动的地址</span><br><span class="line">    keepalive 8;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">server &#123;</span><br><span class="line">    listen      80;</span><br><span class="line">    server_name www.miniprogram.ltd; // 你的域名</span><br><span class="line"> </span><br><span class="line">    rewrite ^(.*)$ https://<span class="variable">$server_name</span><span class="variable">$1</span> permanent;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">server &#123;</span><br><span class="line">    listen      443;</span><br><span class="line">    server_name www.miniprogram.ltd; // 你的域名</span><br><span class="line"> </span><br><span class="line">    ssl on;</span><br><span class="line"> </span><br><span class="line">    ssl_certificate           /data/release/nginx/1_miniprogram.ltd_bundle.crt; //你的证书</span><br><span class="line">    ssl_certificate_key       /data/release/nginx/2_miniprogram.ltd.key; // 你的证书</span><br><span class="line">    ssl_session_timeout       5m;</span><br><span class="line">    ssl_protocols             TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line">    ssl_ciphers               ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA;</span><br><span class="line">    ssl_session_cache         shared:SSL:50m;</span><br><span class="line">    ssl_prefer_server_ciphers on;</span><br><span class="line"> </span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass http://app_weapp;</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Upgrade <span class="variable">$http_upgrade</span>;</span><br><span class="line">        proxy_set_header Connection <span class="string">'upgrade'</span>;</span><br><span class="line">        proxy_set_header Host <span class="variable">$host</span>;</span><br><span class="line">        proxy_cache_bypass <span class="variable">$http_upgrade</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
 <p>nginx配置的upstream主要是实现负载均衡的效果。<br>简单来说就是：upstream按照轮询（默认）方式进行负载，每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器down掉，能自动剔除。<br>所以实际上你向域名发起请求，是会被转发到云服务器的后端服务器上的。详情可参考博客：<a href="https://www.cnblogs.com/muhy/p/10528449.html" target="_blank" rel="noopener">nginx使用upstream实现负载均衡</a>。</p>
-<p>修改好后将该文件上传至/etc/nginx/conf.d目录下，然后再XShell中输入nginx -t，如显示以下信息，则配置成功：</p>
+<p>修改好后将该文件上传至&#x2F;etc&#x2F;nginx&#x2F;conf.d目录下，然后再XShell中输入nginx -t，如显示以下信息，则配置成功：</p>
 <p><img src="https://img-blog.csdnimg.cn/2021022112295142.png" alt="在这里插入图片描述"></p>
-<p>配置成功后，输入nginx回车，即可启动nginx。此时通过配置的域名访问服务器（<a href="http://www.miniprogram.ltd），会显示Nginx详情页。" target="_blank" rel="noopener">http://www.miniprogram.ltd），会显示Nginx详情页。</a></p>
-<p>如果访问 <a href="http://你的域名/weapp/a" target="_blank" rel="noopener">http://你的域名/weapp/a</a> 会自动跳转到 HTTPS 上，并显示 502 Bad Gateway，则表示配置成功：<br><img src="https://img-blog.csdnimg.cn/20210221123436197.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTk3MzQxMA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>配置成功后，输入nginx回车，即可启动nginx。此时通过配置的域名访问服务器（<a href="http://www.miniprogram.ltd),会显示nginx详情页./" target="_blank" rel="noopener">http://www.miniprogram.ltd），会显示Nginx详情页。</a></p>
+<p>如果访问 http:&#x2F;&#x2F;你的域名&#x2F;weapp&#x2F;a 会自动跳转到 HTTPS 上，并显示 502 Bad Gateway，则表示配置成功：<br><img src="https://img-blog.csdnimg.cn/20210221123436197.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTk3MzQxMA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>如果上传的weapp.conf文件发生了修改，需要重启nginx：<code>nginx -s reload</code>。</p>
 <p>如果出现<code>nginx: [emerg] bind() to [::]:80 failed (98: Address already in use)</code>的报错，可以执行<code>netstat -ntpl</code>指令查看进程，将占用80端口的进程kill掉，或执行<code>fuser -n tcp 80</code>直接查看占用80端口的进程有哪些，依次kill掉即可。<br><br></p>
 <p>至此云服务器的环境已经完全搭建好了。<br><br></p>
-<h3 id="将服务端项目上传至云服务器"><a href="#将服务端项目上传至云服务器" class="headerlink" title="将服务端项目上传至云服务器"></a>将服务端项目上传至云服务器</h3><p>在服务器端创建目录/data/release/weapp（和上面存放nginx证书同目录），将服务端代码通过xftp传输到云服务器上（记得不要传node_modules）：<br><img src="https://img-blog.csdnimg.cn/img_convert/b9e278751a68db8649f93a7b876979d9.png" alt></p>
+<h3 id="将服务端项目上传至云服务器"><a href="#将服务端项目上传至云服务器" class="headerlink" title="将服务端项目上传至云服务器"></a>将服务端项目上传至云服务器</h3><p>在服务器端创建目录&#x2F;data&#x2F;release&#x2F;weapp（和上面存放nginx证书同目录），将服务端代码通过xftp传输到云服务器上（记得不要传node_modules）：<br><img src="https://img-blog.csdnimg.cn/img_convert/b9e278751a68db8649f93a7b876979d9.png"></p>
 <p>注意服务端数据库项目的配置部分，项目中用到sequelize构建数据库，需将配置的用户名和密码改为云服务器端MySQL的用户名和密码：</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/8f8aa0e05d212b7c0cf0f0cbbd61749e.png" alt></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/8f8aa0e05d212b7c0cf0f0cbbd61749e.png"></p>
 <p>上传完后，执行以下指令将npm源切换到淘宝镜像：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config <span class="built_in">set</span> registry https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
 <p>安装全局依赖：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --production</span><br></pre></td></tr></table></figure>
 <p>启动服务端：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/3157bd94e8bb0ca5865452702b8b9f00.png" alt></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/3157bd94e8bb0ca5865452702b8b9f00.png"></p>
 <p>服务端项目启动成功。</p>
-<p><br></p>
-<h3 id="云服务器防火墙开放7001端口"><a href="#云服务器防火墙开放7001端口" class="headerlink" title="云服务器防火墙开放7001端口"></a>云服务器防火墙开放7001端口</h3><p>此步骤很关键，否则无法访问服务端接口。在腾讯云轻量云服务器防火墙处添加规则，开放7001端口：<br><img src="https://img-blog.csdnimg.cn/img_convert/194f2977aa307742921ab084fcbb7922.png" alt></p>
-<p>因为目前域名还未备案成功，所以不能通过域名进行访问。此时只需启动mysql和服务端项目，不需要启动nginx来测试服务端接口：<br><img src="https://img-blog.csdnimg.cn/img_convert/37fb83a790e7d07678175c1286b75b77.png" alt><br><img src="https://img-blog.csdnimg.cn/img_convert/0c9e660c76d51628d13d130eaea26583.png" alt></p>
+<br>
+
+
+<h3 id="云服务器防火墙开放7001端口"><a href="#云服务器防火墙开放7001端口" class="headerlink" title="云服务器防火墙开放7001端口"></a>云服务器防火墙开放7001端口</h3><p>此步骤很关键，否则无法访问服务端接口。在腾讯云轻量云服务器防火墙处添加规则，开放7001端口：<br><img src="https://img-blog.csdnimg.cn/img_convert/194f2977aa307742921ab084fcbb7922.png"></p>
+<p>因为目前域名还未备案成功，所以不能通过域名进行访问。此时只需启动mysql和服务端项目，不需要启动nginx来测试服务端接口：<br><img src="https://img-blog.csdnimg.cn/img_convert/37fb83a790e7d07678175c1286b75b77.png"><br><img src="https://img-blog.csdnimg.cn/img_convert/0c9e660c76d51628d13d130eaea26583.png"></p>
 <h2 id="域名备案"><a href="#域名备案" class="headerlink" title="域名备案"></a>域名备案</h2><p>因为微信小程序官方文档中表明，服务器域名只支持https，且不能使用ip地址，所以我们需要注册域名的同时，还需要进行域名备案，这样才能正常访问服务端的接口。<br>域名备案流程大概是十多天左右，在此期间需要将域名解析暂停。我是在腾讯云上进行备案的，还挺顺利。</p>
-<p>备案完成后，进入云服务器，启动MySQL、nginx、项目，然后就可以顺利访问了：<br><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d30db18f261e45e18f734aece2b3d3dd~tplv-k3u1fbpfcp-watermark.image" alt></p>
+<p>备案完成后，进入云服务器，启动MySQL、nginx、项目，然后就可以顺利访问了：<br><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d30db18f261e45e18f734aece2b3d3dd~tplv-k3u1fbpfcp-watermark.image"></p>
 <p>有几点需要注意：</p>
 <ul>
 <li>此时不需要像用ip访问后台一样输入端口号了，域名前是http或https均可，因为nginx会将http重定向为https</li>
@@ -504,12 +510,17 @@
 <h3 id="debeaver连接远程数据库报错"><a href="#debeaver连接远程数据库报错" class="headerlink" title="debeaver连接远程数据库报错"></a><code>debeaver</code>连接远程数据库报错</h3><p>如果每次数据有变更都要将本地数据库的sql导出再导入远程数据库，就十分麻烦，但直接在<code>XShell</code>中操作远程数据库，在非可视化的界面输入各种数据库操作执行也十分繁琐，所以我们可以用<code>debeaver</code>连接远程数据库（<code>debeaver</code>既可以连接本地数据库也可以连接远程数据库进行操作）。</p>
 <p>但是按照本地数据库的链接方式来连接远程数据库时，会出现以下报错：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">message from server: &quot;Host &#39;221.4.34.96&#39; is not allowed to connect to this MySQL server&quot;</span><br></pre></td></tr></table></figure>
+
+
+
 <p>这是权限问题导致的，我们可以在远程数据库中修改对<code>Host &#39;221.4.34.96&#39;</code>的权限来解决：</p>
-<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/image-20210309112048949.png" alt></p>
+<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/image-20210309112048949.png"></p>
 <p>将其中的<code>123.123.123.123</code>改为你的<code>debeaver</code>ip：<code>221.4.34.96</code>。</p>
 <p>在这个过程中可能涉及密码不符合要求的问题，可以修改密码强度：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 查看当前安全变量值</span><br><span class="line">mysql&gt; SHOW VARIABLES LIKE &#39;validate_password%&#39;;</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 设置</span><br><span class="line">set global validate_password_policy&#x3D;0;</span><br><span class="line">set global validate_password_length&#x3D;4;</span><br></pre></td></tr></table></figure>
+
 <p>这样就能够将123456作为你的密码。</p>
 
       

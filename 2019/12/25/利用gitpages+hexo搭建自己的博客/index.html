@@ -129,12 +129,12 @@
 
 
 
-<meta name="description" content="前言从开始开始着手搭建到完成大概花了一个下午的时间，采坑不少，在此记录一下 第一步 准备工作node.js下载好，github有已注册的账号在github中新建一个repository，命名为：你的github名称.github.io（下面是我的仓库名称）： （有些博客直接让我们fork它们的项目，个人感觉这么做不太好，很多东西自己动手做一遍更好） 第二步 安装HexoHexo就是一个博客框架，官">
+<meta name="description" content="前言从开始开始着手搭建到完成大概花了一个下午的时间，采坑不少，在此记录一下 第一步 准备工作node.js下载好，github有已注册的账号在github中新建一个repository，命名为：你的github名称.github.io（下面是我的仓库名称）：   （有些博客直接让我们fork它们的项目，个人感觉这么做不太好，很多东西自己动手做一遍更好） 第二步 安装HexoHexo就是一个博客框架">
 <meta property="og:type" content="article">
 <meta property="og:title" content="利用gitpages+hexo搭建自己的博客">
 <meta property="og:url" content="http://delaprada.com/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/index.html">
 <meta property="og:site_name" content="Alice&#39;s  wonderland">
-<meta property="og:description" content="前言从开始开始着手搭建到完成大概花了一个下午的时间，采坑不少，在此记录一下 第一步 准备工作node.js下载好，github有已注册的账号在github中新建一个repository，命名为：你的github名称.github.io（下面是我的仓库名称）： （有些博客直接让我们fork它们的项目，个人感觉这么做不太好，很多东西自己动手做一遍更好） 第二步 安装HexoHexo就是一个博客框架，官">
+<meta property="og:description" content="前言从开始开始着手搭建到完成大概花了一个下午的时间，采坑不少，在此记录一下 第一步 准备工作node.js下载好，github有已注册的账号在github中新建一个repository，命名为：你的github名称.github.io（下面是我的仓库名称）：   （有些博客直接让我们fork它们的项目，个人感觉这么做不太好，很多东西自己动手做一遍更好） 第二步 安装HexoHexo就是一个博客框架">
 <meta property="og:image" content="http://delaprada.com/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/1.png">
 <meta property="og:image" content="http://delaprada.com/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/2.png">
 <meta property="og:image" content="http://delaprada.com/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/3.png">
@@ -395,28 +395,56 @@
 
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>从开始开始着手搭建到完成大概花了一个下午的时间，采坑不少，在此记录一下</p>
-<h2 id="第一步-准备工作"><a href="#第一步-准备工作" class="headerlink" title="第一步 准备工作"></a>第一步 准备工作</h2><p>node.js下载好，github有已注册的账号<br>在github中新建一个repository，命名为：你的github名称.github.io（下面是我的仓库名称）：<br><img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/1.png" class></p>
+<h2 id="第一步-准备工作"><a href="#第一步-准备工作" class="headerlink" title="第一步 准备工作"></a>第一步 准备工作</h2><p>node.js下载好，github有已注册的账号<br>在github中新建一个repository，命名为：你的github名称.github.io（下面是我的仓库名称）：</p>
+<img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/1.png" class>
+
 <p>（有些博客直接让我们fork它们的项目，个人感觉这么做不太好，很多东西自己动手做一遍更好）</p>
 <h2 id="第二步-安装Hexo"><a href="#第二步-安装Hexo" class="headerlink" title="第二步 安装Hexo"></a>第二步 安装Hexo</h2><p>Hexo就是一个博客框架，官网上也有安装教程<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">Hexo官网</a></p>
 <p><strong>step1</strong>：windows系统鼠标右键git bash，输入两个安装指令：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g   &#x2F;&#x2F;用于安装hexo</span><br><span class="line">npm install hexo-deployer-git --save   &#x2F;&#x2F;用于安装hexo部署到git page的deployer</span><br></pre></td></tr></table></figure>
-<p><strong>step2</strong>：创建hexo文件夹<br>hexo安装完成之后，在电脑中新建一个hexo文件夹：<br><img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/2.png" class></p>
+
+
+
+<p><strong>step2</strong>：创建hexo文件夹<br>hexo安装完成之后，在电脑中新建一个hexo文件夹：</p>
+<img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/2.png" class>
+
 <p>右键点击git bash，输入两个命令：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo init</span><br><span class="line">npm install   &#x2F;&#x2F;安装所有package.json里的包</span><br></pre></td></tr></table></figure>
-<p>执行完成后，hexo文件夹中会多出一些文件：<br><img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/3.png" class></p>
+<p>执行完成后，hexo文件夹中会多出一些文件：</p>
+<img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/3.png" class>
+
+
+
 <p>如果想看本地效果的话，执行以下指令：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo generate  &#x2F;&#x2F;自动将md文件生成静态html，css文件</span><br><span class="line">hexo server  &#x2F;&#x2F;启动本地hexo服务器（localhost:4000）</span><br></pre></td></tr></table></figure>
+
+
 <p>打开 localhost:4000就可以看到页面啦：</p>
 <img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/4.png" class>
+
 <p>（页面会不太一样，我的配了一下主题）</p>
 <h2 id="第三步-了解hexo文件夹中的-config-yml"><a href="#第三步-了解hexo文件夹中的-config-yml" class="headerlink" title="第三步 了解hexo文件夹中的_config.yml"></a>第三步 了解hexo文件夹中的_config.yml</h2><p>hexo文件夹中比较重要的文件是：_config.yml：</p>
 <img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/5.png" class>
+
+
+
 <p>它是一个全局配置文件，包括和github上传链接都在这里配置，例如title之类的：</p>
 <img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/6.png" class>
+
+
+
+
+
 <h2 id="第四步-本地上传到github"><a href="#第四步-本地上传到github" class="headerlink" title="第四步 本地上传到github"></a>第四步 本地上传到github</h2><p><strong>step1</strong>：执行命令，安装deploy.git插件</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+
+
 <p><strong>step2</strong>：在主题配置文件_config.yml中修改仓库地址，在_config.yml最下面一行（注意每个冒号后面都有一个空格）</p>
 <img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/7.png" class>
+
+
+
 <p><strong>step3</strong>：配置提交github认证方式<br>执行指令：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure>
 <p>直接提交到github仓库中，如果没有认证github和本地的关系，会提示输入用户名和密码</p>
@@ -424,19 +452,31 @@
 <h2 id="第五步-添加域名"><a href="#第五步-添加域名" class="headerlink" title="第五步 添加域名"></a>第五步 添加域名</h2><p>在阿里云中购买了一个.com的域名（加优惠一年23块，虽然比其他贵一些但是觉得.com好听一些(#^ . ^#)）</p>
 <p><strong>step1</strong>：cmd ping一下github.io获得真实ip地址</p>
 <img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/8.png" class>
+
+
+
 <p><strong>step2：</strong>然后再域名操作栏点击解析，添加记录</p>
 <img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/9.png" class>
+
 <p>注意要两个都要添加（之前一开始只添加了www不知道为啥就显示不出来）</p>
 <p><strong>step3</strong>：去hexo文件夹的source目录下新建名为CNAME的文件，添加文件内容为你刚才购买的域名，不要添加www</p>
 <img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/10.png" class>
+
+
+
 <p><strong>step4：</strong>然后部署</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> hexo clean</span><br><span class="line"><span class="number">2.</span> hexo generate</span><br><span class="line"><span class="number">3.</span> hexo deploy</span><br></pre></td></tr></table></figure>
 <p>（每次做出更改建议都部署一遍）</p>
-<p><strong>step5：</strong>点击设置，拉到下面，在custom domain中输入你的域名。如果上面的信息不是显示Your site is published at <a href="https://xxx.com/，而是dns的之类的错误，可能是域名还没有实名认证" target="_blank" rel="noopener">https://xxx.com/，而是dns的之类的错误，可能是域名还没有实名认证</a></p>
+<p><strong>step5：</strong>点击设置，拉到下面，在custom domain中输入你的域名。如果上面的信息不是显示Your site is published at <a href="https://xxx.com/%EF%BC%8C%E8%80%8C%E6%98%AFdns%E7%9A%84%E4%B9%8B%E7%B1%BB%E7%9A%84%E9%94%99%E8%AF%AF%EF%BC%8C%E5%8F%AF%E8%83%BD%E6%98%AF%E5%9F%9F%E5%90%8D%E8%BF%98%E6%B2%A1%E6%9C%89%E5%AE%9E%E5%90%8D%E8%AE%A4%E8%AF%81" target="_blank" rel="noopener">https://xxx.com/，而是dns的之类的错误，可能是域名还没有实名认证</a></p>
 <img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/12.png" class>
+
 <img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/11.png" class>
+
+
+
 <p>输入域名，成功：</p>
 <img src="/2019/12/25/%E5%88%A9%E7%94%A8gitpages+hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/13.png" class>
+
 
       
     </div>

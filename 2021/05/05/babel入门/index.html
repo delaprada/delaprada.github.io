@@ -396,19 +396,23 @@
 </li>
 <li><p>运行命令将<code>src</code>目录下的所有代码编译到<code>lib</code>目录</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./node_modules/.bin/babel src --out-dir lib</span><br></pre></td></tr></table></figure>
-<p>你可以利用 npm@5.2.0 所自带的 npm 包运行器将 <code>./node_modules/.bin/babel</code> 命令缩短为 <code>npx babel</code>。</p>
+
+<p>你可以利用 <a href="mailto:&#110;&#x70;&#x6d;&#64;&#53;&#46;&#50;&#x2e;&#x30;">&#110;&#x70;&#x6d;&#64;&#53;&#46;&#50;&#x2e;&#x30;</a> 所自带的 npm 包运行器将 <code>./node_modules/.bin/babel</code> 命令缩短为 <code>npx babel</code>。</p>
 </li>
 </ol>
 <ul>
-<li>babel的核心功能在@babel/core模块中</li>
-<li>@babel/cli是一个能够从终端（命令行）使用的工具（比如上面的<code>--out-dir</code>参数）。可以通过<code>--help</code>参数来查看命令行工具所能接受的所有参数列表，最重要的是<code>--plugins</code>和<code>--presets</code>这两个参数</li>
+<li>babel的核心功能在@babel&#x2F;core模块中</li>
+<li>@babel&#x2F;cli是一个能够从终端（命令行）使用的工具（比如上面的<code>--out-dir</code>参数）。可以通过<code>--help</code>参数来查看命令行工具所能接受的所有参数列表，最重要的是<code>--plugins</code>和<code>--presets</code>这两个参数</li>
 </ul>
 <h2 id="插件（plugins）和预设（preset）"><a href="#插件（plugins）和预设（preset）" class="headerlink" title="插件（plugins）和预设（preset）"></a>插件（plugins）和预设（preset）</h2><h3 id="plugins"><a href="#plugins" class="headerlink" title="plugins"></a>plugins</h3><p>babel的代码转换功能是以插件的形式出现的。插件是小型的JS程序，用于指导babel如何对代码进行转换。</p>
-<p>例如将ES6及以上的语法转换为ES5语法，可以使用诸如@babel/plugin-transform-arrow-functions之类的官方插件。</p>
+<p>例如将ES6及以上的语法转换为ES5语法，可以使用诸如@babel&#x2F;plugin-transform-arrow-functions之类的官方插件。</p>
 <h3 id="preset"><a href="#preset" class="headerlink" title="preset"></a>preset</h3><p>因为如果每次都要开发者一个个添加并安装插件，配置文件会很长，并且安装时间也会很长。</p>
 <p>preset是一组预先设定的插件。我们可以根据自己所需要的插件组合创建一个自己的preset并将其分享出去。</p>
 <p>preset包括：env、react、flow、minify等。这里最重要的是env。</p>
-<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210505162507.png" style="zoom:80%;"></p>
+<img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20210505162507.png" style="zoom:80%;">
+
+
+
 <p>在执行顺序方面，原则是：</p>
 <ul>
 <li>plugin会在preset之前运行</li>
@@ -417,19 +421,25 @@
 </ul>
 <p>例如，在这里我们使用一个名称为<code>env</code>的preset：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev @babel/preset-env</span><br><span class="line"></span><br><span class="line">./node_modules/.bin/babel src --out-dir lib --presets=@babel/env</span><br></pre></td></tr></table></figure>
+
+
+
 <p>如果不进行任何配置，上述preset所包含的插件将支持所有最新的JS（ES2015、ES2016等）特性。</p>
 <p>但preset也是支持参数的，我们可以通过配置文件来传递参数。</p>
 <h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>例如下面这个<code>babel.config.json</code>：</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"presets"</span>: [</span><br><span class="line">    [</span><br><span class="line">      <span class="string">"@babel/env"</span>,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"targets"</span>: &#123;</span><br><span class="line">          <span class="attr">"edge"</span>: <span class="string">"17"</span>,</span><br><span class="line">          <span class="attr">"firefox"</span>: <span class="string">"60"</span>,</span><br><span class="line">          <span class="attr">"chrome"</span>: <span class="string">"67"</span>,</span><br><span class="line">          <span class="attr">"safari"</span>: <span class="string">"11.1"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>现在，名为 <code>env</code> 的 preset 只会为目标浏览器中没有的功能加载转换插件。</p>
 <h3 id="env"><a href="#env" class="headerlink" title="env"></a>env</h3><p>env是最为常用也是最重要的。env的核心目的是通过配置得知目标环境的特点，然后只做必要的转换。</p>
 <p>例如目标浏览器是支持ES2015的，那么就不需要ES2015这个preset，于是代码就可以小一点（一般转化后的代码总会更长），构建时间也可以缩短一些。</p>
 <p>如果不写任何配置项，env等价于latest，等价于ES2015 + ES2016 + ES2017 三个相加。</p>
 <p>比较常用的配置方法如下：</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"presets"</span>: [</span><br><span class="line">    [<span class="string">"env"</span>, &#123;</span><br><span class="line">      <span class="attr">"targets"</span>: &#123;</span><br><span class="line">        <span class="attr">"browsers"</span>: [<span class="string">"last 2 versions"</span>, <span class="string">"safari &gt;= 7"</span>]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;]</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>如上配置将考虑所有浏览器的最新2个版本(safari大于等于7.0的版本)的特性，将必要的代码进行转换。而这些版本已有的功能就不进行转化了。</p>
 <p>另一种配置如下：</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"presets"</span>: [</span><br><span class="line">    [<span class="string">"env"</span>, &#123;</span><br><span class="line">      <span class="attr">"targets"</span>: &#123;</span><br><span class="line">        <span class="attr">"node"</span>: <span class="string">"6.10"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;]</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>如上配置将目标设置为 nodejs，并且支持 6.10 及以上的版本。也可以使用 <code>node: &#39;current&#39;</code> 来支持最新稳定版本。例如箭头函数在 nodejs 6 及以上将不被转化，但如果是 nodejs 0.12 就会被转化了。</p>
 <h3 id="配套工具"><a href="#配套工具" class="headerlink" title="配套工具"></a>配套工具</h3><h4 id="babel-polyfill"><a href="#babel-polyfill" class="headerlink" title="babel-polyfill"></a>babel-polyfill</h4><p><strong>babel默认只转换js语法，而不转换新的API</strong>，比如Iterator、Generator、Set、Map、Proxy、Reflect、Symbol、Promise等全局对象，以及一些定义在全局对象上的方法（比如Object.assign）都不会转码。</p>
 <p>比如，ES2015在Array对象上新增了Array.from方法，babel不会转码这个方法。如果想让这个方法运行，必须使用<code>babel-polyfill</code>（内部集成了<code>core-js</code>和<code>regenerator</code>）。</p>
@@ -447,7 +457,7 @@
 <ol>
 <li><code>core-js</code>: 转换一些内置类 (<code>Promise</code>, <code>Symbols</code>等等) 和静态方法 (<code>Array.from</code> 等)。绝大部分转换是这里做的。自动引入。</li>
 <li><code>regenerator</code>: 作为 <code>core-js</code> 的拾遗补漏，主要是 <code>generator/yield</code> 和 <code>async/await</code> 两组的支持。当代码中有使用 <code>generators/async</code> 时自动引入。</li>
-<li>helpers,  <code>asyncToGenerator</code> 就是其中之一，其他还有如 <code>jsx</code>, <code>classCallCheck</code> 等等，可以查看 <a href="https://link.zhihu.com/?target=https%3A//github.com/babel/babel/blob/6.x/packages/babel-helpers/src/helpers.js">babel-helpers</a>。</li>
+<li>helpers,  <code>asyncToGenerator</code> 就是其中之一，其他还有如 <code>jsx</code>, <code>classCallCheck</code> 等等，可以查看 <a href="https://link.zhihu.com/?target=https://github.com/babel/babel/blob/6.x/packages/babel-helpers/src/helpers.js">babel-helpers</a>。</li>
 </ol>
 <p><code>babel-plugin-transform-runtime</code> <strong>不支持</strong> 实例方法 (例如 <code>[1,2,3].includes(1)</code>)</p>
 <p>其他插件的总结：</p>

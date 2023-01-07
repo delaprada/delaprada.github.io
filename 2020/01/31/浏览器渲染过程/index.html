@@ -129,12 +129,12 @@
 
 
 
-<meta name="description" content="浏览器渲染的过程主要包括以下5步 浏览器将获取的HTML文档解析为DOM树 处理CSS标记，构成CSS规则树 将DOM树和CSS规则树合并为渲染树（rendering tree），生成渲染树 渲染树布局，确定每个节点对象在页面上的确切大小和位置 将渲染树的各个节点绘制到屏幕上    具体流程构建DOM树当浏览器接受到服务器响应来的HTML文档后，会遍历文档节点，生成DOM树。注意：DOM树在构建的">
+<meta name="description" content="浏览器渲染的过程主要包括以下5步 浏览器将获取的HTML文档解析为DOM树 处理CSS标记，构成CSS规则树 将DOM树和CSS规则树合并为渲染树（rendering tree），生成渲染树 渲染树布局，确定每个节点对象在页面上的确切大小和位置 将渲染树的各个节点绘制到屏幕上        具体流程构建DOM树当浏览器接受到服务器响应来的HTML文档后，会遍历文档节点，生成DOM树。注意：DOM树">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浏览器渲染过程">
 <meta property="og:url" content="http://delaprada.com/2020/01/31/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Alice&#39;s  wonderland">
-<meta property="og:description" content="浏览器渲染的过程主要包括以下5步 浏览器将获取的HTML文档解析为DOM树 处理CSS标记，构成CSS规则树 将DOM树和CSS规则树合并为渲染树（rendering tree），生成渲染树 渲染树布局，确定每个节点对象在页面上的确切大小和位置 将渲染树的各个节点绘制到屏幕上    具体流程构建DOM树当浏览器接受到服务器响应来的HTML文档后，会遍历文档节点，生成DOM树。注意：DOM树在构建的">
+<meta property="og:description" content="浏览器渲染的过程主要包括以下5步 浏览器将获取的HTML文档解析为DOM树 处理CSS标记，构成CSS规则树 将DOM树和CSS规则树合并为渲染树（rendering tree），生成渲染树 渲染树布局，确定每个节点对象在页面上的确切大小和位置 将渲染树的各个节点绘制到屏幕上        具体流程构建DOM树当浏览器接受到服务器响应来的HTML文档后，会遍历文档节点，生成DOM树。注意：DOM树">
 <meta property="og:image" content="http://delaprada.com/2020/01/31/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B/1.png">
 <meta property="og:image" content="http://delaprada.com/2020/01/31/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B/2.png">
 <meta property="og:image" content="http://delaprada.com/2020/01/31/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B/3.png">
@@ -396,23 +396,25 @@
 <li>将渲染树的各个节点绘制到屏幕上</li>
 </ol>
 <img src="/2020/01/31/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B/1.png" class>
-<p><br></p>
+
+<br>
+
+
+
 <h2 id="具体流程"><a href="#具体流程" class="headerlink" title="具体流程"></a>具体流程</h2><h3 id="构建DOM树"><a href="#构建DOM树" class="headerlink" title="构建DOM树"></a>构建DOM树</h3><p>当浏览器接受到服务器响应来的HTML文档后，会遍历文档节点，生成DOM树。注意：DOM树在构建的过程中可能会被CSS和JS的加载而执行阻塞。</p>
 <h3 id="构建CSS规则树"><a href="#构建CSS规则树" class="headerlink" title="构建CSS规则树"></a>构建CSS规则树</h3><p>浏览器解析CSS文件并生成CSS规则树。注意：CSS解析可以与DOM解析同时执行，但与<code>script</code>的执行互斥。</p>
 <h3 id="构建渲染树（Render-Tree）"><a href="#构建渲染树（Render-Tree）" class="headerlink" title="构建渲染树（Render Tree）"></a>构建渲染树（Render Tree）</h3><p>通过DOM树和CSS规则树，浏览器可以通过它们构建渲染树。浏览器会先从DOM树的根节点开始遍历每个可见节点，然后对每个可见节点找到适配的CSS样式规则并应用。</p>
 <p>渲染树生成后，还不能渲染到屏幕上。因为渲染到屏幕上需要得到各个节点的位置信息，这就需要布局的处理。</p>
 <h3 id="渲染树布局"><a href="#渲染树布局" class="headerlink" title="渲染树布局"></a>渲染树布局</h3><p>布局阶段从渲染树的根节点开始遍历，渲染树的每个节点都是一个Render Object对象，包含宽高，位置，背景色等样式信息。浏览器通过这些样式信息来确定每个节点对象在页面上的确切大小和位置。</p>
 <h3 id="渲染树绘制"><a href="#渲染树绘制" class="headerlink" title="渲染树绘制"></a>渲染树绘制</h3><p>将渲染树绘制到浏览器上。</p>
-<h4 id="主流的一些浏览器排版（渲染）引擎"><a href="#主流的一些浏览器排版（渲染）引擎" class="headerlink" title="主流的一些浏览器排版（渲染）引擎"></a>主流的一些浏览器排版（渲染）引擎</h4><div class="table-container">
-<table>
+<h4 id="主流的一些浏览器排版（渲染）引擎"><a href="#主流的一些浏览器排版（渲染）引擎" class="headerlink" title="主流的一些浏览器排版（渲染）引擎"></a>主流的一些浏览器排版（渲染）引擎</h4><table>
 <thead>
 <tr>
 <th>浏览器</th>
 <th>排版引擎</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>Chrome Opera</td>
 <td>Blink</td>
 </tr>
@@ -428,28 +430,46 @@
 <td>Safari</td>
 <td>WebKit</td>
 </tr>
-</tbody>
-</table>
-</div>
-<p><br></p>
+</tbody></table>
+<br>
+
+
+
 <h2 id="渲染阻塞"><a href="#渲染阻塞" class="headerlink" title="渲染阻塞"></a>渲染阻塞</h2><p>渲染阻塞的原因：由于JavaScript可以操作DOM来修改DOM结构，可以操作CSS规则树来修改节点样式，这就导致浏览器在遇到<code>&lt;script&gt;</code>标签时，DOM构建将暂停，直到脚本完成执行，然后继续构建DOM。如果脚本是外部的，会等待脚本下载完毕，再继续解析文档。</p>
 <p>现在可以通过在<code>&lt;script&gt;</code>标签上增加属性<code>defer</code>或者<code>async</code>，解决上述问题。这两个属性使得<code>script</code>标签不会阻塞DOM的渲染，<strong>能够异步加载script脚本，不阻塞DOM渲染</strong>。</p>
 <h3 id="defer"><a href="#defer" class="headerlink" title="defer"></a><code>defer</code></h3><p>如果<code>script</code>标签设置了该属性，浏览器则会异步地下载该文件并且不会影响到后续DOM的渲染。如果有多个设置了defer的script标签存在，则会按照顺序执行所有的script。（defer按script脚本的声明顺序执行）</p>
 <p>使用方法：</p>
 <img src="/2020/01/31/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B/2.png" class>
+
+
+
 <h3 id="async"><a href="#async" class="headerlink" title="async"></a><code>async</code></h3><p><code>async</code>的设置，会使得<code>script</code>脚本异步加载。<code>async</code>的执行，不会按照script在页面中的顺序来执行，而是谁先加载完谁执行（此处与defer有所不同）。</p>
 <img src="/2020/01/31/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B/3.png" class>
+
 <p>用图表来展示：</p>
 <p><strong>文档渲染 应该为 文档解析</strong></p>
 <img src="/2020/01/31/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B/4.png" class>
+
+
+
 <h4 id="普通的script"><a href="#普通的script" class="headerlink" title="普通的script"></a>普通的script</h4><p>文档解析的过程中，如果遇到<code>script</code>脚本，就会停止页面的解析进行下载。</p>
 <p>资源的下载是在解析过程中进行的，虽说<code>script1</code>脚本会很快的加载完毕，但是他前边的<code>script2</code>并没有加载&amp;执行，所以他只能处于一个挂起的状态，等待<code>script2</code>执行完毕后再执行。<br>当这两个脚本都执行完毕后，才会继续解析页面。</p>
 <img src="/2020/01/31/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B/5.png" class>
+
+
+
 <h4 id="defer-1"><a href="#defer-1" class="headerlink" title="defer"></a><code>defer</code></h4><p>文档解析时，遇到设置了<code>defer</code>的脚本，就会在后台进行下载，但是并不会阻止文档的渲染，当页面解析&amp;渲染完毕后。<br>会等到所有的<code>defer</code>脚本加载完毕并按照顺序执行，执行完毕后会触发<code>DOMContentLoaded</code>事件。</p>
 <img src="/2020/01/31/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B/6.png" class>
+
+
+
 <h4 id="async-1"><a href="#async-1" class="headerlink" title="async"></a><code>async</code></h4><p><code>async</code>脚本会在加载完毕后执行。<br><code>async</code>脚本的加载不计入<code>DOMContentLoaded</code>事件统计，也就是说下图两种情况都是有可能发生的。</p>
 <img src="/2020/01/31/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B/7.png" class>
-<p><br></p>
+
+<br>
+
+
+
 <h2 id="浏览器的回流与重绘"><a href="#浏览器的回流与重绘" class="headerlink" title="浏览器的回流与重绘"></a>浏览器的回流与重绘</h2><p><code>回流</code>：对于整个网页重新渲染一遍。</p>
 <ul>
 <li>会导致回流的操作有：<ul>
@@ -466,7 +486,7 @@
 <p><code>重绘</code>：浏览器只需要对某个元素进行重新绘制即可</p>
 <ul>
 <li>会导致重绘的操作有：<ul>
-<li>修改<code>color</code>/<code>background-color</code>/<code>visibility</code></li>
+<li>修改<code>color</code>&#x2F;<code>background-color</code>&#x2F;<code>visibility</code></li>
 </ul>
 </li>
 </ul>
@@ -485,7 +505,7 @@
 <li>避免频繁操作样式</li>
 <li>避免频繁操作DOM。创建一个<code>documentFragment</code>，在它上面应用所有的DOM操作，最后再把它添加到文档中</li>
 <li>也可以先为元素设置<code>display: none</code>，操作结束后再把它显示出来。因为在<code>display</code>属性为<code>none</code>的元素上进行<code>DOM</code>操作不会引发回流和重绘。</li>
-<li>避免频繁读取会引发回流/重绘的属性，如果确实需要多次使用，就用一个变量缓存起来。</li>
+<li>避免频繁读取会引发回流&#x2F;重绘的属性，如果确实需要多次使用，就用一个变量缓存起来。</li>
 <li>对具有复杂动画的元素使用绝对定位，使它脱离文档流，否则会引起父元素及后续元素频繁回流。</li>
 </ul>
 <h2 id="DOM-CSS-JS之间的关系"><a href="#DOM-CSS-JS之间的关系" class="headerlink" title="DOM CSS JS之间的关系"></a>DOM CSS JS之间的关系</h2><ul>
@@ -498,7 +518,8 @@
 </ul>
 <p>所以<code>&lt;script&gt;</code>最好放在底部，<code>&lt;link&gt;</code>最好放在头部，是因为JS会阻塞DOM树的解析，CSS不会阻塞DOM树的解析。</p>
 <p>如果头部同时有<code>&lt;script&gt;</code>和<code>&lt;link&gt;</code>的情况下，最好将<code>&lt;script&gt;</code>放在<code>&lt;link&gt;</code>上面，是因为JS会等待CSS加载完毕后才会执行，但是放在头部的JS一般不会对样式进行查询修改，所以放在前面没有太大影响（比如说引入VUE的CDN的js代码就会在头部，但是和CSS样式是无关的）</p>
-<p><br></p>
+<br>
+
 <p>参考：</p>
 <p><a href="https://www.cnblogs.com/jiasm/p/7683930.html" target="_blank" rel="noopener">https://www.cnblogs.com/jiasm/p/7683930.html</a></p>
 <p><a href="https://www.jianshu.com/p/e6252dc9be32" target="_blank" rel="noopener">https://www.jianshu.com/p/e6252dc9be32</a></p>

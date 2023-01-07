@@ -400,8 +400,9 @@
 <p>Q：http协议为无状态协议，如何记住用户的状态？</p>
 <p>A：无状态协议的好处是快速，但是有时我想要记住用户的状态（比如：登录状态）。此时我们可以使用cookie或者session记录用户的浏览状态信息，用户身份信息。</p>
 </blockquote>
-<p><br></p>
-<h1 id="http请求-响应报文"><a href="#http请求-响应报文" class="headerlink" title="http请求/响应报文"></a>http请求/响应报文</h1><h2 id="请求报文"><a href="#请求报文" class="headerlink" title="请求报文"></a>请求报文</h2><ul>
+<br>
+
+<h1 id="http请求-x2F-响应报文"><a href="#http请求-x2F-响应报文" class="headerlink" title="http请求&#x2F;响应报文"></a>http请求&#x2F;响应报文</h1><h2 id="请求报文"><a href="#请求报文" class="headerlink" title="请求报文"></a>请求报文</h2><ul>
 <li>由4个部分组成：请求行、请求头、空行、请求体</li>
 <li>请求行由3个字段组成：请求方法、URL字段、HTTP协议版本字段<ul>
 <li>请求方法有：GET、HEAD、POST、PUT、DELETE</li>
@@ -418,7 +419,8 @@
 <li>响应行：由协议版本、状态码、状态描述构成</li>
 </ul>
 <p><img src="http://www.2cto.com/uploadfile/Collfiles/20160921/20160921092902557.jpg" alt="这里写图片描述"></p>
-<p><br></p>
+<br>
+
 <h1 id="http状态码"><a href="#http状态码" class="headerlink" title="http状态码"></a>http状态码</h1><p>1XX 通知</p>
 <p>2XX 成功</p>
 <p>3XX 重定向</p>
@@ -428,6 +430,7 @@
 <p>例如：客户端有一个较大的文件需要上传并保存，但是客户端不知道服务器是否愿意接受这个文件，所以希望在消耗网络资源进行传输之前，先询问一下服务器的意愿。</p>
 <p>实际操作为客户端发送一条特殊的请求报文，报文的头部应包含：</p>
 <figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Expect</span>: 100-continue</span><br></pre></td></tr></table></figure>
+
 <p>如果服务器愿意接受，就会返回100 continue状态码。</p>
 <h3 id="200（”OK”）"><a href="#200（”OK”）" class="headerlink" title="200（”OK”）"></a>200（”OK”）</h3><p>一切正常</p>
 <h3 id="204-（无内容）"><a href="#204-（无内容）" class="headerlink" title="204 （无内容）"></a>204 （无内容）</h3><p>服务器成功处理了请求，但没有返回任何内容。</p>
@@ -435,7 +438,7 @@
 <h3 id="206（部分内容）"><a href="#206（部分内容）" class="headerlink" title="206（部分内容）"></a>206（部分内容）</h3><p>这种响应是在<strong>客户端表明自己只需要目标url上的部分资源的时候返回的</strong>，这种情况经常发生在客户端继续请求一个未完成的下载时使用。</p>
 <h3 id="301（Move-Permanently）"><a href="#301（Move-Permanently）" class="headerlink" title="301（Move Permanently）"></a>301（Move Permanently）</h3><p>永久性转移。将跳转到新的url地址，原本请求的资源已经不可以再访问了。</p>
 <h3 id="302（Move-Temporarily）"><a href="#302（Move-Temporarily）" class="headerlink" title="302（Move Temporarily）"></a>302（Move Temporarily）</h3><p>暂时性转移。将跳转到新的url地址，原本请求的资源仍然可以被访问。</p>
-<h3 id="304（”Not-Modified”）"><a href="#304（”Not-Modified”）" class="headerlink" title="304（”Not Modified”）"></a>304（”Not Modified”）</h3><p>和浏览器缓存相关。表明服务器端资源未发生改变，可以继续使用浏览器缓存中的资源。请求的时候一般结合last-modified/if-modified-since和Etag/if-none-match使用。</p>
+<h3 id="304（”Not-Modified”）"><a href="#304（”Not-Modified”）" class="headerlink" title="304（”Not Modified”）"></a>304（”Not Modified”）</h3><p>和浏览器缓存相关。表明服务器端资源未发生改变，可以继续使用浏览器缓存中的资源。请求的时候一般结合last-modified&#x2F;if-modified-since和Etag&#x2F;if-none-match使用。</p>
 <h3 id="400（”Bad-Request”）"><a href="#400（”Bad-Request”）" class="headerlink" title="400（”Bad Request”）"></a>400（”Bad Request”）</h3><p>请求不能被服务器理解。</p>
 <h3 id="401（”unauthorized”）"><a href="#401（”unauthorized”）" class="headerlink" title="401（”unauthorized”）"></a>401（”unauthorized”）</h3><p>请求没有http认证的认证信息。</p>
 <h3 id="403（”Forbidden”）"><a href="#403（”Forbidden”）" class="headerlink" title="403（”Forbidden”）"></a>403（”Forbidden”）</h3><p>请求被服务器拒绝。</p>
@@ -445,14 +448,14 @@
 <h3 id="504（”Gateway-Timeout”）"><a href="#504（”Gateway-Timeout”）" class="headerlink" title="504（”Gateway Timeout”）"></a>504（”Gateway Timeout”）</h3><p>作为网关或者代理的服务器向上游服务器发起请求时，未能及时从上游服务器接收到响应。</p>
 <h2 id="301和302的区别"><a href="#301和302的区别" class="headerlink" title="301和302的区别"></a>301和302的区别</h2><p>共同点：301和302状态码都表示重定向，也就是说浏览器在拿到服务器返回的这个状态码之后会自动跳转到一个新的url地址。</p>
 <p>区别：301表示旧地址已经被永久地移除了，这个资源不可以访问了。</p>
-<p>​           302表示旧地址的资源还在，可以访问，这个重定向只是临时地从旧地址转到新地址。</p>
+<p>​		   302表示旧地址的资源还在，可以访问，这个重定向只是临时地从旧地址转到新地址。</p>
 <h2 id="302-303-307的区别"><a href="#302-303-307的区别" class="headerlink" title="302 303 307的区别"></a>302 303 307的区别</h2><h3 id="302"><a href="#302" class="headerlink" title="302"></a>302</h3><p>当客户端向服务器发出<strong>POST</strong>请求后，收到服务器的302状态码，那么是不能自动向新的URL发送请求，必须跟用户确认是否该重发，因为第二次POST请求时，环境可能已经发生变化（POST方法不是幂等的，POST操作会不符合用户预期）。</p>
 <p>也就是说：<strong>如果客户端发出非GET, HEAD请求后(比如POST请求)，收到302状态码，是不能够自动地向新的URL发送重复请求，除非得到用户的确认。</strong></p>
 <h3 id="303"><a href="#303" class="headerlink" title="303"></a>303</h3><p><strong>会直接将上述的POST请求重定向为GET请求</strong></p>
 <h3 id="307"><a href="#307" class="headerlink" title="307"></a>307</h3><p><strong>不会将POST转为GET，而是会询问用户是否应该在新的URL上发起POST请求</strong></p>
-<p><br></p>
-<h1 id="http方法"><a href="#http方法" class="headerlink" title="http方法"></a>http方法</h1><div class="table-container">
-<table>
+<br>
+
+<h1 id="http方法"><a href="#http方法" class="headerlink" title="http方法"></a>http方法</h1><table>
 <thead>
 <tr>
 <th></th>
@@ -460,8 +463,7 @@
 <th>描述</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>1</td>
 <td>GET</td>
 <td>请求指定的页面信息，并返回实体主体。</td>
@@ -474,7 +476,7 @@
 <tr>
 <td>3</td>
 <td>POST</td>
-<td>向指定资源提交数据进行处理请求（例如提交表单或者上传文件）。数据被包含在请求体中。POST 请求可能会导致新的资源的建立和/或已有资源的修改。</td>
+<td>向指定资源提交数据进行处理请求（例如提交表单或者上传文件）。数据被包含在请求体中。POST 请求可能会导致新的资源的建立和&#x2F;或已有资源的修改。</td>
 </tr>
 <tr>
 <td>4</td>
@@ -489,7 +491,7 @@
 <tr>
 <td>6</td>
 <td>CONNECT</td>
-<td>HTTP/1.1 协议中预留给能够将连接改为管道方式的代理服务器。</td>
+<td>HTTP&#x2F;1.1 协议中预留给能够将连接改为管道方式的代理服务器。</td>
 </tr>
 <tr>
 <td>7</td>
@@ -501,15 +503,14 @@
 <td>patch</td>
 <td>对已知资源进行局部更新</td>
 </tr>
-</tbody>
-</table>
-</div>
+</tbody></table>
 <h3 id="如何理解patch局部更新资源"><a href="#如何理解patch局部更新资源" class="headerlink" title="如何理解patch局部更新资源"></a><strong>如何理解<code>patch</code>局部更新资源</strong></h3><p>假设我们有一个<code>UserInfo</code>，里面有<code>userId</code>， <code>userName</code>， <code>userGender</code>等10个字段。可你的编辑功能因为需求，在某个特别的页面里只能修改<code>userName</code>，这时候的更新怎么做？</p>
 <p>人们通常(为徒省事)把一个包含了修改后<code>userName</code>的完整<code>userInfo</code>对象传给后端，做完整更新。但仔细想想，这种做法感觉有点二，而且真心浪费带宽(纯技术上讲，你不关心带宽那是你土豪)。</p>
 <p>于是<code>patch</code>诞生，只传一个<code>userName</code>到指定资源去，表示该请求是一个局部更新，后端仅更新接收到的字段。</p>
-<p>而<strong><code>put</code>虽然也是更新资源，但要求前端提供的一定是一个完整的资源对象</strong>，理论上说，如果你用了<code>put</code>，但却没有提供完整的<code>UserInfo</code>，那么缺了的那些字段应该被清空。</p>
+<p>而**<code>put</code>虽然也是更新资源，但要求前端提供的一定是一个完整的资源对象**，理论上说，如果你用了<code>put</code>，但却没有提供完整的<code>UserInfo</code>，那么缺了的那些字段应该被清空。</p>
 <p>参考：<a href="https://segmentfault.com/q/1010000005685904/" target="_blank" rel="noopener">https://segmentfault.com/q/1010000005685904/</a></p>
-<p><br></p>
+<br>
+
 <h1 id="http缺陷"><a href="#http缺陷" class="headerlink" title="http缺陷"></a>http缺陷</h1><ol>
 <li>通信使用明文（不加密），内容可能被窃听</li>
 <li>不验证通信方的身份，因此有可能遭遇伪装</li>
@@ -517,66 +518,67 @@
 </ol>
 <ul>
 <li><p>通信使用明文可能会被窃听</p>
-<p>如果要问为什么通信时不加密是一个缺点，这是因为，按TCP/IP 协议族的工作机制，通信内容在所有的通信线路上都有可能遭到窥视。</p>
+<p>如果要问为什么通信时不加密是一个缺点，这是因为，按TCP&#x2F;IP 协议族的工作机制，通信内容在所有的通信线路上都有可能遭到窥视。</p>
 </li>
 <li><p>不验证通信方的身份，可能遭遇伪装</p>
 <p>在http协议通信时，由于不存在确认通信方的处理步骤，任何人都可以发起请求。另外，服务器只要接收到请求，不管对方是谁都会返回一个响应。</p>
 </li>
 </ul>
 <p>摘自：<a href="https://blog.csdn.net/wangxp423/article/details/80033225" target="_blank" rel="noopener">https://blog.csdn.net/wangxp423/article/details/80033225</a></p>
-<p><br></p>
+<br>
+
 <h1 id="https"><a href="#https" class="headerlink" title="https"></a>https</h1><ul>
-<li>http协议传输的数据都是未加密的，也就是明文的，因此使用http协议传输隐私信息非常不安全。为了保证这些隐私数据能加密传输，设计了SSL（Secure Sockets Layer）/ TLS（Transport Layer Security）协议用于对http协议传输的数据进行加密，从而诞生了https。</li>
+<li>http协议传输的数据都是未加密的，也就是明文的，因此使用http协议传输隐私信息非常不安全。为了保证这些隐私数据能加密传输，设计了SSL（Secure Sockets Layer）&#x2F; TLS（Transport Layer Security）协议用于对http协议传输的数据进行加密，从而诞生了https。</li>
 <li>因此，https很安全。此外，https同时也一定程度上保护了服务端，使用恶意攻击和伪装数据的成本大大提高。</li>
 </ul>
-<h2 id="SSL-TLS握手过程"><a href="#SSL-TLS握手过程" class="headerlink" title="SSL/TLS握手过程"></a>SSL/TLS握手过程</h2><p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/2.jpg" alt></p>
+<h2 id="SSL-x2F-TLS握手过程"><a href="#SSL-x2F-TLS握手过程" class="headerlink" title="SSL&#x2F;TLS握手过程"></a>SSL&#x2F;TLS握手过程</h2><p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/2.jpg"></p>
 <ol>
 <li>Client Hello</li>
 </ol>
 <p>握手第一步是客户端向服务端发送Client Hello消息。这个消息里包含了一个客户端生成的随机数<strong>Random1</strong>，客户端支持的加密套件（Support Ciphers）和SSL Version等信息。</p>
-<ol>
+<ol start="2">
 <li>Server Hello</li>
 </ol>
 <p>第二步是服务端想客户端发送Server Hello消息。此时会生成一份随机数<strong>Random2</strong>，同时这个消息会从Client Hello传来的Support Ciphers里确定一份加密套件，这个套件决定了后续加密和生成摘要时具体使用哪些算法。</p>
 <p>注意：至此客户端和服务端都拥有了两个随机数（Random1+Random2），这两个随机数会在后续生成对称秘钥时用到。</p>
-<ol>
+<ol start="3">
 <li>Certificate</li>
 </ol>
 <p>这一步是服务端将自己的证书下发给客户端，让客户端验证自己的身份，客户端验证通过后取出证书中的公钥。</p>
-<ol>
+<ol start="4">
 <li>Server Hello Done</li>
 </ol>
 <p>Server Hello Done通知客户端Server Hello过程结束。</p>
-<ol>
+<ol start="5">
 <li>Certificate Verify</li>
 </ol>
 <p>客户端收到服务端传来的证书后，<strong>先从CA验证该证书的合法性</strong>，验证通过后取出证书中的服务端公钥，再生成随机数<strong>Random3</strong>，<strong>再用服务端公钥非对称加密Random3生成PreMaster Key</strong>。</p>
 <blockquote>
 <p>https的服务端必须拥有一个CA认证合法授权的证书，没有这个证书，客户端在访问该服务器时会提醒用户这个网站是不受信任的</p>
 </blockquote>
-<ol>
+<ol start="6">
 <li>Client Key Exchange</li>
 </ol>
 <p>上一步中客户端根据服务器传来的公钥生成了PreMaster Key，Client Key Exchange就是将这个PreMaster Key传给服务端，<strong>服务端再用自己的私钥解出这个PreMaster Key得到客户端生成的Random3</strong>。</p>
 <p>至此，客户端和服务端都拥有Random1+Random2+Random3，那么两边再根据同样的算法就可以生成一份秘钥，握手结束后的应用层数据都是<strong>使用这个秘钥进行对称加密</strong>。</p>
 <p>为什么要使用三个随机数？</p>
-<p>这是因为SSL/TLS握手过程的数据都是明文传输的，并且多个随机数种子来生成秘钥不容易被暴力破解。</p>
+<p>这是因为SSL&#x2F;TLS握手过程的数据都是明文传输的，并且多个随机数种子来生成秘钥不容易被暴力破解。</p>
 <blockquote>
 <p>最重要理解前六步</p>
 </blockquote>
-<ol>
+<ol start="7">
 <li>Change Cipher Spec（Client）</li>
 </ol>
 <p>这一步客户端通知服务端后面再发送的消息都会使用前面协商出来的秘钥加密了，这是一条事件消息。</p>
-<ol>
+<ol start="8">
 <li>Encrypted Handshake Message(Client)</li>
 </ol>
 <p>这一步对应的是Client Finish消息，客户端将前面的握手消息生成摘要再用协商好的秘钥加密，这是客户端发送的第一条加密消息。服务端接收后会用私钥解密，能解出来则说明前面的协商出来的秘钥是一致的。</p>
-<ol>
+<ol start="9">
 <li>Change Cipher Spec(Server)</li>
 </ol>
 <p>这一步是服务端通知客户端后面再发送的消息都会使用加密，也是一条事件消息。</p>
-<ol>
+<ol start="10">
 <li>Encrypted Handshake Message(Server)</li>
 </ol>
 <p>这一步对应的是Server Finish消息，服务端也会将握手过程的消息生成摘要再用秘钥加密，这是服务端发出的第一条加密消息。客户端接收后会用秘钥解密，能解出来说明协商的秘钥是一致的。</p>
@@ -586,8 +588,9 @@
 <p> 参考：<a href="http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html</a></p>
 <p><a href="https://juejin.im/post/584b76d3a22b9d0058d5036f" target="_blank" rel="noopener">https://juejin.im/post/584b76d3a22b9d0058d5036f</a></p>
 </blockquote>
-<p><br></p>
-<h1 id="http1-0-1-1-2-0的区别"><a href="#http1-0-1-1-2-0的区别" class="headerlink" title="http1.0/1.1/2.0的区别"></a>http1.0/1.1/2.0的区别</h1><h2 id="http1-0"><a href="#http1-0" class="headerlink" title="http1.0"></a>http1.0</h2><ul>
+<br>
+
+<h1 id="http1-0-x2F-1-1-x2F-2-0的区别"><a href="#http1-0-x2F-1-1-x2F-2-0的区别" class="headerlink" title="http1.0&#x2F;1.1&#x2F;2.0的区别"></a>http1.0&#x2F;1.1&#x2F;2.0的区别</h1><h2 id="http1-0"><a href="#http1-0" class="headerlink" title="http1.0"></a>http1.0</h2><ul>
 <li>http协议老的标准是http1.0。为了提高系统的效率，http1.0规定浏览器与服务器只保持短暂的连接，浏览器的每次请求都需要与服务器建立一个tcp连接，服务器完成请求处理后立即断开tcp连接，服务器不跟踪每个客户也不记录过去的请求。连接无法复用。</li>
 <li>客户端和服务器端每次建立和关闭连接是一个相对比较费时的过程，并且会严重影响客户端和服务器的性能。</li>
 </ul>
@@ -598,15 +601,15 @@
 </ul>
 <h3 id="http1-x的缺陷"><a href="#http1-x的缺陷" class="headerlink" title="http1.x的缺陷"></a>http1.x的缺陷</h3><ul>
 <li><strong>Head-Of-Line Blocking</strong>：<strong>一旦队首的请求处理太慢，就会阻塞后面请求的处理</strong>。<ul>
-<li>在HTTP/1.x中，由于服务器必须按接受请求的顺序发送响应的规则限制，假设浏览器在一个（tcp）连接上发送了两个请求，那么服务器必须等第一个请求响应完毕才能发送第二个请求的响应。</li>
+<li>在HTTP&#x2F;1.x中，由于服务器必须按接受请求的顺序发送响应的规则限制，假设浏览器在一个（tcp）连接上发送了两个请求，那么服务器必须等第一个请求响应完毕才能发送第二个请求的响应。</li>
 </ul>
 </li>
 <li><strong>连接无法复用</strong>：<strong>连接无法复用会导致每次请求都会经历三次握手和慢启动</strong>。<ul>
 <li>HTTP1.1虽然加入了keep-alive可以复用一部分连接，但在一些情况下仍然需要建立多个连接来避免任务阻塞问题（Head-Of-Line Blocking），比如通过并发连接和域名分片增加任务队列，这样就不至于一个队伍的任务阻塞其他所有任务。因为此时需要建立多个连接，所以一定程度上会消耗资源，给服务器性能带来性能压力。</li>
 </ul>
 </li>
-<li><strong>协议开销大</strong>：HTTP/1.x中header内容过大（每次请求header基本不怎么变化），增加了传输的成本。</li>
-<li><strong>安全因素</strong>：HTTP/1.x中传输的内容都是明文，客户端和服务端双方无法验证身份。</li>
+<li><strong>协议开销大</strong>：HTTP&#x2F;1.x中header内容过大（每次请求header基本不怎么变化），增加了传输的成本。</li>
+<li><strong>安全因素</strong>：HTTP&#x2F;1.x中传输的内容都是明文，客户端和服务端双方无法验证身份。</li>
 </ul>
 <h2 id="http2-0"><a href="#http2-0" class="headerlink" title="http2.0"></a>http2.0</h2><h3 id="http2-0比之前的协议在性能上有很大的提升："><a href="#http2-0比之前的协议在性能上有很大的提升：" class="headerlink" title="http2.0比之前的协议在性能上有很大的提升："></a>http2.0比之前的协议在性能上有很大的提升：</h3><ul>
 <li><p><strong>多路复用</strong>：允许在一个连接上发送多个请求，响应多个请求。</p>
@@ -621,15 +624,13 @@
 <li><p>http1.1的解析是基于文本的，基本文本协议的格式存在天然的缺陷。因为文本的表现形式有多样性，要做到健壮性考虑的场景必然很多。</p>
 </li>
 <li><p>http2.0和http1.1报文格式区别：</p>
-<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201208092935.png" alt></p>
+<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201208092935.png"></p>
 <p><img src="https://cloud.githubusercontent.com/assets/8046480/21041167/411f0f84-be24-11e6-946e-126b1036dd15.png" alt="image"></p>
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li><p><strong>首部压缩</strong></p>
-<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201208094221.png" alt></p>
+<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201208094221.png"></p>
 <p>如上图所示，第2个请求的Header只有:path不一样，因此压缩空间非常可观。</p>
 <p>Headers压缩的算法HPACK本身似乎很复杂(其实也不难)，但是算法思想其实非常简单的，假设我们在浏览器发起100个请求，它们的user-agent是不会变的，那我们为什么需要重复传输这个长长的字符串呢？用dictionary记录一次不就行了！</p>
 </li>
@@ -639,24 +640,27 @@
 <h3 id="如何升级到http2-0"><a href="#如何升级到http2-0" class="headerlink" title="如何升级到http2.0"></a>如何升级到http2.0</h3><blockquote>
 <p>参考FunDebug文章：<a href="https://blog.fundebug.com/2019/10/28/speedup-fundebug-by-using-http2/" target="_blank" rel="noopener">https://blog.fundebug.com/2019/10/28/speedup-fundebug-by-using-http2/</a></p>
 </blockquote>
-<p>我们使用了Nginx作为前端页面与后端接口的反向代理服务器(Reverse Proxy)，只需要修改一下Nginx配置文件就可以升级HTTP/2了，非常简单。</p>
-<p>注意，在 Nginx 上 开启 HTTP/2 需要 Nginx 1.9.5 以上版本（包括1.9.5），并且需要 OpenSSL 1.0.2 以上版本(包括1.0.2)。使用<code>nginx -V</code>命令可以查看Nginx的版本信息：</p>
+<p>我们使用了Nginx作为前端页面与后端接口的反向代理服务器(Reverse Proxy)，只需要修改一下Nginx配置文件就可以升级HTTP&#x2F;2了，非常简单。</p>
+<p>注意，在 Nginx 上 开启 HTTP&#x2F;2 需要 Nginx 1.9.5 以上版本（包括1.9.5），并且需要 OpenSSL 1.0.2 以上版本(包括1.0.2)。使用<code>nginx -V</code>命令可以查看Nginx的版本信息：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">nginx -V</span><br><span class="line">nginx version: nginx&#x2F;1.12.1</span><br><span class="line">built by gcc 6.3.0 20170516 (Debian 6.3.0-18)</span><br><span class="line">built with OpenSSL 1.1.0f  25 May 2017</span><br><span class="line">TLS SNI support enabled</span><br><span class="line">configure arguments: --prefix&#x3D;&#x2F;etc&#x2F;nginx --sbin3-path&#x3D;&#x2F;usr&#x2F;sbin&#x2F;nginx --modules-path&#x3D;&#x2F;usr&#x2F;lib&#x2F;nginx&#x2F;modules --conf-path&#x3D;&#x2F;etc&#x2F;nginx&#x2F;nginx.conf --error-log-path&#x3D;&#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log --http-log-path&#x3D;&#x2F;var&#x2F;log&#x2F;nginx&#x2F;access.log --pid-path&#x3D;&#x2F;var&#x2F;run&#x2F;nginx.pid --lock-path&#x3D;&#x2F;var&#x2F;run&#x2F;nginx.lock --http-client-body-temp-path&#x3D;&#x2F;var&#x2F;cache&#x2F;nginx&#x2F;client_temp --http-proxy-temp-path&#x3D;&#x2F;var&#x2F;cache&#x2F;nginx&#x2F;proxy_temp --http-fastcgi-temp-path&#x3D;&#x2F;var&#x2F;cache&#x2F;nginx&#x2F;fastcgi_temp --http-uwsgi-temp-path&#x3D;&#x2F;var&#x2F;cache&#x2F;nginx&#x2F;uwsgi_temp --http-scgi-temp-path&#x3D;&#x2F;var&#x2F;cache&#x2F;nginx&#x2F;scgi_temp --user&#x3D;nginx --group&#x3D;nginx --with-compat --with-file-aio --with-threads --with-http_addition_module --with-http_auth_request_module --with-http_dav_module --with-http_flv_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_mp4_module --with-http_random_index_module --with-http_realip_module --with-http_secure_link_module --with-http_slice_module --with-http_ssl_module --with-http_stub_status_module --with-http_sub_module --with-http_v2_module --with-mail --with-mail_ssl_module --with-stream --with-stream_realip_module --with-stream_ssl_module --with-stream_ssl_preread_module --with-cc-opt&#x3D;&#39;-g -O2 -fdebug-prefix-map&#x3D;&#x2F;data&#x2F;builder&#x2F;debuild&#x2F;nginx-1.12.1&#x2F;debian&#x2F;debuild-base&#x2F;nginx-1.12.1&#x3D;. -specs&#x3D;&#x2F;usr&#x2F;share&#x2F;dpkg&#x2F;no-pie-compile.specs -fstack-protector-strong -Wformat -Werror&#x3D;format-security -Wp,-D_FORTIFY_SOURCE&#x3D;2 -fPIC&#39; --with-ld-opt&#x3D;&#39;-specs&#x3D;&#x2F;usr&#x2F;share&#x2F;dpkg&#x2F;no-pie-link.specs -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -pie&#39;</span><br></pre></td></tr></table></figure>
+
 <p>可知，我们使用的Nginx版本为1.12.1，OpenSSL版本为1.1.0f，符合要求。</p>
-<p>还有一点，虽然HTTP/2标准并没有要求加密，但是所有浏览器都要求HTTP/2必须加密，这样的话，只有HTTPS才能升级HTTP/2。</p>
+<p>还有一点，虽然HTTP&#x2F;2标准并没有要求加密，但是所有浏览器都要求HTTP&#x2F;2必须加密，这样的话，只有HTTPS才能升级HTTP&#x2F;2。</p>
 <p>如果你还没用过HTTPS的话，不妨看看我的博客：<a href="https://blog.fundebug.com/2018/07/06/apply-lets-encrypt-certificate/" target="_blank" rel="noopener">教你快速撸一个免费HTTPS证书</a>，其实也很简单。</p>
-<p>一切前提没问题的话(Nginx&gt;=1.9.5，OpenSSL&gt;=1.0.2，HTTPS)，只需要修改1行配置，在listen指令后面添加http2：</p>
+<p>一切前提没问题的话(Nginx&gt;&#x3D;1.9.5，OpenSSL&gt;&#x3D;1.0.2，HTTPS)，只需要修改1行配置，在listen指令后面添加http2：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">server</span><br><span class="line">&#123;</span><br><span class="line">    listen 443 ssl http2;</span><br><span class="line">    server_name www.fundebug.com;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>重启Nginx，升级HTTP/2就成功了，可以使用curl命令检查：</p>
+
+<p>重启Nginx，升级HTTP&#x2F;2就成功了，可以使用curl命令检查：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">curl -sI https:&#x2F;&#x2F;www.fundebug.com</span><br><span class="line">HTTP&#x2F;2 200</span><br><span class="line">server: nginx&#x2F;1.12.1</span><br><span class="line">date: Mon, 07 Oct 2019 00:12:53 GMT</span><br><span class="line">content-type: text&#x2F;html; charset&#x3D;UTF-8</span><br><span class="line">content-length: 4892</span><br><span class="line">x-powered-by: Express</span><br><span class="line">accept-ranges: bytes</span><br><span class="line">cache-control: public, max-age&#x3D;0</span><br><span class="line">last-modified: Sun, 06 Oct 2019 23:07:25 GMT</span><br><span class="line">etag: W&#x2F;&quot;131c-16da353dbc8&quot;</span><br><span class="line">vary: Accept-Encoding</span><br><span class="line">strict-transport-security: max-age&#x3D;15768001</span><br></pre></td></tr></table></figure>
+
 <blockquote>
 <p>curl指令：用来请求web服务器。它的名字就是客户端（client）的URL工具的意思。</p>
 <p>参考：<a href="https://www.ruanyifeng.com/blog/2019/09/curl-reference.html" target="_blank" rel="noopener">https://www.ruanyifeng.com/blog/2019/09/curl-reference.html</a></p>
 </blockquote>
 <h2 id="如何查看当前网站使用哪种协议"><a href="#如何查看当前网站使用哪种协议" class="headerlink" title="如何查看当前网站使用哪种协议"></a>如何查看当前网站使用哪种协议</h2><p>打开chrome的devTool（f12），选择network项：</p>
-<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/image-20201208095906207.png" alt></p>
+<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/image-20201208095906207.png"></p>
 <p>如果没有的话在Status一栏，点击右键，选择protocol项即可：</p>
-<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201208100043.png" alt></p>
+<p><img src="https://delaprada-1301716802.cos.ap-guangzhou.myqcloud.com/20201208100043.png"></p>
 
       
     </div>
@@ -891,7 +895,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#http协议"><span class="nav-number">1.</span> <span class="nav-text">http协议</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#http请求-响应报文"><span class="nav-number">2.</span> <span class="nav-text">http请求&#x2F;响应报文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#请求报文"><span class="nav-number">2.1.</span> <span class="nav-text">请求报文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#响应报文"><span class="nav-number">2.2.</span> <span class="nav-text">响应报文</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#http状态码"><span class="nav-number">3.</span> <span class="nav-text">http状态码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#100（”continue”）"><span class="nav-number">3.0.1.</span> <span class="nav-text">100（”continue”）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#200（”OK”）"><span class="nav-number">3.0.2.</span> <span class="nav-text">200（”OK”）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#204-（无内容）"><span class="nav-number">3.0.3.</span> <span class="nav-text">204 （无内容）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#206（部分内容）"><span class="nav-number">3.0.4.</span> <span class="nav-text">206（部分内容）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#301（Move-Permanently）"><span class="nav-number">3.0.5.</span> <span class="nav-text">301（Move Permanently）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#302（Move-Temporarily）"><span class="nav-number">3.0.6.</span> <span class="nav-text">302（Move Temporarily）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#304（”Not-Modified”）"><span class="nav-number">3.0.7.</span> <span class="nav-text">304（”Not Modified”）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#400（”Bad-Request”）"><span class="nav-number">3.0.8.</span> <span class="nav-text">400（”Bad Request”）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#401（”unauthorized”）"><span class="nav-number">3.0.9.</span> <span class="nav-text">401（”unauthorized”）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#403（”Forbidden”）"><span class="nav-number">3.0.10.</span> <span class="nav-text">403（”Forbidden”）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#404（”Not-Found”）"><span class="nav-number">3.0.11.</span> <span class="nav-text">404（”Not Found”）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#500（”Internet-Server-Error”）"><span class="nav-number">3.0.12.</span> <span class="nav-text">500（”Internet Server Error”）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#502（”Bad-Gateway”）"><span class="nav-number">3.0.13.</span> <span class="nav-text">502（”Bad Gateway”）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#504（”Gateway-Timeout”）"><span class="nav-number">3.0.14.</span> <span class="nav-text">504（”Gateway Timeout”）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#301和302的区别"><span class="nav-number">3.1.</span> <span class="nav-text">301和302的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#302-303-307的区别"><span class="nav-number">3.2.</span> <span class="nav-text">302 303 307的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#302"><span class="nav-number">3.2.1.</span> <span class="nav-text">302</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#303"><span class="nav-number">3.2.2.</span> <span class="nav-text">303</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#307"><span class="nav-number">3.2.3.</span> <span class="nav-text">307</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#http方法"><span class="nav-number">4.</span> <span class="nav-text">http方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何理解patch局部更新资源"><span class="nav-number">4.0.1.</span> <span class="nav-text">如何理解patch局部更新资源</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#http缺陷"><span class="nav-number">5.</span> <span class="nav-text">http缺陷</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#https"><span class="nav-number">6.</span> <span class="nav-text">https</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SSL-TLS握手过程"><span class="nav-number">6.1.</span> <span class="nav-text">SSL&#x2F;TLS握手过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#http1-0-1-1-2-0的区别"><span class="nav-number">7.</span> <span class="nav-text">http1.0&#x2F;1.1&#x2F;2.0的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#http1-0"><span class="nav-number">7.1.</span> <span class="nav-text">http1.0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http1-1"><span class="nav-number">7.2.</span> <span class="nav-text">http1.1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#http1-x的缺陷"><span class="nav-number">7.2.1.</span> <span class="nav-text">http1.x的缺陷</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http2-0"><span class="nav-number">7.3.</span> <span class="nav-text">http2.0</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#http2-0比之前的协议在性能上有很大的提升："><span class="nav-number">7.3.1.</span> <span class="nav-text">http2.0比之前的协议在性能上有很大的提升：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何升级到http2-0"><span class="nav-number">7.3.2.</span> <span class="nav-text">如何升级到http2.0</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何查看当前网站使用哪种协议"><span class="nav-number">7.4.</span> <span class="nav-text">如何查看当前网站使用哪种协议</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#http协议"><span class="nav-number">1.</span> <span class="nav-text">http协议</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#http请求-x2F-响应报文"><span class="nav-number">2.</span> <span class="nav-text">http请求&#x2F;响应报文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#请求报文"><span class="nav-number">2.1.</span> <span class="nav-text">请求报文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#响应报文"><span class="nav-number">2.2.</span> <span class="nav-text">响应报文</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#http状态码"><span class="nav-number">3.</span> <span class="nav-text">http状态码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#100（”continue”）"><span class="nav-number">3.0.1.</span> <span class="nav-text">100（”continue”）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#200（”OK”）"><span class="nav-number">3.0.2.</span> <span class="nav-text">200（”OK”）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#204-（无内容）"><span class="nav-number">3.0.3.</span> <span class="nav-text">204 （无内容）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#206（部分内容）"><span class="nav-number">3.0.4.</span> <span class="nav-text">206（部分内容）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#301（Move-Permanently）"><span class="nav-number">3.0.5.</span> <span class="nav-text">301（Move Permanently）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#302（Move-Temporarily）"><span class="nav-number">3.0.6.</span> <span class="nav-text">302（Move Temporarily）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#304（”Not-Modified”）"><span class="nav-number">3.0.7.</span> <span class="nav-text">304（”Not Modified”）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#400（”Bad-Request”）"><span class="nav-number">3.0.8.</span> <span class="nav-text">400（”Bad Request”）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#401（”unauthorized”）"><span class="nav-number">3.0.9.</span> <span class="nav-text">401（”unauthorized”）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#403（”Forbidden”）"><span class="nav-number">3.0.10.</span> <span class="nav-text">403（”Forbidden”）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#404（”Not-Found”）"><span class="nav-number">3.0.11.</span> <span class="nav-text">404（”Not Found”）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#500（”Internet-Server-Error”）"><span class="nav-number">3.0.12.</span> <span class="nav-text">500（”Internet Server Error”）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#502（”Bad-Gateway”）"><span class="nav-number">3.0.13.</span> <span class="nav-text">502（”Bad Gateway”）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#504（”Gateway-Timeout”）"><span class="nav-number">3.0.14.</span> <span class="nav-text">504（”Gateway Timeout”）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#301和302的区别"><span class="nav-number">3.1.</span> <span class="nav-text">301和302的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#302-303-307的区别"><span class="nav-number">3.2.</span> <span class="nav-text">302 303 307的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#302"><span class="nav-number">3.2.1.</span> <span class="nav-text">302</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#303"><span class="nav-number">3.2.2.</span> <span class="nav-text">303</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#307"><span class="nav-number">3.2.3.</span> <span class="nav-text">307</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#http方法"><span class="nav-number">4.</span> <span class="nav-text">http方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何理解patch局部更新资源"><span class="nav-number">4.0.1.</span> <span class="nav-text">如何理解patch局部更新资源</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#http缺陷"><span class="nav-number">5.</span> <span class="nav-text">http缺陷</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#https"><span class="nav-number">6.</span> <span class="nav-text">https</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SSL-x2F-TLS握手过程"><span class="nav-number">6.1.</span> <span class="nav-text">SSL&#x2F;TLS握手过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#http1-0-x2F-1-1-x2F-2-0的区别"><span class="nav-number">7.</span> <span class="nav-text">http1.0&#x2F;1.1&#x2F;2.0的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#http1-0"><span class="nav-number">7.1.</span> <span class="nav-text">http1.0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http1-1"><span class="nav-number">7.2.</span> <span class="nav-text">http1.1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#http1-x的缺陷"><span class="nav-number">7.2.1.</span> <span class="nav-text">http1.x的缺陷</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http2-0"><span class="nav-number">7.3.</span> <span class="nav-text">http2.0</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#http2-0比之前的协议在性能上有很大的提升："><span class="nav-number">7.3.1.</span> <span class="nav-text">http2.0比之前的协议在性能上有很大的提升：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何升级到http2-0"><span class="nav-number">7.3.2.</span> <span class="nav-text">如何升级到http2.0</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何查看当前网站使用哪种协议"><span class="nav-number">7.4.</span> <span class="nav-text">如何查看当前网站使用哪种协议</span></a></li></ol></li></ol></div>
             
 
           </div>

@@ -129,12 +129,12 @@
 
 
 
-<meta name="description" content="我们在启动一个server.js时一般会使用指令： 1node server.js 但是在终端关闭之后，服务就会停止了。所以此时可以利用PM2管理工具，安装后执行执行： 1pm2 start .&#x2F;server.js 此时关闭终端服务也不会停止。下面就介绍一下这个工具。 什么是PM2PM2是node进程管理工具，可以利用它来简化很多node应用管理的繁琐任务，例如性能监控、自动重启、负载均衡等，而且">
+<meta name="description" content="我们在启动一个server.js时一般会使用指令： 1node server.js  但是在终端关闭之后，服务就会停止了。所以此时可以利用PM2管理工具，安装后执行执行： 1pm2 start .&#x2F;server.js  此时关闭终端服务也不会停止。下面就介绍一下这个工具。 什么是PM2PM2是node进程管理工具，可以利用它来简化很多node应用管理的繁琐任务，例如性能监控、自动重启、负载均衡等，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="pm2安装与使用">
 <meta property="og:url" content="http://delaprada.com/2021/01/03/pm2%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="Alice&#39;s  wonderland">
-<meta property="og:description" content="我们在启动一个server.js时一般会使用指令： 1node server.js 但是在终端关闭之后，服务就会停止了。所以此时可以利用PM2管理工具，安装后执行执行： 1pm2 start .&#x2F;server.js 此时关闭终端服务也不会停止。下面就介绍一下这个工具。 什么是PM2PM2是node进程管理工具，可以利用它来简化很多node应用管理的繁琐任务，例如性能监控、自动重启、负载均衡等，而且">
+<meta property="og:description" content="我们在启动一个server.js时一般会使用指令： 1node server.js  但是在终端关闭之后，服务就会停止了。所以此时可以利用PM2管理工具，安装后执行执行： 1pm2 start .&#x2F;server.js  此时关闭终端服务也不会停止。下面就介绍一下这个工具。 什么是PM2PM2是node进程管理工具，可以利用它来简化很多node应用管理的繁琐任务，例如性能监控、自动重启、负载均衡等，">
 <meta property="article:published_time" content="2021-01-03T02:14:37.000Z">
 <meta property="article:modified_time" content="2021-01-03T02:46:16.000Z">
 <meta property="article:author" content="Alice">
@@ -382,27 +382,42 @@
       
         <p>我们在启动一个<code>server.js</code>时一般会使用指令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node server.js</span><br></pre></td></tr></table></figure>
+
 <p>但是在终端关闭之后，服务就会停止了。所以此时可以利用PM2管理工具，安装后执行执行：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm2 start ./server.js</span><br></pre></td></tr></table></figure>
+
 <p>此时关闭终端服务也不会停止。下面就介绍一下这个工具。</p>
 <h2 id="什么是PM2"><a href="#什么是PM2" class="headerlink" title="什么是PM2"></a>什么是PM2</h2><p>PM2是node进程管理工具，可以利用它来简化很多node应用管理的繁琐任务，例如性能监控、自动重启、负载均衡等，而且使用起来非常简单。</p>
-<p><br></p>
+<br>
+
 <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install pm2@latest -g</span><br><span class="line">or</span><br><span class="line">yarn global add pm2</span><br></pre></td></tr></table></figure>
-<p><br></p>
+
+<br>
+
 <h2 id="启动一个app"><a href="#启动一个app" class="headerlink" title="启动一个app"></a>启动一个app</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm2 start app.js</span><br></pre></td></tr></table></figure>
+
 <p>同时也可以轻松地启动其他应用：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pm2 start bashscript.sh</span><br><span class="line">pm2 start python-app.py --watch</span><br><span class="line">pm2 start binary-file -- --port 1520</span><br></pre></td></tr></table></figure>
+
+
+
 <p>一些可以传入cli的参数：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Specify an app name</span></span><br><span class="line">--name &lt;app_name&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Watch and Restart app when files change</span></span><br><span class="line">--watch</span><br><span class="line"></span><br><span class="line"><span class="comment"># Set memory threshold for app reload</span></span><br><span class="line">--max-memory-restart &lt;200MB&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Specify log file</span></span><br><span class="line">--<span class="built_in">log</span> &lt;log_path&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Pass extra arguments to the script</span></span><br><span class="line">-- arg1 arg2 arg3</span><br><span class="line"></span><br><span class="line"><span class="comment"># Delay between automatic restarts</span></span><br><span class="line">--restart-delay &lt;delay <span class="keyword">in</span> ms&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Prefix logs with time</span></span><br><span class="line">--time</span><br><span class="line"></span><br><span class="line"><span class="comment"># Do not auto restart app</span></span><br><span class="line">--no-autorestart</span><br><span class="line"></span><br><span class="line"><span class="comment"># Specify cron for forced restart</span></span><br><span class="line">--cron &lt;cron_pattern&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Attach to application log</span></span><br><span class="line">--no-daemon</span><br></pre></td></tr></table></figure>
-<p><br></p>
+
+<br>
+
 <h2 id="管理进程"><a href="#管理进程" class="headerlink" title="管理进程"></a>管理进程</h2><p>重启：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm2 restart app_name</span><br></pre></td></tr></table></figure>
+
 <p>0秒停机重载进程：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm2 reload app_name</span><br></pre></td></tr></table></figure>
+
 <p>停止进程：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm2 stop app_name</span><br></pre></td></tr></table></figure>
+
 <p>删除进程：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm2 stop app_name</span><br></pre></td></tr></table></figure>
+
 <p>除了<code>app_name</code>以外，我们还可以传入：</p>
 <ul>
 <li><code>all</code>：对所有进程执行该操作</li>
@@ -410,15 +425,22 @@
 </ul>
 <p>查看进程状态：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm2 list</span><br></pre></td></tr></table></figure>
-<p><br></p>
+
+<br>
+
 <h2 id="环境配置声明"><a href="#环境配置声明" class="headerlink" title="环境配置声明"></a>环境配置声明</h2><p>PM2可以让使用者管理工作流。它可以让你通过一个进程文件来调整你的行为、选择、环境变量、每个应用的日志文件。对于微服务应用来说是最有用的。</p>
 <p>配置文件支持<code>js</code>、<code>JSON</code>、<code>YAML</code>格式。</p>
 <h3 id="生成配置文件"><a href="#生成配置文件" class="headerlink" title="生成配置文件"></a>生成配置文件</h3><p>生成一个进程文件模板：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm2 ecosystem</span><br></pre></td></tr></table></figure>
+
 <p>执行指令后会生成一个模板<code>ecosystem.config.js</code>：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  apps : [&#123;</span><br><span class="line">    name: <span class="string">"app"</span>,</span><br><span class="line">    script: <span class="string">"./app.js"</span>,</span><br><span class="line">    env: &#123;</span><br><span class="line">      NODE_ENV: <span class="string">"development"</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    env_production: &#123;</span><br><span class="line">      NODE_ENV: <span class="string">"production"</span>,</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>当你编辑完这个文件之后可以通过cli重新执行该文件：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm2 [start|restart|stop|delete] ecosystem.config.js</span><br></pre></td></tr></table></figure>
+
+
+
 <p>在实际项目开发中，我们的应用经常需要在多个环境下部署，比如开发环境、测试环境、生产环境等。在不同环境下，有时候配置项会有差异，比如链接的数据库地址不同等。</p>
 <p>对于这种场景，pm2也是可以很好支持的。首先通过在配置文件中通过<code>env_xx</code>来声明不同环境的配置，然后在启动应用时，通过<code>--env</code>参数指定运行的环境。</p>
 <p>在配置文件中，通过<code>env</code>选项声明多个环境配置：</p>
@@ -427,17 +449,24 @@
 <li>在应用中，可以通过<code>process.env.REMOTE_ADDR</code>等来读取配置中生命的变量。</li>
 </ul>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"env"</span>: &#123;</span><br><span class="line">    <span class="string">"NODE_ENV"</span>: <span class="string">"production"</span>,</span><br><span class="line">    <span class="string">"REMOTE_ADDR"</span>: <span class="string">"http://www.example.com/"</span></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="string">"env_dev"</span>: &#123;</span><br><span class="line">    <span class="string">"NODE_ENV"</span>: <span class="string">"development"</span>,</span><br><span class="line">    <span class="string">"REMOTE_ADDR"</span>: <span class="string">"http://wdev.example.com/"</span></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="string">"env_test"</span>: &#123;</span><br><span class="line">    <span class="string">"NODE_ENV"</span>: <span class="string">"test"</span>,</span><br><span class="line">    <span class="string">"REMOTE_ADDR"</span>: <span class="string">"http://wtest.example.com/"</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+
+
 <h3 id="启动时指明环境"><a href="#启动时指明环境" class="headerlink" title="启动时指明环境"></a>启动时指明环境</h3><p>假设通过下面启动脚本（开发环境），那么，此时<code>process.env.REMOTE_ADDR</code>的值就是相应的 <a href="http://wdev.example.com/" target="_blank" rel="noopener">http://wdev.example.com/</a> ，可以自己试验下。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm2 start app.js --env dev</span><br></pre></td></tr></table></figure>
-<p><br></p>
+
+<br>
+
 <h2 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h2><p>命令如下，表示开启三个进程。如果传参为<code>-i max</code>，则会根据机器当前核数自动开启尽可能多的进程。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pm2 start app.js -i 3</span><br><span class="line">pm2 start app.js -i max</span><br></pre></td></tr></table></figure>
-<p><br></p>
+
+<br>
+
 <h2 id="日志查看"><a href="#日志查看" class="headerlink" title="日志查看"></a>日志查看</h2><p>除了可以打开日志文件查看日志外，还可以通过<code>pm2 logs</code>来查看实时日志。这点对于线上问题排查非常重要。</p>
 <p>比如某个node服务突然异常重启了，那么可以通过pm2提供的日志工具来查看实时日志，看是不是脚本出错之类导致的异常重启。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm2 logs</span><br></pre></td></tr></table></figure>
-<p><br></p>
 
+<br>
       
     </div>
     
