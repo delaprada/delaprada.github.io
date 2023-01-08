@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic|Caveat:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Artificial Intelligence," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文将通过一个例子解读贝叶斯定理是什么，参考 3Blue1Brown 贝叶斯定理，使概率直觉化 背景假设 Steve 是一个很害羞而且性格孤僻的人，虽然总是乐于助人，但对周围的人或现实世界不太感兴趣，一个温顺又井井有条的人。你觉得哪种说法可能性更大，Steve 是一名图书管理员，或他是一名农民。 大多数人在听到以上描述时，都倾向于判断 Steve 是一名图书管理员。但是大多数人在做判断的时候都忽略">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对贝叶斯定理的解读">
+<meta property="og:url" content="http://delaprada.com/2023/01/07/%E5%AF%B9%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86%E7%9A%84%E8%A7%A3%E8%AF%BB/index.html">
+<meta property="og:site_name" content="Alice&#39;s  wonderland">
+<meta property="og:description" content="本文将通过一个例子解读贝叶斯定理是什么，参考 3Blue1Brown 贝叶斯定理，使概率直觉化 背景假设 Steve 是一个很害羞而且性格孤僻的人，虽然总是乐于助人，但对周围的人或现实世界不太感兴趣，一个温顺又井井有条的人。你觉得哪种说法可能性更大，Steve 是一名图书管理员，或他是一名农民。 大多数人在听到以上描述时，都倾向于判断 Steve 是一名图书管理员。但是大多数人在做判断的时候都忽略">
+<meta property="og:image" content="http://delaprada.com/2023/01/07/%E5%AF%B9%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86%E7%9A%84%E8%A7%A3%E8%AF%BB/1.png">
+<meta property="og:image" content="http://delaprada.com/2023/01/07/%E5%AF%B9%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86%E7%9A%84%E8%A7%A3%E8%AF%BB/2.png">
+<meta property="og:image" content="http://delaprada.com/2023/01/07/%E5%AF%B9%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86%E7%9A%84%E8%A7%A3%E8%AF%BB/3.png">
+<meta property="og:image" content="http://delaprada.com/2023/01/07/%E5%AF%B9%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86%E7%9A%84%E8%A7%A3%E8%AF%BB/4.png">
+<meta property="og:image" content="http://delaprada.com/2023/01/07/%E5%AF%B9%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86%E7%9A%84%E8%A7%A3%E8%AF%BB/5.png">
+<meta property="og:image" content="http://delaprada.com/2023/01/07/%E5%AF%B9%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86%E7%9A%84%E8%A7%A3%E8%AF%BB/6.png">
+<meta property="og:image" content="http://delaprada.com/2023/01/07/%E5%AF%B9%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86%E7%9A%84%E8%A7%A3%E8%AF%BB/7.png">
+<meta property="og:image" content="http://delaprada.com/2023/01/07/%E5%AF%B9%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86%E7%9A%84%E8%A7%A3%E8%AF%BB/8.png">
+<meta property="og:image" content="http://delaprada.com/2023/01/07/%E5%AF%B9%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86%E7%9A%84%E8%A7%A3%E8%AF%BB/9.png">
+<meta property="og:image" content="http://delaprada.com/2023/01/07/%E5%AF%B9%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86%E7%9A%84%E8%A7%A3%E8%AF%BB/10.png">
+<meta property="article:published_time" content="2023-01-07T13:40:21.000Z">
+<meta property="article:modified_time" content="2023-01-08T02:36:03.025Z">
+<meta property="article:author" content="Alice">
+<meta property="article:tag" content="Artificial Intelligence">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://delaprada.com/2023/01/07/%E5%AF%B9%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86%E7%9A%84%E8%A7%A3%E8%AF%BB/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://delaprada.com/2023/01/07/对贝叶斯定理的解读/"/>
+
+
+
+
+
+  <title>对贝叶斯定理的解读 | Alice's  wonderland</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Alice's  wonderland</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://delaprada.com/2023/01/07/%E5%AF%B9%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86%E7%9A%84%E8%A7%A3%E8%AF%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alice">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Alice's  wonderland">
+    </span>
+
+    
+      <header class="post-header">
+        <span class="post-time">
+            
+              
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2023-01-07T21:40:21+08:00">
+                2023-01-07
+              </time>
+            
+
+            
+
+            
+          </span>
+        
+        
+          <h1 class="post-title" itemprop="name headline">对贝叶斯定理的解读</h1>
+        
+
+        
+      </header>
+    
+
+    
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文将通过一个例子解读贝叶斯定理是什么，参考 <a href="https://www.bilibili.com/video/BV1R7411a76r/?spm_id_from=333.337.search-card.all.click&vd_source=1e8cd0329528ea38f795212437c3dfad" target="_blank" rel="noopener">3Blue1Brown 贝叶斯定理，使概率直觉化</a></p>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>假设 Steve 是一个很害羞而且性格孤僻的人，虽然总是乐于助人，但对周围的人或现实世界不太感兴趣，一个温顺又井井有条的人。你觉得哪种说法可能性更大，Steve 是一名图书管理员，或他是一名农民。</p>
+<p>大多数人在听到以上描述时，都倾向于判断 Steve 是一名图书管理员。但是大多数人在做判断的时候都忽略了一点，即没有人把农民和图书管理员的信息考虑进去。比如著名心理学家 Kahneman 和 Tversky 的论文中给出，在美国，农民和图书管理员的数量比例是 20:1。</p>
+<p>在这种情况下，我们可以用贝叶斯定理来计算 Steve 是图书管理员或者农民的概率。</p>
+<h1 id="贝叶斯定理"><a href="#贝叶斯定理" class="headerlink" title="贝叶斯定理"></a>贝叶斯定理</h1><p>我们假设农民和图书管理员的比例如 Kahneman 和 Tversky 论文中给出的一样是 20:1，农民有 200 名，图书管理员有 10 名。而符合背景描述的（害羞且孤僻）比例，农民是 10 %，图书管理员是 40 %：</p>
+<img src="/2023/01/07/%E5%AF%B9%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86%E7%9A%84%E8%A7%A3%E8%AF%BB/1.png" width="600" alt>
+
+<p>因此，我们可以得到这样的结论：</p>
+<p>$$ P(Librarian ~ given ~ description) &#x3D; \frac{4}{4 + 20} \approx 16.7 %  $$</p>
+<p><u><strong>贝叶斯定理最根本的结论就是说，新证据不能直接凭空的决定你的看法，而是应该更新你的先验看法（之前的经验）</strong></u>。</p>
+<img src="/2023/01/07/%E5%AF%B9%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86%E7%9A%84%E8%A7%A3%E8%AF%BB/2.png" width="600" alt>
+
+<ul>
+<li>All possibilities: 所有样本</li>
+<li>All possibilities fitting the evidence: 符合 evidence（描述）的样本量</li>
+<li>$P(Librarian ~ given ~ description)$: 基于给定的 evidence 的情况下，某个判断正确的概率是多少</li>
+</ul>
+<h1 id="什么时候使用贝叶斯定理"><a href="#什么时候使用贝叶斯定理" class="headerlink" title="什么时候使用贝叶斯定理"></a>什么时候使用贝叶斯定理</h1><p>一般地，与贝叶斯定理相关的更普适的情况是，你有一些假设（You have a hypothesis），比如 Steve 是一名图书管理员；然后你得到一些口头描述（verbal description），比如 Steve 是一个温顺而井井有条的人；你想知道的是，“你得到的 evidence 是真的情况下”，“你的假设成立”的概率。</p>
+<img src="/2023/01/07/%E5%AF%B9%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86%E7%9A%84%E8%A7%A3%E8%AF%BB/3.png" width="600" alt>
+
+<p>下面根据具体的例子来讲贝叶斯定理要如何计算：</p>
+<img src="/2023/01/07/%E5%AF%B9%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86%E7%9A%84%E8%A7%A3%E8%AF%BB/4.png" width="600" alt>
+
+<p>在以上分析的基础上，我们可以推算我们的 Goal，也就是 $P(H|E)$：</p>
+<img src="/2023/01/07/%E5%AF%B9%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86%E7%9A%84%E8%A7%A3%E8%AF%BB/5.png" width="600" alt>
+
+<p>注意，在这里总人数是可以删去的：</p>
+<img src="/2023/01/07/%E5%AF%B9%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86%E7%9A%84%E8%A7%A3%E8%AF%BB/6.png" width="600" alt>
+
+<p>删去总人数后，我们得到的就是贝叶斯定理了：</p>
+<img src="/2023/01/07/%E5%AF%B9%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86%E7%9A%84%E8%A7%A3%E8%AF%BB/7.png" width="600" alt>
+
+<p>通常情况下我们会将分母直接写成 $P(E)$</p>
+<img src="/2023/01/07/%E5%AF%B9%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86%E7%9A%84%E8%A7%A3%E8%AF%BB/8.png" width="600" alt>
+
+<p>这个就是最常见最常用的贝叶斯公式。</p>
+<p>其实可以看出，我们在分析的时候，会将分母拆分成假设成立和假设不成立两部分来算（假设成立：Steve 是图书管理员，假设不成立：Steve 是农民）。最终算出来的 $P(H|E)$ 叫做后验概率，也就是当你看到证据后，你对假设成立与否的判断。</p>
+<p>使用公式看上去比直接考虑以上例子更加繁琐，的确是这样的。但要知道，<u><strong>公式的价值在于，它能让你量化、系统化地改变你的看法</strong></u>。科学家会用这个公式去分析新数据到底多大程度上能验证或否定他们的模型；程序员会将公式应用到人工智能领域，因为你时不时会想显式地数值化地为机器的想法建模。贝叶斯定理能以某种方式重新塑造你对思想本身的看法，当例子变得越来越复杂时，用上一个公式显得更加重要。</p>
+<p>但最好不要死记硬背公式，而是画出上面的示意图：</p>
+<img src="/2023/01/07/%E5%AF%B9%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86%E7%9A%84%E8%A7%A3%E8%AF%BB/9.png" width="600" alt>
+
+<img src="/2023/01/07/%E5%AF%B9%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86%E7%9A%84%E8%A7%A3%E8%AF%BB/10.png" width="600" alt>
+
+<h1 id="Probability-gt-Uncertainty"><a href="#Probability-gt-Uncertainty" class="headerlink" title="Probability -&gt; Uncertainty"></a>Probability -&gt; Uncertainty</h1><p>概率论其实本质上就是研究不确定性(Uncertainty)，概率的数学本质就是比例（Proportion）。</p>
+<p>将贝叶斯定理当作是一个关于比例的表述（比如：人的比例，面积的比例），一旦你理解之后，这种比例的表述就很显然了。</p>
+<hr>
+
+<p>参考：<br><a href="https://www.bilibili.com/video/BV1R7411a76r/?spm_id_from=333.337.search-card.all.click&vd_source=1e8cd0329528ea38f795212437c3dfad" target="_blank" rel="noopener">3Blue1Brown 贝叶斯定理，使概率直觉化</a></p>
+
+      
+    </div>
+    
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:15px;">-------本&nbsp;文&nbsp;结&nbsp;束&nbsp;&nbsp;<i class="fa fa-heart" aria-hidden="true"></i>&nbsp;&nbsp;感&nbsp;谢&nbsp;您&nbsp;的&nbsp;阅&nbsp;读-------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Artificial-Intelligence/" rel="tag"><i class="fa fa-tag"></i> Artificial Intelligence</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2023/01/07/%E5%AF%B9-Transformer-%E7%9A%84%E7%90%86%E8%A7%A3/" rel="next" title="对 Transformer 的理解">
+                <i class="fa fa-chevron-left"></i> 对 Transformer 的理解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Alice</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">73</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/delaprada" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-book"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://io-oi.me/tech/hexo-next-optimization/#%E5%BF%85%E8%AF%BB-%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2" title="Hexo深度优化" target="_blank">Hexo深度优化</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://diygod.me" title="diygod" target="_blank">diygod</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://zhangwenli.com/blog" title="羡辙" target="_blank">羡辙</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://codewithzhangyi.com" title="Zhangyi" target="_blank">Zhangyi</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://lilianweng.github.io/lil-log/" title="Lil'log" target="_blank">Lil'log</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#贝叶斯定理"><span class="nav-number">2.</span> <span class="nav-text">贝叶斯定理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么时候使用贝叶斯定理"><span class="nav-number">3.</span> <span class="nav-text">什么时候使用贝叶斯定理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Probability-gt-Uncertainty"><span class="nav-number">4.</span> <span class="nav-text">Probability -&gt; Uncertainty</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="heart">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alice</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>&nbsp;本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'delaprada',
+            repo: 'delaprada.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '43302d4a47ac2c290d0d019c1929032f1f3f8ada',
+            
+                client_id: '9b4dade3bf26b8fd0713'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.json";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+
+  <!-- 代码块复制功能 -->
+  <script type="text/javascript" src="/js/src/clipboard.min.js"></script>  
+  <script type="text/javascript" src="/js/src/clipboard-use.js"></script>
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/clicklove.js"></script>
+
+</body>
+</html>
